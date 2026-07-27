@@ -1,0 +1,85 @@
+{
+    "data_diagnostico": "27/07/2026 11:15:30",
+    "ip": "192.168.14.134",
+    "identificacao": {
+        "modelo": "Lexmark MX611dhe",
+        "serial": "701644HH03ND3",
+        "contador": 137954
+    },
+    "estado_geral": "ATENCAO",
+    "conectividade": {
+        "snmp": true,
+        "pjl": true,
+        "integracao": 100,
+        "status": "EXCELENTE"
+    },
+    "contador": {
+        "contador": 137954,
+        "status": "SIGNIFICATIVO",
+        "mensagem": "Contador significativo. Componentes de desgaste devem ser acompanhados."
+    },
+    "suprimentos": {
+        "estado_geral": "BAIXO",
+        "prioridade": "ALTA",
+        "total": 3,
+        "bons": 1,
+        "atencao": 1,
+        "baixos": 1,
+        "criticos": 0,
+        "itens": [
+            {
+                "nome": "Toner preto",
+                "nivel": 80.0,
+                "capacidade": 20000,
+                "restante": 16000,
+                "consumido": 4000,
+                "status_original": "BOM",
+                "status": "BOM",
+                "prioridade": "BAIXA",
+                "mensagem": "Suprimento em nível normal. Nenhuma intervenção necessária."
+            },
+            {
+                "nome": "Unidade de imagem",
+                "nivel": 56.0,
+                "capacidade": 60000,
+                "restante": 33600,
+                "consumido": 26400,
+                "status_original": "ATENCAO",
+                "status": "ATENCAO",
+                "prioridade": "MEDIA",
+                "mensagem": "Suprimento apresenta consumo significativo. Recomenda-se acompanhamento."
+            },
+            {
+                "nome": "Kit manutenção",
+                "nivel": 31.0,
+                "capacidade": 200000,
+                "restante": 62000,
+                "consumido": 138000,
+                "status_original": "BAIXO",
+                "status": "BAIXO",
+                "prioridade": "ALTA",
+                "mensagem": "Suprimento em nível baixo. Recomenda-se planejar substituição."
+            }
+        ]
+    },
+    "recomendacoes": [
+        {
+            "prioridade": "MEDIA",
+            "tipo": "SUPRIMENTO",
+            "item": "Unidade de imagem",
+            "acao": "Acompanhar consumo de 'Unidade de imagem'."
+        },
+        {
+            "prioridade": "ALTA",
+            "tipo": "SUPRIMENTO",
+            "item": "Kit manutenção",
+            "acao": "Planejar substituição de 'Kit manutenção'."
+        },
+        {
+            "prioridade": "MEDIA",
+            "tipo": "MANUTENCAO",
+            "item": "Contador",
+            "acao": "Manter acompanhamento dos componentes de desgaste."
+        }
+    ]
+}

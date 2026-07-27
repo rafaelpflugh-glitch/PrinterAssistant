@@ -1,0 +1,51 @@
+{
+    "gerado_em": "27/07/2026 11:08:20",
+    "ip": "192.168.14.134",
+    "identificacao": {
+        "modelo": "Lexmark MX611dhe",
+        "serial": "701644HH03ND3",
+        "contador": 137954
+    },
+    "estado_geral": "BAIXO",
+    "resumo": {
+        "total_suprimentos": 3,
+        "bons": 1,
+        "atencoes": 1,
+        "problemas": 1
+    },
+    "problemas": [
+        {
+            "nome": "Kit manutenção",
+            "nivel": 31.0,
+            "status": "BAIXO",
+            "capacidade": 200000,
+            "restante": 62000,
+            "consumido": 138000
+        }
+    ],
+    "atencoes": [
+        {
+            "nome": "Unidade de imagem",
+            "nivel": 56.0,
+            "status": "ATENCAO",
+            "capacidade": 60000,
+            "restante": 33600,
+            "consumido": 26400
+        }
+    ],
+    "bons": [
+        {
+            "nome": "Toner preto",
+            "nivel": 80.0,
+            "status": "BOM",
+            "capacidade": 20000,
+            "restante": 16000,
+            "consumido": 4000
+        }
+    ],
+    "recomendacoes": [
+        "PLANEJAR SUBSTITUIÇÃO: Kit manutenção apresenta apenas 31.0% de capacidade restante.",
+        "MONITORAR: Unidade de imagem está em 56.0%.",
+        "CONTADOR ELEVADO: 137,954 páginas registradas no equipamento Lexmark MX611dhe."
+    ]
+}

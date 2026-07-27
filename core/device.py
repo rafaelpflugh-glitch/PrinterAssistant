@@ -1,192 +1,540 @@
-import json
+# ============================================================
+# PRINTER ASSISTANT
+# core/device.py
+#
+# Modelo e identificação dos dispositivos encontrados na rede.
+# ============================================================
 
+import json
+from pathlib import Path
+
+
+# ============================================================
+# CONFIGURAÇÃO
+# ============================================================
+
+ARQUIVO_DISPOSITIVOS = (
+    Path(__file__).resolve().parent.parent
+    / "printers_found.json"
+)
+
+
+# ============================================================
+# CLASSE DO DISPOSITIVO
+# ============================================================
 
 class PrinterDevice:
 
     def __init__(self, dados):
 
+        # ----------------------------------------------------
+        # IDENTIFICAÇÃO BÁSICA
+        # ----------------------------------------------------
+
         self.ip = dados.get("ip")
 
-        self.web = dados.get("web", False)
-
-        self.raw = dados.get("raw", False)
-
-        self.ipp = dados.get("ipp", False)
-
-        self.snmp = dados.get("snmp")
-
         self.fabricante = "Desconhecido"
-
         self.modelo = "Desconhecido"
-
         self.familia = ""
-
         self.tipo = ""
+
+        # ----------------------------------------------------
+        # SERVIÇOS DETECTADOS
+        # ----------------------------------------------------
+
+        self.web = bool(
+            dados.get("web", False)
+        )
+
+        self.raw = bool(
+            dados.get("raw", False)
+        )
+
+        self.ipp = bool(
+            dados.get("ipp", False)
+        )
+
+        self.snmp_resposta = dados.get(
+            "snmp"
+        )
+
+        self.suporta_snmp = bool(
+            self.snmp_resposta
+        )
+
+        # ----------------------------------------------------
+        # CAPACIDADES
+        # ----------------------------------------------------
 
         self.suporta_pjl = False
 
-        self.suporta_snmp = False
-
-        self.suporta_raw = self.raw
-
-        self.nivel_integracao = 0
+        # ----------------------------------------------------
+        # IDENTIFICAÇÃO
+        # ----------------------------------------------------
 
         self.identificar()
 
+        # ----------------------------------------------------
+        # INTEGRAÇÃO
+        # ----------------------------------------------------
+
+        self.integracao = self.calcular_integracao()
+
+
+    # ========================================================
+    # IDENTIFICAÇÃO PRINCIPAL
+    # ========================================================
 
     def identificar(self):
 
-        if not self.snmp:
-
+        if not self.snmp_resposta:
             return
 
-        texto = self.snmp.lower()
+        texto = self.snmp_resposta.lower()
 
-        self.suporta_snmp = True
+        # ----------------------------------------------------
+        # LEXMARK
+        # ----------------------------------------------------
 
         if "lexmark" in texto:
 
             self.fabricante = "Lexmark"
 
+            self.identificar_lexmark(
+                texto
+            )
+
+            # Atualmente nosso módulo PJL
+            # é direcionado para Lexmark.
             self.suporta_pjl = True
 
-            self.nivel_integracao = 100
+            return
 
-            self.identificar_lexmark(texto)
 
-        elif "brother" in texto:
+        # ----------------------------------------------------
+        # BROTHER
+        # ----------------------------------------------------
+
+        if "brother" in texto:
 
             self.fabricante = "Brother"
 
-            self.nivel_integracao = 40
+            self.identificar_brother(
+                texto
+            )
 
-        elif "hp" in texto or "hewlett" in texto:
+            return
+
+
+        # ----------------------------------------------------
+        # HP
+        # ----------------------------------------------------
+
+        if (
+            "hewlett" in texto
+            or "hp " in texto
+            or texto.startswith("hp")
+        ):
 
             self.fabricante = "HP"
 
-            self.nivel_integracao = 50
+            self.tipo = "Impressora HP"
 
-        elif "canon" in texto:
+            return
+
+
+        # ----------------------------------------------------
+        # CANON
+        # ----------------------------------------------------
+
+        if "canon" in texto:
 
             self.fabricante = "Canon"
 
-            self.nivel_integracao = 40
+            self.tipo = "Impressora Canon"
 
+            return
+
+
+        # ----------------------------------------------------
+        # OUTRO DISPOSITIVO SNMP
+        # ----------------------------------------------------
+
+        self.fabricante = "Desconhecido"
+
+
+    # ========================================================
+    # IDENTIFICAÇÃO LEXMARK
+    # ========================================================
 
     def identificar_lexmark(self, texto):
 
-        if "mx611" in texto:
+        modelos = {
 
-            self.modelo = "MX611dhe"
+            "mx611": (
+                "MX611",
+                "MX",
+                "Multifuncional Laser Mono"
+            ),
 
-            self.familia = "MX"
+            "mx511": (
+                "MX511",
+                "MX",
+                "Multifuncional Laser Mono"
+            ),
 
-            self.tipo = "Multifuncional Laser Mono"
+            "mx711": (
+                "MX711",
+                "MX",
+                "Multifuncional Laser Mono"
+            ),
 
-        elif "mx511" in texto:
+            "ms610": (
+                "MS610",
+                "MS",
+                "Laser Mono"
+            ),
 
-            self.modelo = "MX511"
+            "e460": (
+                "E460",
+                "E",
+                "Laser Mono"
+            ),
 
-            self.familia = "MX"
+            "cs725": (
+                "CS725",
+                "CS",
+                "Laser Color"
+            ),
 
-            self.tipo = "Multifuncional Laser Mono"
+            "cx510": (
+                "CX510",
+                "CX",
+                "Laser Color MFP"
+            ),
 
-        elif "mx711" in texto:
+        }
 
-            self.modelo = "MX711"
 
-            self.familia = "MX"
+        for chave, dados in modelos.items():
 
-            self.tipo = "Multifuncional Laser Mono"
+            if chave in texto:
 
-        elif "ms610" in texto:
+                (
+                    self.modelo,
+                    self.familia,
+                    self.tipo
+                ) = dados
 
-            self.modelo = "MS610"
+                return
 
-            self.familia = "MS"
 
-            self.tipo = "Laser Mono"
+        # Lexmark identificada,
+        # mas modelo ainda não conhecido.
 
-        elif "e460" in texto:
+        self.modelo = "Lexmark"
+        self.familia = "Desconhecida"
+        self.tipo = "Impressora Lexmark"
 
-            self.modelo = "E460"
 
-            self.familia = "E"
+    # ========================================================
+    # IDENTIFICAÇÃO BROTHER
+    # ========================================================
 
-            self.tipo = "Laser Mono"
+    def identificar_brother(self, texto):
 
-        elif "cs725" in texto:
+        # Alguns modelos Brother podem aparecer
+        # apenas pelo nome da placa/controladora.
+        #
+        # O modelo real será refinado posteriormente
+        # através de SNMP/PJL/Web.
 
-            self.modelo = "CS725"
+        self.modelo = "Desconhecido"
+        self.familia = ""
+        self.tipo = "Impressora Brother"
 
-            self.familia = "CS"
 
-            self.tipo = "Laser Color"
+    # ========================================================
+    # CÁLCULO DE INTEGRAÇÃO
+    # ========================================================
 
-        elif "cx510" in texto:
+    def calcular_integracao(self):
 
-            self.modelo = "CX510"
+        pontos = 0
 
-            self.familia = "CX"
+        # ----------------------------------------------------
+        # WEB
+        # ----------------------------------------------------
 
-            self.tipo = "Laser Color MFP"
+        if self.web:
+            pontos += 20
 
-        else:
 
-            self.modelo = "Lexmark"
+        # ----------------------------------------------------
+        # RAW / PORTA 9100
+        # ----------------------------------------------------
 
-            self.familia = "Desconhecida"
+        if self.raw:
+            pontos += 20
 
+
+        # ----------------------------------------------------
+        # IPP
+        # ----------------------------------------------------
+
+        if self.ipp:
+            pontos += 20
+
+
+        # ----------------------------------------------------
+        # SNMP
+        # ----------------------------------------------------
+
+        if self.suporta_snmp:
+            pontos += 20
+
+
+        # ----------------------------------------------------
+        # PJL
+        # ----------------------------------------------------
+
+        if self.suporta_pjl:
+            pontos += 20
+
+
+        return pontos
+
+
+    # ========================================================
+    # NÍVEL DE INTEGRAÇÃO
+    # ========================================================
+
+    def nivel_integracao(self):
+
+        if self.integracao >= 80:
+            return "ALTA"
+
+        if self.integracao >= 40:
+            return "MEDIA"
+
+        if self.integracao >= 20:
+            return "BAIXA"
+
+        return "MINIMA"
+
+
+    # ========================================================
+    # RESUMO
+    # ========================================================
 
     def resumo(self):
 
         return {
 
-            "ip": self.ip,
+            "ip":
+                self.ip,
 
-            "fabricante": self.fabricante,
+            "fabricante":
+                self.fabricante,
 
-            "modelo": self.modelo,
+            "modelo":
+                self.modelo,
 
-            "familia": self.familia,
+            "familia":
+                self.familia,
 
-            "tipo": self.tipo,
+            "tipo":
+                self.tipo,
 
-            "web": self.web,
+            "web":
+                self.web,
 
-            "raw": self.raw,
+            "raw":
+                self.raw,
 
-            "ipp": self.ipp,
+            "ipp":
+                self.ipp,
 
-            "snmp": self.suporta_snmp,
+            "snmp":
+                self.suporta_snmp,
 
-            "pjl": self.suporta_pjl,
+            "pjl":
+                self.suporta_pjl,
 
-            "integracao": self.nivel_integracao
+            "integracao":
+                self.integracao,
+
+            "nivel_integracao":
+                self.nivel_integracao()
 
         }
 
 
-def carregar_dispositivos():
+# ============================================================
+# CARREGAR DISPOSITIVOS
+# ============================================================
 
-    with open(
+def carregar_dispositivos(
+    caminho=None
+):
 
-        "printers_found.json",
+    if caminho is None:
 
-        encoding="utf-8"
-
-    ) as arq:
-
-        bruto = json.load(arq)
-
-    lista = []
-
-    for d in bruto:
-
-        lista.append(
-
-            PrinterDevice(d)
-
+        caminho = (
+            ARQUIVO_DISPOSITIVOS
         )
 
-    return lista
+
+    caminho = Path(
+        caminho
+    )
+
+
+    if not caminho.exists():
+
+        raise FileNotFoundError(
+            f"Arquivo não encontrado: {caminho}"
+        )
+
+
+    with caminho.open(
+        "r",
+        encoding="utf-8"
+    ) as arq:
+
+        bruto = json.load(
+            arq
+        )
+
+
+    dispositivos = []
+
+
+    for dados in bruto:
+
+        dispositivos.append(
+            PrinterDevice(dados)
+        )
+
+
+    return dispositivos
+
+
+# ============================================================
+# BUSCAR DISPOSITIVO POR IP
+# ============================================================
+
+def buscar_por_ip(
+    ip,
+    dispositivos=None
+):
+
+    if dispositivos is None:
+
+        dispositivos = (
+            carregar_dispositivos()
+        )
+
+
+    for dispositivo in dispositivos:
+
+        if dispositivo.ip == ip:
+
+            return dispositivo
+
+
+    return None
+
+
+# ============================================================
+# TESTE
+# ============================================================
+
+if __name__ == "__main__":
+
+    dispositivos = (
+        carregar_dispositivos()
+    )
+
+
+    print()
+    print("=" * 70)
+    print(
+        "DISPOSITIVOS IDENTIFICADOS"
+    )
+    print("=" * 70)
+
+
+    for dispositivo in dispositivos:
+
+        resumo = dispositivo.resumo()
+
+
+        print()
+
+        print(
+            f"IP             : "
+            f"{resumo['ip']}"
+        )
+
+        print(
+            f"Fabricante     : "
+            f"{resumo['fabricante']}"
+        )
+
+        print(
+            f"Modelo         : "
+            f"{resumo['modelo']}"
+        )
+
+        print(
+            f"Família        : "
+            f"{resumo['familia']}"
+        )
+
+        print(
+            f"Tipo           : "
+            f"{resumo['tipo']}"
+        )
+
+        print(
+            f"WEB            : "
+            f"{resumo['web']}"
+        )
+
+        print(
+            f"RAW 9100       : "
+            f"{resumo['raw']}"
+        )
+
+        print(
+            f"IPP            : "
+            f"{resumo['ipp']}"
+        )
+
+        print(
+            f"SNMP           : "
+            f"{resumo['snmp']}"
+        )
+
+        print(
+            f"PJL            : "
+            f"{resumo['pjl']}"
+        )
+
+        print(
+            f"Integração     : "
+            f"{resumo['integracao']}%"
+        )
+
+        print(
+            f"Nível          : "
+            f"{resumo['nivel_integracao']}"
+        )
+
+
+    print()
+    print(
+        f"Total: {len(dispositivos)}"
+    )
+    print()
