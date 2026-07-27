@@ -3,18 +3,70 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-from core.pjl import coletar_identificacao
-from core.snmp import coletar_supplies
+from core.device import PrinterDevice
 from core.asset import salvar_ativo
+
+
+# ============================================================
+# PRINTER ASSISTANT - COLETOR CENTRAL
+# ============================================================
+#
+# O collector NÃO conversa mais diretamente com PJL/SNMP.
+#
+# Arquitetura:
+#
+# collector.py
+#       |
+#       v
+# PrinterDevice
+#       |
+#       +----> PJL
+#       |
+#       +----> SNMP
+#       |
+#       v
+# snapshot + ativo
+#
+# Isso evita que cada módulo do programa tenha que saber
+# como uma impressora é coletada.
+#
+# ============================================================
 
 
 # ============================================================
 # CONFIGURAÇÃO
 # ============================================================
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(
+    __file__
+).resolve().parent
 
-PRINTER_DATA = BASE_DIR / "printer_data.json"
+
+PRINTER_DATA = (
+    BASE_DIR /
+    "printer_data.json"
+)
+
+
+# ============================================================
+# UTILIDADES
+# ============================================================
+
+def formatar_numero(valor):
+
+    if valor is None:
+        return "Desconhecido"
+
+    try:
+
+        return f"{int(valor):,}".replace(
+            ",",
+            "."
+        )
+
+    except:
+
+        return str(valor)
 
 
 # ============================================================
@@ -29,230 +81,15 @@ def solicitar_ip():
         "Digite o IP da impressora: "
     ).strip()
 
+
     if not ip:
 
         raise ValueError(
             "IP não informado."
         )
 
+
     return ip
-
-
-# ============================================================
-# NORMALIZAÇÃO DA IDENTIFICAÇÃO
-# ============================================================
-
-def normalizar_identificacao(dados):
-
-    if not dados:
-
-        return {
-
-            "fabricante":
-                "Desconhecido",
-
-            "modelo":
-                "Desconhecido",
-
-            "familia":
-                "",
-
-            "tipo":
-                "",
-
-            "serial":
-                "Desconhecido",
-
-            "contador":
-                None
-
-        }
-
-
-    modelo = dados.get(
-        "modelo",
-        "Desconhecido"
-    )
-
-
-    serial = dados.get(
-        "serial",
-        "Desconhecido"
-    )
-
-
-    contador = dados.get(
-        "contador"
-    )
-
-
-    # --------------------------------------------------------
-    # FABRICANTE
-    # --------------------------------------------------------
-
-    fabricante = "Desconhecido"
-
-
-    texto = str(
-        modelo
-    ).lower()
-
-
-    if "lexmark" in texto:
-
-        fabricante = "Lexmark"
-
-
-    elif "brother" in texto:
-
-        fabricante = "Brother"
-
-
-    elif "canon" in texto:
-
-        fabricante = "Canon"
-
-
-    elif (
-        "hp" in texto
-        or
-        "hewlett" in texto
-    ):
-
-        fabricante = "HP"
-
-
-    # --------------------------------------------------------
-    # FAMÍLIA
-    # --------------------------------------------------------
-
-    familia = ""
-
-
-    if modelo != "Desconhecido":
-
-        partes = str(
-            modelo
-        ).split()
-
-
-        if partes:
-
-            familia = partes[0]
-
-
-    # --------------------------------------------------------
-    # TIPO
-    # --------------------------------------------------------
-
-    tipo = ""
-
-
-    if fabricante == "Lexmark":
-
-        tipo = (
-            "Impressora Lexmark"
-        )
-
-
-        modelo_lower = str(
-            modelo
-        ).lower()
-
-
-        if "mx" in modelo_lower:
-
-            tipo = (
-                "Multifuncional Laser Mono"
-            )
-
-
-        elif "ms" in modelo_lower:
-
-            tipo = (
-                "Impressora Laser Mono"
-            )
-
-
-    elif fabricante == "Brother":
-
-        tipo = (
-            "Impressora Brother"
-        )
-
-
-    elif fabricante == "Canon":
-
-        tipo = (
-            "Impressora Canon"
-        )
-
-
-    elif fabricante == "HP":
-
-        tipo = (
-            "Impressora HP"
-        )
-
-
-    return {
-
-        "fabricante":
-            fabricante,
-
-        "modelo":
-            modelo,
-
-        "familia":
-            familia,
-
-        "tipo":
-            tipo,
-
-        "serial":
-            serial,
-
-        "contador":
-            contador
-
-    }
-
-
-# ============================================================
-# NORMALIZAÇÃO DA CONECTIVIDADE
-# ============================================================
-
-def criar_conectividade(
-
-    ip,
-
-    pjl_ok,
-
-    snmp_ok
-
-):
-
-    return {
-
-        "ip":
-            ip,
-
-        "snmp":
-            bool(snmp_ok),
-
-        "pjl":
-            bool(pjl_ok),
-
-        "web":
-            False,
-
-        "raw":
-            bool(pjl_ok),
-
-        "ipp":
-            False
-
-    }
 
 
 # ============================================================
@@ -260,15 +97,7 @@ def criar_conectividade(
 # ============================================================
 
 def salvar_snapshot(
-
-    ip,
-
-    identificacao,
-
-    supplies,
-
-    conectividade
-
+    device
 ):
 
     dados = {
@@ -279,16 +108,22 @@ def salvar_snapshot(
             ),
 
         "ip":
-            ip,
+            device.ip,
 
         "identificacao":
-            identificacao,
+            device.identificacao,
 
         "conectividade":
-            conectividade,
+            device.conectividade,
 
         "supplies":
-            supplies
+            device.supplies,
+
+        "estado":
+            device.estado(),
+
+        "total_supplies":
+            device.total_supplies()
 
     }
 
@@ -302,7 +137,6 @@ def salvar_snapshot(
         encoding="utf-8"
 
     ) as arquivo:
-
 
         json.dump(
 
@@ -325,14 +159,23 @@ def salvar_snapshot(
 # ============================================================
 
 def exibir_resumo(
-
-    identificacao,
-
-    supplies,
-
-    conectividade
-
+    device
 ):
+
+    identificacao = (
+        device.identificacao
+    )
+
+
+    conectividade = (
+        device.conectividade
+    )
+
+
+    supplies = (
+        device.supplies
+    )
+
 
     print()
 
@@ -349,72 +192,129 @@ def exibir_resumo(
 
     print(
         "IP:",
-        conectividade["ip"]
+        device.ip
     )
 
 
     print(
         "Fabricante:",
-        identificacao["fabricante"]
+        identificacao.get(
+            "fabricante",
+            "Desconhecido"
+        )
     )
 
 
     print(
         "Modelo:",
-        identificacao["modelo"]
+        identificacao.get(
+            "modelo",
+            "Desconhecido"
+        )
+    )
+
+
+    print(
+        "Família:",
+        identificacao.get(
+            "familia",
+            ""
+        )
+    )
+
+
+    print(
+        "Tipo:",
+        identificacao.get(
+            "tipo",
+            ""
+        )
     )
 
 
     print(
         "Serial:",
-        identificacao["serial"]
+        identificacao.get(
+            "serial",
+            "Desconhecido"
+        )
     )
 
 
     print(
         "Contador:",
-        identificacao["contador"]
+        formatar_numero(
+            identificacao.get(
+                "contador"
+            )
+        )
     )
 
 
     print()
-
-    print(
-        "SNMP:",
-        "ATIVO"
-        if conectividade["snmp"]
-        else "INATIVO"
-    )
-
 
     print(
         "PJL:",
         "ATIVO"
-        if conectividade["pjl"]
-        else "INATIVO"
+        if conectividade.get(
+            "pjl"
+        )
+        else
+        "INATIVO"
     )
 
-
-    print()
 
     print(
-        "Suprimentos monitorados:",
-        len(supplies)
+        "SNMP:",
+        "ATIVO"
+        if conectividade.get(
+            "snmp"
+        )
+        else
+        "INATIVO"
     )
 
+
+    print(
+        "Estado:",
+        device.estado()
+    )
+
+
+    print(
+        "Suprimentos:",
+        device.total_supplies()
+    )
+
+
+    # ========================================================
+    # SUPRIMENTOS
+    # ========================================================
 
     print()
 
     print("=" * 60)
 
     print(
-        "SUPRIMENTOS MONITORADOS"
+        "SUPRIMENTOS"
     )
 
     print("=" * 60)
 
 
-    for numero, item in enumerate(
+    if not supplies:
+
+        print()
+
+        print(
+            "Nenhum suprimento encontrado."
+        )
+
+
+        return
+
+
+    for numero, supply in enumerate(
 
         supplies,
 
@@ -425,72 +325,129 @@ def exibir_resumo(
         print()
 
         print(
-
             f"[{numero}]",
-
-            item.get(
+            supply.get(
                 "nome",
                 "Desconhecido"
             )
-
         )
 
 
         print(
-
             "    Capacidade:",
-
-            item.get(
-                "capacidade"
+            formatar_numero(
+                supply.get(
+                    "capacidade"
+                )
             )
-
         )
 
 
         print(
-
             "    Restante:",
-
-            item.get(
-                "restante"
+            formatar_numero(
+                supply.get(
+                    "restante"
+                )
             )
-
         )
 
 
         print(
-
             "    Consumido:",
-
-            item.get(
-                "consumido"
+            formatar_numero(
+                supply.get(
+                    "consumido"
+                )
             )
-
         )
 
 
         print(
-
             "    Nível:",
-
-            f'{item.get("nivel", 0)}%'
-
+            f'{supply.get("nivel", 0)}%'
         )
 
 
         print(
-
             "    Status:",
-
-            item.get(
-
+            supply.get(
                 "status",
-
                 "DESCONHECIDO"
-
             )
+        )
+
+
+# ============================================================
+# SALVAR ATIVO
+# ============================================================
+
+def atualizar_ativo(
+    device
+):
+
+    identificacao = (
+        device.identificacao
+    )
+
+
+    serial = (
+        identificacao.get(
+            "serial"
+        )
+    )
+
+
+    if serial in (
+
+        None,
+
+        "",
+
+        "Desconhecido"
+
+    ):
+
+        print()
+
+        print(
+            "Ativo não atualizado:"
+        )
+
+        print(
+            "número de série não encontrado."
+        )
+
+        return False
+
+
+    try:
+
+        salvar_ativo(
+
+            identificacao,
+
+            device.conectividade,
+
+            device.supplies
 
         )
+
+
+        return True
+
+
+    except Exception as erro:
+
+        print()
+
+        print(
+            "Aviso ao atualizar ativo:",
+            erro
+        )
+
+
+        return False
 
 
 # ============================================================
@@ -509,6 +466,10 @@ async def main():
 
     print("=" * 60)
 
+
+    # ========================================================
+    # IP
+    # ========================================================
 
     ip = solicitar_ip()
 
@@ -533,36 +494,43 @@ async def main():
 
 
     # ========================================================
-    # PJL
+    # DEVICE
     # ========================================================
 
     print()
 
     print(
-        "[1/2] Coletando identificação via PJL..."
+        "Criando dispositivo..."
     )
 
 
+    device = PrinterDevice(
+        ip
+    )
+
+
+    print()
+
+    print(
+        "Coletando dados..."
+    )
+
+
+    # --------------------------------------------------------
+    # IMPORTANTE:
+    #
+    # PrinterDevice.coletar()
+    # é async.
+    #
+    # Portanto:
+    #
+    # await device.coletar()
+    #
+    # --------------------------------------------------------
+
     try:
 
-        # IMPORTANTE:
-        #
-        # coletar_identificacao()
-        # é uma função síncrona.
-        #
-        # NÃO usar await aqui.
-        #
-
-        identificacao_bruta = (
-            coletar_identificacao(
-                ip
-            )
-        )
-
-
-        pjl_ok = bool(
-            identificacao_bruta
-        )
+        await device.coletar()
 
 
     except Exception as erro:
@@ -570,76 +538,20 @@ async def main():
         print()
 
         print(
-            "Aviso PJL:",
+            "ERRO durante a coleta:"
+        )
+
+        print(
             erro
         )
-
-
-        identificacao_bruta = {}
-
-        pjl_ok = False
-
-
-    identificacao = (
-        normalizar_identificacao(
-            identificacao_bruta
-        )
-    )
-
-
-    # ========================================================
-    # SNMP
-    # ========================================================
-
-    print()
-
-    print(
-        "[2/2] Coletando suprimentos via SNMP..."
-    )
-
-
-    try:
-
-        supplies = (
-            await coletar_supplies(
-                ip
-            )
-        )
-
-
-        snmp_ok = bool(
-            supplies
-        )
-
-
-    except Exception as erro:
 
         print()
 
         print(
-            "Aviso SNMP:",
-            erro
+            "A coleta foi interrompida."
         )
 
-
-        supplies = []
-
-        snmp_ok = False
-
-
-    # ========================================================
-    # CONECTIVIDADE
-    # ========================================================
-
-    conectividade = criar_conectividade(
-
-        ip,
-
-        pjl_ok,
-
-        snmp_ok
-
-    )
+        return
 
 
     # ========================================================
@@ -647,15 +559,7 @@ async def main():
     # ========================================================
 
     salvar_snapshot(
-
-        ip,
-
-        identificacao,
-
-        supplies,
-
-        conectividade
-
+        device
     )
 
 
@@ -663,48 +567,11 @@ async def main():
     # ATIVO
     # ========================================================
 
-    ativo_salvo = False
-
-
-    serial = identificacao.get(
-        "serial"
+    ativo_salvo = (
+        atualizar_ativo(
+            device
+        )
     )
-
-
-    if serial not in (
-
-        None,
-
-        "",
-
-        "Desconhecido"
-
-    ):
-
-        try:
-
-            salvar_ativo(
-
-                identificacao,
-
-                conectividade,
-
-                supplies
-
-            )
-
-
-            ativo_salvo = True
-
-
-        except Exception as erro:
-
-            print()
-
-            print(
-                "Aviso ao salvar ativo:",
-                erro
-            )
 
 
     # ========================================================
@@ -712,13 +579,7 @@ async def main():
     # ========================================================
 
     exibir_resumo(
-
-        identificacao,
-
-        supplies,
-
-        conectividade
-
+        device
     )
 
 
