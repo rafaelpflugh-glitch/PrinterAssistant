@@ -7,34 +7,287 @@ from pysnmp.hlapi.v3arch.asyncio import *
 # PRINTER ASSISTANT - MÓDULO SNMP
 # ============================================================
 #
-# Responsabilidade:
+# Responsabilidades:
 #
-# - conectar via SNMP
-# - coletar tabela de suprimentos
-# - interpretar capacidade/restante
-# - calcular consumo
-# - calcular nível percentual
-# - determinar status
+# - comunicação SNMP
+# - identificação básica
+# - coleta de suprimentos
+# - leitura de capacidade
+# - leitura de restante
+# - cálculo do nível
+# - classificação do estado
 #
-# O IP NÃO é fixo.
-# O IP é recebido pela função coletar_supplies().
+# O IP é sempre recebido como argumento.
+# Não existe impressora/IP fixo neste módulo.
 # ============================================================
 
 
-COMMUNITY = "public"
+COMMUNITY_PADRAO = "public"
 
-SNMP_PORTA = 161
+TIMEOUT_PADRAO = 2
 
-TIMEOUT = 3
-
-RETRIES = 1
+RETRIES_PADRAO = 1
 
 
 # ============================================================
-# OID BASE - PRINTER-MIB
+# OIDs
 # ============================================================
 
-SNMP_BASE = "1.3.6.1.2.1.43.11.1.1"
+OID_SYS_DESCRICAO = (
+    "1.3.6.1.2.1.1.1.0"
+)
+
+
+# Printer-MIB
+OID_SUPPLIES_BASE = (
+    "1.3.6.1.2.1.43.11.1.1"
+)
+
+
+# ============================================================
+# CLASSE SNMP
+# ============================================================
+
+class SNMPPrinter:
+
+    def __init__(
+        self,
+        ip,
+        community=COMMUNITY_PADRAO,
+        timeout=TIMEOUT_PADRAO,
+        retries=RETRIES_PADRAO
+    ):
+
+        self.ip = ip
+
+        self.community = community
+
+        self.timeout = timeout
+
+        self.retries = retries
+
+
+    # ========================================================
+    # GET
+    # ========================================================
+
+    async def get(self, oid):
+
+        try:
+
+            resultado = await get_cmd(
+
+                SnmpEngine(),
+
+                CommunityData(
+
+                    self.community,
+
+                    mpModel=1
+
+                ),
+
+                await UdpTransportTarget.create(
+
+                    (
+                        self.ip,
+                        161
+                    ),
+
+                    timeout=self.timeout,
+
+                    retries=self.retries
+
+                ),
+
+                ContextData(),
+
+                ObjectType(
+
+                    ObjectIdentity(
+                        oid
+                    )
+
+                )
+
+            )
+
+
+            (
+                error_indication,
+                error_status,
+                error_index,
+                var_binds
+
+            ) = resultado
+
+
+            if error_indication:
+
+                return None
+
+
+            if error_status:
+
+                return None
+
+
+            for oid_resultado, valor in var_binds:
+
+                return str(valor)
+
+
+        except Exception:
+
+            return None
+
+
+        return None
+
+
+    # ========================================================
+    # WALK
+    # ========================================================
+
+    async def walk(self, oid_base):
+
+        dados = {}
+
+
+        try:
+
+            iterator = walk_cmd(
+
+                SnmpEngine(),
+
+                CommunityData(
+
+                    self.community,
+
+                    mpModel=1
+
+                ),
+
+                await UdpTransportTarget.create(
+
+                    (
+                        self.ip,
+                        161
+                    ),
+
+                    timeout=self.timeout,
+
+                    retries=self.retries
+
+                ),
+
+                ContextData(),
+
+                ObjectType(
+
+                    ObjectIdentity(
+                        oid_base
+                    )
+
+                )
+
+            )
+
+
+            async for (
+
+                error_indication,
+
+                error_status,
+                error_index,
+                var_binds
+
+            ) in iterator:
+
+
+                if error_indication:
+
+                    break
+
+
+                if error_status:
+
+                    break
+
+
+                for oid, valor in var_binds:
+
+                    dados[
+                        str(oid)
+                    ] = str(valor)
+
+
+        except Exception:
+
+            pass
+
+
+        return dados
+
+
+    # ========================================================
+    # IDENTIFICAÇÃO
+    # ========================================================
+
+    async def identificacao(self):
+
+        descricao = await self.get(
+            OID_SYS_DESCRICAO
+        )
+
+
+        return {
+
+            "snmp": descricao is not None,
+
+            "descricao": descricao
+
+        }
+
+
+    # ========================================================
+    # SUPPLIES
+    # ========================================================
+
+    async def supplies(self):
+
+        dados = await self.walk(
+            OID_SUPPLIES_BASE
+        )
+
+
+        return parse_supplies(
+            dados
+        )
+
+
+    # ========================================================
+    # COLETA COMPLETA
+    # ========================================================
+
+    async def coletar(self):
+
+        identificacao = await self.identificacao()
+
+        supplies = await self.supplies()
+
+
+        return {
+
+            "ip": self.ip,
+
+            "snmp": identificacao["snmp"],
+
+            "descricao": identificacao["descricao"],
+
+            "supplies": supplies
+
+        }
 
 
 # ============================================================
@@ -44,12 +297,9 @@ SNMP_BASE = "1.3.6.1.2.1.43.11.1.1"
 def limpar_texto(texto):
 
     if not texto:
+
         return texto
 
-
-    # Primeiro tentamos corrigir os casos conhecidos
-    # de texto recebido como Latin-1 e interpretado
-    # incorretamente.
 
     tentativas = [
 
@@ -57,7 +307,7 @@ def limpar_texto(texto):
 
         ("cp850", "utf-8"),
 
-        ("cp858", "utf-8"),
+        ("cp858", "utf-8")
 
     ]
 
@@ -66,19 +316,16 @@ def limpar_texto(texto):
 
         try:
 
-            corrigido = texto.encode(
+            convertido = texto.encode(
                 origem
             ).decode(
                 destino
             )
 
 
-            # Só aceitamos a conversão se ela
-            # realmente produzir algo utilizável.
+            if convertido.count("�") == 0:
 
-            if corrigido:
-
-                return corrigido
+                return convertido
 
 
         except:
@@ -96,16 +343,21 @@ def limpar_texto(texto):
 def normalizar_supply(nome):
 
     if not nome:
+
         return nome
 
 
-    nome = nome.strip()
+    nome = limpar_texto(
+        nome
+    )
 
 
-    # Casos conhecidos da Lexmark
     mapa = {
 
         "Toner preto":
+            "Toner preto",
+
+        "Black Toner":
             "Toner preto",
 
         "Unid. imagem":
@@ -114,151 +366,54 @@ def normalizar_supply(nome):
         "Unidade de imagem":
             "Unidade de imagem",
 
+        "Imaging Unit":
+            "Unidade de imagem",
+
         "Kit manutenção":
+            "Kit manutenção",
+
+        "Kit de manutenção":
+            "Kit manutenção",
+
+        "Maintenance Kit":
             "Kit manutenção",
 
         "Kit manutenÆo":
             "Kit manutenção",
 
         "Kit manuten‡Æo":
-            "Kit manutenção",
+            "Kit manutenção"
 
     }
 
 
-    if nome in mapa:
-
-        return mapa[nome]
-
-
-    return nome
+    return mapa.get(
+        nome,
+        nome
+    )
 
 
 # ============================================================
-# CLASSIFICAÇÃO DO STATUS
+# STATUS DO SUPRIMENTO
 # ============================================================
 
-def determinar_status(nivel):
+def calcular_status(nivel):
 
     if nivel >= 70:
 
         return "BOM"
 
 
-    elif nivel >= 40:
+    if nivel >= 40:
 
         return "ATENCAO"
 
 
-    else:
-
-        return "BAIXO"
+    return "BAIXO"
 
 
 # ============================================================
-# WALK SNMP
-# ============================================================
-
-async def snmp_walk(ip):
-
-    dados = {}
-
-
-    try:
-
-        transport = await UdpTransportTarget.create(
-
-            (
-                ip,
-                SNMP_PORTA
-            ),
-
-            timeout=TIMEOUT,
-
-            retries=RETRIES
-
-        )
-
-
-        iterator = walk_cmd(
-
-            SnmpEngine(),
-
-            CommunityData(
-
-                COMMUNITY,
-
-                mpModel=1
-
-            ),
-
-            transport,
-
-            ContextData(),
-
-            ObjectType(
-
-                ObjectIdentity(
-
-                    SNMP_BASE
-
-                )
-
-            )
-
-        )
-
-
-        async for (
-
-            errorIndication,
-
-            errorStatus,
-
-            errorIndex,
-
-            varBinds
-
-        ) in iterator:
-
-
-            if errorIndication:
-
-                print(
-                    f"[SNMP] Aviso em {ip}: "
-                    f"{errorIndication}"
-                )
-
-                break
-
-
-            if errorStatus:
-
-                print(
-                    f"[SNMP] Erro em {ip}: "
-                    f"{errorStatus.prettyPrint()}"
-                )
-
-                break
-
-
-            for oid, value in varBinds:
-
-                dados[str(oid)] = str(value)
-
-
-    except Exception as erro:
-
-        print(
-            f"[SNMP] Falha em {ip}: {erro}"
-        )
-
-
-    return dados
-
-
-# ============================================================
-# PARSER DA TABELA DE SUPRIMENTOS
+# PARSER DOS SUPRIMENTOS
 # ============================================================
 
 def parse_supplies(dados):
@@ -266,11 +421,29 @@ def parse_supplies(dados):
     tabela = {}
 
 
-    for oid, value in dados.items():
+    # --------------------------------------------------------
+    # IMPORTANTE
+    #
+    # Nesta impressora a estrutura retornada pelo walk é:
+    #
+    # 1.3.6.1.2.1.43.11.1.1.6.1
+    #                              ↑
+    #                            índice
+    #
+    # O atributo está três posições antes do final.
+    #
+    # 6 = descrição
+    # 8 = capacidade máxima
+    # 9 = quantidade restante
+    #
+    # NÃO alterar para partes[-2].
+    # --------------------------------------------------------
+
+    for oid, valor in dados.items():
 
 
         if not oid.startswith(
-            SNMP_BASE
+            OID_SUPPLIES_BASE
         ):
 
             continue
@@ -281,17 +454,7 @@ def parse_supplies(dados):
 
         try:
 
-            # Estrutura do Printer-MIB:
-            #
-            # ...43.11.1.1.<atributo>.<indice>
-            #
-            # Atributos utilizados:
-            #
-            # 6 = descrição
-            # 8 = capacidade
-            # 9 = nível/restante
-
-            atributo = partes[-2]
+            atributo = partes[-3]
 
             indice = partes[-1]
 
@@ -304,9 +467,7 @@ def parse_supplies(dados):
         if atributo not in (
 
             "6",
-
             "8",
-
             "9"
 
         ):
@@ -319,20 +480,33 @@ def parse_supplies(dados):
             tabela[indice] = {}
 
 
-        tabela[indice][atributo] = value
+        tabela[indice][
+            atributo
+        ] = valor
 
 
     resultado = []
 
 
+    # ========================================================
+    # CONVERTE CADA SUPRIMENTO
+    # ========================================================
+
     for indice, item in tabela.items():
 
+        nome = item.get(
+            "6"
+        )
 
-        nome = item.get("6")
 
-        capacidade = item.get("8")
+        capacidade = item.get(
+            "8"
+        )
 
-        restante = item.get("9")
+
+        restante = item.get(
+            "9"
+        )
 
 
         if not nome:
@@ -340,15 +514,14 @@ def parse_supplies(dados):
             continue
 
 
-        nome = limpar_texto(
-            nome
-        )
-
-
         nome = normalizar_supply(
             nome
         )
 
+
+        # ----------------------------------------------------
+        # Conversão numérica
+        # ----------------------------------------------------
 
         try:
 
@@ -360,19 +533,19 @@ def parse_supplies(dados):
                 restante
             )
 
-
         except:
 
             continue
 
 
+        # ----------------------------------------------------
+        # Dados inválidos
+        # ----------------------------------------------------
+
         if capacidade <= 0:
 
             continue
 
-
-        # Algumas impressoras podem retornar
-        # valores negativos ou acima da capacidade.
 
         if restante < 0:
 
@@ -384,17 +557,31 @@ def parse_supplies(dados):
             restante = capacidade
 
 
+        # ----------------------------------------------------
+        # Consumo
+        # ----------------------------------------------------
+
         consumido = (
-            capacidade - restante
+
+            capacidade
+            -
+            restante
+
         )
 
+
+        # ----------------------------------------------------
+        # Percentual
+        # ----------------------------------------------------
 
         nivel = round(
 
             (
+
                 restante
                 /
                 capacidade
+
             )
             *
             100,
@@ -404,12 +591,19 @@ def parse_supplies(dados):
         )
 
 
-        status = determinar_status(
+        # ----------------------------------------------------
+        # Status
+        # ----------------------------------------------------
+
+        status = calcular_status(
             nivel
         )
 
 
         resultado.append({
+
+            "indice":
+                indice,
 
             "nome":
                 nome,
@@ -436,54 +630,66 @@ def parse_supplies(dados):
 
 
 # ============================================================
-# COLETAR SUPRIMENTOS
+# FUNÇÃO DE CONVENIÊNCIA
 # ============================================================
 
-async def coletar_supplies(ip):
+async def coletar_snmp(
 
-    print(
-        f"[SNMP] Coletando suprimentos de {ip}..."
+    ip,
+
+    community=COMMUNITY_PADRAO
+
+):
+
+    impressora = SNMPPrinter(
+
+        ip=ip,
+
+        community=community
+
     )
 
 
-    dados = await snmp_walk(
-        ip
-    )
-
-
-    if not dados:
-
-        return []
-
-
-    supplies = parse_supplies(
-        dados
-    )
-
-
-    return supplies
+    return await impressora.coletar()
 
 
 # ============================================================
-# ALIAS EM PORTUGUÊS
+# ALIAS PARA O COLLECTOR
 # ============================================================
 #
-# Mantemos esse nome também para facilitar futuras
-# integrações e deixar a API do módulo mais flexível.
+# O collector.py pode utilizar:
+#
+# from core.snmp import coletar_supplies
+#
+# Mantemos essa função explicitamente para evitar
+# incompatibilidade entre os módulos.
 # ============================================================
 
-async def coletar_suprimentos(ip):
+async def coletar_supplies(
 
-    return await coletar_supplies(
-        ip
+    ip,
+
+    community=COMMUNITY_PADRAO
+
+):
+
+    impressora = SNMPPrinter(
+
+        ip=ip,
+
+        community=community
+
     )
+
+
+    return await impressora.supplies()
 
 
 # ============================================================
 # TESTE DIRETO
 # ============================================================
 
-async def main():
+async def teste():
 
     print("=" * 60)
 
@@ -515,9 +721,12 @@ async def main():
     )
 
 
-    supplies = await coletar_supplies(
+    impressora = SNMPPrinter(
         ip
     )
+
+
+    dados = await impressora.coletar()
 
 
     print()
@@ -525,73 +734,98 @@ async def main():
     print("=" * 60)
 
     print(
-        "RESULTADO"
+        "RESULTADO SNMP"
     )
 
     print("=" * 60)
 
 
-    if not supplies:
+    print()
+
+    print(
+        "IP:",
+        dados["ip"]
+    )
+
+
+    print(
+        "SNMP:",
+        "ATIVO"
+        if dados["snmp"]
+        else "INATIVO"
+    )
+
+
+    print(
+        "Descrição:",
+        dados["descricao"]
+    )
+
+
+    print()
+
+    print(
+        "SUPRIMENTOS:"
+    )
+
+
+    if not dados["supplies"]:
 
         print(
             "Nenhum suprimento encontrado."
         )
 
-        return
+
+    else:
+
+        print(
+            f"Total: "
+            f"{len(dados['supplies'])}"
+        )
 
 
-    print(
-        f"Suprimentos monitorados: "
-        f"{len(supplies)}"
-    )
+        for numero, supply in enumerate(
+
+            dados["supplies"],
+
+            start=1
+
+        ):
+
+            print()
+
+            print(
+                f"[{numero}] "
+                f"{supply['nome']}"
+            )
+
+            print(
+                "    Capacidade:",
+                supply["capacidade"]
+            )
+
+            print(
+                "    Restante:",
+                supply["restante"]
+            )
+
+            print(
+                "    Consumido:",
+                supply["consumido"]
+            )
+
+            print(
+                "    Nível:",
+                f'{supply["nivel"]}%'
+            )
+
+            print(
+                "    Status:",
+                supply["status"]
+            )
 
 
     print()
-
-
-    for numero, supply in enumerate(
-        supplies,
-        start=1
-    ):
-
-
-        print(
-            f"[{numero}] "
-            f"{supply['nome']}"
-        )
-
-
-        print(
-            f"    Capacidade: "
-            f"{supply['capacidade']}"
-        )
-
-
-        print(
-            f"    Restante: "
-            f"{supply['restante']}"
-        )
-
-
-        print(
-            f"    Consumido: "
-            f"{supply['consumido']}"
-        )
-
-
-        print(
-            f"    Nível: "
-            f"{supply['nivel']}%"
-        )
-
-
-        print(
-            f"    Status: "
-            f"{supply['status']}"
-        )
-
-
-        print()
 
 
 # ============================================================
@@ -601,5 +835,5 @@ async def main():
 if __name__ == "__main__":
 
     asyncio.run(
-        main()
+        teste()
     )
