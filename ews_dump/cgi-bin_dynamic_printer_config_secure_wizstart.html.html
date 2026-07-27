@@ -1,0 +1,52 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o guiada de seguranÃ§a</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script language="JavaScript">
+
+function setLocation(page)
+{
+document.getElementById("answer").value=page;
+}
+function SetMeUp()
+{
+document.getElementById("answer").value="/cgi-bin/dynamic/printer/config/secure/wiz/wizmethods.html?info=nogroups"
+}
+function gotoLocation()
+{
+var x = document.getElementById("answer").value;
+var theRandom=Math.random()
+x += "&rand="+theRandom+"&referer="+document.referrer.toString()
+window.open(x,'_self')
+}
+
+</script>
+
+</HEAD>
+<BODY onload="SetMeUp()">
+<H3>ConfiguraÃ§Ã£o guiada de seguranÃ§a</H3>
+<h2><i><b>Iniciar <font color="gray">-> de Teste -> de ConfiguraÃ§Ã£o -> MÃ©todo -> Aplicar</font></b></i></h2>
+
+<h3>Deseja usar grupos como parte do controle de acesso?</h3>
+<table>
+<TR><TD><INPUT TYPE="radio" NAME="choice" id="noGroups" onclick="setLocation('/cgi-bin/dynamic/printer/config/secure/wiz/wizmethods.html?info=nogroups')" CHECKED >
+</TD><TD>NÃ£o, o acesso serÃ¡ baseado somente nas credenciais vÃ¡lidas</TD></TR>
+<TR><TD><INPUT TYPE="radio" NAME="choice" id="yesGroups"  onclick="setLocation('/cgi-bin/dynamic/printer/config/secure/wiz/yesgroups.html?info=')">
+</TD><TD>Sim, o acesso serÃ¡ limitado por credenciais vÃ¡lidas e grupos especÃ­ficos</TD></TR>
+<TR><TD><input type="hidden" id="answer" name="clickedItem"></TD></TR>
+</table>
+<br />
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="button" VALUE="PrÃ³xima Etapa" onClick="gotoLocation()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" VALUE="Sair da ConfiguraÃ§Ã£o" onClick="theRandom=Math.random();window.open('/cgi-bin/dynamic/config/secure/security.html?rand='+theRandom,'_self')">&nbsp;&nbsp;</TD></TR>
+</TABLE><BR>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR><TD>Com a autenticaÃ§Ã£o, o usuÃ¡rio precisa fornecer algum tipo de credencial vÃ¡lida, como um nome de usuÃ¡rio e senha.</TD></TR>
+<TR><TD>Com a autorizaÃ§Ã£o, as credenciais precisam estar corretas e a pessoa que fornece as credenciais deve pertencer a um grupo especÃ­fico.</TD></TR>
+</TABLE><BR>
+</BODY></HTML>

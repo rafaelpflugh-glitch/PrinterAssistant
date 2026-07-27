@@ -1,0 +1,32 @@
+================================================================================
+ews_dump\cgi-bin_dynamic_printer_config_secure_cert_viewCert.html_index=default.html
+ no arquivo" onclick="gotodownloadtofile()">&nbsp;&nbsp;</td>
+<td><input type="button" name="downloadsigningrequest" value="carregar solicitaã§ã£o de assinatura"  onclick="gotodownloadsgningreq()">&nbsp;&nbsp;</td>
+<td><input type=button value="instalar certificado assinado" onclick="gotoinstall()">&nbsp;&nbsp;&nbsp;</td>
+</tr>
+</table>
+<pre>certificate:
+    data:
+        version: 1 (0x0)
+        serial number:
+            fe:35:5b:80:59:f9:b3:ff
+    signature algorithm: sha256withrsaencryption
+        issuer: o=lexmark, c=--, cn=lexmark mx611dhe
+        validity
+            not before: jul 14 16:36:27 2026 gmt
+            not after : jul 11 16:36:27 2036 gmt
+        subject: o=lexmark, c=--, cn=lexmark mx611dhe
+        subject public key info:
+            public key algorithm: rsaencryption
+                public-key: (2048 bit)
+                modulus:
+                    00:9c:45:6d:05:65:1e:fa:7b:42:6f:38:f6:f1:9c:
+                    72:ec:0c:06:60:49:14:50:e7:53:e6:06:96:92:39:
+                    29:d6:29:27:30:d4:76:10:a7:fc:78:45:9d:21:29:
+                    91:60:26:14:88:58:b0:c2:4e:90:d5:61:5e:1e:07:
+                    5c:4d:52:e7:e2:d4:3a:50:eb:4d:1e:82:0d:03:8c:
+                    68:27:7a:da:05:3a:fa:05:ee:ff:a4:a3:da:96:ee:
+                    79:f9:57:c2:30:00
+================================================================================
+ews_dump\cgi-bin_dynamic_printer_include_jquery-1.2.6.min.js.html
+ull;}else{params=jquery.param(params);type="post";}var self=this;jquery.ajax({url:url,type:type,datatype:"html",data:params,complete:function(res,status){if(status=="success"||status=="notmodified")self.html(selector?jquery("<div/>").append(res.responsetext.replace(/<script(.|\s)*?\/script>/g,"")).find(selector):res.responsetext);self.each(callback,[res.responsetext,status,res]);}});return this;},serialize:function(){return jquery.param(this.serializearray());},serializearray:function(){return this.map(function(){return jquery.nodename(this,"form")?jquery.makearray(this.elements):this;}).filter(function(){return this.name&&!this.disabled&&(this.checked||/select|textarea/i.test(this.nodename)||/text|hidden|password/i.test(this.type));}).map(function(i,elem){var val=jquery(this).val();return val==null?null:val.constructor==array?jquery.map(val,function(val,i){return{name:elem.name,value:val};}):{name:elem.name,value:val};}).get();}});jquery.each("ajaxstart,ajaxstop,ajaxcomplete,ajaxerror,ajaxsuccess,ajaxsend".split(","),function(i,o){jquery.fn[o]=function(f){return this.bind(o,f);};});var jsc=now();jquery.extend({get:function(url,data,callback,type){if(jquery.isfunction(data)){callback=data;data=null;}return jquery.ajax({type:"get",url:url,data:data,success:callback,datatype:type})

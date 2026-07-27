@@ -1,0 +1,135 @@
+
+
+=================================
+RELATÓRIO TÉCNICO LEXMARK
+=================================
+
+
+DATA:
+
+14/07/2026 16:27:21
+
+
+
+IMPRESSORA:
+
+IP:
+192.168.14.134
+
+
+MODELO:
+None
+
+
+SERIAL:
+701644HH03ND3
+
+
+
+=================================
+
+AÇÃO EXECUTADA:
+
+diagnostico
+
+
+
+=================================
+
+RESULTADO:
+
+
+=================================
+
+      DIAGNÓSTICO LEXMARK
+
+=================================
+
+IP ANALISADO:
+192.168.14.134
+
+
+[REDE]
+
+80 - HTTP Web : ABERTA
+443 - HTTPS : ABERTA
+515 - LPR : ABERTA
+631 - IPP : ABERTA
+9100 - RAW Printing : ABERTA
+
+
+========== EWS LEXMARK EXPLORER ==========
+
+IP analisado: 192.168.14.134
+
+PÁGINAS ENCONTRADAS:
+
+[OK] /cgi-bin/sysdebugdata
+[--] /cgi-bin/dynamic/printer/config/
+[--] /cgi-bin/dynamic/printer/config/secure/
+[--] /cgi-bin/dynamic/printer/reports/
+[--] /cgi-bin/dynamic/printer/status/
+
+AÇÕES DETECTADAS:
+
+
+✓ restore_factory_settings
+
+Endpoint:
+/cgi-bin/dynamic/printer/config/secure/restore_factory_settings.html
+
+Método:
+POST
+
+Opções:
+- base
+- network
+- les
+
+✓ erase_memory
+
+Endpoint:
+/cgi-bin/dynamic/printer/config/secure/erase_printer_memory.html
+
+Método:
+POST
+
+
+==========================================
+
+=================================
+
+IDENTIFICAÇÃO
+
+Serial:
+701644HH03ND3
+
+Firmware:
+LW70.SB7.P022
+
+SysDebugData:
+OK
+
+=================================
+
+
+[ERRO DEBUG] 'toner_id'
+
+=================================
+
+DIAGNÓSTICO FINALIZADO
+
+=================================
+
+
+
+
+=================================
+
+OBSERVAÇÃO HERMES:
+
+ACAO: diagnostico
+
+
+=================================
+

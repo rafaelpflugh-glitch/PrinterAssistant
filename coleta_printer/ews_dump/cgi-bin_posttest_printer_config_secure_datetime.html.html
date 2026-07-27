@@ -1,0 +1,232 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+    window.onload = function ready(){
+        function getDaysTick(year, month, day) {
+            return year * 365.242 + month * 30.4368 + day;
+        }
+
+        function getMinutesTick(hour, minute) {
+            return hour * 60 + minute;
+        }
+
+        document.getElementById("system.4982").onchange = function() {
+            var date_time = this.value;
+            var min_days_tick = getDaysTick(2007, 1, 1);
+            var max_days_tick = getDaysTick(2038, 1, 1);
+            var min_minutes_tick = getMinutesTick(0, 0);
+            var max_minutes_tick = getMinutesTick(0, 0);
+            var err_msg = "Esta config. aceita som. um valor entre <min/> e <max/>.";
+            err_msg = err_msg.replace("<min/>", "2007-01-01 00:00");
+            err_msg = err_msg.replace("<max/>", "2038-01-01 00:00");
+
+            if(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/.test(date_time) == false) {
+                alert(err_msg);
+                this.value = "";
+                return false;
+            }
+
+            var date_time_token = date_time.split(' ');
+            var date_token = date_time_token[0].split('-');
+            var time_token = date_time_token[1].split(':');
+
+            var year = +date_token[0];
+            var month = +date_token[1];
+            var day = +date_token[2];
+            var hour = +time_token[0];
+            var minute = +time_token[1];
+
+            if(month < 1 || month > 12 || day < 1 || day > 31 || hour > 23 || minute > 59) {
+                alert(err_msg);
+                this.value = "";
+                return false;
+            }
+
+            var days_tick = getDaysTick(year, month, day);
+            var seconds_tick = getMinutesTick(hour, minute);
+
+            if((days_tick < min_days_tick || (days_tick == min_days_tick && seconds_tick < min_minutes_tick)) 
+                    || (days_tick > max_days_tick || (days_tick == max_days_tick && seconds_tick > max_minutes_tick))) {
+                alert(err_msg);
+                this.value = "";
+                return false;
+            }
+            return true;
+        };
+    };
+</SCRIPT>
+
+<TITLE>Definir data e hora</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/datetime.html" METHOD="post">
+<H4>Definir data e hora</H4>
+<TABLE>
+<TR><TD>Data e hora atuais&nbsp;</TD><TD>2026-07-21 16:04</TD></TR>
+<TR><TD><label for="system.4982">Configurar Manualmente Data e Hora&nbsp;</TD><TD><INPUT NAME="1.system.4982" id="system.4982" SIZE=22 MAXLENGTH=17 VALUE="">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.system.4982">(AAAA-MM-DD HH:MM) Se definido, desativarÃ¡ NTP.</span></TD></TR>
+<TR><TD><label for="system.12360">Fuso horÃ¡rio&nbsp;</TD><TD>
+<SELECT NAME="0.system.12360" ID="system.12360">
+<OPTION VALUE="7">(UTC-10:00) HavaÃ­ *</OPTION>
+<OPTION VALUE="6">(UTC-09:00) Alaska</OPTION>
+<OPTION VALUE="17">(UTC-08:00) Tijuana (PST)</OPTION>
+<OPTION VALUE="5">(UTC-08:00) HorÃ¡rio do PacÃ­fico (EUA/CanadÃ¡)</OPTION>
+<OPTION VALUE="4">(UTC-07:00) HorÃ¡rio das Montanhas (EUA/CanadÃ¡)</OPTION>
+<OPTION VALUE="60">(UTC-07:00) CuliacÃ¡n (MST)</OPTION>
+<OPTION VALUE="3">(UTC-06:00) HorÃ¡rio Central (EUA/CanadÃ¡)</OPTION>
+<OPTION VALUE="59">(UTC-06:00) Cidade do MÃ©xico (CST)</OPTION>
+<OPTION VALUE="68">(UTC-06:00) (CST) *</OPTION>
+<OPTION VALUE="2">(UTC-05:00) HorÃ¡rio Oriental (EUA/CanadÃ¡)</OPTION>
+<OPTION VALUE="61">(UTC-05:00) (EST) *</OPTION>
+<OPTION VALUE="58">(UTC-04:30) Caracas (VET) *</OPTION>
+<OPTION VALUE="1">(UTC-04:00) HorÃ¡rio do AtlÃ¢ntico (CanadÃ¡)</OPTION>
+<OPTION VALUE="66">(UTC-04:00) Santiago (CLT)</OPTION>
+<OPTION VALUE="67">(UTC-04:00) AssunÃ§Ã£o (PYT)</OPTION>
+<OPTION VALUE="62">(UTC-04:00) Ilhas Virgens (AST) *</OPTION>
+<OPTION VALUE="9">(UTC-03:30) Terra Nova (NST)</OPTION>
+<OPTION SELECTED VALUE="18">(UTC-03:00) BrasÃ­lia (BRT) *</OPTION>
+<OPTION VALUE="63">(UTC-03:00) MontevidÃ©u (UYT)</OPTION>
+<OPTION VALUE="20">(UTC-01:00) AÃ§ores (AZOT)</OPTION>
+<OPTION VALUE="8">(UTC-01:00) Praia (CVT) *</OPTION>
+<OPTION VALUE="10">(UTC) GMT *</OPTION>
+<OPTION VALUE="21">(UTC) Dublin, Irlanda</OPTION>
+<OPTION VALUE="22">(UTC) Londres (BST)</OPTION>
+<OPTION VALUE="27">(UTC) HorÃ¡rio da Europa Ocidental</OPTION>
+<OPTION VALUE="11">(UTC+01:00) HorÃ¡rio da Europa Central</OPTION>
+<OPTION VALUE="64">(UTC+01:00) Lagos (WAT) *</OPTION>
+<OPTION VALUE="12">(UTC+02:00) HorÃ¡rio da Europa Oriental</OPTION>
+<OPTION VALUE="35">(UTC+02:00) Cairo (EET)</OPTION>
+<OPTION VALUE="39">(UTC+02:00) JerusalÃ©m (IST)</OPTION>
+<OPTION VALUE="16">(UTC+02:00) PretÃ³ria (SAST) *</OPTION>
+<OPTION VALUE="40">(UTC+03:00) Moscou (MSK)</OPTION>
+<OPTION VALUE="65">(UTC+03:00) (AST) *</OPTION>
+<OPTION VALUE="50">(UTC+04:00) Abu Dhabi (GST) *</OPTION>
+<OPTION VALUE="52">(UTC+04:30) Cabul (AFT) *</OPTION>
+<OPTION VALUE="53">(UTC+05:00) Islamabad (PKT) *</OPTION>
+<OPTION VALUE="51">(UTC+05:30) Nova Deli (IST) *</OPTION>
+<OPTION VALUE="54">(UTC+05:45) Catmandu (NPT) *</OPTION>
+<OPTION VALUE="55">(UTC+06:00) Astana (ALMT) *</OPTION>
+<OPTION VALUE="56">(UTC+06:30) Yangon (MMT) *</OPTION>
+<OPTION VALUE="57">(UTC+07:00) Bangkok (ICT) *</OPTION>
+<OPTION VALUE="42">(UTC+08:00) Pequim (CST) *</OPTION>
+<OPTION VALUE="15">(UTC+08:00) AustrÃ¡lia Ocidental (WST)</OPTION>
+<OPTION VALUE="48">(UTC+09:00) Seul (KST) *</OPTION>
+<OPTION VALUE="49">(UTC+09:00) TÃ³quio (KST) *</OPTION>
+<OPTION VALUE="14">(UTC+09:30) AustrÃ¡lia Central (CST)</OPTION>
+<OPTION VALUE="45">(UTC+09:30) Darwin (CST) *</OPTION>
+<OPTION VALUE="13">(UTC+10:00) AustrÃ¡lia Oriental (EST)</OPTION>
+<OPTION VALUE="46">(UTC+10:00) Queensland (EST) *</OPTION>
+<OPTION VALUE="44">(UTC+10:00) TasmÃ¢nia (EST)</OPTION>
+<OPTION VALUE="47">(UTC+12:00) Wellington (NZST)</OPTION>
+<OPTION VALUE="99">(UTC+usuÃ¡rio) Pers</OPTION>
+</SELECT>
+&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.system.12360">* Indica fuso horÃ¡rio sem DST</span></TD></TR>
+<TR><TD><label for="system.12361">Observar DST automaticamente&nbsp;</TD><TD><INPUT TYPE="hidden" NAME="2.system.12361"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.12361"   VALUE=1 id="system.12361" CHECKED>
+&nbsp;</TD><TD><span class="helper" id="helper.system.12361">Qnd ativ., o DST Ã© lig./deslig. em datas predefinidas.</span></TD></TR>
+</TABLE>
+
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+
+<B>Personalizar ConfiguraÃ§Ã£o de Fuso HorÃ¡rio</B>&nbsp;&nbsp;(Aplica-se qnd "Personalizado" estÃ¡ selecionado acima.)
+<TABLE>
+<TR><TD><label for="system.12372">Desvio UTC</label>&nbsp;</TD><TD><INPUT NAME="0.system.12372" onchange="checkInput('system.12372',-720, 840, 'Esta config. aceita som. um valor entre -720 e 840.', '')" id="system.12372" SIZE=6 MAXLENGTH=22 VALUE="0"></TD><TD><span class="helper" id="helper.system.12372">Exemplo: -300 (minutos)</span></TD></TR>
+<TR><TD><label for="system.12374">InÃ­cio do DST</label>&nbsp;</TD><TD>
+<SELECT NAME="0.system.12374" ID="system.12374">
+<OPTION VALUE="1">Primeiro</OPTION>
+<OPTION SELECTED VALUE="2">Segundo</OPTION>
+<OPTION VALUE="3">Terceiro</OPTION>
+<OPTION VALUE="4">Quarto</OPTION>
+<OPTION VALUE="5">Ãltimo</OPTION>
+</SELECT>
+&nbsp;&nbsp;
+<SELECT NAME="0.system.12376" ID="system.12376">
+<OPTION SELECTED VALUE="0">Domingo</OPTION>
+<OPTION VALUE="1">Segunda-feira</OPTION>
+<OPTION VALUE="2">TerÃ§a-feira</OPTION>
+<OPTION VALUE="3">Quarta-feira</OPTION>
+<OPTION VALUE="4">Quinta-feira</OPTION>
+<OPTION VALUE="5">Sexta-feira</OPTION>
+<OPTION VALUE="6">SÃ¡bado</OPTION>
+</SELECT>
+&nbsp;&nbsp;</TD><TD>de&nbsp;&nbsp;
+<SELECT NAME="0.system.12375" ID="system.12375">
+<OPTION VALUE="1">Janeiro</OPTION>
+<OPTION VALUE="2">Fevereiro</OPTION>
+<OPTION SELECTED VALUE="3">MarÃ§o</OPTION>
+<OPTION VALUE="4">Abril</OPTION>
+<OPTION VALUE="5">Maio</OPTION>
+<OPTION VALUE="6">Junho</OPTION>
+<OPTION VALUE="7">Julho</OPTION>
+<OPTION VALUE="8">Agosto</OPTION>
+<OPTION VALUE="9">Setembro</OPTION>
+<OPTION VALUE="10">Outubro</OPTION>
+<OPTION VALUE="11">Novembro</OPTION>
+<OPTION VALUE="12">Dezembro</OPTION>
+</SELECT>
+&nbsp;&nbsp;Ã s&nbsp;&nbsp;<INPUT NAME="1.system.12377" id="system.12377" SIZE=22 MAXLENGTH=9 VALUE="02:00:00"></TD></TR>
+<TR><TD><label for="system.12378">Fim do DST</label>&nbsp;</TD><TD>
+<SELECT NAME="0.system.12378" ID="system.12378">
+<OPTION SELECTED VALUE="1">Primeiro</OPTION>
+<OPTION VALUE="2">Segundo</OPTION>
+<OPTION VALUE="3">Terceiro</OPTION>
+<OPTION VALUE="4">Quarto</OPTION>
+<OPTION VALUE="5">Ãltimo</OPTION>
+</SELECT>
+&nbsp;&nbsp;
+<SELECT NAME="0.system.12380" ID="system.12380">
+<OPTION SELECTED VALUE="0">Domingo</OPTION>
+<OPTION VALUE="1">Segunda-feira</OPTION>
+<OPTION VALUE="2">TerÃ§a-feira</OPTION>
+<OPTION VALUE="3">Quarta-feira</OPTION>
+<OPTION VALUE="4">Quinta-feira</OPTION>
+<OPTION VALUE="5">Sexta-feira</OPTION>
+<OPTION VALUE="6">SÃ¡bado</OPTION>
+</SELECT>
+&nbsp;&nbsp;</TD><TD>de&nbsp;&nbsp;
+<SELECT NAME="0.system.12379" ID="system.12379">
+<OPTION VALUE="1">Janeiro</OPTION>
+<OPTION VALUE="2">Fevereiro</OPTION>
+<OPTION VALUE="3">MarÃ§o</OPTION>
+<OPTION VALUE="4">Abril</OPTION>
+<OPTION VALUE="5">Maio</OPTION>
+<OPTION VALUE="6">Junho</OPTION>
+<OPTION VALUE="7">Julho</OPTION>
+<OPTION VALUE="8">Agosto</OPTION>
+<OPTION VALUE="9">Setembro</OPTION>
+<OPTION VALUE="10">Outubro</OPTION>
+<OPTION SELECTED VALUE="11">Novembro</OPTION>
+<OPTION VALUE="12">Dezembro</OPTION>
+</SELECT>
+&nbsp;&nbsp;Ã s&nbsp;&nbsp;<INPUT NAME="1.system.12381" id="system.12381" SIZE=22 MAXLENGTH=9 VALUE="02:00:00"></TD></TR>
+<TR><TD><label for="system.12373">Deslocamento de DST</label>&nbsp;</TD><TD><INPUT NAME="0.system.12373" onchange="checkInput('system.12373',0, 120, 'Esta config. aceita som. um valor entre 0 e 120.', '')" id="system.12373" SIZE=6 MAXLENGTH=22 VALUE="60"></TD><TD><span class="helper" id="helper.system.12373">Exemplo: 60 (minutos)</span></TD></TR>
+</TABLE>
+
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+
+<B>Protocolo de tempo da rede</B>
+
+<TABLE>
+<TR><TD><label for="system.12362">Ativar NTP&nbsp;</TD><TD><INPUT TYPE="hidden" NAME="2.system.12362"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.12362"  id="system.12362" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.12363">Servidor NTP</label>&nbsp;</TD><TD><INPUT NAME="1.system.12363" id="system.12363" SIZE=22 MAXLENGTH=255 VALUE="192.168.200.55"></TD></TR>
+<TR><TD><INPUT TYPE="hidden" NAME="2.system.4981"   VALUE=1>
+</TD></TR> 
+<tr><td><label for="system.5103">AutenticaÃ§Ã£o</label>&nbsp;</td><td>
+<SELECT NAME="0.system.5103" ID="system.5103">
+<OPTION SELECTED VALUE="0">Nenhum</OPTION>
+<OPTION VALUE="1">Cha. MD5</OPTION>
+<OPTION VALUE="2">Autokey IFF</OPTION>
+</SELECT>
+</td></tr>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/ntpfilepost.html">Instalar chave MD5</A></TD></TR>
+<tr><td><a href="/cgi-bin/dynamic/printer/config/secure/ntpautokeypost.html">Instalar parÃ¢m. IFF Autokey</a></td></tr>
+</TABLE>
+
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>

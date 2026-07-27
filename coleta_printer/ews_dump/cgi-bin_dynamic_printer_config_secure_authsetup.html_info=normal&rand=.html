@@ -1,0 +1,275 @@
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>SeguranÃ§a</title>
+<!-- CSS -->
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<style type="text/css">
+fieldset
+{
+    border:1px solid #888888;
+    margin:0 0 20px;
+    padding:10px 0 !important;
+    font-size: 12pt;
+}
+>>>>>>> .merge-right.r304511
+
+fieldset legend
+{
+    font-weight: bold;
+    margin: 0 0 0 10px;
+}
+
+p
+{
+    margin: 0;
+    padding: 5px 0 0 10px;
+}
+
+label.left
+{
+    float: left;
+    width: 200px;
+}
+
+</style>
+
+<!-- Javascript -->
+<script src="/cgi-bin/dynamic/printer/include/jshelper.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+window.onload = function()
+{
+    document.getElementById("quicksetup").style.display = "block";
+};
+
+function showRows()
+{
+    var val = document.getElementById("auth_type").value;
+
+    if(val == "UsernamePassword")
+    {
+        var row1 = document.getElementById("usernameRow");
+        row1.style.display = '';
+    }
+    else
+    {
+        var row1 = document.getElementById("usernameRow");
+        row1.style.display = 'none';
+    }
+
+    if(val == "Password" || val == "UsernamePassword")
+    {
+        var row1 = document.getElementById("passwordRow1");
+        row1.style.display = '';
+        var row2 = document.getElementById("passwordRow2");
+        row2.style.display = '';
+    }
+    else
+    {
+        var row1 = document.getElementById("passwordRow1");
+        row1.style.display = 'none';
+        var row2 = document.getElementById("passwordRow2");
+        row2.style.display = 'none';
+    }
+
+    if(val == "PIN")
+    {
+        var row1 = document.getElementById("pinRow1");
+        row1.style.display = '';
+        var row2 = document.getElementById("pinRow2");
+        row2.style.display = '';
+    }
+    else
+    {
+        var row1 = document.getElementById("pinRow1");
+        row1.style.display = 'none';
+        var row2 = document.getElementById("pinRow2");
+        row2.style.display = 'none';
+    }
+
+}
+
+function removeBasicAuth()
+{
+    document.getElementById("operation").value = "delete";
+
+    document.editform.submit();
+
+    return true;
+}
+
+function onSubmitAction()
+{
+    var pin1 = document.getElementsByName('pin')[1];
+    if (pin1)
+    {
+        document.editform.pin2.value = pin1.value;
+        pin1.disabled = true;
+    }
+
+    var pass1 = document.getElementsByName('password')[1];
+    if (pass1)
+    {
+        document.editform.password2.value = pass1.value;
+        pass1.disabled = true;
+    }
+
+    return true;
+}
+
+-->
+</script>
+
+</head>
+
+<body>
+<h3>ConfiguraÃ§Ã£o de seguranÃ§a</h3>
+
+ 
+
+<div id="quicksetup" style="display:none">
+
+
+
+
+
+
+
+
+
+<!-- Create Basic Auth Form -->
+<form action="/cgi-bin/posttest/printer/config/secure/authsetup.html" method="post">
+<input type="hidden" name="operation" id="operation" value="create"/>
+<input type="hidden" name="csrf_token" value="" >
+<fieldset>
+    <legend>ConfiguraÃ§Ã£o bÃ¡sica de seguranÃ§a</legend>
+    <p>Use a ConfiguraÃ§Ã£o BÃ¡sica de SeguranÃ§a para limitar o acesso aos menus de configuraÃ§Ã£o atravÃ©s do painel do operador e do servidor da Web incorporado.</p>
+    <p><b><i>A aplicaÃ§Ã£o dessa configuraÃ§Ã£o pode substituir uma configuraÃ§Ã£o prÃ©via.</i></b></p>
+    <br/>
+    <p>
+        <label class="left" for="auth_type">Tipo de autenticaÃ§Ã£o</label>
+        <select name="auth_type" id="auth_type" onchange="showRows()">
+            <option value="PIN">PIN</option>
+            <option value="Password" selected="selected">Senha</option>
+            <option value="UsernamePassword">ID do usuÃ¡rio e senha</option>
+        </select>
+    </p>
+    <p id="usernameRow" style="display:none">
+        <label class="left" for="username">ID do usuÃ¡rio</label>
+        <input type="text" name="username" id="username" maxlength="128" size="22">
+    </p>
+    <INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 15"  VALUE="-1">
+
+    <p id="passwordRow1">
+        <label class="left" for="password">Senha</label>
+        <input type="password" name="password" id="password" maxlength="128" size="22">&nbsp;
+        Intervalo: 1 - 128&nbsp;caracteres
+    </p>
+    <p id="passwordRow2">
+        <label class="left" for="password2">Reinserir senha:</label>
+        <input type="password" name="password2" id="password2" maxlength="128" size="22">
+    </p>
+    <INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 16"  VALUE="-1">
+
+     <p id="pinRow1" style="display:none">
+        <label class="left" for="pin">PIN</label>
+        <input type="password" name="pin" id="pin" maxlength="16" size="18">&nbsp;
+        Intervalo: 4 - 16 dÃ­gitos, 0-9.
+    </p>
+    <p id="pinRow2" style="display:none">
+        <label class="left" for="pin2">Reinserir PIN</label>
+        <input type="password" name="pin2" id="pin2" maxlength="16" size="18">
+    </p>
+    <p><input type="submit" value="Aplique a configuraÃ§Ã£o bÃ¡sica de seguranÃ§a" name="submit"></p>
+</fieldset>
+</form>
+
+
+</div> <!-- end of quicksetup -->
+
+ 
+ 
+<table>
+<tr align="left" valign="top">
+<!-- First Column - Advance Security Setup -->
+<td width="59%">
+<form action="none">
+<fieldset>
+    <legend>ConfiguraÃ§Ã£o avanÃ§ada de seguranÃ§a</legend>
+    <div>
+    <p><b>Etapa 1:</b> <i>Configurar um bloco de construÃ§Ã£o de seguranÃ§a: </i></p>
+    <p>"Building Blocks" sÃ£o os vÃ¡rios mÃ©todos para se conseguir as credenciais do usuÃ¡rio.</p>
+    <table style="border:0; width:90%; margin-left:10px; padding:0; border-spacing:0;">
+        <tr align="left" valign="top">
+            <td width="28%">
+                <a href="/cgi-bin/dynamic/printer/config/secure/auth/managepin.html?info=normal">PIN</a>
+                <br/>
+                <a href="/cgi-bin/dynamic/printer/config/secure/auth/managepassword.html?info=normal">Senha</a>
+                <br/>
+                <a href="/cgi-bin/dynamic/printer/config/secure/auth/manageusers.html?info=normal">Contas internas</a>
+            </td>
+            <td width="30%">
+                <a href="/cgi-bin/dynamic/printer/config/secure/auth/manageldap.html?info=normal">LDAP</a>
+                <br/>
+                <a href="/cgi-bin/dynamic/printer/config/secure/auth/managegssapi.html?info=normal">LDAP+GSSAPI</a>
+            </td>
+            <td width="37%">
+                
+                <a href="/cgi-bin/dynamic/printer/config/secure/auth/importkerberos.html?info=normal">Kerberos 5</a>
+                <br/>
+                <A HREF="/cgi-bin/dynamic/printer/config/secure/auth/ads_main.html?info=normal&from=authsetup">Active Directory</A>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <br/>
+    <div>
+    <p>
+        <b>Etapa 2:</b>
+        <i>Configurar um </i><a href="/cgi-bin/dynamic/printer/config/secure/auth/secutemp.html?info=normal">Modelo de SeguranÃ§a</a>.
+    </p>
+    <p>Modelos de SeguranÃ§a sÃ£o utilizados para acesso restrito a sÃ£o feitos a partir de 1 ou mais Building Blocks.</p>
+    </div>
+    
+    <br/>
+    <div>
+    <p>
+        <b>Etapa 3:</b>
+        <i>Aplicar seu modelo de seguranÃ§a para um ou mais </i><a href="/cgi-bin/dynamic/printer/config/secure/auth/applytemp.html?info=normal">Acessar Controles</a>.
+    </p>
+    <p>Escolha Modelos de SeguranÃ§a para controlar o acesso a funÃ§Ãµes especÃ­ficas ou menus para desativar funÃ§Ãµes completamente.</p>
+    </div>
+    
+</fieldset>
+</form>
+
+</td>
+
+<!-- Dummy Column to served as separator bet the columns -->
+<td width="1%"> </td>
+<!-- Second Column - Additional Security Setup Options -->
+<td width="40%">
+<form action="none">
+<fieldset>
+    <legend>OpÃ§Ãµes adicionais de configuraÃ§Ã£o de seguranÃ§a</legend>
+    <p>A Senha de Backup fornece acesso aos Menus de SeguranÃ§a apesar dos mÃ©todos de proteÃ§Ã£o atribuÃ­dos ou da disponibilidade desse mÃ©todo (como um servidor LDAP ou uma rede sendo desligada).</p>
+    <p><a href="/cgi-bin/dynamic/printer/config/secure/auth/backuppwd.html?info=normal">Senha de Backup</a></p>
+    <br/>
+    <p><a href="/cgi-bin/dynamic/printer/config/secure/wizstart.html">ConfiguraÃ§Ã£o guiada de seguranÃ§a</a></p>
+</fieldset>
+</form>
+</td>
+
+</tr>
+</table>
+<br/>
+
+<a href="/cgi-bin/dynamic/printer/config/secure/auth/security_summary.html?info=normal&amp;referrer=edit_security">Exibir resumo de seguranÃ§a</a>
+<br/><br/>
+<a href="/cgi-bin/dynamic/config/secure/security.html">Retornar p/ SeguranÃ§a</a>
+
+</html>
+

@@ -1,0 +1,790 @@
+
+============================================================
+ringsize=32768 extralbbuffer=0 DBPRINT=0 NETCRCFAIL=0 ENGCRCFAIL=0 FAXCRCFAIL=0 SCANNERCRCFAIL=0 COLORSCIENCECRCFAIL=0 CPUMHZ=800 BUSFREQ=199009050 bootCs=1 BOOTDEV=eMMC, lxkpool=67108864,805306368 BOARD_NAME=stn00k MODELTYPE=0 DEBUG_LEVEL=SHIP DUP_PART_SU\
+FX=A OEM_ID=0 vram=0x000bc000@0x3ff34000 ASICREV=C0 APM_SETTING=4 PANELSUBTYPE=none DRAM_CONFIG=0,0,1024 PANELPIO=99 PFID=0x367 plx_switch_setup=disable PANELTYPE_ENV=11 
+  PID   TID THREAD_NAME      PPID  PGID CLS RTPRIO  NI PSR P EUSER    RUSER    SUSER    FUSER    %CPU %MEM    VSZ   RSS TTY      STATE START     TIME FLAGS          BLOCKED           CAUGHT          IGNORED          PENDING WCHAN                    FULL_CO\
+ -in -id 1 -type pipe -path /var/log/likewise.out -out -type file -path /var/log/likewise.log -sendinputs 1 -filesize 16 -filecount 4 -reloadfile /var/fs/shared/likewise/reloadconfig
+ -in -id 1 -type pipe -path /var/log/likewise.out -out -type file -path /var/log/likewise.log -sendinputs 1 -filesize 16 -filecount 4 -reloadfile /var/fs/shared/likewise/reloadconfig
+ -in -id 1 -type pipe -path /var/log/likewise.out -out -type file -path /var/log/likewise.log -sendinputs 1 -filesize 16 -filecount 4 -reloadfile /var/fs/shared/likewise/reloadconfig
+ -in -id 1 -type pipe -path /var/log/likewise.out -out -type file -path /var/log/likewise.log -sendinputs 1 -filesize 16 -filecount 4 -reloadfile /var/fs/shared/likewise/reloadconfig
+ /var/jvm/osgi/jvm_sh /var/jvm/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant\
+un11-pr90447.jar -Xmx832M -Xmca10K -Xmco10K -Xmns512K -Xmos3M -Xmoi1M -Xminf0 -Xmaxf1 -jar framework.jar -xargs init.xargs
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+m/jre/bin/j9foundation -Xint -jcl:foun11 -noverify -Xquickstart -Xlinenumbers -Dcom.lexmark.initMemSize=26214400 -Dcom.lexmark.reset=false -Dorg.osgi.service.http.hostname=127.0.0.1 -Duser.language -Duser.country -Duser.variant -Dos.encoding=utf-8 -DALSA_C\
+/shared/esf -Dcom.lexmark.osgi.dir=/var/jvm/osgi -Dorg.osgi.framework.dir=/var/fs/shared/esf/fwdir -Xbootclasspath/p:/var/jvm/jre/lib/fix-foun11-160930.jar:/var/jvm/jre/lib/fix-foun11_weme612-190526b.jar:/var/jvm/jre/lib/fix-foun11-pr90447.jar -Xmx832M -Xm\
+s ax -T -o pid,tid,comm=THREAD_NAME,ppid,pgid,class,rtprio,nice,psr,sgi_p,euser,ruser,suser,fuser,%cpu,%mem,vsz,rss,tty=TTY,stat=STATE,start_time,time,flags=FLAGS,blocked,caught,ignored,pending,wchan:24,args=FULL_COMMAND > /var/tmp/psdump.txt
+T -o pid,tid,comm=THREAD_NAME,ppid,pgid,class,rtprio,nice,psr,sgi_p,euser,ruser,suser,fuser,%cpu,%mem,vsz,rss,tty=TTY,stat=STATE,start_time,time,flags=FLAGS,blocked,caught,ignored,pending,wchan:24,args=FULL_COMMAND
+	Rip Model Speed: 0 
+	Rip Model Index: 0 
+	Engine Model Index: 0 
+Machine Class:00, Region: 0002, Capacity Class: 0000, Model Compat: 0800, MICR Mode:00 
+OEM ID:ff, Region: 7fff, Capacity Class: 0010, Model Compat: 0c0c, Bottle-IU Mismatch: 01
+OEM ID:ff, Region: 7fff, Capacity Class: 0000, Model Compat: 7fff,Bottle-IU Mismatch: ff 
+Chip ID: 0803b9cd,Compat Type: 50
+Chip ID: 0687b2ff,Compat Type: 52
+CTLS Circuit Type = CC/DG Hybrid 22pF CalCap
+galvo type 0
+ MinLoadFreq[gvType] 116430  MaxLoadFreq[gvType]   123135 
+Type: Galvo, Base Addr: 0xf93006xx
+Motor Type: MOTOR1 = NIDEC  
+Fuser Type: Belt 
+CONFIG_TYPE: 2
+PAGE TYPE INFO: entries 22
+ -  0. PAPER          : Enum  0, NV  0, NVGroup  39,  Duplex 3, OSResource 0xFE, BSPType 0x00
+ -  1. CARDSTOCK      : Enum  1, NV  1, NVGroup  43,  Duplex 0, OSResource 0x03, BSPType 0x03
+ -  2. TRANSPARENCY   : Enum  2, NV  2, NVGroup  42,  Duplex 0, OSResource 0x02, BSPType 0x04
+ -  3. LABEL          : Enum  3, NV  3, NVGroup  44,  Duplex 0, OSResource 0x04, BSPType 0x01
+ -  4. BOND           : Enum  4, NV  4, NVGroup  46,  Duplex 3, OSResource 0x07, BSPType 0x00
+ -  5. ENVELOPE       : Enum  5, NV  5, NVGroup  48,  Duplex 0, OSResource 0x08, BSPType 0x02
+ -  6. LETTERHEAD     : Enum  6, NV  6, NVGroup  45,  Duplex 3, OSResource 0x05, BSPType 0x00
+ -  7. PREPRINTED     : Enum  7, NV  7, NVGroup  47,  Duplex 3, OSResource 0x06, BSPType 0x00
+ -  8. COLOR          : Enum  8, NV  8, NVGroup  41,  Duplex 3, OSResource 0x01, BSPType 0x00
+ -  9. VINYL_LABEL    : Enum  9, NV  9, NVGroup  72,  Duplex 3, OSResource 0x0E, BSPType 0x00
+ - 10. ROUGH_ENV      : Enum 10, NV 10, NVGroup  76,  Duplex 0, OSResource 0x14, BSPType 0x02
+ - 11. LIGHT          : Enum 11, NV 11, NVGroup  82,  Duplex 3, OSResource 0x19, BSPType 0x00
+ - 12. HEAVY          : Enum 12, NV 12, NVGroup  83,  Duplex 3, OSResource 0x1A, BSPType 0x00
+ - 13. ROUGH_COTTON   : Enum 13, NV 13, NVGroup  40,  Duplex 0, OSResource 0x11, BSPType 0x06
+ - 14. RECYCLED       : Enum 14, NV 14, NVGroup  81,  Duplex 4, OSResource 0x12, BSPType 0x0F
+ - 15. CUSTOM_1       : Enum 15, NV 15, NVGroup  51,  Duplex 4, OSResource 0x80, BSPType 0x0F
+ - 16. CUSTOM_2       : Enum 16, NV 16, NVGroup  52,  Duplex 4, OSResource 0x81, BSPType 0x0F
+ - 17. CUSTOM_3       : Enum 17, NV 17, NVGroup  53,  Duplex 4, OSResource 0x82, BSPType 0x0F
+ - 18. CUSTOM_4       : Enum 18, NV 18, NVGroup  54,  Duplex 4, OSResource 0x83, BSPType 0x0F
+ - 19. CUSTOM_5       : Enum 19, NV 19, NVGroup  55,  Duplex 4, OSResource 0x84, BSPType 0x0F
+ - 20. CUSTOM_6       : Enum 20, NV 20, NVGroup  56,  Duplex 4, OSResource 0x85, BSPType 0x0F
+ - 21. DEFAULT        : Enum 21, NV 21, NVGroup  39,  Duplex 3, OSResource 0xFE, BSPType 0x00
+EP TYPE INFO: entries 7
+ -  0. PAPER        : Enum  0, NV  0,  Duplex 3, BSPType 0x00
+ -  1. ENVELOPE     : Enum  1, NV  1,  Duplex 0, BSPType 0x02
+ -  2. TRANSPARENCY : Enum  2, NV  2,  Duplex 0, BSPType 0x04
+ -  3. LABEL        : Enum  3, NV  3,  Duplex 0, BSPType 0x01
+ -  4. CARDSTOCK    : Enum  4, NV  4,  Duplex 0, BSPType 0x03
+ -  5. COTTON       : Enum  5, NV  7,  Duplex 0, BSPType 0x06
+ -  6. DEFAULT      : Enum  6, NV  0,  Duplex 3, BSPType 0x00
+                  Tray Installed Size/Types
+Tray            Size           Type           String         Inst Paper BOrient SOrient ES
+MP Tray         A4             Custom Type 6                 Y    N     SEF     SEF     N 
+    Paper Type NV Values (NVPAPER_TYPNORM)
+   15               Custom Type 1      
+   16               Custom Type 2      
+   17               Custom Type 3      
+   18               Custom Type 4      
+   19               Custom Type 5      
+   20               Custom Type 6      
+            Tray Str  Num Env?             Size Str  Num             Type Str  Num
+  EmStatus=00000001(READY) PqsStatus=00000001(READY) BiosStatus=00000001(READY)
+  Type1Error=0 Type2Error=0 Type3Error=0
+EP.EngineType 42
+  Type 1
+  PaperTypesSupported 2095581
+  TrayName Tray 1
+  prtInputType 0x0
+  trayType 0x1
+  Types(bitmask method):
+    Plain Paper NV(1) BIOS(1)
+    Card Stock NV(0) BIOS(0)
+    Transparency NV(1) BIOS(1)
+    Labels NV(1) BIOS(1)
+    Bond NV(1) BIOS(1)
+    Envelope NV(0) BIOS(0)
+    Letterhead NV(1) BIOS(1)
+    Preprinted NV(1) BIOS(1)
+    Colored Paper NV(1) BIOS(1)
+    Vinyl Labels NV(0) BIOS(0)
+    Rough Envelope NV(0) BIOS(0)
+    Light NV(1) BIOS(1)
+    Heavy NV(1) BIOS(1)
+    Rough NV(1) BIOS(1)
+    Recycled NV(1) BIOS(1)
+    Custom Type 1 NV(1) BIOS(1)
+    Custom Type 2 NV(1) BIOS(1)
+    Custom Type 3 NV(1) BIOS(1)
+    Custom Type 4 NV(1) BIOS(1)
+    Custom Type 5 NV(1) BIOS(1)
+    Custom Type 6 NV(1) BIOS(1)
+  Type 0
+  PaperTypesSupported 2096639
+  TrayName Standard Bin
+  prtInputType 0x0
+  trayType 0x4
+  Types(bitmask method):
+    Plain Paper NV(1) BIOS(1)
+    Card Stock NV(1) BIOS(1)
+    Transparency NV(1) BIOS(1)
+    Labels NV(1) BIOS(1)
+    Bond NV(1) BIOS(1)
+    Envelope NV(1) BIOS(1)
+    Letterhead NV(1) BIOS(1)
+    Preprinted NV(1) BIOS(1)
+    Colored Paper NV(1) BIOS(1)
+    Vinyl Labels NV(0) BIOS(0)
+    Rough Envelope NV(1) BIOS(1)
+    Light NV(1) BIOS(1)
+    Heavy NV(1) BIOS(1)
+    Rough NV(1) BIOS(1)
+    Recycled NV(1) BIOS(1)
+    Custom Type 1 NV(1) BIOS(1)
+    Custom Type 2 NV(1) BIOS(1)
+    Custom Type 3 NV(1) BIOS(1)
+    Custom Type 4 NV(1) BIOS(1)
+    Custom Type 5 NV(1) BIOS(1)
+    Custom Type 6 NV(1) BIOS(1)
+  Type 0
+  PaperTypesSupported 2096639
+  TrayName MP Tray
+  prtInputType 0x0
+  trayType 0x1
+  Types(bitmask method):
+    Plain Paper NV(1) BIOS(1)
+    Card Stock NV(1) BIOS(1)
+    Transparency NV(1) BIOS(1)
+    Labels NV(1) BIOS(1)
+    Bond NV(1) BIOS(1)
+    Envelope NV(1) BIOS(1)
+    Letterhead NV(1) BIOS(1)
+    Preprinted NV(1) BIOS(1)
+    Colored Paper NV(1) BIOS(1)
+    Vinyl Labels NV(0) BIOS(0)
+    Rough Envelope NV(1) BIOS(1)
+    Light NV(1) BIOS(1)
+    Heavy NV(1) BIOS(1)
+    Rough NV(1) BIOS(1)
+    Recycled NV(1) BIOS(1)
+    Custom Type 1 NV(1) BIOS(1)
+    Custom Type 2 NV(1) BIOS(1)
+    Custom Type 3 NV(1) BIOS(1)
+    Custom Type 4 NV(1) BIOS(1)
+    Custom Type 5 NV(1) BIOS(1)
+    Custom Type 6 NV(1) BIOS(1)
+  Type 1
+  PaperTypesSupported 2095583
+  TrayName Manual Paper
+  prtInputType 0x0
+  trayType 0x2
+  Types(bitmask method):
+    Plain Paper NV(1) BIOS(1)
+    Card Stock NV(1) BIOS(1)
+    Transparency NV(1) BIOS(1)
+    Labels NV(1) BIOS(1)
+    Bond NV(1) BIOS(1)
+    Envelope NV(0) BIOS(0)
+    Letterhead NV(1) BIOS(1)
+    Preprinted NV(1) BIOS(1)
+    Colored Paper NV(1) BIOS(1)
+    Vinyl Labels NV(0) BIOS(0)
+    Rough Envelope NV(0) BIOS(0)
+    Light NV(1) BIOS(1)
+    Heavy NV(1) BIOS(1)
+    Rough NV(1) BIOS(1)
+    Recycled NV(1) BIOS(1)
+    Custom Type 1 NV(1) BIOS(1)
+    Custom Type 2 NV(1) BIOS(1)
+    Custom Type 3 NV(1) BIOS(1)
+    Custom Type 4 NV(1) BIOS(1)
+    Custom Type 5 NV(1) BIOS(1)
+    Custom Type 6 NV(1) BIOS(1)
+  Type 2
+  PaperTypesSupported 1056
+  TrayName Manual Envelope
+  prtInputType 0x0
+  trayType 0x2
+  Types(bitmask method):
+    Plain Paper NV(0) BIOS(0)
+    Card Stock NV(0) BIOS(0)
+    Transparency NV(0) BIOS(0)
+    Labels NV(0) BIOS(0)
+    Bond NV(0) BIOS(0)
+    Envelope NV(1) BIOS(1)
+    Letterhead NV(0) BIOS(0)
+    Preprinted NV(0) BIOS(0)
+    Colored Paper NV(0) BIOS(0)
+    Vinyl Labels NV(0) BIOS(0)
+    Rough Envelope NV(1) BIOS(1)
+    Light NV(0) BIOS(0)
+    Heavy NV(0) BIOS(0)
+    Rough NV(0) BIOS(0)
+    Recycled NV(0) BIOS(0)
+    Custom Type 1 NV(1) BIOS(0)
+    Custom Type 2 NV(1) BIOS(0)
+    Custom Type 3 NV(1) BIOS(0)
+    Custom Type 4 NV(1) BIOS(0)
+    Custom Type 5 NV(1) BIOS(0)
+    Custom Type 6 NV(1) BIOS(0)
+   name &WaitForHardResetSem, function stresetinit, LOCKED.
+   name &WaitForSoftOffSem, function stPowerModesInit, LOCKED.
+    timestamp=07-23-2026 11:37:17, type=0, text (Ready)
+  portsOffline 0, biosOffline 0.
+  emConfStatus 1, biosConfStatus 1, pqsConfStatus 1 (READY = 1).
+  emIsPaused 0, numUsedConfigMode 0, biosConfRetAddr 0x007b3b30.
+  stat 0, S NVOUTPUT1NAME=.
+  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+  type 2, prebate 2, refilled 2, afterMarket 1, carttype 0, menuPageSupport 0.
+  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+  type 4, prebate 2, refilled 2, afterMarket 1, carttype 0, menuPageSupport 0.
+  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+  type 7, prebate 1, refilled 2, afterMarket 1, carttype 0, menuPageSupport 0.
+  SUPPLY_OSIGAUGE_TYPE 0, SUPPLY_EMAIL_TYPE 1
+  type 7, prebate 0, refilled 0, afterMarket 0, carttype 0, menuPageSupport 0.
+  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+  type 4, prebate 0, refilled 0, afterMarket 0, carttype 0, menuPageSupport 0.
+                Message  dmsk 0x00002a81, pub mail, msg1 540 (ST_BIOS_DISCARDING_PAGES), msg2 0, msg3 0
+                Message  dmsk 0x00002a81, pub mail, msg1 211 (ST_BIOSIDLE), msg2 0, msg3 0
+                cfgId 0x00010452, ST_CONFMODE_EMTYPES 2, ST_CONFMODE_COMMAND 1.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+                cfgId 0x004c0002, ST_CONFMODE_EMTYPES 1, ST_CONFMODE_COMMAND 3.
+------------ BIOS Model names --------
+Emul[0].name:Dummy st:7  rst:0  pflag:0  job:0 
+Emul[1].name:PCL5 st:7  rst:0  pflag:0  job:0 
+Emul[2].name:PCLXL st:7  rst:0  pflag:0  job:0 
+Emul[3].name:PS st:7  rst:0  pflag:0  job:0 
+Emul[4].name:PJL st:7  rst:0  pflag:0  job:0 
+Emul[5].name:SIC st:7  rst:0  pflag:0  job:0 
+Emul[6].name:HEX st:7  rst:0  pflag:0  job:0 
+Emul[7].name:PPDS st:7  rst:0  pflag:0  job:0 
+Emul[8].name:P&H st:7  rst:0  pflag:0  job:0 
+Emul[9].name:PxyCP st:7  rst:0  pflag:0  job:0 
+Emul[10].name:EMUL1 st:7  rst:0  pflag:0  job:0 
+Emul[11].name:EMUL2 st:7  rst:0  pflag:0  job:0 
+Emul[12].name:EMUL3 st:7  rst:0  pflag:0  job:0 
+Emul[13].name:EMUL4 st:7  rst:0  pflag:0  job:0 
+Emul[14].name:EMUL5 st:7  rst:0  pflag:0  job:0 
+Emul[15].name:IAPI1 st:7  rst:0  pflag:0  job:0 
+Emul[16].name:IAPI2 st:7  rst:0  pflag:0  job:0 
+Emul[17].name:IAPI3 st:7  rst:0  pflag:0  job:0 
+Emul[18].name:IAPI4 st:7  rst:0  pflag:0  job:0 
+Emul[19].name:IAPI5 st:7  rst:0  pflag:0  job:0 
+Port Number :  0, DevType : 11, Name: UDS
+Port Number :  1, DevType : 12, Name: UDS_INTCOPY
+Port Number :  2, DevType : 13, Name: UDS_INFAX
+Port Number :  3, DevType : 14, Name: UDS_LOGS
+Port Number :  4, DevType : 15, Name: UDS_PRIORITY_JO
+Port Number :  5, DevType : 16, Name: UDS_USB_HOST
+Port Number :  6, DevType : 17, Name: Stdin
+Port Number :  7, DevType :  4, Name: OldRomP
+Port Number :  8, DevType :  2, Name: Ina0
+Port Number :  9, DevType :  2, Name: Ina0
+Port Number : 10, DevType :  5, Name: Usb0
+		portId |   State  |  DevType  |
+JBpif:		        Name | portId |     Any    |    Qry     | TimeOut |
+JBportList:	        Name | portId |     Any    |    Qry     | TimeOut |
+------------------------- Bios Debug Data -------------------------
+Bios Data:
+--- Dumping Bios Page Queue ---
+BIOS Supply Status:
+   Dev_dispatch[0].dd_devnames: %flash%
+   Dev_dispatch[1].dd_devnames: %unix%
+   Dev_dispatch[2].dd_devnames: %disk%
+   Dev_dispatch[3].dd_devnames: %ram%
+   name semifor, OK.
+   name outsemifor, OK.
+   name prsemifor, OK.
+   name semifor, OK.
+   name outsemifor, OK.
+   name prsemifor, OK.
+   name semifor, OK.
+   name outsemifor, OK.
+   name prsemifor, OK.
+   name semifor, OK.
+   name outsemifor, OK.
+   name prsemifor, OK.
+   name semifor, OK.
+   name outsemifor, OK.
+   name prsemifor, OK.
+   name &npaXMLStartCommSem, function npaManufacturingThreadMain, LOCKED.
+	DevType: 02	DevLoc: 00	LogOptSlot: -1
+	fd     : -1	Name  : Ina0	Active:     01
+	  PrtId: 0x00000008 Name : InaDataCh
+	  PrtId: 0x00000009 Name : InaRawCh1
+	  PrtId: 0x00000108 Name : InaNpaCh
+	  PrtId: 0x00000208 Name : InaDsaCh
+	  PrtId: 0x00000408 Name : InaNpaRevCh
+3e6c0000-3e7c0000 r-xp 00000000 fe:08 24223408   /pkg-webclient/lib/libfreetype.so.6.7.1
+3e7c0000-3e7c7000 ---p 00100000 fe:08 24223408   /pkg-webclient/lib/libfreetype.so.6.7.1
+3e7c7000-3e7cb000 rw-p 000ff000 fe:08 24223408   /pkg-webclient/lib/libfreetype.so.6.7.1
+3e6c0000-3e7c0000 r-xp 00000000 fe:08 24223408   /pkg-webclient/lib/libfreetype.so.6.7.1
+3e7c0000-3e7c7000 ---p 00100000 fe:08 24223408   /pkg-webclient/lib/libfreetype.so.6.7.1
+3e7c7000-3e7cb000 rw-p 000ff000 fe:08 24223408   /pkg-webclient/lib/libfreetype.so.6.7.1
+40255000-40257000 r--s 00000000 fe:04 4921176    /bin/fonts/type1a.pcl
+	Bundle-Name: System Bundle
+	Bundle-Name: Permissions
+	Bundle-SymbolicName: Permissions
+	Bundle-Name: Crimson XML lib
+	Bundle-Name: Service Binder
+	Bundle-Name: Log Service
+	Bundle-Name: CM Service
+	Bundle-Name: util
+	Bundle-Name: JSDK lib
+	Bundle-Name: Device Manager
+	Bundle-Name: HTTP Server
+	Bundle-Name: json_simple
+	Bundle-SymbolicName: json_simple
+	Bundle-Name: webSocket4J
+	Bundle-SymbolicName: webSocket4J
+	Bundle-Name: Printer App Utilities
+	Bundle-SymbolicName: Printer App Utilities
+	Bundle-Name: memory
+	Bundle-SymbolicName: memory
+	Bundle-Name: unixdomainsocket
+	Bundle-SymbolicName: unixdomainsocket
+	Bundle-Name: core
+	Bundle-SymbolicName: core
+	Bundle-Name: corecommunications
+	Bundle-SymbolicName: corecommunications
+	Bundle-Name: startup
+	Bundle-SymbolicName: startup
+	Application name: Sound Service
+	Bundle-Name: sound
+	Bundle-SymbolicName: sound
+	Bundle-Name: objects
+	Bundle-SymbolicName: objects
+	Bundle-Name: objects_obj
+	Bundle-SymbolicName: objects_obj
+	Application name: Speech Service
+	Bundle-Name: speech
+	Bundle-SymbolicName: speech
+	Bundle-Name: storagedevice
+	Bundle-SymbolicName: storagedevice
+	Bundle-Name: sessions
+	Bundle-SymbolicName: sessions
+	Bundle-Name: elementconnection
+	Bundle-SymbolicName: elementconnection
+	Bundle-Name: ui
+	Bundle-SymbolicName: ui
+	Application name: Profile Service
+	Bundle-Name: prtappProfile
+	Bundle-SymbolicName: prtappProfile
+	Bundle-Name: prtappStandardPrompts
+	Bundle-SymbolicName: prtappStandardPrompts
+	Bundle-Name: welcomescreen_mfp
+	Bundle-SymbolicName: welcomescreen_mfp
+	Bundle-Name: ldssprofile
+	Bundle-SymbolicName: ldssprofile
+	Bundle-Name: characteristics
+	Bundle-SymbolicName: characteristics
+	Bundle-Name: Pluggable Object
+	Bundle-SymbolicName: Pluggable Object
+	Bundle-Name: objstorepluggableobject
+	Bundle-SymbolicName: objstorepluggableobject
+	Bundle-Name: robpluggableobject
+	Bundle-SymbolicName: robpluggableobject
+	Bundle-Name: prtappsPluggableobject
+	Bundle-SymbolicName: prtappsPluggableobject
+	Application name: Auth Service
+	Bundle-Name: authservice
+	Bundle-SymbolicName: authservice
+	Bundle-Name: semenu
+	Bundle-SymbolicName: semenu
+	Bundle-Name: deviceStatus
+	Bundle-SymbolicName: deviceStatus
+	Bundle-Name: oro
+	Bundle-SymbolicName: oro
+	Application name: Security Log Service
+	Bundle-Name: securitylogservice
+	Bundle-SymbolicName: securitylogservice
+	Bundle-Name: pluggableAuth
+	Bundle-SymbolicName: pluggableAuth
+	Bundle-Name: Settings Service
+	Bundle-SymbolicName: Settings Service
+	Bundle-Name: Settings IO Service
+	Bundle-SymbolicName: Settings IO Service
+	Application name: Installation Service
+	Bundle-Name: Installation Service
+	Bundle-SymbolicName: Installation Service
+	Bundle-Name: license
+	Bundle-SymbolicName: license
+	Bundle-Name: licensemanager
+	Bundle-SymbolicName: licensemanager
+	Bundle-Name: lesSystem
+	Bundle-SymbolicName: lesSystem
+	Bundle-Name: commonsFileUpload
+	Bundle-SymbolicName: commonsFileUpload
+	Bundle-Name: webadmin
+	Bundle-SymbolicName: webadmin
+	Bundle-Name: image
+	Bundle-SymbolicName: image
+	Bundle-Name: email
+	Bundle-SymbolicName: email
+	Bundle-Name: ldap
+	Bundle-SymbolicName: ldap
+	Bundle-Name: JUnit API
+	Bundle-SymbolicName: JUnit API
+	Bundle-Name: j9jsse
+	Bundle-SymbolicName: j9jsse
+	Bundle-Name: ID Device Interface
+	Bundle-SymbolicName: ID Device Interface
+	Bundle-Name: imageserver
+	Bundle-SymbolicName: imageserver
+	Application name: System
+	Bundle-Name: systemManager
+	Bundle-SymbolicName: systemManager
+	Bundle-Name: javax-usb
+	Bundle-SymbolicName: javax-usb
+	Bundle-Name: USB Device Service
+	Bundle-SymbolicName: USB Device Service
+	Bundle-Name: keyboarddevice
+	Bundle-SymbolicName: keyboarddevice
+	Bundle-Name: usbkeyboarddriver
+	Bundle-SymbolicName: usbkeyboarddriver
+	Bundle-Name: driverutil
+	Bundle-SymbolicName: driverutil
+	Bundle-Name: magtekdriver
+	Bundle-SymbolicName: magtekdriver
+	Bundle-Name: kSoap
+	Bundle-SymbolicName: kSoap
+	Bundle-Name: diskstorage
+	Bundle-SymbolicName: diskstorage
+	Bundle-Name: remoteadmin
+	Bundle-SymbolicName: remoteadmin
+	Bundle-Name: smartcardio
+	Bundle-SymbolicName: smartcardio
+	Bundle-Name: smartcardio_pcsc
+	Bundle-SymbolicName: smartcardio_pcsc
+	Application name: PKI/Active Directory Application
+	Bundle-Name: CryptoAPI Interface
+	Bundle-SymbolicName: CryptoAPI Interface
+	Application name: PKI/Active Directory Application
+	Bundle-Name: activedirectory
+	Bundle-SymbolicName: activedirectory
+	Bundle-Name: bouncycastle13
+	Bundle-SymbolicName: bouncycastle13
+	Application name: PKCS11 Tokens
+	Bundle-Name: pkcs11tokens
+	Bundle-NativeCode: libjnipkcs11.so; processor=ppc; processor=arm; processor=x86; osname=Linux
+	Bundle-SymbolicName: pkcs11tokens
+	Application name: Kerberos API
+	Bundle-Name: kerberos
+	Bundle-SymbolicName: kerberos
+	Bundle-Name: thumbnail
+	Bundle-SymbolicName: thumbnail
+	Bundle-Name: webservices
+	Bundle-SymbolicName: webservices
+	Bundle-Name: WebServlet
+	Bundle-SymbolicName: WebServlet
+	Application name: 
+	Bundle-Name: solutions
+	Bundle-SymbolicName: solutions
+	Bundle-Name: vccplugin
+	Bundle-SymbolicName: vccplugin
+	Bundle-Name: mrcpdf
+	Bundle-SymbolicName: mrcpdf
+	Application name: OCR
+	Bundle-Name: ocr
+	Bundle-SymbolicName: ocr
+	Application name: ClEx
+	Bundle-Name: clex
+	Bundle-SymbolicName: clex
+	Bundle-Name: fdi
+	Bundle-SymbolicName: fdi
+	Bundle-Name: smbclientservice
+	Bundle-SymbolicName: smbclientservice
+	Bundle-Name: certificatemanager
+	Bundle-SymbolicName: certificatemanager
+	Bundle-Name: imageSendSvc
+	Bundle-SymbolicName: imageSendSvc
+	Bundle-Vendor: lxk.name
+ification-version=4.3.0,com.lexmark.es.imageSendSvc.types;specification-version=4.3.0
+	Application name: Internal Disk Source and Target
+	Bundle-Name: disksourcetarget
+	Bundle-SymbolicName: disksourcetarget
+	Bundle-Vendor: lxk.name
+	Application name: Forms and Favorites
+	Bundle-Name: ezForms
+	Bundle-SymbolicName: ezForms
+	Bundle-Name: ftp
+	Bundle-SymbolicName: ftp
+	Bundle-Vendor: lxk.name
+	Bundle-Name: emailSvc
+	Bundle-SymbolicName: emailSvc
+	Bundle-Vendor: lxk.name
+	Export-Package: com.lexmark.es.emailSvc.services;specification-version=3.1.0,com.lexmark.es.emailSvc.settings;specification-version=3.1.0,com.lexmark.es.emailSvc.throwables;specification-version=3.1.0,com.lexmark.es.emailSvc.types;specification-version=3.\
+	Bundle-Name: previewUi
+	Bundle-SymbolicName: previewUi
+	Bundle-Vendor: lxk.name
+	Bundle-Name: format
+	Bundle-SymbolicName: format
+	Bundle-Vendor: lxk.name
+	Bundle-Name: esbase
+	Bundle-SymbolicName: esbase
+	Bundle-Vendor: lxk.name
+	Application name: APServices
+	Bundle-Name: apservices
+	Bundle-SymbolicName: apservices
+	Bundle-Name: WorkflowObserver
+	Bundle-SymbolicName: WorkflowObserver
+	Bundle-Vendor: lxk.name
+	Bundle-Name: vwt
+	Bundle-SymbolicName: vwt
+	Bundle-Vendor: lxk.name
+	Bundle-Name: esbaseEmbed
+	Bundle-SymbolicName: esbaseEmbed
+	Bundle-Vendor: lxk.name
+	Bundle-Name: myProUi80x48
+	Bundle-SymbolicName: myProUi80x48
+	Bundle-Vendor: lxk.name
+	Bundle-Name: pkiInfo
+	Bundle-SymbolicName: pkiInfo
+	Bundle-Vendor: lxk.name
+	Application name: Scan to Network
+	Bundle-Name: scanToNetUi
+	Bundle-SymbolicName: scanToNetUi
+	Bundle-Vendor: lxk.name
+	Bundle-Name: imageSendSvcFileStreamManager
+	Bundle-SymbolicName: imageSendSvcFileStreamManager
+	Bundle-Vendor: lxk.name
+	Import-Package: com.lexmark.es.imageSendSvc.interfaces,com.lexmark.es.imageSendSvc.throwables,com.lexmark.es.imageSendSvc.types,com.lexmark.prtapp.storagedevice,com.lexmark.prtapp.util,org.osgi.framework,org.ungoverned.gravity.servicebinder
+	Bundle-Name: oro-component
+	Bundle-SymbolicName: oro-component
+	Bundle-Name: shortcutSvc_interface
+	Bundle-SymbolicName: shortcutSvc_interface
+	Bundle-Name: transformations
+	Bundle-SymbolicName: transformations
+	Bundle-Vendor: lxk.name
+	Application name: MyShortcut
+	Bundle-Name: myShortcut
+	Bundle-SymbolicName: myShortcut
+	Bundle-Vendor: lxk.name
+	Application name: Scan to Network
+	Bundle-Name: scanToNet
+	Bundle-SymbolicName: scanToNet
+	Bundle-Vendor: lxk.name
+	Bundle-Name: cifs
+	Bundle-SymbolicName: cifs
+	Bundle-Vendor: lxk.name
+	Bundle-Name: pipe
+	Bundle-SymbolicName: pipe
+	Bundle-Vendor: lxk.name
+	Application name: Scanner Source
+	Bundle-Name: scanner
+	Bundle-SymbolicName: scanner
+	Bundle-Vendor: lxk.name
+	Bundle-Name: deviceInfo
+	Bundle-SymbolicName: deviceInfo
+	Bundle-Vendor: lxk.name
+	Application name: Card Copy
+	Bundle-Name: cardCopy
+	Bundle-SymbolicName: cardCopy
+	Bundle-Vendor: lxk.name
+	Import-Package: com.lexmark.core,com.lexmark.es.cardCopy.ui,com.lexmark.es.emailSvc.services,com.lexmark.es.emailSvc.settings,com.lexmark.es.emailSvc.throwables,com.lexmark.es.emailSvc.types,com.lexmark.esbase,com.lexmark.esbase.ui,com.lexmark.prtapp.char\
+	Bundle-Name: cardCopyUi
+	Bundle-SymbolicName: cardCopyUi
+	Bundle-Vendor: lxk.name
+	Bundle-Name: preview
+	Bundle-SymbolicName: preview
+	Bundle-Vendor: lxk.name
+	Bundle-Name: ezformsUi
+	Bundle-SymbolicName: ezformsUi
+	Bundle-Vendor: lxk.name
+	Bundle-Name: jobs
+	Bundle-SymbolicName: jobs
+	Application name: 
+	Bundle-Name: newprompt
+	Bundle-SymbolicName: newprompt
+	Bundle-Name: ftpSvc
+	Bundle-SymbolicName: ftpSvc
+	Bundle-Vendor: lxk.name
+	Bundle-Name: shortcuts
+	Bundle-SymbolicName: shortcuts
+	Application name: Bar code Service
+	Bundle-Name: barcodeService
+	Bundle-SymbolicName: barcodeService
+	Bundle-Vendor: lxk.name
+	Bundle-Name: authProxy
+	Bundle-SymbolicName: authProxy
+	Bundle-Vendor: lxk.name
+	Bundle-Name: imgCache
+	Bundle-SymbolicName: imgCache
+	Bundle-Vendor: lxk.name
+	Application name: Multi Send
+	Bundle-Name: multiSend
+	Bundle-SymbolicName: multiSend
+	Bundle-Vendor: lxk.name
+	Import-Package: com.lexmark.core,com.lexmark.corecommunications,com.lexmark.es.emailSvc.services,com.lexmark.es.emailSvc.settings,com.lexmark.es.emailSvc.throwables,com.lexmark.es.emailSvc.types,com.lexmark.es.ftpSvc.services,com.lexmark.es.ftpSvc.setting\
+s,com.lexmark.es.ftpSvc.throwables,com.lexmark.es.imageSendSvc.service,com.lexmark.es.imageSendSvc.settings,com.lexmark.es.imageSendSvc.throwables,com.lexmark.es.imageSendSvc.types,com.lexmark.es.multiSend.ui,com.lexmark.esbase,com.lexmark.esbase.ui,com.le\
+	Bundle-Name: shortcutSvc
+	Bundle-SymbolicName: shortcutSvc
+	Application name: Print Service
+	Bundle-Name: printservice
+	Bundle-SymbolicName: printservice
+	Bundle-Name: promptsBundle
+	Bundle-SymbolicName: promptsBundle
+	Bundle-Vendor: lxk.name
+	Application name: Multi Send
+	Bundle-Name: multiSendUi
+	Bundle-SymbolicName: multiSendUi
+	Bundle-Vendor: lxk.name
+id = 1 type = java size = 26,214,400
+id = 2 type = java size = 10,000,000
+id = 3 type = java size = 1,048,576
+id = 4 type = java size = 2,097,152
+id = 5 type = java size = 2,048,576
+id = 6 type = java size = 5,242,880
+id = 7 type = java size = 5,000,000
+id = 8 type = java size = 524,288
+id = 9 type = java size = 6,291,456
+id = 10 type = java size = 1,048,576
+id = 11 type = java size = 524,288
+Transaction = 1  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 2  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 3  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 4  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 5  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 6  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 7  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 8  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 9  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 10  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+Transaction = 11  timestamp = 20260723 11:37:37 bundle = Installation Service type = java
+  RootType=[Boolean]
+  RootType=[List]
+  RootType=[List]
+  Index=0, ValueType=Map
+  RootType=[List]
+  RootType=[Map]
+     Index=0, ValueType=Map
+     Index=1, ValueType=Map
+     Index=2, ValueType=Map
+     Index=3, ValueType=Map
+     Index=4, ValueType=Map
+     Index=5, ValueType=Map
+     Index=6, ValueType=Map
+     Index=7, ValueType=Map
+  RootType=[Map]
+        Index=0, ValueType=Map
+        Index=1, ValueType=Map
+        Index=2, ValueType=Map
+        Index=3, ValueType=Map
+     Key=cartridgeType, Value="unknown" (String)
+     Key=levelType, Value="gauge" (String)
+     Key=type, Value="Toner" (String)
+        Index=0, ValueType=Map
+        Index=1, ValueType=Map
+        Index=2, ValueType=Map
+        Index=3, ValueType=Map
+     Key=levelType, Value="gauge" (String)
+     Key=type, Value="PC Drum" (String)
+        Index=0, ValueType=Map
+        Index=1, ValueType=Map
+        Index=2, ValueType=Map
+        Index=3, ValueType=Map
+     Key=levelType, Value="gauge" (String)
+     Key=type, Value="Other" (String)
+  RootType=[Map]
+     Index=0, ValueType=Map
+           Index=0, ValueType=Map
+                 Index=0, ValueType=Map
+                 Index=1, ValueType=Map
+                 Index=2, ValueType=Map
+                 Index=3, ValueType=Map
+                 Index=4, ValueType=Map
+           Index=1, ValueType=Map
+                 Index=0, ValueType=Map
+           Index=2, ValueType=Map
+                 Index=0, ValueType=Map
+                 Index=1, ValueType=Map
+                 Index=2, ValueType=Map
+                 Index=3, ValueType=Map
+                 Index=4, ValueType=Map
+     Index=1, ValueType=Map
+           Index=0, ValueType=Map
+           Index=1, ValueType=Map
+     Index=2, ValueType=Map
+           Index=0, ValueType=Map
+                type : : STANDARD_MONOCHROME 
+             custom_display_name : : Front door 
+             type : : CUSTOM 
+             custom_display_name : : Rear door 
+             type : : CUSTOM 
+                custom_display_name : : 300 dpi 
+                custom_display_name : : 600 dpi 
+                custom_display_name : : 1200 dpi 
+                custom_display_name : : 1200 Image Q 
+                custom_display_name : : 2400 Image Q 
+                type : : NO_DUPLEX 
+                type : : LONG_EDGE 
+                type : : SHORT_EDGE 
+             custom_display_name : : Manual Envelope 
+             type : : ENVELOPE_TRAY 
+             custom_display_name : : Manual Paper 
+             type : : MANUAL_FEED_TRAY 
+             custom_display_name : : Muti-Purpose Feeder 
+             type : : INPUT_TRAY 
+             custom_display_name : : Tray 1 
+             type : : INPUT_TRAY 
+                type : : BLACK 
+             custom_display_name : : Black Toner 
+             type : : TONER 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                name : : NA_LETTER 
+                name : : NA_LEGAL 
+                name : : JIS_B5 
+                name : : ISO_A4 
+                name : : NA_EXECUTIVE 
+                name : : ISO_A5 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                name : : OM_FOLIO 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+                name : : ISO_A6 
+                custom_display_name_localized : List 
+                name : : CUSTOM 
+             custom_display_name : : Standard Bin 
+             type : : OUTPUT_BIN 
+                type : : PORTRAIT 
+                type : : LANDSCAPE 
+          document_type_supported : List 
+       supported_content_type : List 
+             content_type : : application/pdf 
+             content_type : : image/pwg-raster 
+             content_type : : image/jpeg 
+             content_type : : image/gif 
+             content_type : : */* 

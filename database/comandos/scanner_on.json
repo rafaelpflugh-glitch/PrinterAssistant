@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Scanner ligado",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/scanner/on"
+}
+

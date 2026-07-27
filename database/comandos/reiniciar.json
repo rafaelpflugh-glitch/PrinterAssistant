@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Reiniciar impressora",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/printer/reboot"
+}
+

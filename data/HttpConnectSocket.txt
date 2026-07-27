@@ -1,0 +1,69 @@
+class HTTPConnectSocket extends java.net.Socket {
+  public HTTPConnectSocket(java.lang.String, int, java.lang.String, int) throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: aload_3
+         2: iload         4
+         4: invokespecial #1                  // Method java/net/Socket."<init>":(Ljava/lang/String;I)V
+         7: aload_0
+         8: invokevirtual #2                  // Method getOutputStream:()Ljava/io/OutputStream;
+        11: new           #3                  // class java/lang/StringBuffer
+        14: dup
+        15: invokespecial #4                  // Method java/lang/StringBuffer."<init>":()V
+        18: ldc           #5                  // String CONNECT
+        20: invokevirtual #6                  // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        23: aload_1
+        24: invokevirtual #6                  // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        27: ldc           #7                  // String :
+        29: invokevirtual #6                  // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        32: iload_2
+        33: invokevirtual #8                  // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+        36: ldc           #9                  // String  HTTP/1.0\r\n\r\n
+        38: invokevirtual #6                  // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        41: invokevirtual #10                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        44: invokevirtual #11                 // Method java/lang/String.getBytes:()[B
+        47: invokevirtual #12                 // Method java/io/OutputStream.write:([B)V
+        50: new           #13                 // class java/io/DataInputStream
+        53: dup
+        54: aload_0
+        55: invokevirtual #14                 // Method getInputStream:()Ljava/io/InputStream;
+        58: invokespecial #15                 // Method java/io/DataInputStream."<init>":(Ljava/io/InputStream;)V
+        61: astore        5
+        63: aload         5
+        65: invokevirtual #16                 // Method java/io/DataInputStream.readLine:()Ljava/lang/String;
+        68: astore        6
+        70: aload         6
+        72: ldc           #17                 // String HTTP/1.0 200
+        74: invokevirtual #18                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+        77: ifne          135
+        80: aload         6
+        82: ldc           #19                 // String HTTP/1.0
+        84: invokevirtual #18                 // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+        87: ifeq          99
+        90: aload         6
+        92: bipush        9
+        94: invokevirtual #20                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+        97: astore        6
+        99: new           #21                 // class java/io/IOException
+       102: dup
+       103: new           #3                  // class java/lang/StringBuffer
+       106: dup
+       107: invokespecial #4                  // Method java/lang/StringBuffer."<init>":()V
+       110: ldc           #22                 // String HTTPConnectSocket.proxyReports
+       112: invokestatic  #23                 // Method Messages.getString:(Ljava/lang/String;)Ljava/lang/String;
+       115: invokevirtual #6                  // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       118: aload         6
+       120: invokevirtual #6                  // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       123: ldc           #24                 // String \"
+       125: invokevirtual #6                  // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       128: invokevirtual #10                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       131: invokespecial #25                 // Method java/io/IOException."<init>":(Ljava/lang/String;)V
+       134: athrow
+       135: aload         5
+       137: invokevirtual #16                 // Method java/io/DataInputStream.readLine:()Ljava/lang/String;
+       140: astore        6
+       142: aload         6
+       144: invokevirtual #26                 // Method java/lang/String.length:()I
+       147: ifne          135
+       150: return
+}

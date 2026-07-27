@@ -1,0 +1,112 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o guiada de seguranÃ§a</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+  <style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+
+<script language="JavaScript">
+
+function setLocation(page)
+{
+document.getElementById("answer").value=page;
+document.getElementById("change").value=0;
+}
+function SetMeUp()
+{
+
+
+document.getElementById("answer").value="/cgi-bin/dynamic/printer/config/secure/wiz/wizsecutemp.html?index=&index1=&index2=&info="
+
+
+
+document.getElementById("change").value=0;
+}
+function gotoLocation()
+{
+if ("" == "nogroups" && document.getElementById("change").value==0){
+x=document.getElementById("myForm")
+x.submit()
+
+}else{
+
+var x = document.getElementById("answer").value;
+var theRandom=Math.random()
+x += "&rand="+theRandom
+
+window.open(x,'_self')
+
+}
+}
+
+function SetupLocation()
+{
+var x;
+
+if ( == 12)
+x ="/cgi-bin/dynamic/printer/config/secure/auth/ldap.html?index=&index1=&index2=&info="
+else if ( == 13)
+x ="/cgi-bin/dynamic/printer/config/secure/auth/gssapi.html?index=&index1=&index2=&info="
+else if ( == 14)
+x ="/cgi-bin/dynamic/printer/config/secure/auth/ntsetup.html?index=&index1=&index2=&info="
+else if ( == 15)
+x ="/cgi-bin/dynamic/printer/config/secure/auth/password.html?index=&index1=&index2=&info="
+else if ( == 16)
+x ="/cgi-bin/dynamic/printer/config/secure/auth/pin.html?index=&index1=&index2=&info="
+else if ( == 20)
+x ="/cgi-bin/dynamic/printer/config/secure/auth/importkerberos.html?index=&index1=&index2=&info="
+else if ( == 21)
+x ="/cgi-bin/dynamic/printer/config/secure/auth/users.html?index1=&index2=&info=&info1=SaveNNew"
+
+
+
+document.getElementById("answer").value=x;
+document.getElementById("change").value=1;
+}
+</script>
+
+</HEAD>
+<BODY onload="SetMeUp()">
+<H3>ConfiguraÃ§Ã£o guiada de seguranÃ§a</H3>
+
+
+
+<h2><i><b><font color="gray">Iniciar -></font> de Teste <font color="gray"> -> de ConfiguraÃ§Ã£o -> MÃ©todo -> Aplicar</font></b></i></h2>
+
+
+
+
+
+
+
+<h3>Deseja fazer alteraÃ§Ãµes na configuraÃ§Ã£o desse mÃ©todo?</h3>
+<table>
+
+<FORM id="myForm" ACTION="/cgi-bin/posttest/printer/config/secure/wiz/wizpreexist.html?index=&index1=&index2=&info=" METHOD="post">
+
+<TR><TD><INPUT TYPE="radio" NAME="choice" onclick="setLocation('/cgi-bin/dynamic/printer/config/secure/wiz/wizsecutemp.html?index=&index1=&index2=&info=')" CHECKED >
+
+
+
+</TD><TD>NÃ£o, use esse mÃ©todo como estÃ¡ configurado atualmente</TD></TR>
+<TR><TD><INPUT TYPE="radio" NAME="choice" onclick="SetupLocation()">
+</TD><TD>Sim, desejo fazer alteraÃ§Ãµes</TD></TR>
+<TR><TD><input type="hidden" id="answer" name="clickedItem"></TD></TR>
+<TR><TD><input type="hidden" id="change" name="forChanges" value="0"></TD></TR>
+</table>
+<br />
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="button" VALUE="PrÃ³xima Etapa" onClick="gotoLocation()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" VALUE="Sair da ConfiguraÃ§Ã£o" onClick="window.open('/cgi-bin/dynamic/config/secure/security.html','_self','',true)">&nbsp;&nbsp;&nbsp;</TD>
+<TD class="invisible"><input TYPE="submit"  VALUE="Create Security Template"></TD>
+</TR>
+</TABLE><BR>
+</FORM>
+
+</TABLE><BR>
+</BODY></HTML>

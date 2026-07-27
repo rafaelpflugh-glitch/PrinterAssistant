@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Textura normal",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/paper/smooth"
+}
+

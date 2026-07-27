@@ -1,0 +1,19 @@
+{
+    "modelos": [
+
+        {
+            "modelo": "MX611",
+            "board": "stn00k",
+            "hardware": "mv61x0",
+            "firmware_prefix": "LW70"
+        },
+
+        {
+            "modelo": "MS610",
+            "board": "stn00k",
+            "hardware": "mv61x0",
+            "firmware_prefix": "LW70"
+        }
+
+    ]
+}

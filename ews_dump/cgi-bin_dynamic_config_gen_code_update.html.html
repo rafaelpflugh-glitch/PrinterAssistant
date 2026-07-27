@@ -1,0 +1,39 @@
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Atualizar firmware</TITLE>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+<style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+
+ <script language="javascript">
+  function ShowPageLoading() {
+   document.codeupdate.submit();
+   objRef = document.getElementById("waitmessage");
+   objRef.className = "visible";
+   objRef = document.getElementById("fileinput");
+   objRef.className = "invisible";
+   objRef = document.getElementById("submitbutton");
+   objRef.className = "invisible";
+  }
+ </script>
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Atualizar firmware</H4>
+<FORM NAME="codeupdate" ACTION="/cgi-bin/postpf/cgi-bin/dynamicpf/pf/config/gen/code_update.html" enctype="multipart/form-data" METHOD="post">
+<TABLE>
+<TR class="invisible" id="waitmessage"><TD>
+Aguarde a transferÃªncia do arquivo
+</TD></TR>
+<TR class="visible" id="fileinput"><TD>Arquivo de flash</TD><TD><INPUT type="file" NAME="code_update"></TD></TR>
+</TABLE>
+<TABLE>
+<TR class="visible" id="submitbutton">
+<TD><INPUT TYPE="button" onClick="ShowPageLoading()" VALUE="Enviar">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+</BODY></HTML>

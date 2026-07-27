@@ -1,0 +1,19 @@
+Troca de Unidade de Imagem
+
+1 Remover IU
+
+2 Limpar resíduos internos
+
+3 Instalar nova IU
+
+4 Fechar equipamento
+
+5 Reiniciar impressora
+
+6 Imprimir página de configuração
+
+7 Conferir serial da IU
+
+8 Conferir contador
+
+9 Conferir qualidade de impressão

@@ -1,0 +1,214 @@
+function checkFilename(settingName, printString)
+{
+    objRef = document.getElementById(settingName);
+    var text = objRef.value.toString();
+    if ((text.search(/\*/) >= 0) 
+            || (text.search(/:/) >= 0) 
+            || (text.search(/\?/) >= 0) 
+            || (text.search(/</) >= 0) 
+            || (text.search(/>/) >= 0) 
+            || (text.search(/\|/) >= 0) 
+            || (text.search(/"/) >= 0) 
+            || (text.search(/'/) >= 0) 
+            || (text.search(/\x2f/) >= 0) // 0x2F = Forward-slash character
+            || (text.search(/\\/) >= 0))
+    {
+        alert(printString);
+    }
+}
+
+function checkFilename2(settingName, printString)
+{
+        objRef = document.getElementById(settingName);
+	var text = objRef.value.toString();
+	if ((text.search(/\*/) >= 0) 
+            || (text.search(/:/) >= 0) 
+            || (text.search(/\?/) >= 0) 
+            || (text.search(/</) >= 0) 
+            || (text.search(/>/) >= 0) 
+            || (text.search(/\|/) >= 0) 
+            || (text.search(/"/) >= 0)) { 
+        alert(printString);
+	}
+}
+
+function checkPinInput(settingName, minValue, maxValue, printString)
+{
+        objRef = document.getElementById(settingName);
+
+        if ((objRef.value >= minValue) && (objRef.value <= maxValue) && (objRef.value.toString().length == 4))
+        {
+        }
+        else
+        {
+                objRef.value = "";
+                alert(printString);
+        }
+
+}
+
+function validatePin(settingName, minlength, maxlength, msg)
+{
+    var objRef = document.getElementsByName(settingName);
+    var valid = "0123456789";
+    var isValid = true; 
+
+    for(i=0;i<objRef.length;i++)
+    {
+        var input = objRef[i].value;
+        
+        if(input.length < minlength || input.length > maxlength)
+        {
+            isValid = false;
+        }
+        else
+        {
+            for(i = 0; i < input.length; i++)
+            {
+                if(valid.indexOf(input.charAt(i)) == -1)
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+         }
+        
+         if(isValid == false)
+         {
+            for(j=0;j<objRef.length;j++)
+            {
+                objRef[j].value = "";
+            }
+            
+            alert(msg); 
+            return;
+         }
+    }
+
+    return;
+}
+
+function clearSettingByName(settingName)
+{
+
+    if (document.getElementsByName(settingName)[0])
+    {
+        if ((document.getElementsByName(settingName)[0].value == "********") || 
+            (document.getElementsByName(settingName)[0].value == "****"))
+        {
+            document.getElementsByName(settingName)[0].value = "";
+        }
+    }
+
+    if (document.getElementsByName(settingName)[1])
+    {
+        if ((document.getElementsByName(settingName)[1].value == "********") ||
+            (document.getElementsByName(settingName)[1].value == "****"))
+        {
+            document.getElementsByName(settingName)[1].value = "";
+        }
+    }
+}
+
+
+
+function checkInput(settingName, minValue, maxValue, printString, exceptionList, allowBlank)
+{
+    objRef = document.getElementById(settingName);
+    
+    // check if blank is allowed
+    if (typeof allowBlank == "undefined")
+    {
+        // default to false
+        allowBlank = false;
+    }
+    
+    if ((allowBlank == false) && (objRef.value == ""))
+    {
+        // blank is disallowed
+        document.getElementById(settingName).value = document.getElementById(settingName).defaultValue;
+        alert(printString);
+        return;
+    }
+    else if ((allowBlank == true) && (objRef.value == ""))
+    {
+        // value is blank and blank is allowed.
+    }
+    else if ((objRef.value >= minValue) && (objRef.value <= maxValue))
+    {
+        // value is within range
+    }
+    else
+    {
+        var is_exempted = false;
+
+        // check if value is in the exception list
+        if (exceptionList != "")
+        {
+            var exception_array = exceptionList.split(",");
+            for (var i = 0; i < exception_array.length; i++)
+            {
+                if (exception_array[i] == objRef.value)
+                {
+                    is_exempted = true;
+                    break;
+                }
+            }
+        }
+        
+        // if it's not in the exception list, prompt error
+        if (!is_exempted)
+        {
+            document.getElementById(settingName).value = document.getElementById(settingName).defaultValue;
+            alert(printString);
+        }
+    }
+}
+
+function checkForInvalid(settingName, printString)
+{
+        objRef = document.getElementById(settingName);
+    var text = objRef.value.toString();
+
+    if ((text.search(/\*/) >= 0) || (text.search(/:/) >= 0) || (text.search(/\?/) >= 0) || (text.search(/</) >= 0) || (text.search(/>/) >= 0) 
+    || (text.search(/\|/) >= 0) || (text.search(/\\/) >= 0) || (text.search(/"/) >= 0) || (text.search(/\//) >= 0)
+        || (text.search(/\(/) >= 0)
+        || (text.search(/\)/) >= 0) || (text.search(/\+/) >= 0) || (text.search(/\./) >= 0) || (text.search(/\'/) >= 0)
+        || (text.search(/&/) >= 0)  || (text.search(/;/) >= 0) || (text.search(/~/) >= 0) || (text.search(/`/) >= 0)
+        || (text.search(/!/) >= 0) || (text.search(/@/) >= 0) || (text.search(/#/) >= 0) || (text.search(/\x24/) >= 0)
+        || (text.search(/%/) >= 0) || (text.search(/\x5e/) >= 0)
+    ){
+        alert(printString);
+    }
+}
+
+function start_applet (applet_init) {
+    document.write(applet_init);
+}
+
+
+function checkAll()
+{
+    var field = document.getElementsByTagName("input");
+
+    for (i = 0; i < field.length; i++)
+    {
+        if(field[i].type == "checkbox")
+        {
+            field[i].checked = true ;
+        }
+    }
+}
+
+function uncheckAll()
+{
+    var field = document.getElementsByTagName("input");
+
+    for (i = 0; i < field.length; i++)
+    {
+        if(field[i].type == "checkbox")
+        {
+            field[i].checked = false ;
+        }
+    }
+}

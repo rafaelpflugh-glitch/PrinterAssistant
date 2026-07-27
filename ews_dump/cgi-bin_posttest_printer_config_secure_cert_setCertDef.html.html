@@ -1,0 +1,32 @@
+
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Definir padrÃµes de certificado</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/cert/setCertDef.html" METHOD="post">
+<H4>Definir padrÃµes de certificado</H4>
+<TABLE>
+<INPUT TYPE="hidden" NAME="100.applications.certMgr"  VALUE="-1">
+
+<TR><TD><label for="1.x509_CN">Nome comum</label></TD><TD><INPUT NAME="1.x509_CN" id="x509_CN" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.x509_CN">Obs.: deixar campo em branco p/ usar nome do host</span></TD></TR>
+<TR><TD><label for="1.x509_O">Nome da organizaÃ§Ã£o</label></TD><TD><INPUT NAME="1.x509_O" id="x509_O" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="1.x509_OU">Nome da unidade</label></TD><TD><INPUT NAME="1.x509_OU" id="x509_OU" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="1.x509_C">PaÃ­s/regiÃ£o</label></TD><TD><INPUT NAME="1.x509_C" id="x509_C" SIZE=22 MAXLENGTH=2 VALUE="--"></TD><TD><span class="helper" id="helper.x509_C">O nome do paÃ­s (C) DEVE estar em conformidade com o ISO 3166 (somente 2 caracteres), senÃ£o o certificado nÃ£o serÃ¡ gerado.</span></TD></TR>
+<TR><TD><label for="1.x509_ST">Nome da provÃ­ncia</label></TD><TD><INPUT NAME="1.x509_ST" id="x509_ST" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="1.x509_L">Nome da cidade</label></TD><TD><INPUT NAME="1.x509_L" id="x509_L" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="1.x509_AN">Nome alternativo da pessoa</label></TD><TD><INPUT NAME="1.x509_AN" id="x509_AN" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.x509_AN">Nome altern. (AN) & o prefixo DEVE estar conforme o RFC 2459, ou o certificado nÃ£o serÃ¡ gerado. Ex:  'IP:1.2.3.4', 'DNS:ldap.company.com', ... .  Aviso: Deixe em branco para usar o endereÃ§o IPv4</span></TD></TR>
+
+<TR><TD> <A HREF="restoreCertDef.html">Restaurar padrÃµes do certificado</A></TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+
+<TR>
+<TD><input TYPE="submit" NAME="101.applications.certMgr" VALUE="Enviar">&nbsp;&nbsp;</TD>
+
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+</FORM>
+</BODY></HTML>

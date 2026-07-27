@@ -1,0 +1,438 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ãµes de e-mail</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script type="text/javascript">
+
+function remove_options()
+{
+    var ocr_supported = false;
+    var format = document.getElementById("system.16529");
+
+        
+            
+        
+
+    for (var i = 0; i < format.length; i++) {
+        if(format.options[i].value == 6) {
+            format.remove(i);
+            i = 0;
+        }
+
+        if(ocr_supported == false) {
+            if(format.options[i].value == 10 || // Txt
+               format.options[i].value == 11 // Rtf
+            ) {
+                format.remove(i);
+                i = 0;
+            }
+        }
+    }
+}
+
+function disable_fields()
+{
+    var format = document.getElementById("system.16529");
+    var pdfSettings = document.getElementById("pdfSettings");
+    var isPdfSettingsEnabled = false;
+
+    if (pdfSettings) {
+        if (format.value == 2) { // PDF
+            // Enable pdf settings link for PDF format scans only
+            isPdfSettingsEnabled = true;
+        }
+
+        if (isPdfSettingsEnabled) {
+            // Pdf Setting should be enabled
+            pdfSettings.style.display = "block";
+        } else {
+            // Pdf Setting should be disabled
+            pdfSettings.style.display = "none";
+        }
+    }
+
+    var pdfCompress = document.getElementById("system.17468");
+    var searchablePdf = document.getElementById("system.17471");
+    var resolution = document.getElementById("system.16531");
+    var toSetResolution300 = false;
+
+    // Resolution lock ...
+    if (format.value == 10 || format.value == 11){
+         toSetResolution300 = true;
+
+    }else if (format.value == 2 && (pdfCompress.value == 12 || searchablePdf.value == 1)) { // High || On || RTF || 70861
+        toSetResolution300 = true;
+
+    } else {
+        toSetResolution300 = false;
+    }
+
+    // Resolution
+    if (toSetResolution300) { // PDF
+        // Lock resolution to 300
+        for (var i = 0; i < resolution.length; i++) {
+            var value = resolution.options[i].value;
+            if (value == 300) { // 300 dpi
+                resolution.options[i].defaultSelected = true;
+                resolution.selectedIndex = i;
+            } else {
+                resolution.options[i].disabled = true;
+            }
+        }
+    } else {
+        // Enable all resolution options
+        for (var i = 0; i < resolution.length; i++) {
+            resolution.options[i].disabled = false;
+        }
+    }
+}
+
+function onChangeAction()
+{
+    disable_fields();
+}
+
+function disable_onload_fields()
+{
+    remove_options();
+    disable_fields();
+    
+}
+</script>
+</HEAD>
+<BODY onload="disable_onload_fields()">
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/ftpemail/emailsettings.html" METHOD="post">
+<H4>ConfiguraÃ§Ãµes de Servidor de E-mail</H4>
+<TABLE>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/net/email.html">Configurar servidor de e-mail</A></TD></TR>
+<TR><TD><label for="system.16516">Assunto:</label></TD><TD><INPUT NAME="1.system.16516" id="system.16516" SIZE=22 MAXLENGTH=255 VALUE=""></TD><TD><span class="helper" id="helper.system.16516">Limite de 255 caracteres.</span></TD></TR>
+<TR><TD><label for="system.16517">Mensagem<colon/></label></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.16517" onChange="textCounter(this,512, 'Este campo pode ter somente 512 caracteres. ');"></TEXTAREA>
+</TD><TD><span class="helper" id="helper.system.16517">Limite de 512 caracteres.</span></TD></TR>
+<TR><TD><label for="system.17035">Nome do arquivo</label></TD><TD><INPUT NAME="1.system.17035" id="system.17035" SIZE=22 MAXLENGTH=128 VALUE="image"></TD><TD><span class="helper" id="helper.system.16522">*,:,?,<,>,|,\,/,",' e NULL sÃ£o invÃ¡lidos.&nbsp;&nbsp;Limite: 128 bytes de caracteres. SerÃ¡ acresc. marca de tempo no final nome arq. base.</span></TD></TR>
+<TR><TD><label for="system.16752">Enviar-me uma cÃ³pia</label></TD><TD>
+<SELECT NAME="0.system.16752" ID="system.16752">
+<OPTION SELECTED VALUE="0">Nunca aparece</OPTION>
+<OPTION VALUE="1">Ativar por padrÃ£o</OPTION>
+<OPTION VALUE="2">Desativar por padrÃ£o</OPTION>
+<OPTION VALUE="3">Sempre ativado</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16753">Tamanho mÃ¡x. do e-mail</label></TD><TD><INPUT NAME="0.system.16753" onchange="checkInput('system.16753',0, 65535, 'Esta config. aceita som. um valor entre 0 e 65535.', '')" id="system.16753" SIZE=6 MAXLENGTH=22 VALUE="0"></TD><TD><span class="helper" id="helper.system.16753">E-mails acima desse tamanho (em KB) nÃ£o serÃ£o enviados. '0'= sem limite.&nbsp;&nbsp;0 - 65535</span></TD></TR>
+<TR><TD><label for="system.16754">Mensagem de erro de tamanho</label></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.16754" onChange="textCounter(this,1024, 'Este campo pode ter somente 1024 caracteres. ');"></TEXTAREA>
+</TD><TD><span class="helper" id="helper.system.16754">Mensagem enviada quando um e-mail estÃ¡ acima do limite de tamanho configurado, 1024 caracteres.</span></TD></TR>
+
+<TR><TD><label for="system.16690">Limitar destinos</label></TD><TD>@<SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.16690" onChange="textCounter(this,512, 'Este campo pode ter somente 512 caracteres. ');"></TEXTAREA>
+</TD><TD><span class="helper" id="helper.system.16690">Separe os domÃ­nios por vÃ­rgula. Quando houver domÃ­nios, os emails sÃ³ poderÃ£o ser enviados para esses domÃ­nios.</span></TD></TR>
+
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+ <H4>ConfiguraÃ§Ã£o de link da Web</H4>
+ <TABLE>
+ <TR><TD><label for="system.16519">Servidor</label></TD><TD><INPUT NAME="1.system.16519" id="system.16519" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.system.16519">Exemplo: servidor.meu.com</span></TD></TR>
+ <TR><TD><label for="system.16520">Login</label></TD><TD><INPUT NAME="1.system.16520" id="system.16520" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+ <TR><TD><label for="system.16521">Senha</label></TD><TD><INPUT TYPE="password" NAME="1.system.16521" SIZE=22 MAXLENGTH=128 onfocus="clearSettingByName('1.system.16521')" id="system.16521" VALUE=""></TD></TR>
+ <TR><TD><label for="system.16524">Caminho</label></TD><TD><INPUT NAME="1.system.16524" SIZE=22 MAXLENGTH=128  onchange="checkFilename2('system.16524', 'Caminho ou Nome de Arq. Inv.')" id="system.16524" VALUE="/"></TD><TD><span class="helper" id="helper.system.16524">Exemplo: /diretÃ³rio/caminho.&nbsp;&nbsp;*,:,?,<,>,|,\,",' e NULL sÃ£o invÃ¡lidos.</span></TD></TR>
+ <TR><TD><label for="system.16522">Nome do arquivo</label></TD><TD><INPUT NAME="1.system.16522" SIZE=22 MAXLENGTH=128  onchange="checkFilename('system.16522', 'Caminho ou Nome de Arq. Inv.')" id="system.16522" VALUE="image"></TD><TD><span class="helper" id="helper.system.16522">*,:,?,<,>,|,\,/,",' e NULL sÃ£o invÃ¡lidos.&nbsp;&nbsp;Limite: 128 bytes de caracteres. SerÃ¡ acresc. marca de tempo no final nome arq. base.</span></TD></TR>
+ <TR><TD><label for="system.16523">Link da Web</label></TD><TD><INPUT NAME="1.system.16523" id="system.16523" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.system.16523">Exemplo: http://minha.empresa.com/diretÃ³rio/caminho</span></TD></TR>
+ </TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+<H4>ConfiguraÃ§Ãµes de e-mail</H4>
+
+<div style="display: none">
+    
+<SELECT NAME="0.system.17468" ID="system.17468" onchange="onChangeAction()">
+<OPTION VALUE="12">Alto</OPTION>
+<OPTION SELECTED VALUE="1">Normal</OPTION>
+</SELECT>
+
+    
+<SELECT NAME="0.system.17471" ID="system.17471" onchange="onChangeAction()">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">Ativar</OPTION>
+</SELECT>
+
+</div>
+
+<TABLE>
+<TR><TD><label for="system.16529">Formato</label></TD><TD>
+<SELECT NAME="0.system.16529" ID="system.16529" onchange="onChangeAction()">
+<OPTION SELECTED VALUE="2">PDF (.pdf)</OPTION>
+<OPTION VALUE="6">PDF seguro</OPTION>
+<OPTION VALUE="0">TIFF (.tif)</OPTION>
+<OPTION VALUE="1">JPEG (.jpg)</OPTION>
+<OPTION VALUE="7">XPS (.xps)</OPTION>
+<OPTION VALUE="10">TXT (.txt)</OPTION>
+<OPTION VALUE="11">RTF (.rtf)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><A id="pdfSettings" HREF="emailpdfsettings.html">ConfiguraÃ§Ãµes de PDF</A></TD><TD></TD></TR>
+<TR><TD><label for="system.16537">Tipo de conteÃºdo</label></TD><TD>
+<SELECT NAME="0.system.16537" ID="system.16537">
+<OPTION VALUE="0">Texto</OPTION>
+<OPTION SELECTED VALUE="1">Texto/Foto</OPTION>
+<OPTION VALUE="2">Fotografia</OPTION>
+<OPTION VALUE="8">GrÃ¡ficos</OPTION>
+</SELECT>
+</TD></TR>
+<tr><td><label for="system.17400">Origem do conteÃºdo</label></td><td>
+<SELECT NAME="0.system.17400" ID="system.17400">
+<OPTION SELECTED VALUE="0">Laser P/B</OPTION>
+<OPTION VALUE="1">Laser colorida</OPTION>
+<OPTION VALUE="2">Inkjet</OPTION>
+<OPTION VALUE="3">Foto/Filme</OPTION>
+<OPTION VALUE="4">Revista</OPTION>
+<OPTION VALUE="5">Jornal</OPTION>
+<OPTION VALUE="6">Press</OPTION>
+<OPTION VALUE="7">Outro</OPTION>
+</SELECT>
+</td></tr>
+<TR><TD><label for="system.16530">Cor</label></TD><TD>
+<SELECT NAME="0.system.16530" ID="system.16530">
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION SELECTED VALUE="1">Ativar</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.system.16530">A resoluÃ§Ã£o mÃ¡xima pode ser reduzida para digitalizaÃ§Ãµes de cor.</span></TD></TR>
+<TR><TD><label for="system.16531">ResoluÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.16531" ID="system.16531">
+<OPTION VALUE="75">75 ppp</OPTION>
+<OPTION SELECTED VALUE="150">150 ppp</OPTION>
+<OPTION VALUE="200">200 ppp</OPTION>
+<OPTION VALUE="300">300 ppp</OPTION>
+<OPTION VALUE="400">400 ppp</OPTION>
+<OPTION VALUE="600">600 ppp</OPTION>
+</SELECT>
+</TD>
+    
+    <TD><span class="helper" id="helper.system.16531">600 dpi sÃ£o exibidos somente se a capacidade de memÃ³ria instalada for maior que 1 gigabyte.</span></TD>
+    
+</TR>
+<tr><td><label for="system.17380">Temperatura</label></td> <td>
+<SELECT NAME="0.system.17380" ID="system.17380">
+<OPTION VALUE="-4">-4 (Frio) *...|.... (Morno)</OPTION>
+<OPTION VALUE="-3">-3 (Frio) .*..|.... (Morno)</OPTION>
+<OPTION VALUE="-2">-2 (Frio) ..*.|.... (Morno)</OPTION>
+<OPTION VALUE="-1">-1 (Frio) ...*|.... (Morno)</OPTION>
+<OPTION SELECTED VALUE="0">0 (Frio) ....*.... (Morno)</OPTION>
+<OPTION VALUE="1">+1 (Frio) ....|*... (Morno)</OPTION>
+<OPTION VALUE="2">+2 (Frio) ....|.*.. (Morno)</OPTION>
+<OPTION VALUE="3">+3 (Frio) ....|..*. (Morno)</OPTION>
+<OPTION VALUE="4">+4 (Frio) ....|...* (Morno)</OPTION>
+</SELECT>
+</td> </tr>
+<TR><TD><label for="system.16532">Tonalidade</label></TD><TD>
+<SELECT NAME="0.system.16532" ID="system.16532">
+<OPTION VALUE="1">1 (-)*...|....(+)</OPTION>
+<OPTION VALUE="2">2 (-).*..|....(+)</OPTION>
+<OPTION VALUE="3">3 (-)..*.|....(+)</OPTION>
+<OPTION VALUE="4">4 (-)...*|....(+)</OPTION>
+<OPTION SELECTED VALUE="5">5 (-)....*....(+)</OPTION>
+<OPTION VALUE="6">6 (-)....|*...(+)</OPTION>
+<OPTION VALUE="7">7 (-)....|.*..(+)</OPTION>
+<OPTION VALUE="8">8 (-)....|..*.(+)</OPTION>
+<OPTION VALUE="9">9 (-)....|...*(+)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16535">OrientaÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.16535" ID="system.16535">
+<OPTION SELECTED VALUE="0">Retrato</OPTION>
+<OPTION VALUE="1">Paisagem</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16536">Tamanho original</label></TD><TD>
+<SELECT NAME="0.system.16536" ID="system.16536">
+<OPTION SELECTED VALUE="4">A4</OPTION>
+<OPTION VALUE="5">A5</OPTION>
+<OPTION VALUE="26">A6</OPTION>
+<OPTION VALUE="7">JIS B5</OPTION>
+<OPTION VALUE="0">Carta</OPTION>
+<OPTION VALUE="2">OfÃ­cio</OPTION>
+<OPTION VALUE="1">Executivo</OPTION>
+<OPTION VALUE="9">Folio</OPTION>
+<OPTION VALUE="10">Statement (US)</OPTION>
+<OPTION VALUE="17">Oficio (Mexico)</OPTION>
+<OPTION VALUE="18">Universal</OPTION>
+<OPTION VALUE="14">DetecÃ§Ã£o automÃ¡tica de tamanho</OPTION>
+<OPTION VALUE="15">Tamanhos mistos</OPTION>
+<OPTION VALUE="20">DigitalizaÃ§Ã£o do tamanho personalizada 1</OPTION>
+<OPTION VALUE="21">DigitalizaÃ§Ã£o do tamanho personalizada 2</OPTION>
+<OPTION VALUE="22">DigitalizaÃ§Ã£o do tamanho personalizada 3</OPTION>
+<OPTION VALUE="23">DigitalizaÃ§Ã£o do tamanho personalizada 4</OPTION>
+<OPTION VALUE="24">DigitalizaÃ§Ã£o do tamanho personalizada 5</OPTION>
+<OPTION VALUE="25">DigitalizaÃ§Ã£o do tamanho personalizada 6</OPTION>
+<OPTION VALUE="16">Tamanho original</OPTION>
+<OPTION VALUE="13">CartÃ£o de visita</OPTION>
+<OPTION VALUE="11">3 x 5 pol</OPTION>
+<OPTION VALUE="12">4 x 6 pol</OPTION>
+</SELECT>
+</TD></TR>
+
+<TR><TD><label for="system.16538">Lados (frente e verso)</label></TD><TD>
+<SELECT NAME="0.system.16538" ID="system.16538">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="2">Borda longa</OPTION>
+<OPTION VALUE="1">Borda curta</OPTION>
+</SELECT>
+</TD></TR>
+
+<TR><TD><label for="system.16533">Qualidade JPEG</label></TD><TD><INPUT NAME="0.system.16533" onchange="checkInput('system.16533',5, 90, 'Esta definiÃ§Ã£o sÃ³ aceita \âMelhor do conteÃºdo\â ou um valor entre 5 e 90.', '-1,')" id="system.16533" SIZE=6 MAXLENGTH=22 VALUE="-1"></TD><TD><span class="helper" id="helper.system.16533">Intervalo: 5 - 90. PadrÃ£o: -1, Melhor conteÃºdo = -1.&nbsp;&nbsp;Aplica-se a texto, texto/fotografia e fotografia.</span></TD></TR>
+
+<TR><TD><label for="system.17355">PadrÃ£o Texto</label></TD><TD><INPUT NAME="0.system.17355" onchange="checkInput('system.17355',5, 90, 'Esta config. aceita som. um valor entre 5 e 90.', '')" id="system.17355" SIZE=6 MAXLENGTH=22 VALUE="75"></TD><TD><span class="helper" id="helper.system.17355">Intervalo: 5 - 90. </span></TD></TR>
+<TR><TD><label for="system.17356">PadrÃ£o Texto/Foto</label></TD><TD><INPUT NAME="0.system.17356" onchange="checkInput('system.17356',5, 90, 'Esta config. aceita som. um valor entre 5 e 90.', '')" id="system.17356" SIZE=6 MAXLENGTH=22 VALUE="75"></TD><TD><span class="helper" id="helper.system.17356">Intervalo: 5 - 90. </span></TD></TR>
+<TR><TD><label for="system.16747">PadrÃ£o Foto</label></TD><TD><INPUT NAME="0.system.16747" onchange="checkInput('system.16747',5, 90, 'Esta config. aceita som. um valor entre 5 e 90.', '')" id="system.16747" SIZE=6 MAXLENGTH=22 VALUE="50"></TD><TD><span class="helper" id="helper.system.16747">Intervalo: 5 - 90. </span></TD></TR>
+
+<TR><TD><label for="system.16518">Imagens de e-mail enviadas como</label></TD><TD>
+<SELECT NAME="0.system.16518" ID="system.16518">
+<OPTION SELECTED VALUE="0">Anexo</OPTION>
+<OPTION VALUE="1">Link da Web</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.system.16518">O link da Web requer a configuraÃ§Ã£o do link da Web e do servidor de e-mail (SMTP).</span></TD></TR>
+<TR><TD><label for="system.16539">Usar TIFF de vÃ¡rias pÃ¡ginas</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16539"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16539"   VALUE=1 id="system.16539" CHECKED>
+</TD><TD><span class="helper" id="helper.system.16539">Essa config. aplica-se a funÃ§. digit. exceto modo Serv. Fax.</span></TD></TR>
+<TR><TD><label for="system.17459">CompactaÃ§Ã£o TIFF</label></TD><TD>
+<SELECT NAME="0.system.17459" ID="system.17459">
+<OPTION SELECTED VALUE="5">LZW</OPTION>
+<OPTION VALUE="1">JPEG</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16544">Log de transmissÃ£o</label></TD><TD>
+<SELECT NAME="0.system.16544" ID="system.16544">
+<OPTION SELECTED VALUE="0">Imprimir log</OPTION>
+<OPTION VALUE="1">NÃ£o imprimir log</OPTION>
+<OPTION VALUE="2">Impr sÃ³ erros</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16543">Registrar origem do papel</label></TD><TD>
+<SELECT NAME="0.system.16543" ID="system.16543">
+<OPTION SELECTED VALUE="1">Bandeja 1</OPTION>
+<OPTION VALUE="131">Alimentador MP</OPTION>
+</SELECT>
+</TD><TD></TD></TR>
+
+<TR><TD><label for="system.16709">Profundidade de bits do e-mail</label></TD><TD>
+<SELECT NAME="0.system.16709" ID="system.16709">
+<OPTION VALUE="1">1 bit</OPTION>
+<OPTION SELECTED VALUE="8">8 bits</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.system.16709">Essa configuraÃ§Ã£o se aplica apenas quando a configuraÃ§Ã£o 'Cor' acima Ã© 'Cinza'.  As digitalizaÃ§Ãµes coloridas sÃ£o sempre de 24 bits.</span></TD></TR>
+
+
+<TR><TD><label for="system.16707">Digit. de trab. person.</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16707"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16707"  id="system.16707" VALUE=1>
+</TD><TD><span class="helper" id="helper.system.16707">Quando selecionada, ativa a digitalizaÃ§Ã£o de trabalho personalizado por padrÃ£o.</span></TD></TR>
+
+
+
+
+<TR><TD><label for="system.16948">VisualizaÃ§Ã£o da digitalizaÃ§Ã£o</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16948"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16948"  id="system.16948" VALUE=1>
+</TD></TR>
+
+
+<TR><TD><label for="system.16918">Permitir salvar como atalho</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16918"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16918"   VALUE=1 id="system.16918" CHECKED>
+</TD></TR>
+<TR><TD><label for="system.16905">RemoÃ§Ã£o em segundo plano</label></TD><TD>
+<SELECT NAME="0.system.16905" ID="system.16905">
+<OPTION VALUE="-4">-4</OPTION>
+<OPTION VALUE="-3">-3</OPTION>
+<OPTION VALUE="-2">-2</OPTION>
+<OPTION VALUE="-1">-1</OPTION>
+<OPTION SELECTED VALUE="0">0</OPTION>
+<OPTION VALUE="1">+1</OPTION>
+<OPTION VALUE="2">+2</OPTION>
+<OPTION VALUE="3">+3</OPTION>
+<OPTION VALUE="4">+4</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><A HREF="email_color_drop.html">Remover cores</A></TD></TR>
+<TR><TD><label for="system.16906">Contraste</label></TD><TD>
+<SELECT NAME="0.system.16906" ID="system.16906">
+<OPTION SELECTED VALUE="-1">Mhr p/ cont</OPTION>
+<OPTION VALUE="0">0</OPTION>
+<OPTION VALUE="1">1</OPTION>
+<OPTION VALUE="2">2</OPTION>
+<OPTION VALUE="3">3</OPTION>
+<OPTION VALUE="4">4</OPTION>
+<OPTION VALUE="5">5</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.17040">Imagem espelhada</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17040"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17040"  id="system.17040" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17041">Imagem negativa</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17041"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17041"  id="system.17041" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.16907">Detalhes da sombra</label></TD><TD>
+<SELECT NAME="0.system.16907" ID="system.16907">
+<OPTION VALUE="-4">-4</OPTION>
+<OPTION VALUE="-3">-3</OPTION>
+<OPTION VALUE="-2">-2</OPTION>
+<OPTION VALUE="-1">-1</OPTION>
+<OPTION SELECTED VALUE="0">0</OPTION>
+<OPTION VALUE="1">+1</OPTION>
+<OPTION VALUE="2">+2</OPTION>
+<OPTION VALUE="3">+3</OPTION>
+<OPTION VALUE="4">+4</OPTION>
+</SELECT>
+</TD></TR>
+
+
+
+<TR><TD><label for="system.5306">Ajus inclin ADF</label></TD><TD>
+<SELECT NAME="0.system.5306" ID="system.5306">
+<OPTION SELECTED VALUE="2">AutomÃ¡tica</OPTION>
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">Ativar</OPTION>
+</SELECT>
+</TD></TR>
+
+
+<TR><TD><label for="system.17078">Nitidez</label></TD><TD>
+<SELECT NAME="0.system.17078" ID="system.17078">
+<OPTION VALUE="1">1</OPTION>
+<OPTION VALUE="2">2</OPTION>
+<OPTION SELECTED VALUE="3">3</OPTION>
+<OPTION VALUE="4">4</OPTION>
+<OPTION VALUE="5">5</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16908">Digital. borda a borda</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16908"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16908"  id="system.16908" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17057">Use cc:/Cco:</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17057"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17057"  id="system.17057" VALUE=1>
+</TD></TR>
+<tr><td><a href="color_balance_email.html">EquilÃ­brio de cores</a></td></tr>
+
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE>
+</FORM>
+<BR>
+</BODY>
+</HTML>

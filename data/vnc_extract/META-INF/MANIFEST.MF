@@ -1,0 +1,133 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.6.5
+Application-Name: VncViewer
+Permissions: all-permissions
+Created-By: 1.4.2_12-b03 (Sun Microsystems Inc.)
+Main-Class: VncViewer
+
+Name: messages_tr.properties
+SHA-256-Digest: Q07hZHOgUtYL3ojmaYdpIIcc2mhy3mypHRrumkZD8UI=
+
+Name: messages_sr.properties
+SHA-256-Digest: Tkx/CDjphBMRhJb/gFHmG6TMh6m5gaHQL89XrHmmhUQ=
+
+Name: Messages.class
+SHA-256-Digest: aLTHDa9ylfglikheYwlmFyheUJJJ9WBcRCtQIEAdo/8=
+
+Name: HTTPConnectSocketFactory.class
+SHA-256-Digest: cAQhi3Btf0bAdhm5YW4Y24LbBtcRAaB2x+ySycMxqHw=
+
+Name: messages_nl.properties
+SHA-256-Digest: OGIug1c60diYFlhwPJ5TLmVOzXP6Umd5vAltA7tr2h8=
+
+Name: messages_no.properties
+SHA-256-Digest: MuePlKKb5uaF51JBiGHtq4dGvzdBFXfvbvvUHudFs10=
+
+Name: messages_ro.properties
+SHA-256-Digest: JZn9SXgi6URSchh4lYO+dYF7wTgL2PoSIRGWIuwGxu4=
+
+Name: messages_sk.properties
+SHA-256-Digest: QgCgFhQsQg+h1H2QAIcCbWwWgdosQldUP5LKN4vhZBE=
+
+Name: DesCipher.class
+SHA-256-Digest: QQBFVAoEUyLZBV3vALYzaDWaMk6fUn4jJDUwcT4wL0A=
+
+Name: ClipboardFrame.class
+SHA-256-Digest: HkLbViM5I1GPIQ7MWcsBXGOtW9AJxWbPDHxl3uOpDcE=
+
+Name: messages_pl.properties
+SHA-256-Digest: JhBv19GcUclXS5d167DG5tTKfGUtOxPZjsYvC1iyQiA=
+
+Name: ButtonPanel.class
+SHA-256-Digest: 0/VvOcyxuLlksxygthHb8xxlfOJNSD7Mr/h0yZfX9lU=
+
+Name: AuthPanel.class
+SHA-256-Digest: B4YrGFpHA5I2PrXCuUn8sYDaHJGpqi0nWy26wIJabYQ=
+
+Name: messages_ko.properties
+SHA-256-Digest: pqaK37F/yuz04ycVZdrvK09qcee3JbWHLY59cAbeGFc=
+
+Name: messages_fi.properties
+SHA-256-Digest: IabmVHySWN3faVSO6HXcT4n1E+WDvCgpNLR7tJXlyyw=
+
+Name: messages_cs.properties
+SHA-256-Digest: 6oWMKE9LympdI4vcdwXOUh5N3+Lywva1ai/bhN0s+tM=
+
+Name: messages_it.properties
+SHA-256-Digest: kRlo+ZsKVn2SsTT+sg1hPDCZDx3MYmd85gPrBJf0wGk=
+
+Name: messages_ja.properties
+SHA-256-Digest: PuYWywvIKzo8Bw+7knOnwf5lBPSCzqyZKYs5epUXGDA=
+
+Name: messages_zh.properties
+SHA-256-Digest: SEOUDauOtPki4WXO9I34zLfKvqe0tu9EiA6EAcNIJVQ=
+
+Name: SSLSocketClient.class
+SHA-256-Digest: cH5Ncs7EyORodooqeK5RD2kAwG885/vWfRimIBbwuAA=
+
+Name: RfbProto.class
+SHA-256-Digest: mLbuwA0mnt2Ma0xGrg90LtdHp6A+QZZLn/EWGZWqiSM=
+
+Name: VncCanvas.class
+SHA-256-Digest: /LqlYUAp97oX5bccuIdPonSHG6hq13iU2J6egmUpOJ8=
+
+Name: messages_zh_TW.properties
+SHA-256-Digest: aU3YI/Ie5IoEisjWtbaCduQo484UP1s6wQs3hvN3AiI=
+
+Name: SessionRecorder.class
+SHA-256-Digest: DcEVnfex5GzlAQxSJTemt3rNgVKRGjl59X8aJHEhjH0=
+
+Name: messages_sv.properties
+SHA-256-Digest: 3Zjrt1/Vvs9BtRkkzMzj1Ei1C7kwtjcUzFUOcIejotA=
+
+Name: messages_hu.properties
+SHA-256-Digest: Tum0u/EVyZVF9CB1xbMnvqOlSEVKtqipwgSJV66mr3c=
+
+Name: messages_pt.properties
+SHA-256-Digest: 00VdxngJf+bC3VL0Vvrrj+DDLOngfYFfdXaeOE1AstA=
+
+Name: messages_fr.properties
+SHA-256-Digest: FKxKLhN3FUhnqQEYkgFAeYtTk+DDcglIq7Gg8CdCYNk=
+
+Name: messages_da.properties
+SHA-256-Digest: sLK5KXbpW+ZgMYbv7qn3Re0Ew25QuP3jXUeu0eNNcFY=
+
+Name: messages.properties
+SHA-256-Digest: 7yHXrS7dCHK51yXsxgmjKG8GqlALYBEH7A68OpEVK/0=
+
+Name: RecordingFrame.class
+SHA-256-Digest: C3SRQLnXYc6dYT+pw2NF8mju/049CGj+GDmEc7tuxto=
+
+Name: OptionsFrame.class
+SHA-256-Digest: nJB7hGqZo5AEuMNCYy+rQmc7BZk/hdGpVeCBhXboxLU=
+
+Name: ReloginPanel.class
+SHA-256-Digest: yVawxK/9NaDR9WpMzRWIxIpyn5Gpqz/IqBJNAyDKgjA=
+
+Name: VncViewer.class
+SHA-256-Digest: AAmNUPw3PP6d+BN9F4cDPnui7Fu5cNk2W8IGCcdp0lc=
+
+Name: messages_ru.properties
+SHA-256-Digest: bGVb+fYNLLWSPeiw91XVXYbKy7wlepsE69ZLmsdOXIs=
+
+Name: messages_es.properties
+SHA-256-Digest: QAIBgx3BK+6be9s5Isi0lbExjEp3eIfPXY3tsF1mOs8=
+
+Name: messages_de.properties
+SHA-256-Digest: IkrNMjFNNt37ZAUyEp5azlL9TfC80dp1WJUDmKHmov4=
+
+Name: messages_sl.properties
+SHA-256-Digest: dpEMMu0S2J7EuScaMOYYlsKpyfHI4VuP8lBgf1VTof8=
+
+Name: SocketFactory.class
+SHA-256-Digest: 7HR6DVPn3wVYqlm6TLtHzjSnCdKRZU6YqRjyJW4+djc=
+
+Name: AllowAllX509TrustManager.class
+SHA-256-Digest: 7/Vq7Eh9tE0N+ipKgCJtdZ9tLg4K2UImpgoOxh47/xA=
+
+Name: HTTPConnectSocket.class
+SHA-256-Digest: +sEPTC/2h2zpYJL6nlBDo4Oat+2b0YybrWsCX4T+VRc=
+
+Name: messages_el.properties
+SHA-256-Digest: e2QeoDedFjEXsqsz624tvgX1OxNaJ4FWkLULwhxWmsc=
+

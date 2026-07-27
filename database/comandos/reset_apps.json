@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Reset aplicativos",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/apps/reset"
+}
+

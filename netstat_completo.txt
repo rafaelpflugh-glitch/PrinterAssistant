@@ -1,0 +1,579 @@
+<HTML><BODY>
+<b>Internal IPsec Policy:</b>
+<PRE>
+(per-socket policy) 
+	in(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=123 seq=1 pid=15399
+	refcnt=1
+(per-socket policy) 
+	out(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=116 seq=2 pid=15399
+	refcnt=1
+(per-socket policy) 
+	in(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=107 seq=3 pid=15399
+	refcnt=1
+(per-socket policy) 
+	out(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=100 seq=4 pid=15399
+	refcnt=1
+(per-socket policy) 
+	in(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=91 seq=5 pid=15399
+	refcnt=1
+(per-socket policy) 
+	out(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=84 seq=6 pid=15399
+	refcnt=1
+(per-socket policy) 
+	in(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=75 seq=7 pid=15399
+	refcnt=1
+(per-socket policy) 
+	out(socket) none
+	created: Jul 21 10:20:26 2026  lastused:                     
+	lifetime: 0(s) validtime: 0(s)
+	spid=68 seq=0 pid=15399
+	refcnt=1
+</PRE>
+<b>Interface Information:</b>
+<PRE>
+eth0      Link encap:Ethernet  HWaddr 00:21:B7:B1:4E:36  
+          inet addr:192.168.14.134  Bcast:192.168.14.255  Mask:255.255.255.0
+          inet6 addr: fe80::221:b7ff:feb1:4e36/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:39322 errors:0 dropped:1 overruns:0 frame:0
+          TX packets:11783 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:4779965 (4.5 MiB)  TX bytes:11287204 (10.7 MiB)
+          Interrupt:96 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:24872 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:24872 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:4563483 (4.3 MiB)  TX bytes:4563483 (4.3 MiB)
+</PRE>
+<b>Routing Information:</b>
+<PRE>
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.14.254  0.0.0.0         UG    5      0        0 eth0
+127.0.0.0       0.0.0.0         255.0.0.0       U     0      0        0 lo
+192.168.14.0    0.0.0.0         255.255.255.0   U     0      0        0 eth0
+</PRE>
+<b>InaInfo File:</b>
+<PRE>
+--beginIna
+	--slotNumber 0
+	--doIOP3 1
+	--networkDevice 1
+	--doXC 1
+	--thickIna 0
+	--enabled 1
+	--active 1
+	--name 'Standard Networking'
+	--ifName 'lo'
+	--deviceId 0
+	--countryCode 0
+	--ripIp4Addr '127.0.0.1'
+	--ripIp6Addr '::1'
+	--inaIp4Addr '127.0.0.1'
+	--inaIp6Addr '::1'
+--endIna
+</PRE>
+<b>Netstat:</b>
+<PRE>
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       
+tcp6        0      0 ::%2147479552:9600      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:4000      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:8000      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65505     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:515       :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65508     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65509     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:5000      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65001     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:5001      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65002     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65003     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65516     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65004     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:9100      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:79        :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:9200      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:80        :::*                    LISTEN      
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:8080 :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:6100      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65493     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:21        :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:631       :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:9400      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:443       :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:9500      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:9501      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65502     :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:6110      :::*                    LISTEN      
+tcp6        0      0 ::%2147479552:65503     :::*                    LISTEN      
+tcp6        0      0 ::ffff:192.168.14.134%2147479552:80 ::ffff:192.168.14.165:64239 TIME_WAIT   
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:5000 ::ffff:127.0.0.1:30495  ESTABLISHED 
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:5000 ::ffff:127.0.0.1:30491  ESTABLISHED 
+tcp6        0      0 ::ffff:192.168.14.134%2147479552:80 ::ffff:192.168.14.165:64238 TIME_WAIT   
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:5000 ::ffff:127.0.0.1:30493  ESTABLISHED 
+tcp6        0      0 ::ffff:192.168.14.134%2147479552:80 ::ffff:192.168.14.165:64240 TIME_WAIT   
+tcp6        0      0 ::ffff:192.168.14.134%2147479552:80 ::ffff:192.168.14.165:64241 TIME_WAIT   
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:5000 ::ffff:127.0.0.1:30499  ESTABLISHED 
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:52868 ::ffff:127.0.0.1:65512  ESTABLISHED 
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:5000 ::ffff:127.0.0.1:30511  ESTABLISHED 
+tcp6        0      0 ::ffff:192.168.14.134%2147479552:80 ::ffff:192.168.14.165:64265 ESTABLISHED 
+tcp6        0      0 ::ffff:127.0.0.1%2147479552:5000 ::ffff:127.0.0.1:30494  ESTABLISHED 
+tcp        0      0 127.0.0.1:65504         0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:65511           0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:65512           0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:65488           0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:57201         0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65490         0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65491         0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:65492           0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65494         0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65495         0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65496         0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65497         0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:65498           0.0.0.0:*               LISTEN      
+tcp        0      0 0.0.0.0:65500           0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65501         0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:9631          0.0.0.0:*               LISTEN      
+tcp        0      0 127.0.0.1:65498         127.0.0.1:19862         ESTABLISHED 
+tcp        0      0 127.0.0.1:65496         127.0.0.1:42538         ESTABLISHED 
+tcp        0      0 127.0.0.1:65488         127.0.0.1:64082         ESTABLISHED 
+tcp        0      0 127.0.0.1:65498         127.0.0.1:19859         TIME_WAIT   
+tcp        0      0 127.0.0.1:65494         127.0.0.1:22431         ESTABLISHED 
+tcp        0      0 127.0.0.1:65512         127.0.0.1:52868         ESTABLISHED 
+tcp        0      0 127.0.0.1:22189         127.0.0.1:65500         ESTABLISHED 
+tcp        0      0 127.0.0.1:30495         127.0.0.1:5000          ESTABLISHED 
+tcp        0      0 127.0.0.1:33840         127.0.0.1:5000          TIME_WAIT   
+tcp        0      0 127.0.0.1:65495         127.0.0.1:61226         ESTABLISHED 
+tcp        0      0 127.0.0.1:65498         127.0.0.1:19854         TIME_WAIT   
+tcp        0      0 127.0.0.1:22431         127.0.0.1:65494         ESTABLISHED 
+tcp        0      0 127.0.0.1:65498         127.0.0.1:19855         TIME_WAIT   
+tcp        0      0 127.0.0.1:33844         127.0.0.1:5000          TIME_WAIT   
+tcp        0      0 127.0.0.1:19862         127.0.0.1:65498         ESTABLISHED 
+tcp        0      0 127.0.0.1:30493         127.0.0.1:5000          ESTABLISHED 
+tcp        0      0 127.0.0.1:30494         127.0.0.1:5000          ESTABLISHED 
+tcp        0      0 127.0.0.1:33849         127.0.0.1:5000          TIME_WAIT   
+tcp        0      0 127.0.0.1:65500         127.0.0.1:22189         ESTABLISHED 
+tcp        0      0 127.0.0.1:30499         127.0.0.1:5000          ESTABLISHED 
+tcp        0      0 127.0.0.1:33848         127.0.0.1:5000          TIME_WAIT   
+tcp        0      0 127.0.0.1:33846         127.0.0.1:5000          TIME_WAIT   
+tcp        0      0 127.0.0.1:65500         127.0.0.1:22203         ESTABLISHED 
+tcp        0      0 127.0.0.1:64082         127.0.0.1:65488         ESTABLISHED 
+tcp        0      0 127.0.0.1:42538         127.0.0.1:65496         ESTABLISHED 
+tcp        0      0 127.0.0.1:22203         127.0.0.1:65500         ESTABLISHED 
+tcp        0      0 127.0.0.1:61226         127.0.0.1:65495         ESTABLISHED 
+tcp        0      0 127.0.0.1:65512         127.0.0.1:46529         ESTABLISHED 
+tcp        0      0 127.0.0.1:30511         127.0.0.1:5000          ESTABLISHED 
+tcp        0      0 127.0.0.1:65498         127.0.0.1:19853         TIME_WAIT   
+tcp        0      0 127.0.0.1:30491         127.0.0.1:5000          ESTABLISHED 
+tcp        0      0 127.0.0.1:65498         127.0.0.1:19857         TIME_WAIT   
+tcp        0      0 127.0.0.1:46529         127.0.0.1:65512         ESTABLISHED 
+udp6        0      0 ::%482112:9300          ::%3202134132:*                     
+udp6        0      0 ::%482320:9301          ::%3202134132:*                     
+udp6        0      0 ::%482528:9302          ::%3202134132:*                     
+udp6        0      0 ::%482736:3702          ::%3202134132:*                     
+udp6        0      0 ::%482944:161           ::%3202134132:*                     
+udp6        0      0 ::%483152:5353          ::%3202134132:*                     
+udp6        0      0 ::%483360:5353          ::%3202134132:*                     
+udp6        0      0 ::%483568:4500          ::%3202134132:*                     
+udp6        0      0 ::%483776:6100          ::%3202134132:*                     
+udp6        0      0 ::%483984:9200          ::%3202134132:*                     
+udp6        0      0 ::%484192:500           ::%3202134132:*                     
+udp        0      0 0.0.0.0:69              0.0.0.0:*                           
+udp        0      0 0.0.0.0:161             0.0.0.0:*                           
+udp        0      0 0.0.0.0:5353            0.0.0.0:*                           
+udp        0      0 0.0.0.0:9580            0.0.0.0:*                           
+udp        0      0 0.0.0.0:4500            0.0.0.0:*                           
+udp        0      0 0.0.0.0:500             0.0.0.0:*                           
+raw6        0      0 ::%2147479552:58        :::*                    58          
+raw6        0      0 ::%2147479552:58        :::*                    58          
+raw        0      0 0.0.0.0:1               0.0.0.0:*               1           
+raw        0      0 0.0.0.0:1               0.0.0.0:*               1           
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node Path
+unix  2      [ ]         DGRAM                      7155 @STAT000000751700000004
+unix  2      [ ]         DGRAM                      9900 @STAT000000822200000008
+unix  2      [ ]         DGRAM                      9804 @STAT000000820300000008
+unix  2      [ ]         DGRAM                      7573 @STAT000000764500000008
+unix  2      [ ]         DGRAM                     11707 @STAT000000864800000008
+unix  2      [ ]         DGRAM                      5390 /var/dev/emailalert.0000
+unix  2      [ ]         DGRAM                      7818 @STAT000000783400000014
+unix  2      [ ACC ]     STREAM     LISTENING       6928 /var/dev/RapInterruptCopy.0000
+unix  2      [ ]         DGRAM                      7130 @SNMP_Monitor
+unix  47     [ ]         DGRAM                      4113 /var/ramlog
+unix  2      [ ]         DGRAM                      6044 @STAT000000753100000026
+unix  2      [ ]         DGRAM                     11786 @STAT000000865500000014
+unix  2      [ ]         DGRAM                      8335 @NPAP000000767200000008
+unix  2      [ ]         DGRAM                      9311 @mdns
+unix  2      [ ]         DGRAM                      5750 @Status_App
+unix  2      [ ]         DGRAM                      7814 @NPAP000000783400000012
+unix  2      [ ]         DGRAM                     11697 @STAT000000863000000008
+unix  2      [ ]         DGRAM                      5913 /var/dev/usbPortMonNvramReadSck.0000
+unix  2      [ ]         DGRAM                      8898 @NPAP000000780300000014
+unix  2      [ ]         DGRAM                      7806 @NPAP000000783400000008
+unix  2      [ ]         DGRAM                      7798 @STAT000000783100000008
+unix  2      [ ]         DGRAM                      5765 @STAT000000729000000016
+unix  2      [ ]         DGRAM                      8264 @STAT00000076320000008e
+unix  2      [ ]         DGRAM                      5999 @NPAP00000075230000000c
+unix  2      [ ]         DGRAM                      5992 @NPAP_PacketHandler
+unix  2      [ ]         DGRAM                      8371 @STAT00000076800000000a
+unix  2      [ ]         DGRAM                      8368 @AppleTalk_Internal
+unix  2      [ ]         DGRAM                      7752 @STAT00000078030000000e
+unix  2      [ ]         DGRAM                      5998 @STAT00000075210000000c
+unix  2      [ ACC ]     STREAM     LISTENING       4908 /var/tmp/PowerLockIPC
+unix  2      [ ACC ]     STREAM     LISTENING      10288 /var/lib/pbis/.ntlmd
+unix  2      [ ACC ]     STREAM     LISTENING       5687 @VacuumRegister
+unix  2      [ ]         DGRAM                      3927 /var/dev/NvramSck.0000
+unix  2      [ ]         DGRAM                      5688 @VacuumRequests
+unix  2      [ ACC ]     STREAM     LISTENING      11283 /var/lib/pbis/.lsassd
+unix  2      [ ACC ]     STREAM     LISTENING      10357 /var/lib/pbis/.lwsm
+unix  2      [ ACC ]     STREAM     LISTENING      10358 /var/lib/pbis/.lwsc
+unix  2      [ ]         DGRAM                      6821 @ErrExitService
+unix  2      [ ]         DGRAM                      6510 /var/dev/mpsapp.0000
+unix  2      [ ]         DGRAM                      6771 /var/dev/Page4NvramReadSck.0000
+unix  2      [ ACC ]     STREAM     LISTENING       6784 /var/dev/Page4Data.0000
+unix  2      [ ]         DGRAM                      8372 @VAC00000076800000000c
+unix  2      [ ACC ]     STREAM     LISTENING       6786 /var/dev/Page4InterruptCopy.0000
+unix  2      [ ]         DGRAM                      5963 @VAC00000072900000002a
+unix  2      [ ACC ]     STREAM     LISTENING       6788 /var/dev/Page4InboundFax.0000
+unix  2      [ ACC ]     STREAM     LISTENING       6790 /var/dev/Page4Logs.0000
+unix  2      [ ]         DGRAM                      7749 @VAC00000078030000000c
+unix  2      [ ]         DGRAM                      5969 @VAC00000072900000002e
+unix  2      [ ACC ]     STREAM     LISTENING       6792 /var/dev/Page4PriorityJob.0000
+unix  2      [ ACC ]     STREAM     LISTENING       3720 /var/tmp/sbSocket
+unix  2      [ ]         DGRAM                      5966 @VAC00000072900000002c
+unix  2      [ ACC ]     STREAM     LISTENING       6794 /var/dev/Page4UsbHostJob.0000
+unix  2      [ ACC ]     STREAM     LISTENING      11404 /var/run/charon.ctl
+unix  2      [ ACC ]     STREAM     LISTENING      11406 /var/run/charon.vici
+unix  2      [ ]         DGRAM                      7746 @VAC00000078030000000a
+unix  2      [ ACC ]     STREAM     LISTENING       9872 /var/tmp/pcsc_reader_event.sock
+unix  2      [ ACC ]     STREAM     LISTENING       8341 /var/tmp/uisocket
+unix  2      [ ]         DGRAM                      7329 @VAC000000754900000008
+unix  2      [ ]         DGRAM                      5993 @NPAP_IntPacketHandler
+unix  2      [ ]         DGRAM                      7568 @VAC000000764500000006
+unix  2      [ ]         DGRAM                      8652 @VAC000000778800000004
+unix  2      [ ]         DGRAM                      3759 /var/dev/nvramObjstore.0000
+unix  2      [ ]         DGRAM                      5689 @VAC000000726400000002
+unix  2      [ ACC ]     STREAM     LISTENING       4021 /var/tmp/remote-object-server-uds
+unix  2      [ ]         DGRAM                      6055 @VAC000000753100000028
+unix  2      [ ]         DGRAM                      5954 @VAC000000729000000024
+unix  2      [ ]         DGRAM                      5957 @VAC000000729000000026
+unix  2      [ ]         DGRAM                      5309 /var/tmp/ScanHost_0
+unix  2      [ ]         DGRAM                      8262 @FWCONF_PACKET
+unix  2      [ ]         DGRAM                     10202 @STAT00000077880000006c
+unix  2      [ ]         DGRAM                      7816 @TCPJC
+unix  2      [ ACC ]     STREAM     LISTENING       5322 /tmp/uicc_socket
+unix  2      [ ACC ]     STREAM     LISTENING       9569 @Directed_Discovery
+unix  2      [ ]         DGRAM                      6352 /var/dev/obj_nv2_socket.0000
+unix  2      [ ACC ]     STREAM     LISTENING       6354 /var/tmp/objstore
+unix  2      [ ACC ]     STREAM     LISTENING      10190 /var/lib/pbis/.regsd
+unix  2      [ ]         DGRAM                      7372 @STAT00000075590000000a
+unix  2      [ ACC ]     STREAM     LISTENING       8166 /var/lib/pbis/.netlogond
+unix  2      [ ]         DGRAM                      7793 @WiredLinkMonitor
+unix  2      [ ACC ]     STREAM     LISTENING      10283 /var/lib/pbis/.lwiod
+unix  2      [ ACC ]     STREAM     LISTENING       5356 /var/tmp/lexservice_socket
+unix  2      [ ]         DGRAM                      6060 @ADDRCONF_PACKET
+unix  2      [ ]         DGRAM                      5994 @NPAP_DeRegHostPacketHandler
+unix  2      [ ACC ]     STREAM     LISTENING       6392 /var/tmp/lpmPlClientSocket
+unix  3      [ ]         STREAM     CONNECTED     240759 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED     240758 
+unix  3      [ ]         STREAM     CONNECTED     232175 
+unix  3      [ ]         STREAM     CONNECTED     232174 
+unix  3      [ ]         STREAM     CONNECTED      16839 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED      16838 
+unix  3      [ ]         STREAM     CONNECTED      12103 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED      12102 
+unix  3      [ ]         STREAM     CONNECTED      12101 
+unix  3      [ ]         STREAM     CONNECTED      12100 
+unix  3      [ ]         STREAM     CONNECTED      12095 
+unix  3      [ ]         STREAM     CONNECTED      12094 
+unix  3      [ ]         STREAM     CONNECTED      12090 
+unix  3      [ ]         STREAM     CONNECTED      12089 
+unix  3      [ ]         STREAM     CONNECTED      10842 
+unix  3      [ ]         STREAM     CONNECTED      10841 
+unix  3      [ ]         STREAM     CONNECTED      10839 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED      10838 
+unix  3      [ ]         STREAM     CONNECTED      10828 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED      11820 
+unix  3      [ ]         STREAM     CONNECTED      10704 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED      11764 
+unix  2      [ ]         DGRAM                     11759 
+unix  2      [ ]         DGRAM                     11702 
+unix  2      [ ]         DGRAM                     11695 
+unix  2      [ ]         DGRAM                     11436 
+unix  2      [ ]         DGRAM                     11360 
+unix  2      [ ]         DGRAM                     11337 
+unix  2      [ ]         DGRAM                     10281 
+unix  2      [ ]         DGRAM                     10119 
+unix  3      [ ]         STREAM     CONNECTED      10089 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       8080 
+unix  3      [ ]         STREAM     CONNECTED      10005 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED      10004 
+unix  3      [ ]         STREAM     CONNECTED       9944 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       9943 
+unix  2      [ ]         DGRAM                      9894 
+unix  2      [ ]         DGRAM                      9854 
+unix  2      [ ]         DGRAM                      9842 
+unix  2      [ ]         DGRAM                      9799 
+unix  2      [ ]         DGRAM                      9785 
+unix  2      [ ]         DGRAM                      9779 
+unix  2      [ ]         DGRAM                      9760 
+unix  2      [ ]         DGRAM                      9647 
+unix  2      [ ]         DGRAM                      9568 
+unix  3      [ ]         STREAM     CONNECTED       9538 /tmp/uicc_socket
+unix  3      [ ]         STREAM     CONNECTED       9537 
+unix  3      [ ]         STREAM     CONNECTED       9318 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       7974 
+unix  3      [ ]         STREAM     CONNECTED       9301 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       9300 
+unix  3      [ ]         STREAM     CONNECTED       9295 
+unix  3      [ ]         STREAM     CONNECTED       9294 
+unix  2      [ ]         DGRAM                      9284 
+unix  3      [ ]         STREAM     CONNECTED       9270 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       9269 
+unix  3      [ ]         STREAM     CONNECTED       9259 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       9258 
+unix  3      [ ]         STREAM     CONNECTED       9257 
+unix  3      [ ]         STREAM     CONNECTED       9256 
+unix  3      [ ]         STREAM     CONNECTED       9201 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       9200 
+unix  3      [ ]         STREAM     CONNECTED       9175 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       7939 
+unix  2      [ ]         DGRAM                      9007 
+unix  3      [ ]         STREAM     CONNECTED       8964 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       8963 
+unix  3      [ ]         STREAM     CONNECTED       8962 
+unix  3      [ ]         STREAM     CONNECTED       8958 
+unix  2      [ ]         DGRAM                      8957 
+unix  3      [ ]         STREAM     CONNECTED       8847 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       8846 
+unix  3      [ ]         STREAM     CONNECTED       8843 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       8842 
+unix  3      [ ]         STREAM     CONNECTED       7844 
+unix  3      [ ]         STREAM     CONNECTED       7843 
+unix  3      [ ]         STREAM     CONNECTED       8839 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       8838 
+unix  2      [ ]         DGRAM                      8837 
+unix  3      [ ]         STREAM     CONNECTED       8824 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       8823 
+unix  3      [ ]         STREAM     CONNECTED       8821 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       8820 
+unix  3      [ ]         STREAM     CONNECTED       8819 
+unix  3      [ ]         STREAM     CONNECTED       8818 
+unix  2      [ ]         DGRAM                      8817 
+unix  2      [ ]         DGRAM                      7809 
+unix  2      [ ]         DGRAM                      7792 
+unix  2      [ ]         DGRAM                      7744 
+unix  2      [ ]         DGRAM                      8646 
+unix  2      [ ]         DGRAM                      8363 
+unix  2      [ ]         DGRAM                      8355 
+unix  3      [ ]         STREAM     CONNECTED       8350 /var/tmp/uisocket
+unix  2      [ ]         DGRAM                      8326 
+unix  2      [ ]         DGRAM                      8321 
+unix  3      [ ]         STREAM     CONNECTED       7578 
+unix  3      [ ]         STREAM     CONNECTED       7577 
+unix  3      [ ]         STREAM     CONNECTED       7549 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       7548 
+unix  3      [ ]         STREAM     CONNECTED       7547 
+unix  3      [ ]         STREAM     CONNECTED       7546 
+unix  3      [ ]         STREAM     CONNECTED       8315 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       7541 
+unix  2      [ ]         DGRAM                      8307 
+unix  3      [ ]         STREAM     CONNECTED       8290 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       8289 
+unix  3      [ ]         STREAM     CONNECTED       8288 
+unix  3      [ ]         STREAM     CONNECTED       8287 
+unix  3      [ ]         STREAM     CONNECTED       7530 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       8285 
+unix  3      [ ]         STREAM     CONNECTED       8279 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       8278 
+unix  3      [ ]         STREAM     CONNECTED       8277 
+unix  3      [ ]         STREAM     CONNECTED       8276 
+unix  2      [ ]         DGRAM                      8260 
+unix  2      [ ]         DGRAM                      6092 
+unix  2      [ ]         DGRAM                      5986 
+unix  2      [ ]         DGRAM                      7152 
+unix  3      [ ]         STREAM     CONNECTED       7103 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       7102 
+unix  3      [ ]         DGRAM                      7079 
+unix  3      [ ]         DGRAM                      7078 
+unix  3      [ ]         DGRAM                      7077 
+unix  3      [ ]         DGRAM                      7076 
+unix  3      [ ]         DGRAM                      7075 
+unix  3      [ ]         DGRAM                      7074 
+unix  3      [ ]         STREAM     CONNECTED       5934 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5933 
+unix  2      [ ]         DGRAM                      5912 
+unix  3      [ ]         STREAM     CONNECTED       6978 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       6977 
+unix  3      [ ]         STREAM     CONNECTED       6968 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5866 
+unix  3      [ ]         STREAM     CONNECTED       5830 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5829 
+unix  3      [ ]         STREAM     CONNECTED       5776 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6853 
+unix  2      [ ]         DGRAM                      6841 
+unix  3      [ ]         STREAM     CONNECTED       6832 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5719 
+unix  3      [ ]         STREAM     CONNECTED       5718 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5717 
+unix  3      [ ]         STREAM     CONNECTED       5716 
+unix  3      [ ]         STREAM     CONNECTED       5715 
+unix  3      [ ]         STREAM     CONNECTED       5713 
+unix  3      [ ]         STREAM     CONNECTED       5712 
+unix  3      [ ]         STREAM     CONNECTED       5711 
+unix  3      [ ]         STREAM     CONNECTED       5710 
+unix  3      [ ]         STREAM     CONNECTED       5709 
+unix  3      [ ]         STREAM     CONNECTED       5708 
+unix  3      [ ]         STREAM     CONNECTED       5686 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5685 
+unix  2      [ ]         DGRAM                      5684 
+unix  2      [ ]         DGRAM                      6820 
+unix  2      [ ]         DGRAM                      6807 
+unix  3      [ ]         STREAM     CONNECTED       5659 
+unix  3      [ ]         STREAM     CONNECTED       6783 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       6782 
+unix  2      [ ]         DGRAM                      6781 
+unix  3      [ ]         STREAM     CONNECTED       5657 
+unix  3      [ ]         STREAM     CONNECTED       5656 
+unix  2      [ ]         DGRAM                      6770 
+unix  3      [ ]         STREAM     CONNECTED       5653 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5652 
+unix  3      [ ]         STREAM     CONNECTED       5651 
+unix  3      [ ]         STREAM     CONNECTED       5650 
+unix  3      [ ]         STREAM     CONNECTED       5646 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5645 
+unix  3      [ ]         STREAM     CONNECTED       5644 /tmp/uicc_socket
+unix  3      [ ]         STREAM     CONNECTED       5643 
+unix  3      [ ]         STREAM     CONNECTED       5637 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5636 
+unix  3      [ ]         STREAM     CONNECTED       5635 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5634 
+unix  3      [ ]         STREAM     CONNECTED       5629 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5628 
+unix  3      [ ]         STREAM     CONNECTED       5627 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       6755 
+unix  3      [ ]         STREAM     CONNECTED       5621 
+unix  3      [ ]         STREAM     CONNECTED       5620 
+unix  2      [ ]         DGRAM                      6748 
+unix  3      [ ]         STREAM     CONNECTED       5610 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6737 
+unix  3      [ ]         STREAM     CONNECTED       5477 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5476 
+unix  3      [ ]         STREAM     CONNECTED       5475 
+unix  3      [ ]         STREAM     CONNECTED       5474 
+unix  3      [ ]         STREAM     CONNECTED       5472 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6611 
+unix  2      [ ]         DGRAM                      6598 
+unix  3      [ ]         STREAM     CONNECTED       5460 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5459 
+unix  3      [ ]         STREAM     CONNECTED       5458 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5457 
+unix  2      [ ]         DGRAM                      5456 
+unix  3      [ ]         STREAM     CONNECTED       5455 
+unix  3      [ ]         STREAM     CONNECTED       5454 
+unix  3      [ ]         STREAM     CONNECTED       5431 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5430 
+unix  3      [ ]         STREAM     CONNECTED       5429 
+unix  3      [ ]         STREAM     CONNECTED       5428 
+unix  3      [ ]         STREAM     CONNECTED       5426 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5425 
+unix  3      [ ]         STREAM     CONNECTED       5420 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5419 
+unix  3      [ ]         STREAM     CONNECTED       5414 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5413 
+unix  3      [ ]         STREAM     CONNECTED       5400 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5399 
+unix  3      [ ]         STREAM     CONNECTED       5393 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5392 
+unix  2      [ ]         DGRAM                      5389 
+unix  3      [ ]         STREAM     CONNECTED       5386 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5385 
+unix  3      [ ]         STREAM     CONNECTED       6520 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       6519 
+unix  2      [ ]         DGRAM                      6509 
+unix  3      [ ]         STREAM     CONNECTED       5364 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6508 
+unix  3      [ ]         STREAM     CONNECTED       5333 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5332 
+unix  3      [ ]         STREAM     CONNECTED       5331 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5330 
+unix  3      [ ]         STREAM     CONNECTED       5327 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5326 
+unix  3      [ ]         STREAM     CONNECTED       5325 
+unix  3      [ ]         STREAM     CONNECTED       5324 
+unix  3      [ ]         STREAM     CONNECTED       5314 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5313 
+unix  3      [ ]         STREAM     CONNECTED       5312 
+unix  3      [ ]         STREAM     CONNECTED       5311 
+unix  3      [ ]         STREAM     CONNECTED       5308 
+unix  3      [ ]         STREAM     CONNECTED       5307 
+unix  3      [ ]         STREAM     CONNECTED       6490 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5306 
+unix  3      [ ]         STREAM     CONNECTED       5305 
+unix  3      [ ]         STREAM     CONNECTED       5304 
+unix  3      [ ]         STREAM     CONNECTED       5302 
+unix  3      [ ]         STREAM     CONNECTED       5301 
+unix  3      [ ]         STREAM     CONNECTED       6427 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5279 
+unix  2      [ ]         STREAM     CONNECTED       6399 /var/tmp/lpmPlClientSocket
+unix  2      [ ]         STREAM     CONNECTED       6396 
+unix  3      [ ]         STREAM     CONNECTED       6389 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6385 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6384 
+unix  3      [ ]         STREAM     CONNECTED       6375 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       5218 
+unix  3      [ ]         STREAM     CONNECTED       6374 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       5217 
+unix  3      [ ]         STREAM     CONNECTED       6367 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6365 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6362 /var/tmp/objstore
+unix  3      [ ]         STREAM     CONNECTED       6359 /var/tmp/objstore
+unix  2      [ ]         DGRAM                      6351 
+unix  3      [ ]         STREAM     CONNECTED       6350 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       6349 
+unix  3      [ ]         STREAM     CONNECTED       6348 
+unix  3      [ ]         STREAM     CONNECTED       6347 
+unix  3      [ ]         STREAM     CONNECTED       6346 
+unix  3      [ ]         STREAM     CONNECTED       6345 
+unix  3      [ ]         STREAM     CONNECTED       5207 
+unix  3      [ ]         STREAM     CONNECTED       6344 
+unix  3      [ ]         STREAM     CONNECTED       6343 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       6342 
+unix  3      [ ]         STREAM     CONNECTED       5206 
+unix  3      [ ]         STREAM     CONNECTED       4037 
+unix  3      [ ]         STREAM     CONNECTED       4025 /var/tmp/remote-object-server-uds
+unix  3      [ ]         STREAM     CONNECTED       4023 
+unix  2      [ ]         DGRAM                      4622 
+unix  2      [ ]         DGRAM                      3758 
+unix  2      [ ]         DGRAM                      3549 
+unix  3      [ ]         STREAM     CONNECTED       4101 
+</PRE>
+</BODY></HTML>
+

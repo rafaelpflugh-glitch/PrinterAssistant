@@ -1,0 +1,65 @@
+
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Gerenciamento de certificado de dispositivo</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script language="JavaScript">
+function goToNew()
+{
+window.location="./newCert.html";
+}
+</script>
+
+<script language="JavaScript">
+function goToImport()
+{
+window.location="./importCert.html";
+}
+</script>
+
+<script language="JavaScript">
+function goToDelete()
+{
+window.location="./deleteAllCert.html";
+}
+</script>
+
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Gerenciamento de certificado de dispositivo</H4>
+<form action="/cgi-bin/posttest/printer/config/bookmark/bookmarkMain.html" method="post" id="myForm">
+<TABLE WIDTH = 700 >
+	<!--
+	<TD><INPUT TYPE="submit" VALUE=Duplicar name="duplicate"></TD> 
+	-->
+	<TR>
+	<TD >
+	     <INPUT TYPE=button VALUE="Novo" onClick="goToNew()">&nbsp;&nbsp;&nbsp;
+	     <INPUT TYPE=button VALUE="Importar" onClick="goToImport()">&nbsp;&nbsp;&nbsp;
+	     <INPUT TYPE=button id=deleteButton name="certificate.deleteAll" VALUE="Excluir tudo" onClick="goToDelete()">&nbsp;&nbsp;&nbsp;
+        </TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE BORDER="1" WIDTH="100%">
+<TR><TD>Nome amigÃ¡vel</TD><TD>Nome comum</TD><TD>Nome comum do emissor</TD></TR>
+<TR><TD><a HREF="/cgi-bin/dynamic/printer/config/secure/cert/viewCert.html?index=default">default</a></TD><TD>Lexmark MX611dhe</TD>
+<TD>Lexmark MX611dhe</TD></TR>
+
+</TABLE>
+
+<BR>
+<BR>
+<TABLE>
+
+
+
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/certmg.html">Retornar ao Gerenciamento do Certificado</A></TD></TR>
+</TABLE>
+
+</form>
+</BODY></HTML>
+

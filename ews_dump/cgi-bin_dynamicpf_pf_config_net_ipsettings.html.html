@@ -1,0 +1,34 @@
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>IPv6</TITLE>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+</HEAD>
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/postpf/cgi-bin/dynamic/config/net/ipsettings.html" METHOD="post">
+<H4>EndereÃ§o IP estÃ¡tico</H4>
+<TABLE>
+<TR><TD></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPADDRESS" VALUE=""><INPUT TYPE="hidden" NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><INPUT TYPE="hidden" NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><INPUT TYPE="hidden" NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><INPUT TYPE="hidden" NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ></TD></TR>
+<TR><TD><label for="vac.255.IPADDRESS">EndereÃ§o IP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPADDRESS" VALUE="">
+<span class="text_only" id="vac.255.IPADDRESS" style="display:none;">192.168.14.134</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="192" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="168" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="14" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="134" >
+</TD><TD><span class="helper" id="vac.255.IPADDRESS">Exemplo: 128.10.5.12</span></TD></TR>
+<TR><TD><label for="vac.255.IPNETMASK">MÃ¡scara de rede</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPNETMASK" VALUE="">
+<span class="text_only" id="vac.255.IPNETMASK" style="display:none;">255.255.255.0</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="255" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="255" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="255" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" >
+</TD><TD><span class="helper" id="vac.255.IPNETMASK">Exemplo: 255.255.255.0</span></TD></TR>
+<TR><TD><label for="vac.255.IPGATEWAY">Gateway</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPGATEWAY" VALUE="">
+<span class="text_only" id="vac.255.IPGATEWAY" style="display:none;">192.168.14.254</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="192" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="168" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="14" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="254" >
+</TD><TD><span class="helper" id="vac.255.IPGATEWAY">Exemplo: 128.10.5.1</span></TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD COLSPAN=3>A definiÃ§Ã£o de um endereÃ§o IP estÃ¡tico desativarÃ¡ todos os serviÃ§os de endereÃ§amento automÃ¡tico.</TD></TR>
+</TABLE>
+</BODY></HTML>

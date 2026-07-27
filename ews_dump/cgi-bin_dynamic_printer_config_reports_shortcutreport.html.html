@@ -1,0 +1,30 @@
+
+<HTML>
+<HEAD>
+    <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+    <LINK REL="stylesheet" HREF="/configStyle.css" TYPE="text/css">
+    <script type="text/javascript" src="/cgi-bin/dynamic/printer/include/jquery-1.2.6.min.js"></script>
+    <script type="text/javascript" src="/cgi-bin/dynamic/printer/include/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function(){ 
+        $("#myTable").tablesorter({sortList: [[0,0],[2,0]]});
+      }); 
+    </script>
+</HEAD>
+<BODY>
+<CENTER><H1>Atalhos</H1></CENTER>
+<TABLE id="myTable" class="tablesorter" WIDTH="100%">
+<THEAD>
+   <TR BGCOLOR="#C6C9C2">
+      <TH>#</TH>
+      <TH>Nome</TH>
+      <TH>Tipo</TH>
+      <TH>Dados</TH>
+   </TR>
+</THEAD>
+<TBODY>
+
+</TBODY>      
+</TABLE>
+</BODY>
+</HTML>

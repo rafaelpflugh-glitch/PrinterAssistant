@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Reset fábrica",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/printer/reset"
+}
+

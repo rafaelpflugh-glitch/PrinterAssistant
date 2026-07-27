@@ -1,0 +1,509 @@
+[
+    {
+        "pagina": "/cgi-bin/dynamic/printer/config/gen/general.html",
+        "forms": [
+            {
+                "pagina": "/cgi-bin/dynamic/printer/config/gen/general.html",
+                "action": "/cgi-bin/posttest/printer/config/gen/general.html",
+                "method": "POST",
+                "inputs": [
+                    {
+                        "type": "hidden",
+                        "name": "2.system.16684",
+                        "value": "0"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "2.system.16684",
+                        "value": "1"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.17245",
+                        "value": "0"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "2.system.17245",
+                        "value": "1"
+                    },
+                    {
+                        "type": null,
+                        "name": "0.system.16720",
+                        "value": "100"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.17198",
+                        "value": "0"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "2.system.17198",
+                        "value": "1"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.16974",
+                        "value": "0"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "2.system.16974",
+                        "value": "1"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.16712",
+                        "value": "0"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "2.system.16712",
+                        "value": "1"
+                    },
+                    {
+                        "type": null,
+                        "name": "0.system.25354",
+                        "value": "120"
+                    },
+                    {
+                        "type": null,
+                        "name": "1.system.1876",
+                        "value": ""
+                    },
+                    {
+                        "type": null,
+                        "name": "1.system.24586",
+                        "value": ""
+                    },
+                    {
+                        "type": null,
+                        "name": "1.system.24587",
+                        "value": ""
+                    },
+                    {
+                        "type": null,
+                        "name": "1.system.16931",
+                        "value": "9751:12000"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.17760",
+                        "value": "0"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "2.system.17760",
+                        "value": "1"
+                    },
+                    {
+                        "type": "submit",
+                        "name": null,
+                        "value": "Enviar"
+                    },
+                    {
+                        "type": "reset",
+                        "name": null,
+                        "value": "Redefinir formulÃ¡rio"
+                    }
+                ],
+                "hidden": [
+                    {
+                        "type": "hidden",
+                        "name": "2.system.16684",
+                        "value": "0"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.17245",
+                        "value": "0"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.17198",
+                        "value": "0"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.16974",
+                        "value": "0"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.16712",
+                        "value": "0"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.system.17760",
+                        "value": "0"
+                    }
+                ],
+                "buttons": [
+                    {
+                        "name": null,
+                        "value": "Enviar",
+                        "text": ""
+                    }
+                ],
+                "selects": [
+                    {
+                        "name": "0.system.15",
+                        "options": [
+                            {
+                                "value": "0",
+                                "text": "English"
+                            },
+                            {
+                                "value": "2",
+                                "text": "FranÃ§ais"
+                            },
+                            {
+                                "value": "1",
+                                "text": "Deutsch"
+                            },
+                            {
+                                "value": "5",
+                                "text": "Italiano"
+                            },
+                            {
+                                "value": "4",
+                                "text": "EspaÃ±ol"
+                            },
+                            {
+                                "value": "6",
+                                "text": "Dansk"
+                            },
+                            {
+                                "value": "7",
+                                "text": "Norsk"
+                            },
+                            {
+                                "value": "8",
+                                "text": "Nederlands"
+                            },
+                            {
+                                "value": "13",
+                                "text": "Svenska"
+                            },
+                            {
+                                "value": "16",
+                                "text": "PortuguÃªs"
+                            },
+                            {
+                                "value": "15",
+                                "text": "Suomi"
+                            },
+                            {
+                                "value": "17",
+                                "text": "Ð ÑÑÑÐºÐ¸Ð¹"
+                            },
+                            {
+                                "value": "19",
+                                "text": "Polski"
+                            },
+                            {
+                                "value": "22",
+                                "text": "ÎµÎ»Î»Î·Î½Î¹ÎºÎ¬"
+                            },
+                            {
+                                "value": "20",
+                                "text": "Magyar"
+                            },
+                            {
+                                "value": "21",
+                                "text": "TÃ¼rkÃ§e"
+                            },
+                            {
+                                "value": "18",
+                                "text": "Äesky"
+                            },
+                            {
+                                "value": "12",
+                                "text": "ç®ä½ä¸­æ"
+                            },
+                            {
+                                "value": "11",
+                                "text": "ç¹é«ä¸­æ"
+                            },
+                            {
+                                "value": "10",
+                                "text": "íêµ­ì´"
+                            },
+                            {
+                                "value": "9",
+                                "text": "æ¥æ¬èª"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "0.system.5490",
+                        "options": [
+                            {
+                                "value": "0",
+                                "text": "NÃ£o mostrar estimativas"
+                            },
+                            {
+                                "value": "1",
+                                "text": "Mostrar estimativas"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "0.system.16932",
+                        "options": [
+                            {
+                                "value": "0",
+                                "text": "EUA"
+                            },
+                            {
+                                "value": "1",
+                                "text": "MÃ©trica"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "0.system.16385",
+                        "options": [
+                            {
+                                "value": "0",
+                                "text": "MM-DD-AAAA"
+                            },
+                            {
+                                "value": "1",
+                                "text": "DD-MM-AAAA"
+                            },
+                            {
+                                "value": "2",
+                                "text": "AAAA-MM-DD"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "0.system.16713",
+                        "options": [
+                            {
+                                "value": "0",
+                                "text": "12 horas AM/PM"
+                            },
+                            {
+                                "value": "1",
+                                "text": "24 horas"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "0.system.16757",
+                        "options": [
+                            {
+                                "value": "0",
+                                "text": "NÃ­vel do trabalho"
+                            },
+                            {
+                                "value": "1",
+                                "text": "NÃ­vel da pÃ¡gina"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "pagina": "/cgi-bin/dynamic/printer/config/secure/auth/manageusers.html",
+        "forms": [
+            {
+                "pagina": "/cgi-bin/dynamic/printer/config/secure/auth/manageusers.html",
+                "action": "/cgi-bin/posttest/printer/config/secure/auth/manageusers.html?type=deleteAll",
+                "method": "POST",
+                "inputs": [
+                    {
+                        "type": "hidden",
+                        "name": "100.applications.auth.configFactory 17",
+                        "value": "-1"
+                    }
+                ],
+                "hidden": [
+                    {
+                        "type": "hidden",
+                        "name": "100.applications.auth.configFactory 17",
+                        "value": "-1"
+                    }
+                ],
+                "buttons": [],
+                "selects": []
+            },
+            {
+                "pagina": "/cgi-bin/dynamic/printer/config/secure/auth/manageusers.html",
+                "action": "/cgi-bin/posttest/printer/config/secure/auth/manageusers.html?type=settingsPost",
+                "method": "POST",
+                "inputs": [
+                    {
+                        "type": "hidden",
+                        "name": "100.applications.auth.configFactory 21",
+                        "value": "-1"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "105.applications.auth.configFactory 21",
+                        "value": "Internal_Accounts_Building_Block"
+                    },
+                    {
+                        "type": null,
+                        "name": "1.promptName",
+                        "value": "Internal Accounts Building Block"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.requireEmailAddresses",
+                        "value": "0"
+                    },
+                    {
+                        "type": "checkbox",
+                        "name": "2.requireEmailAddresses",
+                        "value": "1"
+                    },
+                    {
+                        "type": "submit",
+                        "name": "102.applications.auth.configFactory",
+                        "value": "Enviar"
+                    },
+                    {
+                        "type": "reset",
+                        "name": null,
+                        "value": "Redefinir formulÃ¡rio"
+                    }
+                ],
+                "hidden": [
+                    {
+                        "type": "hidden",
+                        "name": "100.applications.auth.configFactory 21",
+                        "value": "-1"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "105.applications.auth.configFactory 21",
+                        "value": "Internal_Accounts_Building_Block"
+                    },
+                    {
+                        "type": "hidden",
+                        "name": "2.requireEmailAddresses",
+                        "value": "0"
+                    }
+                ],
+                "buttons": [
+                    {
+                        "name": "102.applications.auth.configFactory",
+                        "value": "Enviar",
+                        "text": ""
+                    }
+                ],
+                "selects": [
+                    {
+                        "name": "0.userInput",
+                        "options": [
+                            {
+                                "value": "0",
+                                "text": "ID do usuÃ¡rio e senha"
+                            },
+                            {
+                                "value": "1",
+                                "text": "ID do usuÃ¡rio"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "pagina": "/cgi-bin/dynamic/printer/config/gen/importexport.html",
+        "forms": [
+            {
+                "pagina": "/cgi-bin/dynamic/printer/config/gen/importexport.html",
+                "action": "/cgi-bin/exportfile/printer/config/secure/shortcuts.ucf",
+                "method": "POST",
+                "inputs": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "hidden": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "buttons": [],
+                "selects": []
+            },
+            {
+                "pagina": "/cgi-bin/dynamic/printer/config/gen/importexport.html",
+                "action": "/cgi-bin/exportfile/printer/config/secure/settingfile.ucf",
+                "method": "POST",
+                "inputs": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "hidden": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "buttons": [],
+                "selects": []
+            },
+            {
+                "pagina": "/cgi-bin/dynamic/printer/config/gen/importexport.html",
+                "action": "/cgi-bin/exportfile/printer/config/secure/settingfileesf.ucf",
+                "method": "POST",
+                "inputs": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "hidden": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "buttons": [],
+                "selects": []
+            },
+            {
+                "pagina": "/cgi-bin/dynamic/printer/config/gen/importexport.html",
+                "action": "/cgi-bin/exportfile/printer/config/secure/authfile.ucf",
+                "method": "POST",
+                "inputs": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "hidden": [
+                    {
+                        "type": "hidden",
+                        "name": "",
+                        "value": ""
+                    }
+                ],
+                "buttons": [],
+                "selects": []
+            }
+        ]
+    }
+]

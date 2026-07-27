@@ -1,0 +1,132 @@
+Signature-Version: 1.0
+SHA-256-Digest-Manifest-Main-Attributes: WDNBi+Yuoy/JvPlsUviVS+owVE0gh
+ K92xGewgHPIqL0=
+SHA-256-Digest-Manifest: S3g+sE4BqG8YlUGvDu0zZjUCj/t++ce8U/TQ/AgZOqA=
+Created-By: 1.8.0_131 (Oracle Corporation)
+
+Name: messages_tr.properties
+SHA-256-Digest: xMbdu2sQyah+3ydCzQL4S3hESQbJL4SexbT43qTX1T4=
+
+Name: messages_sr.properties
+SHA-256-Digest: xs8LnD+cHMAZ0gSttnCNPpXr55kWOoNIsZyyIl1LoH8=
+
+Name: Messages.class
+SHA-256-Digest: jtnmFlRl+pAv+ufLu1r/+jXJwx/7cze3l4GFdwcyFL4=
+
+Name: HTTPConnectSocketFactory.class
+SHA-256-Digest: 5TlHvcA/qL3BRmALLMT0oDtcVyzPA9jmur9yTpnR1mg=
+
+Name: messages_nl.properties
+SHA-256-Digest: SmaCWq8s6Vmbncy7u8gHgLnr3RTnBym8SQTRikxJMyQ=
+
+Name: messages_no.properties
+SHA-256-Digest: iVRw7Fi7E/wgEgnHLFnoobXRzSxVRLgkc68KT2KhKkI=
+
+Name: messages_ro.properties
+SHA-256-Digest: qcFjkWf6pvC3WL8YRlaXfGu8lNwv87UQjSSXXdXXWoc=
+
+Name: messages_sk.properties
+SHA-256-Digest: +QO73jerjfAHklEsfOb9hQEpPUoUsnD/s+bdYvj2+Y4=
+
+Name: DesCipher.class
+SHA-256-Digest: E5ExZ41pGTvkgTWbopaW2FiYPXDm3oA3xvT0wXRmAmQ=
+
+Name: ClipboardFrame.class
+SHA-256-Digest: LrbiWwAFJnSQEYZd6+yRrKI4XL2LNmuL5Ygd2C1Ce7A=
+
+Name: messages_pl.properties
+SHA-256-Digest: 6oxY2J7hX9UqwRVtjCeyFY7uR4VhK81jQNHqhvT5O3k=
+
+Name: ButtonPanel.class
+SHA-256-Digest: BWmSac/9IFkbGSFwhk6gWFl8xlY7g07tQn3FdUA/l5o=
+
+Name: AuthPanel.class
+SHA-256-Digest: GkpZMIPnDhx0v6rzDVYt28LT5N9zrp4v5MdudOUr23g=
+
+Name: messages_ko.properties
+SHA-256-Digest: SOiMT1Srm1GlgVoRTB+c8MororrGwN8AxfH9lepL19g=
+
+Name: messages_fi.properties
+SHA-256-Digest: JyD5ZN4gIHkcLdkBqdr3M93LrvEvYsLqc1qB8xM4tLw=
+
+Name: messages_cs.properties
+SHA-256-Digest: ni4vw3ao4fd9f5kERpVY3N+oas+IPRKxO6Oe4PtGq/o=
+
+Name: messages_it.properties
+SHA-256-Digest: QN1I74e+W8UPlS/3Z/04sLwGdeAg1YwGOasun7/iH4U=
+
+Name: messages_ja.properties
+SHA-256-Digest: 6Za04cVHEMgDE5xd/9cEPbANXAFPnCsmfJh2keECJ7I=
+
+Name: messages_zh.properties
+SHA-256-Digest: pIUa/tw6qTgcDVIMPwTGVcXDGIpKexQ+we679h68fzU=
+
+Name: SSLSocketClient.class
+SHA-256-Digest: jd5suA+B84YwyU4OIa9/FHfe7qV2Jlf7+nAb/GoK1kw=
+
+Name: RfbProto.class
+SHA-256-Digest: QpDyrwj0UnTu6q/Rv3H5G/ZjJ2UF4HzOgGNWPKLsFPY=
+
+Name: VncCanvas.class
+SHA-256-Digest: NJil7fDP2uSlsUOkUp+ACOPkxuofn37O2AxlNdDM0LI=
+
+Name: messages_zh_TW.properties
+SHA-256-Digest: 4tUjrCpS2CmlDQdPLlTIext2iaqB3K2tcC8SdbkqbyU=
+
+Name: SessionRecorder.class
+SHA-256-Digest: XPBa14esUQprXSiA0z1A/P/jO14AkgfPqWYxJFaCCO8=
+
+Name: messages_sv.properties
+SHA-256-Digest: VQ6WIAQTbfYFVFqi4ARqgOS0JsH1rKCsz8Yp2devEF8=
+
+Name: messages_hu.properties
+SHA-256-Digest: TWRuebofRYrBbG3VYo1IRAIJ9o/4I3Tu1fdSChCUfnk=
+
+Name: messages_pt.properties
+SHA-256-Digest: Mpz6B8AAWZhD/VfX7c59qj4liT/c7nrb86dsEeqScMM=
+
+Name: messages_fr.properties
+SHA-256-Digest: LA41rSsZTMba1VVv8G7fdfIZ6IhU6twlN0WbrnHfSS8=
+
+Name: messages_da.properties
+SHA-256-Digest: Kaqpvu1MzVkobN6WS1UM6HJWS7HRIT0KYa5QuuDfhXw=
+
+Name: messages.properties
+SHA-256-Digest: +qilslzJyITrgj4uCMOktrLohhklaTm4UNvrag2oyuU=
+
+Name: RecordingFrame.class
+SHA-256-Digest: sV0kPZMkBxMovqhnumCnvHB0++mrC1dCAurr5GauZZ0=
+
+Name: OptionsFrame.class
+SHA-256-Digest: d7sfRMsCaxpWBTftNHBDj2RTCzt77iC1I1z7SSGdtbc=
+
+Name: ReloginPanel.class
+SHA-256-Digest: OXoe2vPnUcJhtZ0bdlclpEK4N42A/hV7qpD6y8ZmWFY=
+
+Name: VncViewer.class
+SHA-256-Digest: UXaAWVnvNC0sPhLRBQBzdZe2/eOtRSJYe8E6pFFOL3M=
+
+Name: messages_ru.properties
+SHA-256-Digest: OrmDju5yKMmNgdU45N34/jxYqcDl303lQXngcgSWyHE=
+
+Name: messages_es.properties
+SHA-256-Digest: tFdB68S+PZ8oBJP7vxVrSWcNuhw6BXkosaTJQiTJCyI=
+
+Name: messages_de.properties
+SHA-256-Digest: FUmdeoV8O3tBEIbeZE8F4sf4nTfICKHEMBIU6uqKYTs=
+
+Name: messages_sl.properties
+SHA-256-Digest: gj5JDmQFqZH55Br0pgUD1eqpj86om376NECFE7KQARY=
+
+Name: SocketFactory.class
+SHA-256-Digest: Rc5n5PXrz1ltc6PL/2T7ApNL0zyTYO+ci09IX5Rw9SI=
+
+Name: AllowAllX509TrustManager.class
+SHA-256-Digest: YJEoMZ2ZO/cZ2i70gNaqapeNu77WTvPWZfwdG/1TFlc=
+
+Name: HTTPConnectSocket.class
+SHA-256-Digest: 2X2bRViouQIcXOrIdqqSm+XssesZuXvL7VVDXBi2Fg0=
+
+Name: messages_el.properties
+SHA-256-Digest: Nni5DUAK5TOMQLuSCS/5aCU0ui9Fq70CzDpL9J+HPH4=
+

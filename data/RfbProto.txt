@@ -1,0 +1,2695 @@
+class RfbProto {
+  final java.lang.String versionMsg;
+
+  static final int ConnFailed;
+
+  static final int NoAuth;
+
+  static final int VncAuth;
+
+  static final int CustomAuthDisabled;
+
+  static final int CustomAuthPWOnly;
+
+  static final int CustomAuthPIN;
+
+  static final int CustomAuth;
+
+  static final int VncAuthOK;
+
+  static final int VncAuthFailed;
+
+  static final int VncAuthTooMany;
+
+  static final int FramebufferUpdate;
+
+  static final int SetColourMapEntries;
+
+  static final int Bell;
+
+  static final int ServerCutText;
+
+  final int SetPixelFormat;
+
+  final int FixColourMapEntries;
+
+  final int SetEncodings;
+
+  final int FramebufferUpdateRequest;
+
+  final int KeyboardEvent;
+
+  final int PointerEvent;
+
+  final int ClientCutText;
+
+  static final int EncodingRaw;
+
+  static final int EncodingCopyRect;
+
+  static final int EncodingRRE;
+
+  static final int EncodingCoRRE;
+
+  static final int EncodingHextile;
+
+  static final int EncodingZlib;
+
+  static final int EncodingTight;
+
+  static final int EncodingCompressLevel0;
+
+  static final int EncodingQualityLevel0;
+
+  static final int EncodingXCursor;
+
+  static final int EncodingRichCursor;
+
+  static final int EncodingPointerPos;
+
+  static final int EncodingLastRect;
+
+  static final int EncodingNewFBSize;
+
+  static final int MaxNormalEncoding;
+
+  final int HextileRaw;
+
+  final int HextileBackgroundSpecified;
+
+  final int HextileForegroundSpecified;
+
+  final int HextileAnySubrects;
+
+  final int HextileSubrectsColoured;
+
+  static final int TightExplicitFilter;
+
+  static final int TightFill;
+
+  static final int TightJpeg;
+
+  static final int TightMaxSubencoding;
+
+  static final int TightFilterCopy;
+
+  static final int TightFilterPalette;
+
+  static final int TightFilterGradient;
+
+  static final int TightMinToCompress;
+
+  java.lang.String host;
+
+  int port;
+
+  int UseTLS;
+
+  java.net.Socket sock;
+
+  javax.net.ssl.SSLSocket socket;
+
+  java.io.DataInputStream is;
+
+  java.io.OutputStream os;
+
+  SessionRecorder rec;
+
+  boolean inNormalProtocol;
+
+  VncViewer viewer;
+
+  boolean brokenKeyPressed;
+
+  boolean wereZlibUpdates;
+
+  boolean recordFromBeginning;
+
+  boolean zlibWarningShown;
+
+  boolean tightWarningShown;
+
+  int numUpdatesInSession;
+
+  private boolean closed;
+
+  int serverMajor;
+
+  int serverMinor;
+
+  java.lang.String desktopName;
+
+  int framebufferWidth;
+
+  int framebufferHeight;
+
+  int bitsPerPixel;
+
+  int depth;
+
+  boolean bigEndian;
+
+  boolean trueColour;
+
+  int redMax;
+
+  int greenMax;
+
+  int blueMax;
+
+  int redShift;
+
+  int greenShift;
+
+  int blueShift;
+
+  int updateNRects;
+
+  int updateRectX;
+
+  int updateRectY;
+
+  int updateRectW;
+
+  int updateRectH;
+
+  int updateRectEncoding;
+
+  int copyRectSrcX;
+
+  int copyRectSrcY;
+
+  byte[] eventBuf;
+
+  int eventBufLen;
+
+  static final int CTRL_MASK;
+
+  static final int SHIFT_MASK;
+
+  static final int META_MASK;
+
+  static final int ALT_MASK;
+
+  int pointerMask;
+
+  int oldModifiers;
+
+  RfbProto(java.lang.String, int, VncViewer, int) throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: ldc           #2                  // String RFB 003.003\n
+         7: putfield      #3                  // Field versionMsg:Ljava/lang/String;
+        10: aload_0
+        11: iconst_0
+        12: putfield      #4                  // Field SetPixelFormat:I
+        15: aload_0
+        16: iconst_1
+        17: putfield      #5                  // Field FixColourMapEntries:I
+        20: aload_0
+        21: iconst_2
+        22: putfield      #6                  // Field SetEncodings:I
+        25: aload_0
+        26: iconst_3
+        27: putfield      #7                  // Field FramebufferUpdateRequest:I
+        30: aload_0
+        31: iconst_4
+        32: putfield      #8                  // Field KeyboardEvent:I
+        35: aload_0
+        36: iconst_5
+        37: putfield      #9                  // Field PointerEvent:I
+        40: aload_0
+        41: bipush        6
+        43: putfield      #10                 // Field ClientCutText:I
+        46: aload_0
+        47: iconst_1
+        48: putfield      #11                 // Field HextileRaw:I
+        51: aload_0
+        52: iconst_2
+        53: putfield      #12                 // Field HextileBackgroundSpecified:I
+        56: aload_0
+        57: iconst_4
+        58: putfield      #13                 // Field HextileForegroundSpecified:I
+        61: aload_0
+        62: bipush        8
+        64: putfield      #14                 // Field HextileAnySubrects:I
+        67: aload_0
+        68: bipush        16
+        70: putfield      #15                 // Field HextileSubrectsColoured:I
+        73: aload_0
+        74: iconst_0
+        75: putfield      #16                 // Field inNormalProtocol:Z
+        78: aload_0
+        79: iconst_0
+        80: putfield      #17                 // Field brokenKeyPressed:Z
+        83: aload_0
+        84: iconst_0
+        85: putfield      #18                 // Field wereZlibUpdates:Z
+        88: aload_0
+        89: iconst_1
+        90: putfield      #19                 // Field recordFromBeginning:Z
+        93: aload_0
+        94: bipush        72
+        96: newarray       byte
+        98: putfield      #20                 // Field eventBuf:[B
+       101: aload_0
+       102: iconst_0
+       103: putfield      #21                 // Field pointerMask:I
+       106: aload_0
+       107: iconst_0
+       108: putfield      #22                 // Field oldModifiers:I
+       111: aload_0
+       112: aload_3
+       113: putfield      #23                 // Field viewer:LVncViewer;
+       116: aload_0
+       117: aload_1
+       118: putfield      #24                 // Field host:Ljava/lang/String;
+       121: aload_0
+       122: iload_2
+       123: putfield      #25                 // Field port:I
+       126: aload_0
+       127: iload         4
+       129: putfield      #26                 // Field UseTLS:I
+       132: aload_0
+       133: getfield      #26                 // Field UseTLS:I
+       136: iconst_1
+       137: if_icmpne     313
+       140: aconst_null
+       141: astore        5
+       143: iconst_1
+       144: anewarray     #27                 // class javax/net/ssl/TrustManager
+       147: dup
+       148: iconst_0
+       149: new           #28                 // class AllowAllX509TrustManager
+       152: dup
+       153: invokespecial #29                 // Method AllowAllX509TrustManager."<init>":()V
+       156: aastore
+       157: astore        6
+       159: ldc           #30                 // String SSL
+       161: invokestatic  #31                 // Method javax/net/ssl/SSLContext.getInstance:(Ljava/lang/String;)Ljavax/net/ssl/SSLContext;
+       164: astore        7
+       166: aload         7
+       168: aconst_null
+       169: aload         6
+       171: new           #32                 // class java/security/SecureRandom
+       174: dup
+       175: invokespecial #33                 // Method java/security/SecureRandom."<init>":()V
+       178: invokevirtual #34                 // Method javax/net/ssl/SSLContext.init:([Ljavax/net/ssl/KeyManager;[Ljavax/net/ssl/TrustManager;Ljava/security/SecureRandom;)V
+       181: aload         7
+       183: invokevirtual #35                 // Method javax/net/ssl/SSLContext.getSocketFactory:()Ljavax/net/ssl/SSLSocketFactory;
+       186: astore        5
+       188: aload_0
+       189: getfield      #23                 // Field viewer:LVncViewer;
+       192: getfield      #36                 // Field VncViewer.inAnApplet:Z
+       195: ifeq          221
+       198: aload_0
+       199: aload         5
+       201: aload_0
+       202: getfield      #24                 // Field host:Ljava/lang/String;
+       205: aload_0
+       206: getfield      #25                 // Field port:I
+       209: invokevirtual #37                 // Method javax/net/ssl/SSLSocketFactory.createSocket:(Ljava/lang/String;I)Ljava/net/Socket;
+       212: checkcast     #38                 // class javax/net/ssl/SSLSocket
+       215: putfield      #39                 // Field socket:Ljavax/net/ssl/SSLSocket;
+       218: goto          241
+       221: aload_0
+       222: aload         5
+       224: aload_0
+       225: getfield      #24                 // Field host:Ljava/lang/String;
+       228: aload_0
+       229: getfield      #25                 // Field port:I
+       232: invokevirtual #37                 // Method javax/net/ssl/SSLSocketFactory.createSocket:(Ljava/lang/String;I)Ljava/net/Socket;
+       235: checkcast     #38                 // class javax/net/ssl/SSLSocket
+       238: putfield      #39                 // Field socket:Ljavax/net/ssl/SSLSocket;
+       241: goto          264
+       244: astore        5
+       246: aload         5
+       248: invokevirtual #41                 // Method java/lang/Exception.printStackTrace:()V
+       251: new           #42                 // class java/lang/RuntimeException
+       254: dup
+       255: aload         5
+       257: invokevirtual #43                 // Method java/lang/Exception.getMessage:()Ljava/lang/String;
+       260: invokespecial #44                 // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;)V
+       263: athrow
+       264: aload_0
+       265: getfield      #39                 // Field socket:Ljavax/net/ssl/SSLSocket;
+       268: invokevirtual #45                 // Method javax/net/ssl/SSLSocket.startHandshake:()V
+       271: aload_0
+       272: new           #46                 // class java/io/DataInputStream
+       275: dup
+       276: new           #47                 // class java/io/BufferedInputStream
+       279: dup
+       280: aload_0
+       281: getfield      #39                 // Field socket:Ljavax/net/ssl/SSLSocket;
+       284: invokevirtual #48                 // Method javax/net/ssl/SSLSocket.getInputStream:()Ljava/io/InputStream;
+       287: sipush        16384
+       290: invokespecial #49                 // Method java/io/BufferedInputStream."<init>":(Ljava/io/InputStream;I)V
+       293: invokespecial #50                 // Method java/io/DataInputStream."<init>":(Ljava/io/InputStream;)V
+       296: putfield      #51                 // Field is:Ljava/io/DataInputStream;
+       299: aload_0
+       300: aload_0
+       301: getfield      #39                 // Field socket:Ljavax/net/ssl/SSLSocket;
+       304: invokevirtual #52                 // Method javax/net/ssl/SSLSocket.getOutputStream:()Ljava/io/OutputStream;
+       307: putfield      #53                 // Field os:Ljava/io/OutputStream;
+       310: goto          531
+       313: aload_0
+       314: getfield      #23                 // Field viewer:LVncViewer;
+       317: getfield      #54                 // Field VncViewer.socketFactory:Ljava/lang/String;
+       320: ifnonnull     345
+       323: aload_0
+       324: new           #55                 // class java/net/Socket
+       327: dup
+       328: aload_0
+       329: getfield      #24                 // Field host:Ljava/lang/String;
+       332: aload_0
+       333: getfield      #25                 // Field port:I
+       336: invokespecial #56                 // Method java/net/Socket."<init>":(Ljava/lang/String;I)V
+       339: putfield      #57                 // Field sock:Ljava/net/Socket;
+       342: goto          492
+       345: aload_0
+       346: getfield      #23                 // Field viewer:LVncViewer;
+       349: getfield      #54                 // Field VncViewer.socketFactory:Ljava/lang/String;
+       352: invokestatic  #58                 // Method java/lang/Class.forName:(Ljava/lang/String;)Ljava/lang/Class;
+       355: astore        5
+       357: aload         5
+       359: invokevirtual #59                 // Method java/lang/Class.newInstance:()Ljava/lang/Object;
+       362: checkcast     #60                 // class SocketFactory
+       365: astore        6
+       367: aload_0
+       368: getfield      #23                 // Field viewer:LVncViewer;
+       371: getfield      #36                 // Field VncViewer.inAnApplet:Z
+       374: ifeq          403
+       377: aload_0
+       378: aload         6
+       380: aload_0
+       381: getfield      #24                 // Field host:Ljava/lang/String;
+       384: aload_0
+       385: getfield      #25                 // Field port:I
+       388: aload_0
+       389: getfield      #23                 // Field viewer:LVncViewer;
+       392: invokeinterface #61,  4           // InterfaceMethod SocketFactory.createSocket:(Ljava/lang/String;ILjava/applet/Applet;)Ljava/net/Socket;
+       397: putfield      #57                 // Field sock:Ljava/net/Socket;
+       400: goto          469
+       403: aload_0
+       404: aload         6
+       406: aload_0
+       407: getfield      #24                 // Field host:Ljava/lang/String;
+       410: aload_0
+       411: getfield      #25                 // Field port:I
+       414: aload_0
+       415: getfield      #23                 // Field viewer:LVncViewer;
+       418: getfield      #62                 // Field VncViewer.mainArgs:[Ljava/lang/String;
+       421: invokeinterface #63,  4           // InterfaceMethod SocketFactory.createSocket:(Ljava/lang/String;I[Ljava/lang/String;)Ljava/net/Socket;
+       426: putfield      #57                 // Field sock:Ljava/net/Socket;
+       429: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       432: new           #65                 // class java/lang/StringBuffer
+       435: dup
+       436: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+       439: ldc           #67                 // String Socket Created with host:
+       441: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       444: aload_0
+       445: getfield      #24                 // Field host:Ljava/lang/String;
+       448: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       451: ldc           #69                 // String :
+       453: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       456: aload_0
+       457: getfield      #25                 // Field port:I
+       460: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       463: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       466: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       469: goto          492
+       472: astore        5
+       474: aload         5
+       476: invokevirtual #41                 // Method java/lang/Exception.printStackTrace:()V
+       479: new           #73                 // class java/io/IOException
+       482: dup
+       483: aload         5
+       485: invokevirtual #43                 // Method java/lang/Exception.getMessage:()Ljava/lang/String;
+       488: invokespecial #74                 // Method java/io/IOException."<init>":(Ljava/lang/String;)V
+       491: athrow
+       492: aload_0
+       493: new           #46                 // class java/io/DataInputStream
+       496: dup
+       497: new           #47                 // class java/io/BufferedInputStream
+       500: dup
+       501: aload_0
+       502: getfield      #57                 // Field sock:Ljava/net/Socket;
+       505: invokevirtual #75                 // Method java/net/Socket.getInputStream:()Ljava/io/InputStream;
+       508: sipush        16384
+       511: invokespecial #49                 // Method java/io/BufferedInputStream."<init>":(Ljava/io/InputStream;I)V
+       514: invokespecial #50                 // Method java/io/DataInputStream."<init>":(Ljava/io/InputStream;)V
+       517: putfield      #51                 // Field is:Ljava/io/DataInputStream;
+       520: aload_0
+       521: aload_0
+       522: getfield      #57                 // Field sock:Ljava/net/Socket;
+       525: invokevirtual #76                 // Method java/net/Socket.getOutputStream:()Ljava/io/OutputStream;
+       528: putfield      #53                 // Field os:Ljava/io/OutputStream;
+       531: return
+      Exception table:
+         from    to  target type
+           140   241   244   Class java/lang/Exception
+           345   469   472   Class java/lang/Exception
+
+  synchronized void close();
+    Code:
+         0: aload_0
+         1: getfield      #57                 // Field sock:Ljava/net/Socket;
+         4: ifnull        14
+         7: aload_0
+         8: getfield      #57                 // Field sock:Ljava/net/Socket;
+        11: invokevirtual #77                 // Method java/net/Socket.close:()V
+        14: aload_0
+        15: iconst_1
+        16: putfield      #78                 // Field closed:Z
+        19: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        22: ldc           #79                 // String RFB socket closed
+        24: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        27: aload_0
+        28: getfield      #80                 // Field rec:LSessionRecorder;
+        31: ifnull        46
+        34: aload_0
+        35: getfield      #80                 // Field rec:LSessionRecorder;
+        38: invokevirtual #81                 // Method SessionRecorder.close:()V
+        41: aload_0
+        42: aconst_null
+        43: putfield      #80                 // Field rec:LSessionRecorder;
+        46: goto          54
+        49: astore_1
+        50: aload_1
+        51: invokevirtual #41                 // Method java/lang/Exception.printStackTrace:()V
+        54: return
+      Exception table:
+         from    to  target type
+             0    46    49   Class java/lang/Exception
+
+  synchronized boolean closed();
+    Code:
+         0: aload_0
+         1: getfield      #78                 // Field closed:Z
+         4: ireturn
+
+  void readVersionMsg() throws java.lang.Exception;
+    Code:
+         0: bipush        12
+         2: newarray       byte
+         4: astore_1
+         5: aload_0
+         6: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         9: aload_1
+        10: invokevirtual #82                 // Method java/io/DataInputStream.readFully:([B)V
+        13: aload_1
+        14: iconst_0
+        15: baload
+        16: bipush        82
+        18: if_icmpne     167
+        21: aload_1
+        22: iconst_1
+        23: baload
+        24: bipush        70
+        26: if_icmpne     167
+        29: aload_1
+        30: iconst_2
+        31: baload
+        32: bipush        66
+        34: if_icmpne     167
+        37: aload_1
+        38: iconst_3
+        39: baload
+        40: bipush        32
+        42: if_icmpne     167
+        45: aload_1
+        46: iconst_4
+        47: baload
+        48: bipush        48
+        50: if_icmplt     167
+        53: aload_1
+        54: iconst_4
+        55: baload
+        56: bipush        57
+        58: if_icmpgt     167
+        61: aload_1
+        62: iconst_5
+        63: baload
+        64: bipush        48
+        66: if_icmplt     167
+        69: aload_1
+        70: iconst_5
+        71: baload
+        72: bipush        57
+        74: if_icmpgt     167
+        77: aload_1
+        78: bipush        6
+        80: baload
+        81: bipush        48
+        83: if_icmplt     167
+        86: aload_1
+        87: bipush        6
+        89: baload
+        90: bipush        57
+        92: if_icmpgt     167
+        95: aload_1
+        96: bipush        7
+        98: baload
+        99: bipush        46
+       101: if_icmpne     167
+       104: aload_1
+       105: bipush        8
+       107: baload
+       108: bipush        48
+       110: if_icmplt     167
+       113: aload_1
+       114: bipush        8
+       116: baload
+       117: bipush        57
+       119: if_icmpgt     167
+       122: aload_1
+       123: bipush        9
+       125: baload
+       126: bipush        48
+       128: if_icmplt     167
+       131: aload_1
+       132: bipush        9
+       134: baload
+       135: bipush        57
+       137: if_icmpgt     167
+       140: aload_1
+       141: bipush        10
+       143: baload
+       144: bipush        48
+       146: if_icmplt     167
+       149: aload_1
+       150: bipush        10
+       152: baload
+       153: bipush        57
+       155: if_icmpgt     167
+       158: aload_1
+       159: bipush        11
+       161: baload
+       162: bipush        10
+       164: if_icmpeq     214
+       167: new           #40                 // class java/lang/Exception
+       170: dup
+       171: new           #65                 // class java/lang/StringBuffer
+       174: dup
+       175: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+       178: ldc           #83                 // String Host
+       180: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       183: aload_0
+       184: getfield      #24                 // Field host:Ljava/lang/String;
+       187: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       190: ldc           #84                 // String  port
+       192: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       195: aload_0
+       196: getfield      #25                 // Field port:I
+       199: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       202: ldc           #85                 // String  is not an RFB server
+       204: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       207: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       210: invokespecial #86                 // Method java/lang/Exception."<init>":(Ljava/lang/String;)V
+       213: athrow
+       214: aload_0
+       215: aload_1
+       216: iconst_4
+       217: baload
+       218: bipush        48
+       220: isub
+       221: bipush        100
+       223: imul
+       224: aload_1
+       225: iconst_5
+       226: baload
+       227: bipush        48
+       229: isub
+       230: bipush        10
+       232: imul
+       233: iadd
+       234: aload_1
+       235: bipush        6
+       237: baload
+       238: bipush        48
+       240: isub
+       241: iadd
+       242: putfield      #87                 // Field serverMajor:I
+       245: aload_0
+       246: aload_1
+       247: bipush        8
+       249: baload
+       250: bipush        48
+       252: isub
+       253: bipush        100
+       255: imul
+       256: aload_1
+       257: bipush        9
+       259: baload
+       260: bipush        48
+       262: isub
+       263: bipush        10
+       265: imul
+       266: iadd
+       267: aload_1
+       268: bipush        10
+       270: baload
+       271: bipush        48
+       273: isub
+       274: iadd
+       275: putfield      #88                 // Field serverMinor:I
+       278: return
+
+  void writeVersionMsg() throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: getfield      #53                 // Field os:Ljava/io/OutputStream;
+         4: ldc           #2                  // String RFB 003.003\n
+         6: invokevirtual #89                 // Method java/lang/String.getBytes:()[B
+         9: invokevirtual #90                 // Method java/io/OutputStream.write:([B)V
+        12: return
+
+  int readAuthScheme() throws java.lang.Exception;
+    Code:
+         0: aload_0
+         1: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         4: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+         7: istore_1
+         8: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        11: new           #65                 // class java/lang/StringBuffer
+        14: dup
+        15: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+        18: ldc           #92                 // String Auth Scheme->
+        20: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+        23: iload_1
+        24: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+        27: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+        30: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        33: iload_1
+        34: lookupswitch  { // 7
+                       0: 100
+                       1: 206
+                       2: 206
+                     252: 206
+                     253: 206
+                     254: 206
+                     255: 206
+                 default: 208
+            }
+       100: aload_0
+       101: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       104: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+       107: istore_2
+       108: iload_2
+       109: newarray       byte
+       111: astore_3
+       112: aload_0
+       113: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       116: aload_3
+       117: invokevirtual #82                 // Method java/io/DataInputStream.readFully:([B)V
+       120: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       123: new           #65                 // class java/lang/StringBuffer
+       126: dup
+       127: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+       130: ldc           #93                 // String (new String(reason)):
+       132: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       135: new           #94                 // class java/lang/String
+       138: dup
+       139: aload_3
+       140: invokespecial #95                 // Method java/lang/String."<init>":([B)V
+       143: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       146: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       149: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       152: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       155: new           #65                 // class java/lang/StringBuffer
+       158: dup
+       159: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+       162: ldc           #96                 // String Messages.getString(new String(reason)):
+       164: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       167: new           #94                 // class java/lang/String
+       170: dup
+       171: aload_3
+       172: invokespecial #95                 // Method java/lang/String."<init>":([B)V
+       175: invokestatic  #97                 // Method Messages.getString:(Ljava/lang/String;)Ljava/lang/String;
+       178: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       181: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       184: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       187: new           #40                 // class java/lang/Exception
+       190: dup
+       191: new           #94                 // class java/lang/String
+       194: dup
+       195: aload_3
+       196: invokespecial #95                 // Method java/lang/String."<init>":([B)V
+       199: invokestatic  #97                 // Method Messages.getString:(Ljava/lang/String;)Ljava/lang/String;
+       202: invokespecial #86                 // Method java/lang/Exception."<init>":(Ljava/lang/String;)V
+       205: athrow
+       206: iload_1
+       207: ireturn
+       208: new           #40                 // class java/lang/Exception
+       211: dup
+       212: new           #65                 // class java/lang/StringBuffer
+       215: dup
+       216: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+       219: ldc           #98                 // String RfbProto.UnknownAuth
+       221: invokestatic  #97                 // Method Messages.getString:(Ljava/lang/String;)Ljava/lang/String;
+       224: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       227: iload_1
+       228: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       231: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       234: invokespecial #86                 // Method java/lang/Exception."<init>":(Ljava/lang/String;)V
+       237: athrow
+
+  void writeClientInit() throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: getfield      #23                 // Field viewer:LVncViewer;
+         4: getfield      #99                 // Field VncViewer.options:LOptionsFrame;
+         7: getfield      #100                // Field OptionsFrame.shareDesktop:Z
+        10: ifeq          24
+        13: aload_0
+        14: getfield      #53                 // Field os:Ljava/io/OutputStream;
+        17: iconst_1
+        18: invokevirtual #101                // Method java/io/OutputStream.write:(I)V
+        21: goto          32
+        24: aload_0
+        25: getfield      #53                 // Field os:Ljava/io/OutputStream;
+        28: iconst_0
+        29: invokevirtual #101                // Method java/io/OutputStream.write:(I)V
+        32: aload_0
+        33: getfield      #23                 // Field viewer:LVncViewer;
+        36: getfield      #99                 // Field VncViewer.options:LOptionsFrame;
+        39: invokevirtual #102                // Method OptionsFrame.disableShareDesktop:()V
+        42: return
+
+  void readServerInit() throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: aload_0
+         2: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         5: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+         8: putfield      #104                // Field framebufferWidth:I
+        11: aload_0
+        12: aload_0
+        13: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        16: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+        19: putfield      #105                // Field framebufferHeight:I
+        22: aload_0
+        23: aload_0
+        24: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        27: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+        30: putfield      #107                // Field bitsPerPixel:I
+        33: aload_0
+        34: aload_0
+        35: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        38: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+        41: putfield      #108                // Field depth:I
+        44: aload_0
+        45: aload_0
+        46: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        49: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+        52: ifeq          59
+        55: iconst_1
+        56: goto          60
+        59: iconst_0
+        60: putfield      #109                // Field bigEndian:Z
+        63: aload_0
+        64: aload_0
+        65: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        68: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+        71: ifeq          78
+        74: iconst_1
+        75: goto          79
+        78: iconst_0
+        79: putfield      #110                // Field trueColour:Z
+        82: aload_0
+        83: aload_0
+        84: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        87: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+        90: putfield      #111                // Field redMax:I
+        93: aload_0
+        94: aload_0
+        95: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        98: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+       101: putfield      #112                // Field greenMax:I
+       104: aload_0
+       105: aload_0
+       106: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       109: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+       112: putfield      #113                // Field blueMax:I
+       115: aload_0
+       116: aload_0
+       117: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       120: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+       123: putfield      #114                // Field redShift:I
+       126: aload_0
+       127: aload_0
+       128: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       131: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+       134: putfield      #115                // Field greenShift:I
+       137: aload_0
+       138: aload_0
+       139: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       142: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+       145: putfield      #116                // Field blueShift:I
+       148: iconst_3
+       149: newarray       byte
+       151: astore_1
+       152: aload_0
+       153: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       156: aload_1
+       157: invokevirtual #82                 // Method java/io/DataInputStream.readFully:([B)V
+       160: aload_0
+       161: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       164: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+       167: istore_2
+       168: iload_2
+       169: newarray       byte
+       171: astore_3
+       172: aload_0
+       173: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+       176: aload_3
+       177: invokevirtual #82                 // Method java/io/DataInputStream.readFully:([B)V
+       180: aload_0
+       181: new           #94                 // class java/lang/String
+       184: dup
+       185: aload_3
+       186: invokespecial #95                 // Method java/lang/String."<init>":([B)V
+       189: putfield      #117                // Field desktopName:Ljava/lang/String;
+       192: aload_0
+       193: iconst_1
+       194: putfield      #16                 // Field inNormalProtocol:Z
+       197: return
+
+  void startSession(java.lang.String) throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: new           #118                // class SessionRecorder
+         4: dup
+         5: aload_1
+         6: invokespecial #119                // Method SessionRecorder."<init>":(Ljava/lang/String;)V
+         9: putfield      #80                 // Field rec:LSessionRecorder;
+        12: aload_0
+        13: getfield      #80                 // Field rec:LSessionRecorder;
+        16: invokevirtual #120                // Method SessionRecorder.writeHeader:()V
+        19: aload_0
+        20: getfield      #80                 // Field rec:LSessionRecorder;
+        23: ldc           #2                  // String RFB 003.003\n
+        25: invokevirtual #89                 // Method java/lang/String.getBytes:()[B
+        28: invokevirtual #121                // Method SessionRecorder.write:([B)V
+        31: aload_0
+        32: getfield      #80                 // Field rec:LSessionRecorder;
+        35: iconst_1
+        36: invokevirtual #122                // Method SessionRecorder.writeIntBE:(I)V
+        39: aload_0
+        40: getfield      #80                 // Field rec:LSessionRecorder;
+        43: aload_0
+        44: getfield      #104                // Field framebufferWidth:I
+        47: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+        50: aload_0
+        51: getfield      #80                 // Field rec:LSessionRecorder;
+        54: aload_0
+        55: getfield      #105                // Field framebufferHeight:I
+        58: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+        61: bipush        16
+        63: newarray       byte
+        65: dup
+        66: iconst_0
+        67: bipush        32
+        69: bastore
+        70: dup
+        71: iconst_1
+        72: bipush        24
+        74: bastore
+        75: dup
+        76: iconst_2
+        77: iconst_0
+        78: bastore
+        79: dup
+        80: iconst_3
+        81: iconst_1
+        82: bastore
+        83: dup
+        84: iconst_4
+        85: iconst_0
+        86: bastore
+        87: dup
+        88: iconst_5
+        89: iconst_m1
+        90: bastore
+        91: dup
+        92: bipush        6
+        94: iconst_0
+        95: bastore
+        96: dup
+        97: bipush        7
+        99: iconst_m1
+       100: bastore
+       101: dup
+       102: bipush        8
+       104: iconst_0
+       105: bastore
+       106: dup
+       107: bipush        9
+       109: iconst_m1
+       110: bastore
+       111: dup
+       112: bipush        10
+       114: bipush        16
+       116: bastore
+       117: dup
+       118: bipush        11
+       120: bipush        8
+       122: bastore
+       123: dup
+       124: bipush        12
+       126: iconst_0
+       127: bastore
+       128: dup
+       129: bipush        13
+       131: iconst_0
+       132: bastore
+       133: dup
+       134: bipush        14
+       136: iconst_0
+       137: bastore
+       138: dup
+       139: bipush        15
+       141: iconst_0
+       142: bastore
+       143: astore_2
+       144: aload_0
+       145: getfield      #80                 // Field rec:LSessionRecorder;
+       148: aload_2
+       149: invokevirtual #121                // Method SessionRecorder.write:([B)V
+       152: aload_0
+       153: getfield      #80                 // Field rec:LSessionRecorder;
+       156: aload_0
+       157: getfield      #117                // Field desktopName:Ljava/lang/String;
+       160: invokevirtual #124                // Method java/lang/String.length:()I
+       163: invokevirtual #122                // Method SessionRecorder.writeIntBE:(I)V
+       166: aload_0
+       167: getfield      #80                 // Field rec:LSessionRecorder;
+       170: aload_0
+       171: getfield      #117                // Field desktopName:Ljava/lang/String;
+       174: invokevirtual #89                 // Method java/lang/String.getBytes:()[B
+       177: invokevirtual #121                // Method SessionRecorder.write:([B)V
+       180: aload_0
+       181: iconst_0
+       182: putfield      #125                // Field numUpdatesInSession:I
+       185: aload_0
+       186: getfield      #18                 // Field wereZlibUpdates:Z
+       189: ifeq          197
+       192: aload_0
+       193: iconst_0
+       194: putfield      #19                 // Field recordFromBeginning:Z
+       197: aload_0
+       198: iconst_0
+       199: putfield      #126                // Field zlibWarningShown:Z
+       202: aload_0
+       203: iconst_0
+       204: putfield      #127                // Field tightWarningShown:Z
+       207: return
+
+  void closeSession() throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: getfield      #80                 // Field rec:LSessionRecorder;
+         4: ifnull        19
+         7: aload_0
+         8: getfield      #80                 // Field rec:LSessionRecorder;
+        11: invokevirtual #81                 // Method SessionRecorder.close:()V
+        14: aload_0
+        15: aconst_null
+        16: putfield      #80                 // Field rec:LSessionRecorder;
+        19: return
+
+  void setFramebufferSize(int, int);
+    Code:
+         0: aload_0
+         1: iload_1
+         2: putfield      #104                // Field framebufferWidth:I
+         5: aload_0
+         6: iload_2
+         7: putfield      #105                // Field framebufferHeight:I
+        10: return
+
+  int readServerMessageType() throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         4: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+         7: istore_1
+         8: aload_0
+         9: getfield      #80                 // Field rec:LSessionRecorder;
+        12: ifnull        42
+        15: iload_1
+        16: iconst_2
+        17: if_icmpne     42
+        20: aload_0
+        21: getfield      #80                 // Field rec:LSessionRecorder;
+        24: iload_1
+        25: invokevirtual #128                // Method SessionRecorder.writeByte:(I)V
+        28: aload_0
+        29: getfield      #125                // Field numUpdatesInSession:I
+        32: ifle          42
+        35: aload_0
+        36: getfield      #80                 // Field rec:LSessionRecorder;
+        39: invokevirtual #129                // Method SessionRecorder.flush:()V
+        42: iload_1
+        43: ireturn
+
+  void readFramebufferUpdate() throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         4: invokevirtual #130                // Method java/io/DataInputStream.readByte:()B
+         7: pop
+         8: aload_0
+         9: aload_0
+        10: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        13: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+        16: putfield      #131                // Field updateNRects:I
+        19: aload_0
+        20: getfield      #80                 // Field rec:LSessionRecorder;
+        23: ifnull        53
+        26: aload_0
+        27: getfield      #80                 // Field rec:LSessionRecorder;
+        30: iconst_0
+        31: invokevirtual #128                // Method SessionRecorder.writeByte:(I)V
+        34: aload_0
+        35: getfield      #80                 // Field rec:LSessionRecorder;
+        38: iconst_0
+        39: invokevirtual #128                // Method SessionRecorder.writeByte:(I)V
+        42: aload_0
+        43: getfield      #80                 // Field rec:LSessionRecorder;
+        46: aload_0
+        47: getfield      #131                // Field updateNRects:I
+        50: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+        53: aload_0
+        54: dup
+        55: getfield      #125                // Field numUpdatesInSession:I
+        58: iconst_1
+        59: iadd
+        60: putfield      #125                // Field numUpdatesInSession:I
+        63: return
+
+  void readFramebufferUpdateRectHdr() throws java.lang.Exception;
+    Code:
+         0: aload_0
+         1: aload_0
+         2: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         5: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+         8: putfield      #132                // Field updateRectX:I
+        11: aload_0
+        12: aload_0
+        13: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        16: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+        19: putfield      #133                // Field updateRectY:I
+        22: aload_0
+        23: aload_0
+        24: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        27: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+        30: putfield      #134                // Field updateRectW:I
+        33: aload_0
+        34: aload_0
+        35: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        38: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+        41: putfield      #135                // Field updateRectH:I
+        44: aload_0
+        45: aload_0
+        46: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        49: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+        52: putfield      #136                // Field updateRectEncoding:I
+        55: aload_0
+        56: getfield      #136                // Field updateRectEncoding:I
+        59: bipush        6
+        61: if_icmpeq     73
+        64: aload_0
+        65: getfield      #136                // Field updateRectEncoding:I
+        68: bipush        7
+        70: if_icmpne     78
+        73: aload_0
+        74: iconst_1
+        75: putfield      #18                 // Field wereZlibUpdates:Z
+        78: aload_0
+        79: getfield      #80                 // Field rec:LSessionRecorder;
+        82: ifnull        238
+        85: aload_0
+        86: getfield      #125                // Field numUpdatesInSession:I
+        89: iconst_1
+        90: if_icmple     100
+        93: aload_0
+        94: getfield      #80                 // Field rec:LSessionRecorder;
+        97: invokevirtual #129                // Method SessionRecorder.flush:()V
+       100: aload_0
+       101: getfield      #80                 // Field rec:LSessionRecorder;
+       104: aload_0
+       105: getfield      #132                // Field updateRectX:I
+       108: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+       111: aload_0
+       112: getfield      #80                 // Field rec:LSessionRecorder;
+       115: aload_0
+       116: getfield      #133                // Field updateRectY:I
+       119: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+       122: aload_0
+       123: getfield      #80                 // Field rec:LSessionRecorder;
+       126: aload_0
+       127: getfield      #134                // Field updateRectW:I
+       130: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+       133: aload_0
+       134: getfield      #80                 // Field rec:LSessionRecorder;
+       137: aload_0
+       138: getfield      #135                // Field updateRectH:I
+       141: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+       144: aload_0
+       145: getfield      #136                // Field updateRectEncoding:I
+       148: bipush        6
+       150: if_icmpne     191
+       153: aload_0
+       154: getfield      #19                 // Field recordFromBeginning:Z
+       157: ifne          191
+       160: aload_0
+       161: getfield      #126                // Field zlibWarningShown:Z
+       164: ifne          180
+       167: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       170: ldc           #137                // String Warning: Raw encoding will be used instead of Zlib in recorded session.
+       172: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       175: aload_0
+       176: iconst_1
+       177: putfield      #126                // Field zlibWarningShown:Z
+       180: aload_0
+       181: getfield      #80                 // Field rec:LSessionRecorder;
+       184: iconst_0
+       185: invokevirtual #122                // Method SessionRecorder.writeIntBE:(I)V
+       188: goto          238
+       191: aload_0
+       192: getfield      #80                 // Field rec:LSessionRecorder;
+       195: aload_0
+       196: getfield      #136                // Field updateRectEncoding:I
+       199: invokevirtual #122                // Method SessionRecorder.writeIntBE:(I)V
+       202: aload_0
+       203: getfield      #136                // Field updateRectEncoding:I
+       206: bipush        7
+       208: if_icmpne     238
+       211: aload_0
+       212: getfield      #19                 // Field recordFromBeginning:Z
+       215: ifne          238
+       218: aload_0
+       219: getfield      #127                // Field tightWarningShown:Z
+       222: ifne          238
+       225: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       228: ldc           #138                // String Warning: Re-compressing Tight-encoded updates for session recording.
+       230: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       233: aload_0
+       234: iconst_1
+       235: putfield      #127                // Field tightWarningShown:Z
+       238: aload_0
+       239: getfield      #136                // Field updateRectEncoding:I
+       242: iflt          254
+       245: aload_0
+       246: getfield      #136                // Field updateRectEncoding:I
+       249: bipush        7
+       251: if_icmple     283
+       254: getstatic     #64                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       257: new           #65                 // class java/lang/StringBuffer
+       260: dup
+       261: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+       264: ldc           #139                // String RecEncoding =
+       266: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       269: aload_0
+       270: getfield      #136                // Field updateRectEncoding:I
+       273: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       276: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       279: invokevirtual #72                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       282: return
+       283: aload_0
+       284: getfield      #132                // Field updateRectX:I
+       287: aload_0
+       288: getfield      #134                // Field updateRectW:I
+       291: iadd
+       292: aload_0
+       293: getfield      #104                // Field framebufferWidth:I
+       296: if_icmpgt     315
+       299: aload_0
+       300: getfield      #133                // Field updateRectY:I
+       303: aload_0
+       304: getfield      #135                // Field updateRectH:I
+       307: iadd
+       308: aload_0
+       309: getfield      #105                // Field framebufferHeight:I
+       312: if_icmple     392
+       315: new           #40                 // class java/lang/Exception
+       318: dup
+       319: new           #65                 // class java/lang/StringBuffer
+       322: dup
+       323: invokespecial #66                 // Method java/lang/StringBuffer."<init>":()V
+       326: ldc           #140                // String RfbProto.rectangletoolarge
+       328: invokestatic  #97                 // Method Messages.getString:(Ljava/lang/String;)Ljava/lang/String;
+       331: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       334: aload_0
+       335: getfield      #134                // Field updateRectW:I
+       338: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       341: ldc           #141                // String x
+       343: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       346: aload_0
+       347: getfield      #135                // Field updateRectH:I
+       350: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       353: ldc           #142                // String RfbProto.at
+       355: invokestatic  #97                 // Method Messages.getString:(Ljava/lang/String;)Ljava/lang/String;
+       358: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       361: aload_0
+       362: getfield      #132                // Field updateRectX:I
+       365: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       368: ldc           #143                // String ,
+       370: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       373: aload_0
+       374: getfield      #133                // Field updateRectY:I
+       377: invokevirtual #70                 // Method java/lang/StringBuffer.append:(I)Ljava/lang/StringBuffer;
+       380: ldc           #144                // String )
+       382: invokevirtual #68                 // Method java/lang/StringBuffer.append:(Ljava/lang/String;)Ljava/lang/StringBuffer;
+       385: invokevirtual #71                 // Method java/lang/StringBuffer.toString:()Ljava/lang/String;
+       388: invokespecial #86                 // Method java/lang/Exception."<init>":(Ljava/lang/String;)V
+       391: athrow
+       392: return
+
+  void readCopyRect() throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: aload_0
+         2: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         5: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+         8: putfield      #145                // Field copyRectSrcX:I
+        11: aload_0
+        12: aload_0
+        13: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        16: invokevirtual #103                // Method java/io/DataInputStream.readUnsignedShort:()I
+        19: putfield      #146                // Field copyRectSrcY:I
+        22: aload_0
+        23: getfield      #80                 // Field rec:LSessionRecorder;
+        26: ifnull        51
+        29: aload_0
+        30: getfield      #80                 // Field rec:LSessionRecorder;
+        33: aload_0
+        34: getfield      #145                // Field copyRectSrcX:I
+        37: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+        40: aload_0
+        41: getfield      #80                 // Field rec:LSessionRecorder;
+        44: aload_0
+        45: getfield      #146                // Field copyRectSrcY:I
+        48: invokevirtual #123                // Method SessionRecorder.writeShortBE:(I)V
+        51: return
+
+  java.lang.String readServerCutText() throws java.io.IOException;
+    Code:
+         0: iconst_3
+         1: newarray       byte
+         3: astore_1
+         4: aload_0
+         5: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+         8: aload_1
+         9: invokevirtual #82                 // Method java/io/DataInputStream.readFully:([B)V
+        12: aload_0
+        13: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        16: invokevirtual #91                 // Method java/io/DataInputStream.readInt:()I
+        19: istore_2
+        20: iload_2
+        21: newarray       byte
+        23: astore_3
+        24: aload_0
+        25: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        28: aload_3
+        29: invokevirtual #82                 // Method java/io/DataInputStream.readFully:([B)V
+        32: new           #94                 // class java/lang/String
+        35: dup
+        36: aload_3
+        37: invokespecial #95                 // Method java/lang/String."<init>":([B)V
+        40: areturn
+
+  int readCompactLen() throws java.io.IOException;
+    Code:
+         0: iconst_3
+         1: newarray       int
+         3: astore_1
+         4: aload_1
+         5: iconst_0
+         6: aload_0
+         7: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        10: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+        13: iastore
+        14: iconst_1
+        15: istore_2
+        16: aload_1
+        17: iconst_0
+        18: iaload
+        19: bipush        127
+        21: iand
+        22: istore_3
+        23: aload_1
+        24: iconst_0
+        25: iaload
+        26: sipush        128
+        29: iand
+        30: ifeq          94
+        33: aload_1
+        34: iconst_1
+        35: aload_0
+        36: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        39: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+        42: iastore
+        43: iinc          2, 1
+        46: iload_3
+        47: aload_1
+        48: iconst_1
+        49: iaload
+        50: bipush        127
+        52: iand
+        53: bipush        7
+        55: ishl
+        56: ior
+        57: istore_3
+        58: aload_1
+        59: iconst_1
+        60: iaload
+        61: sipush        128
+        64: iand
+        65: ifeq          94
+        68: aload_1
+        69: iconst_2
+        70: aload_0
+        71: getfield      #51                 // Field is:Ljava/io/DataInputStream;
+        74: invokevirtual #106                // Method java/io/DataInputStream.readUnsignedByte:()I
+        77: iastore
+        78: iinc          2, 1
+        81: iload_3
+        82: aload_1
+        83: iconst_2
+        84: iaload
+        85: sipush        255
+        88: iand
+        89: bipush        14
+        91: ishl
+        92: ior
+        93: istore_3
+        94: aload_0
+        95: getfield      #80                 // Field rec:LSessionRecorder;
+        98: ifnull        134
+       101: aload_0
+       102: getfield      #19                 // Field recordFromBeginning:Z
+       105: ifeq          134
+       108: iconst_0
+       109: istore        4
+       111: iload         4
+       113: iload_2
+       114: if_icmpge     134
+       117: aload_0
+       118: getfield      #80                 // Field rec:LSessionRecorder;
+       121: aload_1
+       122: iload         4
+       124: iaload
+       125: invokevirtual #128                // Method SessionRecorder.writeByte:(I)V
+       128: iinc          4, 1
+       131: goto          111
+       134: iload_3
+       135: ireturn
+
+  void writeFramebufferUpdateRequest(int, int, int, int, boolean) throws java.io.IOException;
+    Code:
+         0: bipush        10
+         2: newarray       byte
+         4: astore        6
+         6: aload         6
+         8: iconst_0
+         9: iconst_3
+        10: bastore
+        11: aload         6
+        13: iconst_1
+        14: iload         5
+        16: ifeq          23
+        19: iconst_1
+        20: goto          24
+        23: iconst_0
+        24: i2b
+        25: bastore
+        26: aload         6
+        28: iconst_2
+        29: iload_1
+        30: bipush        8
+        32: ishr
+        33: sipush        255
+        36: iand
+        37: i2b
+        38: bastore
+        39: aload         6
+        41: iconst_3
+        42: iload_1
+        43: sipush        255
+        46: iand
+        47: i2b
+        48: bastore
+        49: aload         6
+        51: iconst_4
+        52: iload_2
+        53: bipush        8
+        55: ishr
+        56: sipush        255
+        59: iand
+        60: i2b
+        61: bastore
+        62: aload         6
+        64: iconst_5
+        65: iload_2
+        66: sipush        255
+        69: iand
+        70: i2b
+        71: bastore
+        72: aload         6
+        74: bipush        6
+        76: iload_3
+        77: bipush        8
+        79: ishr
+        80: sipush        255
+        83: iand
+        84: i2b
+        85: bastore
+        86: aload         6
+        88: bipush        7
+        90: iload_3
+        91: sipush        255
+        94: iand
+        95: i2b
+        96: bastore
+        97: aload         6
+        99: bipush        8
+       101: iload         4
+       103: bipush        8
+       105: ishr
+       106: sipush        255
+       109: iand
+       110: i2b
+       111: bastore
+       112: aload         6
+       114: bipush        9
+       116: iload         4
+       118: sipush        255
+       121: iand
+       122: i2b
+       123: bastore
+       124: aload_0
+       125: getfield      #53                 // Field os:Ljava/io/OutputStream;
+       128: aload         6
+       130: invokevirtual #90                 // Method java/io/OutputStream.write:([B)V
+       133: return
+
+  void writeSetPixelFormat(int, int, boolean, boolean, int, int, int, int, int, int) throws java.io.IOException;
+    Code:
+         0: bipush        20
+         2: newarray       byte
+         4: astore        11
+         6: aload         11
+         8: iconst_0
+         9: iconst_0
+        10: bastore
+        11: aload         11
+        13: iconst_4
+        14: iload_1
+        15: i2b
+        16: bastore
+        17: aload         11
+        19: iconst_5
+        20: iload_2
+        21: i2b
+        22: bastore
+        23: aload         11
+        25: bipush        6
+        27: iload_3
+        28: ifeq          35
+        31: iconst_1
+        32: goto          36
+        35: iconst_0
+        36: i2b
+        37: bastore
+        38: aload         11
+        40: bipush        7
+        42: iload         4
+        44: ifeq          51
+        47: iconst_1
+        48: goto          52
+        51: iconst_0
+        52: i2b
+        53: bastore
+        54: aload         11
+        56: bipush        8
+        58: iload         5
+        60: bipush        8
+        62: ishr
+        63: sipush        255
+        66: iand
+        67: i2b
+        68: bastore
+        69: aload         11
+        71: bipush        9
+        73: iload         5
+        75: sipush        255
+        78: iand
+        79: i2b
+        80: bastore
+        81: aload         11
+        83: bipush        10
+        85: iload         6
+        87: bipush        8
+        89: ishr
+        90: sipush        255
+        93: iand
+        94: i2b
+        95: bastore
+        96: aload         11
+        98: bipush        11
+       100: iload         6
+       102: sipush        255
+       105: iand
+       106: i2b
+       107: bastore
+       108: aload         11
+       110: bipush        12
+       112: iload         7
+       114: bipush        8
+       116: ishr
+       117: sipush        255
+       120: iand
+       121: i2b
+       122: bastore
+       123: aload         11
+       125: bipush        13
+       127: iload         7
+       129: sipush        255
+       132: iand
+       133: i2b
+       134: bastore
+       135: aload         11
+       137: bipush        14
+       139: iload         8
+       141: i2b
+       142: bastore
+       143: aload         11
+       145: bipush        15
+       147: iload         9
+       149: i2b
+       150: bastore
+       151: aload         11
+       153: bipush        16
+       155: iload         10
+       157: i2b
+       158: bastore
+       159: aload_0
+       160: getfield      #53                 // Field os:Ljava/io/OutputStream;
+       163: aload         11
+       165: invokevirtual #90                 // Method java/io/OutputStream.write:([B)V
+       168: return
+
+  void writeFixColourMapEntries(int, int, int[], int[], int[]) throws java.io.IOException;
+    Code:
+         0: bipush        6
+         2: iload_2
+         3: bipush        6
+         5: imul
+         6: iadd
+         7: newarray       byte
+         9: astore        6
+        11: aload         6
+        13: iconst_0
+        14: iconst_1
+        15: bastore
+        16: aload         6
+        18: iconst_2
+        19: iload_1
+        20: bipush        8
+        22: ishr
+        23: sipush        255
+        26: iand
+        27: i2b
+        28: bastore
+        29: aload         6
+        31: iconst_3
+        32: iload_1
+        33: sipush        255
+        36: iand
+        37: i2b
+        38: bastore
+        39: aload         6
+        41: iconst_4
+        42: iload_2
+        43: bipush        8
+        45: ishr
+        46: sipush        255
+        49: iand
+        50: i2b
+        51: bastore
+        52: aload         6
+        54: iconst_5
+        55: iload_2
+        56: sipush        255
+        59: iand
+        60: i2b
+        61: bastore
+        62: iconst_0
+        63: istore        7
+        65: iload         7
+        67: iload_2
+        68: if_icmpge     220
+        71: aload         6
+        73: bipush        6
+        75: iload         7
+        77: bipush        6
+        79: imul
+        80: iadd
+        81: aload_3
+        82: iload         7
+        84: iaload
+        85: bipush        8
+        87: ishr
+        88: sipush        255
+        91: iand
+        92: i2b
+        93: bastore
+        94: aload         6
+        96: bipush        6
+        98: iload         7
+       100: bipush        6
+       102: imul
+       103: iadd
+       104: iconst_1
+       105: iadd
+       106: aload_3
+       107: iload         7
+       109: iaload
+       110: sipush        255
+       113: iand
+       114: i2b
+       115: bastore
+       116: aload         6
+       118: bipush        6
+       120: iload         7
+       122: bipush        6
+       124: imul
+       125: iadd
+       126: iconst_2
+       127: iadd
+       128: aload         4
+       130: iload         7
+       132: iaload
+       133: bipush        8
+       135: ishr
+       136: sipush        255
+       139: iand
+       140: i2b
+       141: bastore
+       142: aload         6
+       144: bipush        6
+       146: iload         7
+       148: bipush        6
+       150: imul
+       151: iadd
+       152: iconst_3
+       153: iadd
+       154: aload         4
+       156: iload         7
+       158: iaload
+       159: sipush        255
+       162: iand
+       163: i2b
+       164: bastore
+       165: aload         6
+       167: bipush        6
+       169: iload         7
+       171: bipush        6
+       173: imul
+       174: iadd
+       175: iconst_4
+       176: iadd
+       177: aload         5
+       179: iload         7
+       181: iaload
+       182: bipush        8
+       184: ishr
+       185: sipush        255
+       188: iand
+       189: i2b
+       190: bastore
+       191: aload         6
+       193: bipush        6
+       195: iload         7
+       197: bipush        6
+       199: imul
+       200: iadd
+       201: iconst_5
+       202: iadd
+       203: aload         5
+       205: iload         7
+       207: iaload
+       208: sipush        255
+       211: iand
+       212: i2b
+       213: bastore
+       214: iinc          7, 1
+       217: goto          65
+       220: aload_0
+       221: getfield      #53                 // Field os:Ljava/io/OutputStream;
+       224: aload         6
+       226: invokevirtual #90                 // Method java/io/OutputStream.write:([B)V
+       229: return
+
+  void writeSetEncodings(int[], int) throws java.io.IOException;
+    Code:
+         0: iconst_4
+         1: iconst_4
+         2: iload_2
+         3: imul
+         4: iadd
+         5: newarray       byte
+         7: astore_3
+         8: aload_3
+         9: iconst_0
+        10: iconst_2
+        11: bastore
+        12: aload_3
+        13: iconst_2
+        14: iload_2
+        15: bipush        8
+        17: ishr
+        18: sipush        255
+        21: iand
+        22: i2b
+        23: bastore
+        24: aload_3
+        25: iconst_3
+        26: iload_2
+        27: sipush        255
+        30: iand
+        31: i2b
+        32: bastore
+        33: iconst_0
+        34: istore        4
+        36: iload         4
+        38: iload_2
+        39: if_icmpge     127
+        42: aload_3
+        43: iconst_4
+        44: iconst_4
+        45: iload         4
+        47: imul
+        48: iadd
+        49: aload_1
+        50: iload         4
+        52: iaload
+        53: bipush        24
+        55: ishr
+        56: sipush        255
+        59: iand
+        60: i2b
+        61: bastore
+        62: aload_3
+        63: iconst_5
+        64: iconst_4
+        65: iload         4
+        67: imul
+        68: iadd
+        69: aload_1
+        70: iload         4
+        72: iaload
+        73: bipush        16
+        75: ishr
+        76: sipush        255
+        79: iand
+        80: i2b
+        81: bastore
+        82: aload_3
+        83: bipush        6
+        85: iconst_4
+        86: iload         4
+        88: imul
+        89: iadd
+        90: aload_1
+        91: iload         4
+        93: iaload
+        94: bipush        8
+        96: ishr
+        97: sipush        255
+       100: iand
+       101: i2b
+       102: bastore
+       103: aload_3
+       104: bipush        7
+       106: iconst_4
+       107: iload         4
+       109: imul
+       110: iadd
+       111: aload_1
+       112: iload         4
+       114: iaload
+       115: sipush        255
+       118: iand
+       119: i2b
+       120: bastore
+       121: iinc          4, 1
+       124: goto          36
+       127: aload_0
+       128: getfield      #53                 // Field os:Ljava/io/OutputStream;
+       131: aload_3
+       132: invokevirtual #90                 // Method java/io/OutputStream.write:([B)V
+       135: return
+
+  void writeClientCutText(java.lang.String) throws java.io.IOException;
+    Code:
+         0: bipush        8
+         2: aload_1
+         3: invokevirtual #124                // Method java/lang/String.length:()I
+         6: iadd
+         7: newarray       byte
+         9: astore_2
+        10: aload_2
+        11: iconst_0
+        12: bipush        6
+        14: bastore
+        15: aload_2
+        16: iconst_4
+        17: aload_1
+        18: invokevirtual #124                // Method java/lang/String.length:()I
+        21: bipush        24
+        23: ishr
+        24: sipush        255
+        27: iand
+        28: i2b
+        29: bastore
+        30: aload_2
+        31: iconst_5
+        32: aload_1
+        33: invokevirtual #124                // Method java/lang/String.length:()I
+        36: bipush        16
+        38: ishr
+        39: sipush        255
+        42: iand
+        43: i2b
+        44: bastore
+        45: aload_2
+        46: bipush        6
+        48: aload_1
+        49: invokevirtual #124                // Method java/lang/String.length:()I
+        52: bipush        8
+        54: ishr
+        55: sipush        255
+        58: iand
+        59: i2b
+        60: bastore
+        61: aload_2
+        62: bipush        7
+        64: aload_1
+        65: invokevirtual #124                // Method java/lang/String.length:()I
+        68: sipush        255
+        71: iand
+        72: i2b
+        73: bastore
+        74: aload_1
+        75: invokevirtual #89                 // Method java/lang/String.getBytes:()[B
+        78: iconst_0
+        79: aload_2
+        80: bipush        8
+        82: aload_1
+        83: invokevirtual #124                // Method java/lang/String.length:()I
+        86: invokestatic  #147                // Method java/lang/System.arraycopy:(Ljava/lang/Object;ILjava/lang/Object;II)V
+        89: aload_0
+        90: getfield      #53                 // Field os:Ljava/io/OutputStream;
+        93: aload_2
+        94: invokevirtual #90                 // Method java/io/OutputStream.write:([B)V
+        97: return
+
+  void writePointerEvent(java.awt.event.MouseEvent) throws java.io.IOException;
+    Code:
+         0: aload_1
+         1: invokevirtual #148                // Method java/awt/event/MouseEvent.getModifiers:()I
+         4: istore_2
+         5: iconst_2
+         6: istore_3
+         7: iconst_4
+         8: istore        4
+        10: aload_0
+        11: getfield      #23                 // Field viewer:LVncViewer;
+        14: getfield      #99                 // Field VncViewer.options:LOptionsFrame;
+        17: getfield      #149                // Field OptionsFrame.reverseMouseButtons2And3:Z
+        20: ifeq          28
+        23: iconst_4
+        24: istore_3
+        25: iconst_2
+        26: istore        4
+        28: aload_1
+        29: invokevirtual #150                // Method java/awt/event/MouseEvent.getID:()I
+        32: sipush        501
+        35: if_icmpne     86
+        38: iload_2
+        39: bipush        8
+        41: iand
+        42: ifeq          58
+        45: aload_0
+        46: iload_3
+        47: putfield      #21                 // Field pointerMask:I
+        50: iload_2
+        51: bipush        -9
+        53: iand
+        54: istore_2
+        55: goto          127
+        58: iload_2
+        59: iconst_4
+        60: iand
+        61: ifeq          78
+        64: aload_0
+        65: iload         4
+        67: putfield      #21                 // Field pointerMask:I
+        70: iload_2
+        71: bipush        -5
+        73: iand
+        74: istore_2
+        75: goto          127
+        78: aload_0
+        79: iconst_1
+        80: putfield      #21                 // Field pointerMask:I
+        83: goto          127
+        86: aload_1
+        87: invokevirtual #150                // Method java/awt/event/MouseEvent.getID:()I
+        90: sipush        502
+        93: if_icmpne     127
+        96: aload_0
+        97: iconst_0
+        98: putfield      #21                 // Field pointerMask:I
+       101: iload_2
+       102: bipush        8
+       104: iand
+       105: ifeq          116
+       108: iload_2
+       109: bipush        -9
+       111: iand
+       112: istore_2
+       113: goto          127
+       116: iload_2
+       117: iconst_4
+       118: iand
+       119: ifeq          127
+       122: iload_2
+       123: bipush        -5
+       125: iand
+       126: istore_2
+       127: aload_0
+       128: iconst_0
+       129: putfield      #151                // Field eventBufLen:I
+       132: aload_0
+       133: iload_2
+       134: invokevirtual #152                // Method writeModifierKeyEvents:(I)V
+       137: aload_1
+       138: invokevirtual #153                // Method java/awt/event/MouseEvent.getX:()I
+       141: istore        5
+       143: aload_1
+       144: invokevirtual #154                // Method java/awt/event/MouseEvent.getY:()I
+       147: istore        6
+       149: iload         5
+       151: ifge          157
+       154: iconst_0
+       155: istore        5
+       157: iload         6
+       159: ifge          165
+       162: iconst_0
+       163: istore        6
+       165: aload_0
+       166: getfield      #20                 // Field eventBuf:[B
+       169: aload_0
+       170: dup
+       171: getfield      #151                // Field eventBufLen:I
+       174: dup_x1
+       175: iconst_1
+       176: iadd
+       177: putfield      #151                // Field eventBufLen:I
+       180: iconst_5
+       181: bastore
+       182: aload_0
+       183: getfield      #20                 // Field eventBuf:[B
+       186: aload_0
+       187: dup
+       188: getfield      #151                // Field eventBufLen:I
+       191: dup_x1
+       192: iconst_1
+       193: iadd
+       194: putfield      #151                // Field eventBufLen:I
+       197: aload_0
+       198: getfield      #21                 // Field pointerMask:I
+       201: i2b
+       202: bastore
+       203: aload_0
+       204: getfield      #20                 // Field eventBuf:[B
+       207: aload_0
+       208: dup
+       209: getfield      #151                // Field eventBufLen:I
+       212: dup_x1
+       213: iconst_1
+       214: iadd
+       215: putfield      #151                // Field eventBufLen:I
+       218: iload         5
+       220: bipush        8
+       222: ishr
+       223: sipush        255
+       226: iand
+       227: i2b
+       228: bastore
+       229: aload_0
+       230: getfield      #20                 // Field eventBuf:[B
+       233: aload_0
+       234: dup
+       235: getfield      #151                // Field eventBufLen:I
+       238: dup_x1
+       239: iconst_1
+       240: iadd
+       241: putfield      #151                // Field eventBufLen:I
+       244: iload         5
+       246: sipush        255
+       249: iand
+       250: i2b
+       251: bastore
+       252: aload_0
+       253: getfield      #20                 // Field eventBuf:[B
+       256: aload_0
+       257: dup
+       258: getfield      #151                // Field eventBufLen:I
+       261: dup_x1
+       262: iconst_1
+       263: iadd
+       264: putfield      #151                // Field eventBufLen:I
+       267: iload         6
+       269: bipush        8
+       271: ishr
+       272: sipush        255
+       275: iand
+       276: i2b
+       277: bastore
+       278: aload_0
+       279: getfield      #20                 // Field eventBuf:[B
+       282: aload_0
+       283: dup
+       284: getfield      #151                // Field eventBufLen:I
+       287: dup_x1
+       288: iconst_1
+       289: iadd
+       290: putfield      #151                // Field eventBufLen:I
+       293: iload         6
+       295: sipush        255
+       298: iand
+       299: i2b
+       300: bastore
+       301: aload_0
+       302: getfield      #21                 // Field pointerMask:I
+       305: ifne          313
+       308: aload_0
+       309: iconst_0
+       310: invokevirtual #152                // Method writeModifierKeyEvents:(I)V
+       313: aload_0
+       314: getfield      #53                 // Field os:Ljava/io/OutputStream;
+       317: aload_0
+       318: getfield      #20                 // Field eventBuf:[B
+       321: iconst_0
+       322: aload_0
+       323: getfield      #151                // Field eventBufLen:I
+       326: invokevirtual #155                // Method java/io/OutputStream.write:([BII)V
+       329: return
+
+  void writeKeyEvent(java.awt.event.KeyEvent) throws java.io.IOException;
+    Code:
+         0: aload_1
+         1: invokevirtual #156                // Method java/awt/event/KeyEvent.getKeyChar:()C
+         4: istore_2
+         5: iload_2
+         6: ifne          12
+         9: ldc           #157                // int 65535
+        11: istore_2
+        12: iload_2
+        13: ldc           #157                // int 65535
+        15: if_icmpne     49
+        18: aload_1
+        19: invokevirtual #158                // Method java/awt/event/KeyEvent.getKeyCode:()I
+        22: istore_3
+        23: iload_3
+        24: bipush        17
+        26: if_icmpeq     48
+        29: iload_3
+        30: bipush        16
+        32: if_icmpeq     48
+        35: iload_3
+        36: sipush        157
+        39: if_icmpeq     48
+        42: iload_3
+        43: bipush        18
+        45: if_icmpne     49
+        48: return
+        49: aload_1
+        50: invokevirtual #159                // Method java/awt/event/KeyEvent.getID:()I
+        53: sipush        401
+        56: if_icmpne     63
+        59: iconst_1
+        60: goto          64
+        63: iconst_0
+        64: istore_3
+        65: aload_1
+        66: invokevirtual #160                // Method java/awt/event/KeyEvent.isActionKey:()Z
+        69: ifeq          404
+        72: aload_1
+        73: invokevirtual #158                // Method java/awt/event/KeyEvent.getKeyCode:()I
+        76: lookupswitch  { // 21
+                      33: 291
+                      34: 298
+                      35: 305
+                      36: 256
+                      37: 263
+                      38: 270
+                      39: 277
+                      40: 284
+                     112: 319
+                     113: 326
+                     114: 333
+                     115: 340
+                     116: 347
+                     117: 354
+                     118: 361
+                     119: 368
+                     120: 375
+                     121: 382
+                     122: 389
+                     123: 396
+                     155: 312
+                 default: 403
+            }
+       256: ldc           #161                // int 65360
+       258: istore        4
+       260: goto          553
+       263: ldc           #162                // int 65361
+       265: istore        4
+       267: goto          553
+       270: ldc           #163                // int 65362
+       272: istore        4
+       274: goto          553
+       277: ldc           #164                // int 65363
+       279: istore        4
+       281: goto          553
+       284: ldc           #165                // int 65364
+       286: istore        4
+       288: goto          553
+       291: ldc           #166                // int 65365
+       293: istore        4
+       295: goto          553
+       298: ldc           #167                // int 65366
+       300: istore        4
+       302: goto          553
+       305: ldc           #168                // int 65367
+       307: istore        4
+       309: goto          553
+       312: ldc           #169                // int 65379
+       314: istore        4
+       316: goto          553
+       319: ldc           #170                // int 65470
+       321: istore        4
+       323: goto          553
+       326: ldc           #171                // int 65471
+       328: istore        4
+       330: goto          553
+       333: ldc           #172                // int 65472
+       335: istore        4
+       337: goto          553
+       340: ldc           #173                // int 65473
+       342: istore        4
+       344: goto          553
+       347: ldc           #174                // int 65474
+       349: istore        4
+       351: goto          553
+       354: ldc           #175                // int 65475
+       356: istore        4
+       358: goto          553
+       361: ldc           #176                // int 65476
+       363: istore        4
+       365: goto          553
+       368: ldc           #177                // int 65477
+       370: istore        4
+       372: goto          553
+       375: ldc           #178                // int 65478
+       377: istore        4
+       379: goto          553
+       382: ldc           #179                // int 65479
+       384: istore        4
+       386: goto          553
+       389: ldc           #180                // int 65480
+       391: istore        4
+       393: goto          553
+       396: ldc           #181                // int 65481
+       398: istore        4
+       400: goto          553
+       403: return
+       404: iload_2
+       405: istore        4
+       407: iload         4
+       409: bipush        32
+       411: if_icmpge     500
+       414: aload_1
+       415: invokevirtual #182                // Method java/awt/event/KeyEvent.isControlDown:()Z
+       418: ifeq          427
+       421: iinc          4, 96
+       424: goto          553
+       427: iload         4
+       429: lookupswitch  { // 4
+                       8: 472
+                       9: 479
+                      10: 486
+                      27: 493
+                 default: 497
+            }
+       472: ldc           #183                // int 65288
+       474: istore        4
+       476: goto          497
+       479: ldc           #184                // int 65289
+       481: istore        4
+       483: goto          497
+       486: ldc           #185                // int 65293
+       488: istore        4
+       490: goto          497
+       493: ldc           #186                // int 65307
+       495: istore        4
+       497: goto          553
+       500: iload         4
+       502: bipush        127
+       504: if_icmpne     514
+       507: ldc           #157                // int 65535
+       509: istore        4
+       511: goto          553
+       514: iload         4
+       516: sipush        255
+       519: if_icmple     553
+       522: iload         4
+       524: ldc           #187                // int 65280
+       526: if_icmplt     536
+       529: iload         4
+       531: ldc           #157                // int 65535
+       533: if_icmple     553
+       536: iload         4
+       538: sipush        8352
+       541: if_icmplt     552
+       544: iload         4
+       546: sipush        8367
+       549: if_icmple     553
+       552: return
+       553: iload         4
+       555: sipush        229
+       558: if_icmpeq     625
+       561: iload         4
+       563: sipush        197
+       566: if_icmpeq     625
+       569: iload         4
+       571: sipush        228
+       574: if_icmpeq     625
+       577: iload         4
+       579: sipush        196
+       582: if_icmpeq     625
+       585: iload         4
+       587: sipush        246
+       590: if_icmpeq     625
+       593: iload         4
+       595: sipush        214
+       598: if_icmpeq     625
+       601: iload         4
+       603: sipush        167
+       606: if_icmpeq     625
+       609: iload         4
+       611: sipush        189
+       614: if_icmpeq     625
+       617: iload         4
+       619: sipush        163
+       622: if_icmpne     690
+       625: iload_3
+       626: ifeq          634
+       629: aload_0
+       630: iconst_1
+       631: putfield      #17                 // Field brokenKeyPressed:Z
+       634: iload_3
+       635: ifne          681
+       638: aload_0
+       639: getfield      #17                 // Field brokenKeyPressed:Z
+       642: ifne          681
+       645: aload_0
+       646: iconst_0
+       647: putfield      #151                // Field eventBufLen:I
+       650: aload_0
+       651: aload_1
+       652: invokevirtual #188                // Method java/awt/event/KeyEvent.getModifiers:()I
+       655: invokevirtual #152                // Method writeModifierKeyEvents:(I)V
+       658: aload_0
+       659: iload         4
+       661: iconst_1
+       662: invokevirtual #189                // Method writeKeyEvent:(IZ)V
+       665: aload_0
+       666: getfield      #53                 // Field os:Ljava/io/OutputStream;
+       669: aload_0
+       670: getfield      #20                 // Field eventBuf:[B
+       673: iconst_0
+       674: aload_0
+       675: getfield      #151                // Field eventBufLen:I
+       678: invokevirtual #155                // Method java/io/OutputStream.write:([BII)V
+       681: iload_3
+       682: ifne          690
+       685: aload_0
+       686: iconst_0
+       687: putfield      #17                 // Field brokenKeyPressed:Z
+       690: aload_0
+       691: iconst_0
+       692: putfield      #151                // Field eventBufLen:I
+       695: aload_0
+       696: aload_1
+       697: invokevirtual #188                // Method java/awt/event/KeyEvent.getModifiers:()I
+       700: invokevirtual #152                // Method writeModifierKeyEvents:(I)V
+       703: aload_0
+       704: iload         4
+       706: iload_3
+       707: invokevirtual #189                // Method writeKeyEvent:(IZ)V
+       710: iload_3
+       711: ifne          719
+       714: aload_0
+       715: iconst_0
+       716: invokevirtual #152                // Method writeModifierKeyEvents:(I)V
+       719: aload_0
+       720: getfield      #53                 // Field os:Ljava/io/OutputStream;
+       723: aload_0
+       724: getfield      #20                 // Field eventBuf:[B
+       727: iconst_0
+       728: aload_0
+       729: getfield      #151                // Field eventBufLen:I
+       732: invokevirtual #155                // Method java/io/OutputStream.write:([BII)V
+       735: return
+
+  void writeKeyEvent(int, boolean);
+    Code:
+         0: aload_0
+         1: getfield      #20                 // Field eventBuf:[B
+         4: aload_0
+         5: dup
+         6: getfield      #151                // Field eventBufLen:I
+         9: dup_x1
+        10: iconst_1
+        11: iadd
+        12: putfield      #151                // Field eventBufLen:I
+        15: iconst_4
+        16: bastore
+        17: aload_0
+        18: getfield      #20                 // Field eventBuf:[B
+        21: aload_0
+        22: dup
+        23: getfield      #151                // Field eventBufLen:I
+        26: dup_x1
+        27: iconst_1
+        28: iadd
+        29: putfield      #151                // Field eventBufLen:I
+        32: iload_2
+        33: ifeq          40
+        36: iconst_1
+        37: goto          41
+        40: iconst_0
+        41: i2b
+        42: bastore
+        43: aload_0
+        44: getfield      #20                 // Field eventBuf:[B
+        47: aload_0
+        48: dup
+        49: getfield      #151                // Field eventBufLen:I
+        52: dup_x1
+        53: iconst_1
+        54: iadd
+        55: putfield      #151                // Field eventBufLen:I
+        58: iconst_0
+        59: bastore
+        60: aload_0
+        61: getfield      #20                 // Field eventBuf:[B
+        64: aload_0
+        65: dup
+        66: getfield      #151                // Field eventBufLen:I
+        69: dup_x1
+        70: iconst_1
+        71: iadd
+        72: putfield      #151                // Field eventBufLen:I
+        75: iconst_0
+        76: bastore
+        77: aload_0
+        78: getfield      #20                 // Field eventBuf:[B
+        81: aload_0
+        82: dup
+        83: getfield      #151                // Field eventBufLen:I
+        86: dup_x1
+        87: iconst_1
+        88: iadd
+        89: putfield      #151                // Field eventBufLen:I
+        92: iload_1
+        93: bipush        24
+        95: ishr
+        96: sipush        255
+        99: iand
+       100: i2b
+       101: bastore
+       102: aload_0
+       103: getfield      #20                 // Field eventBuf:[B
+       106: aload_0
+       107: dup
+       108: getfield      #151                // Field eventBufLen:I
+       111: dup_x1
+       112: iconst_1
+       113: iadd
+       114: putfield      #151                // Field eventBufLen:I
+       117: iload_1
+       118: bipush        16
+       120: ishr
+       121: sipush        255
+       124: iand
+       125: i2b
+       126: bastore
+       127: aload_0
+       128: getfield      #20                 // Field eventBuf:[B
+       131: aload_0
+       132: dup
+       133: getfield      #151                // Field eventBufLen:I
+       136: dup_x1
+       137: iconst_1
+       138: iadd
+       139: putfield      #151                // Field eventBufLen:I
+       142: iload_1
+       143: bipush        8
+       145: ishr
+       146: sipush        255
+       149: iand
+       150: i2b
+       151: bastore
+       152: aload_0
+       153: getfield      #20                 // Field eventBuf:[B
+       156: aload_0
+       157: dup
+       158: getfield      #151                // Field eventBufLen:I
+       161: dup_x1
+       162: iconst_1
+       163: iadd
+       164: putfield      #151                // Field eventBufLen:I
+       167: iload_1
+       168: sipush        255
+       171: iand
+       172: i2b
+       173: bastore
+       174: return
+
+  void writeModifierKeyEvents(int);
+    Code:
+         0: iload_1
+         1: iconst_2
+         2: iand
+         3: aload_0
+         4: getfield      #22                 // Field oldModifiers:I
+         7: iconst_2
+         8: iand
+         9: if_icmpeq     29
+        12: aload_0
+        13: ldc           #190                // int 65507
+        15: iload_1
+        16: iconst_2
+        17: iand
+        18: ifeq          25
+        21: iconst_1
+        22: goto          26
+        25: iconst_0
+        26: invokevirtual #189                // Method writeKeyEvent:(IZ)V
+        29: iload_1
+        30: iconst_1
+        31: iand
+        32: aload_0
+        33: getfield      #22                 // Field oldModifiers:I
+        36: iconst_1
+        37: iand
+        38: if_icmpeq     58
+        41: aload_0
+        42: ldc           #191                // int 65505
+        44: iload_1
+        45: iconst_1
+        46: iand
+        47: ifeq          54
+        50: iconst_1
+        51: goto          55
+        54: iconst_0
+        55: invokevirtual #189                // Method writeKeyEvent:(IZ)V
+        58: iload_1
+        59: iconst_4
+        60: iand
+        61: aload_0
+        62: getfield      #22                 // Field oldModifiers:I
+        65: iconst_4
+        66: iand
+        67: if_icmpeq     87
+        70: aload_0
+        71: ldc           #192                // int 65511
+        73: iload_1
+        74: iconst_4
+        75: iand
+        76: ifeq          83
+        79: iconst_1
+        80: goto          84
+        83: iconst_0
+        84: invokevirtual #189                // Method writeKeyEvent:(IZ)V
+        87: iload_1
+        88: bipush        8
+        90: iand
+        91: aload_0
+        92: getfield      #22                 // Field oldModifiers:I
+        95: bipush        8
+        97: iand
+        98: if_icmpeq     119
+       101: aload_0
+       102: ldc           #193                // int 65513
+       104: iload_1
+       105: bipush        8
+       107: iand
+       108: ifeq          115
+       111: iconst_1
+       112: goto          116
+       115: iconst_0
+       116: invokevirtual #189                // Method writeKeyEvent:(IZ)V
+       119: aload_0
+       120: iload_1
+       121: putfield      #22                 // Field oldModifiers:I
+       124: return
+
+  void recordCompressedData(byte[], int, int) throws java.io.IOException;
+    Code:
+         0: new           #194                // class java/util/zip/Deflater
+         3: dup
+         4: invokespecial #195                // Method java/util/zip/Deflater."<init>":()V
+         7: astore        4
+         9: aload         4
+        11: aload_1
+        12: iload_2
+        13: iload_3
+        14: invokevirtual #196                // Method java/util/zip/Deflater.setInput:([BII)V
+        17: iload_3
+        18: iload_3
+        19: bipush        100
+        21: idiv
+        22: iadd
+        23: bipush        12
+        25: iadd
+        26: istore        5
+        28: iload         5
+        30: newarray       byte
+        32: astore        6
+        34: aload         4
+        36: invokevirtual #197                // Method java/util/zip/Deflater.finish:()V
+        39: aload         4
+        41: aload         6
+        43: invokevirtual #198                // Method java/util/zip/Deflater.deflate:([B)I
+        46: istore        7
+        48: aload_0
+        49: iload         7
+        51: invokevirtual #199                // Method recordCompactLen:(I)V
+        54: aload_0
+        55: getfield      #80                 // Field rec:LSessionRecorder;
+        58: aload         6
+        60: iconst_0
+        61: iload         7
+        63: invokevirtual #200                // Method SessionRecorder.write:([BII)V
+        66: return
+
+  void recordCompressedData(byte[]) throws java.io.IOException;
+    Code:
+         0: aload_0
+         1: aload_1
+         2: iconst_0
+         3: aload_1
+         4: arraylength
+         5: invokevirtual #201                // Method recordCompressedData:([BII)V
+         8: return
+
+  void recordCompactLen(int) throws java.io.IOException;
+    Code:
+         0: iconst_3
+         1: newarray       byte
+         3: astore_2
+         4: iconst_0
+         5: istore_3
+         6: aload_2
+         7: iload_3
+         8: iinc          3, 1
+        11: iload_1
+        12: bipush        127
+        14: iand
+        15: i2b
+        16: bastore
+        17: iload_1
+        18: bipush        127
+        20: if_icmple     83
+        23: aload_2
+        24: iload_3
+        25: iconst_1
+        26: isub
+        27: dup2
+        28: baload
+        29: sipush        128
+        32: ior
+        33: i2b
+        34: bastore
+        35: aload_2
+        36: iload_3
+        37: iinc          3, 1
+        40: iload_1
+        41: bipush        7
+        43: ishr
+        44: bipush        127
+        46: iand
+        47: i2b
+        48: bastore
+        49: iload_1
+        50: sipush        16383
+        53: if_icmple     83
+        56: aload_2
+        57: iload_3
+        58: iconst_1
+        59: isub
+        60: dup2
+        61: baload
+        62: sipush        128
+        65: ior
+        66: i2b
+        67: bastore
+        68: aload_2
+        69: iload_3
+        70: iinc          3, 1
+        73: iload_1
+        74: bipush        14
+        76: ishr
+        77: sipush        255
+        80: iand
+        81: i2b
+        82: bastore
+        83: aload_0
+        84: getfield      #80                 // Field rec:LSessionRecorder;
+        87: aload_2
+        88: iconst_0
+        89: iload_3
+        90: invokevirtual #200                // Method SessionRecorder.write:([BII)V
+        93: return
+}

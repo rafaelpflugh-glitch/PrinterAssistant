@@ -1,0 +1,63 @@
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Instal. novo app</title>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/solutions.css" type="text/css">
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/breadcrumbs.css" type="text/css">
+<script type="text/javascript">
+function do_install()
+{
+    document.getElementById("submit_button").disabled = true;
+    document.getElementById("status_msg").innerHTML = "Instalando....";
+    mainForm.submit();
+}
+
+</script>
+</head>
+
+<body>
+
+<table cellpadding="5">
+<td><h3>Instal. novo app</h3></td>
+</table>
+<form name="mainForm" action="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_install.html" method="post" enctype="multipart/form-data">
+
+<table width="100%" style="border-color:#000000;border-style:solid none;border-width:1px 0px;">
+<tr>
+<td align="left">Arq. instal. app</td>
+<td align="left"><input name="input_file" type="file" size="50"> </td>
+<td>&nbsp;</td>
+</tr>
+<tr >
+<td colspan="3">
+    <div style="text-align: right; background-image: url(/cgi-bin/dynamic/printer/images/gradient_bar.jpg); ">
+        <input value=Iniciar instalaÃ§Ã£o type="button" id="submit_button" onclick="do_install();">&nbsp;&nbsp;
+        <input value=Retornar type="button" onclick="window.location='/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_apps.html'">&nbsp;&nbsp;
+    </div>
+</td>
+</tr>
+</table>
+
+<table width="100%" style="border-color:#000000;border-style:none none solid;border-width:0px 0px 1px;">
+<tr>
+<td colspan="3" >
+<span style="color:green;">
+<b>Status</b>
+&nbsp;&nbsp;
+</span>
+<span id="status_msg">
+
+
+    
+
+
+</span>
+</td>
+</tr>
+</table>
+</form>
+</body>
+
+</html>
+

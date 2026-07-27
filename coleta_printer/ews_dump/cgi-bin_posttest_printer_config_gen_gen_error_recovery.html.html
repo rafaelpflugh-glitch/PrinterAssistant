@@ -1,0 +1,44 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>RecuperaÃ§Ã£o de erros</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/gen_error_recovery.html" METHOD="post">
+<H4>RecuperaÃ§Ã£o de erros</H4>
+<TABLE>
+<TR><TD><label for="system.5409">ReinicializaÃ§Ã£o automÃ¡tica</label></TD><TD>
+<SELECT NAME="0.system.5409" ID="system.5409">
+<OPTION VALUE="2">Reiniciar quando inativo</OPTION>
+<OPTION SELECTED VALUE="1">Reiniciar sempre</OPTION>
+<OPTION VALUE="0">Nunca reiniciar</OPTION>
+</SELECT>
+</TD></TR>
+<TR>
+<TD><label for="system.5408">MÃ¡ximo de reinicializaÃ§Ãµes automÃ¡ticas</label></TD>
+<TD><INPUT NAME="0.system.5408" onchange="checkInput('system.5408',1, 20, 'Esta config. aceita som. um valor entre 1 e 20.', '')" id="system.5408" SIZE=6 MAXLENGTH=22 VALUE="2"></TD>
+<TD>Intervalo: 1 - 20. </TD>
+<TR>
+<TD><label for="system.5477">Janela reinic auto</label></TD>
+<TD><INPUT NAME="0.system.5477" onchange="checkInput('system.5477',1, 525600, 'Esta config. aceita som. um valor entre 1 e 525600.', '')" id="system.5477" SIZE=6 MAXLENGTH=22 VALUE="720"></TD>
+<TD><span class="helper" id="helper.system.5477">As unids estÃ£o em min e este Ã© o tempo de ativaÃ§Ã£o necessÃ¡rio p/ a reinic. auto.</span></TD>
+</TR>
+</TR>
+    <TR>
+        <TD>Cont reinicial auto</TD>
+        <TD></TD>
+        <TD>8</TD>
+    </TR>
+    <TR>
+        <TD><A HREF="gen_reset_autoreboot.html">Limpar Contador reinicial automÃ¡tico</A></TD>
+    </TR>
+
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>
+

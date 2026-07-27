@@ -1,0 +1,354 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ãµes de DigitalizaÃ§Ã£o</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script type="text/javascript">
+
+function remove_options()
+{
+    var ocr_supported = false;
+    var format = document.getElementById("system.25371");
+
+        
+            
+        
+
+    for (var i = 0; i < format.length; i++) {
+        if(format.options[i].value == 6) {
+            format.remove(i);
+            i = 0;
+        }
+
+        if(ocr_supported == false) {
+            if(format.options[i].value == 10 || // Txt
+               format.options[i].value == 11 // Rtf
+            ) {
+                format.remove(i);
+                i = 0;
+            }
+        }
+    }
+}
+
+function disable_fields()
+{
+    var format = document.getElementById("system.25371");
+    var pdfSettings = document.getElementById("pdfSettings");
+    var isPdfSettingsEnabled = false;
+
+    if (pdfSettings) {
+        if (format.value == 2) { // PDF
+            // Enable pdf settings link for PDF format scans only
+            isPdfSettingsEnabled = true;
+        }
+
+        if (isPdfSettingsEnabled) {
+            // Pdf Setting should be enabled
+            pdfSettings.style.display = "block";
+        } else {
+            // Pdf Setting should be disabled
+            pdfSettings.style.display = "none";
+        }
+    }
+
+    var pdfCompress = document.getElementById("system.17470");
+    var searchablePdf = document.getElementById("system.17473");
+    var resolution = document.getElementById("system.25373");
+    var toSetResolution300 = false;
+
+    // Resolution lock ...
+    if (format.value == 10 || format.value == 11){
+         toSetResolution300 = true;
+
+    }else if (format.value == 2 && (pdfCompress.value == 12 || searchablePdf.value == 1)) { // High || On || RTF || 70861
+        toSetResolution300 = true;
+
+    } else {
+        toSetResolution300 = false;
+    }
+
+    // Resolution
+    if (toSetResolution300) { 
+        // Lock resolution to 300
+        for (var i = 0; i < resolution.length; i++) {
+            var value = resolution.options[i].value;
+            if (value == 300) { // 300 dpi
+                resolution.options[i].defaultSelected = true;
+                resolution.selectedIndex = i;
+            } else {
+                resolution.options[i].disabled = true;
+            }
+        }
+    } else {
+        // Enable all resolution options
+        for (var i = 0; i < resolution.length; i++) {
+            resolution.options[i].disabled = false;
+        }
+    }
+}
+
+function onChangeAction()
+{
+    disable_fields();
+}
+
+function disable_onload_fields()
+{
+    remove_options();
+    disable_fields();
+    // if NPA_ALLOW_BACKGROUND_REMOVAL is off, disable NPA_NETWORKSCAN_BACKGROUND_REMOVAL
+    
+}
+</script>
+</HEAD>
+
+<BODY onload="disable_onload_fields()">
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/scantousbsettings.html" METHOD="post">
+<H4>ConfiguraÃ§Ãµes de DigitalizaÃ§Ã£o</H4>
+
+<div style="display: none">
+    
+<SELECT NAME="0.system.17470" ID="system.17470" onchange="onChangeAction()">
+<OPTION VALUE="12">Alto</OPTION>
+<OPTION SELECTED VALUE="1">Normal</OPTION>
+</SELECT>
+
+    
+<SELECT NAME="0.system.17473" ID="system.17473" onchange="onChangeAction()">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">Ativar</OPTION>
+</SELECT>
+
+</div>
+
+<TABLE>
+<TR><TD><label for="system.25371">Formato</label></TD><TD>
+<SELECT NAME="0.system.25371" ID="system.25371" onchange="onChangeAction()">
+<OPTION SELECTED VALUE="2">PDF (.pdf)</OPTION>
+<OPTION VALUE="6">PDF seguro</OPTION>
+<OPTION VALUE="0">TIFF (.tif)</OPTION>
+<OPTION VALUE="1">JPEG (.jpg)</OPTION>
+<OPTION VALUE="7">XPS (.xps)</OPTION>
+<OPTION VALUE="10">TXT (.txt)</OPTION>
+<OPTION VALUE="11">RTF (.rtf)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><A id="pdfSettings" HREF="scantousbpdfsettings.html">ConfiguraÃ§Ãµes de PDF</A></TD><TD></TD></TR>
+<TR><TD><label for="system.25366">Tipo de conteÃºdo</label></TD><TD>
+<SELECT NAME="0.system.25366" ID="system.25366">
+<OPTION VALUE="0">Texto</OPTION>
+<OPTION SELECTED VALUE="1">Texto/Foto</OPTION>
+<OPTION VALUE="2">Fotografia</OPTION>
+<OPTION VALUE="8">GrÃ¡ficos</OPTION>
+</SELECT>
+</TD></TR>
+<tr><td><label for="system.17403">Origem do conteÃºdo</label></td><td>
+<SELECT NAME="0.system.17403" ID="system.17403">
+<OPTION SELECTED VALUE="0">Laser P/B</OPTION>
+<OPTION VALUE="1">Laser colorida</OPTION>
+<OPTION VALUE="2">Inkjet</OPTION>
+<OPTION VALUE="3">Foto/Filme</OPTION>
+<OPTION VALUE="4">Revista</OPTION>
+<OPTION VALUE="5">Jornal</OPTION>
+<OPTION VALUE="6">Press</OPTION>
+<OPTION VALUE="7">Outro</OPTION>
+</SELECT>
+</td></tr>
+<TR><TD><label for="system.25370">Cor</label></TD><TD>
+<SELECT NAME="0.system.25370" ID="system.25370">
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION SELECTED VALUE="1">Ativar</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.system.25370">A resoluÃ§Ã£o mÃ¡xima pode ser reduzida para digitalizaÃ§Ãµes de cor.</span></TD></TR>
+<TR><TD><label for="system.25373">ResoluÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.25373" ID="system.25373">
+<OPTION VALUE="75">75 ppp</OPTION>
+<OPTION SELECTED VALUE="150">150 ppp</OPTION>
+<OPTION VALUE="200">200 ppp</OPTION>
+<OPTION VALUE="300">300 ppp</OPTION>
+<OPTION VALUE="400">400 ppp</OPTION>
+<OPTION VALUE="600">600 ppp</OPTION>
+</SELECT>
+</TD>
+    
+    <TD><span class="helper" id="helper.system.25373">600 dpi sÃ£o exibidos somente se a capacidade de memÃ³ria instalada for maior que 1 gigabyte.</span></TD>
+    
+</TR>
+<TR><TD><label for="system.25361">Tonalidade</label></TD><TD>
+<SELECT NAME="0.system.25361" ID="system.25361">
+<OPTION VALUE="1">1 (-)*...|....(+)</OPTION>
+<OPTION VALUE="2">2 (-).*..|....(+)</OPTION>
+<OPTION VALUE="3">3 (-)..*.|....(+)</OPTION>
+<OPTION VALUE="4">4 (-)...*|....(+)</OPTION>
+<OPTION SELECTED VALUE="5">5 (-)....*....(+)</OPTION>
+<OPTION VALUE="6">6 (-)....|*...(+)</OPTION>
+<OPTION VALUE="7">7 (-)....|.*..(+)</OPTION>
+<OPTION VALUE="8">8 (-)....|..*.(+)</OPTION>
+<OPTION VALUE="9">9 (-)....|...*(+)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.25364">OrientaÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.25364" ID="system.25364">
+<OPTION SELECTED VALUE="0">Retrato</OPTION>
+<OPTION VALUE="1">Paisagem</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.25365">Tamanho original</label></TD><TD>
+<SELECT NAME="0.system.25365" ID="system.25365">
+<OPTION SELECTED VALUE="4">A4</OPTION>
+<OPTION VALUE="5">A5</OPTION>
+<OPTION VALUE="26">A6</OPTION>
+<OPTION VALUE="7">JIS B5</OPTION>
+<OPTION VALUE="0">Carta</OPTION>
+<OPTION VALUE="2">OfÃ­cio</OPTION>
+<OPTION VALUE="1">Executivo</OPTION>
+<OPTION VALUE="9">Folio</OPTION>
+<OPTION VALUE="10">Statement (US)</OPTION>
+<OPTION VALUE="17">Oficio (Mexico)</OPTION>
+<OPTION VALUE="18">Universal</OPTION>
+<OPTION VALUE="14">DetecÃ§Ã£o automÃ¡tica de tamanho</OPTION>
+<OPTION VALUE="15">Tamanhos mistos</OPTION>
+<OPTION VALUE="20">DigitalizaÃ§Ã£o do tamanho personalizada 1</OPTION>
+<OPTION VALUE="21">DigitalizaÃ§Ã£o do tamanho personalizada 2</OPTION>
+<OPTION VALUE="22">DigitalizaÃ§Ã£o do tamanho personalizada 3</OPTION>
+<OPTION VALUE="23">DigitalizaÃ§Ã£o do tamanho personalizada 4</OPTION>
+<OPTION VALUE="24">DigitalizaÃ§Ã£o do tamanho personalizada 5</OPTION>
+<OPTION VALUE="25">DigitalizaÃ§Ã£o do tamanho personalizada 6</OPTION>
+<OPTION VALUE="16">Tamanho original</OPTION>
+<OPTION VALUE="13">CartÃ£o de visita</OPTION>
+<OPTION VALUE="11">3 x 5 pol</OPTION>
+<OPTION VALUE="12">4 x 6 pol</OPTION>
+</SELECT>
+</TD></TR>
+
+<TR><TD><label for="system.25367">Lados (frente e verso)</label></TD><TD>
+<SELECT NAME="0.system.25367" ID="system.25367">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="2">Borda longa</OPTION>
+<OPTION VALUE="1">Borda curta</OPTION>
+</SELECT>
+</TD></TR>
+
+
+<TR><TD>Qualidade JPEG</TD><TD><INPUT NAME="0.system.25362" onchange="checkInput('system.25362',5, 90, 'Esta definiÃ§Ã£o sÃ³ aceita \âMelhor do conteÃºdo\â ou um valor entre 5 e 90.', '-1,')" id="system.25362" SIZE=6 MAXLENGTH=22 VALUE="-1"></TD><TD>Intervalo: 5 - 90. PadrÃ£o: -1, Melhor conteÃºdo = -1.&nbsp;&nbsp;Aplica-se a texto, texto/fotografia e fotografia.</TD></TR>
+
+<TR><TD><label for="system.17359">PadrÃ£o Texto</label></TD><TD><INPUT NAME="0.system.17359" onchange="checkInput('system.17359',5, 90, 'Esta config. aceita som. um valor entre 5 e 90.', '')" id="system.17359" SIZE=6 MAXLENGTH=22 VALUE="75"></TD><TD><span class="helper" id="helper.system.17359">Intervalo: 5 - 90. </span></TD></TR>
+<TR><TD><label for="system.17360">PadrÃ£o Texto/Foto</label></TD><TD><INPUT NAME="0.system.17360" onchange="checkInput('system.17360',5, 90, 'Esta config. aceita som. um valor entre 5 e 90.', '')" id="system.17360" SIZE=6 MAXLENGTH=22 VALUE="75"></TD><TD><span class="helper" id="helper.system.16725">Intervalo: 5 - 90. </span></TD></TR>
+<TR><TD><label for="system.16966">PadrÃ£o Foto</label></TD><TD><INPUT NAME="0.system.16966" onchange="checkInput('system.16966',5, 90, 'Esta config. aceita som. um valor entre 5 e 90.', '')" id="system.16966" SIZE=6 MAXLENGTH=22 VALUE="50"></TD><TD><span class="helper" id="helper.system.16966">Intervalo: 5 - 90. </span></TD></TR>
+
+<TR><TD><label for="system.16539">Usar TIFF de vÃ¡rias pÃ¡ginas</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16539"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16539"   VALUE=1 id="system.16539" CHECKED>
+</TD><TD><span class="helper" id="helper.system.16539">Essa config. aplica-se a funÃ§. digit. exceto modo Serv. Fax.</span></TD></TR>
+<TR><TD><label for="system.17461">CompactaÃ§Ã£o TIFF</label></TD><TD>
+<SELECT NAME="0.system.17461" ID="system.17461">
+<OPTION SELECTED VALUE="5">LZW</OPTION>
+<OPTION VALUE="1">JPEG</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16965">Profundidade de bits da digitalizaÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.16965" ID="system.16965">
+<OPTION VALUE="1">1 bit</OPTION>
+<OPTION SELECTED VALUE="8">8 bits</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.system.16965">Essa configuraÃ§Ã£o se aplica apenas quando a configuraÃ§Ã£o 'Cor' acima Ã© 'Cinza'.  As digitalizaÃ§Ãµes coloridas sÃ£o sempre de 24 bits.</span></TD></TR>
+<TR><TD><label for="system.25372">Nome do arquivo</label></TD><TD><INPUT NAME="1.system.25372" SIZE=22 MAXLENGTH=128  onchange="checkFilename('system.25372', 'Caminho ou Nome de Arq. Inv.')" id="system.25372" VALUE="Scanned-image"></TD><TD><span class="helper" id="helper.system.25372">*,:,?,<,>,|,\,/,",' e NULL sÃ£o invÃ¡lidos. Limite: 128 caracteres.</span></TD></TR>
+
+
+<TR><TD><label for="system.16759">Digit. de trab. person.</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16759"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16759"  id="system.16759" VALUE=1>
+</TD><TD><span class="helper" id="helper.system.16759">Quando selecionada, ativa a digitalizaÃ§Ã£o de trabalho personalizado por padrÃ£o.</span></TD></TR>
+
+
+
+<TR><TD><label for="system.16951">VisualizaÃ§Ã£o da digitalizaÃ§Ã£o</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16951"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16951"  id="system.16951" VALUE=1>
+</TD></TR>
+
+<TR><TD><label for="system.17086">RemoÃ§Ã£o em segundo plano</label></TD><TD>
+<SELECT NAME="0.system.16913" ID="system.16913">
+<OPTION VALUE="-4">-4</OPTION>
+<OPTION VALUE="-3">-3</OPTION>
+<OPTION VALUE="-2">-2</OPTION>
+<OPTION VALUE="-1">-1</OPTION>
+<OPTION SELECTED VALUE="0">0</OPTION>
+<OPTION VALUE="1">+1</OPTION>
+<OPTION VALUE="2">+2</OPTION>
+<OPTION VALUE="3">+3</OPTION>
+<OPTION VALUE="4">+4</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><A HREF="scan_color_balance.html">EquilÃ­brio de cores</A></TD></TR>
+<TR><TD><A HREF="scan_color_drop.html">Remover cores</A></TD></TR>
+<TR><TD><label for="system.16914">Contraste</label></TD><TD>
+<SELECT NAME="0.system.16914" ID="system.16914">
+<OPTION SELECTED VALUE="-1">Mhr p/ cont</OPTION>
+<OPTION VALUE="0">0</OPTION>
+<OPTION VALUE="1">1</OPTION>
+<OPTION VALUE="2">2</OPTION>
+<OPTION VALUE="3">3</OPTION>
+<OPTION VALUE="4">4</OPTION>
+<OPTION VALUE="5">5</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.17163">Imagem espelhada</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17163"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17163"  id="system.17163" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17164">Imagem negativa</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17164"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17164"  id="system.17164" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.16915">Detalhes da sombra</label></TD><TD>
+<SELECT NAME="0.system.16915" ID="system.16915">
+<OPTION VALUE="-4">-4</OPTION>
+<OPTION VALUE="-3">-3</OPTION>
+<OPTION VALUE="-2">-2</OPTION>
+<OPTION VALUE="-1">-1</OPTION>
+<OPTION SELECTED VALUE="0">0</OPTION>
+<OPTION VALUE="1">+1</OPTION>
+<OPTION VALUE="2">+2</OPTION>
+<OPTION VALUE="3">+3</OPTION>
+<OPTION VALUE="4">+4</OPTION>
+</SELECT>
+</TD></TR>
+
+
+
+<TR><TD><label for="system.5308">Ajus inclin ADF</label></TD><TD>
+<SELECT NAME="0.system.5308" ID="system.5308">
+<OPTION SELECTED VALUE="2">AutomÃ¡tica</OPTION>
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">Ativar</OPTION>
+</SELECT>
+</TD></TR>
+
+
+
+<TR><TD><label for="system.16916">Digital. borda a borda</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16916"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16916"  id="system.16916" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17080">Nitidez</label></TD><TD>
+<SELECT NAME="0.system.17080" ID="system.17080">
+<OPTION VALUE="1">1</OPTION>
+<OPTION VALUE="2">2</OPTION>
+<OPTION SELECTED VALUE="3">3</OPTION>
+<OPTION VALUE="4">4</OPTION>
+<OPTION VALUE="5">5</OPTION>
+</SELECT>
+</TD></TR>
+<tr><td><label for="system.17378">Temperatura</label></td> <td>
+<SELECT NAME="0.system.17378" ID="system.17378">
+<OPTION VALUE="-4">-4 (Frio) *...|.... (Morno)</OPTION>
+<OPTION VALUE="-3">-3 (Frio) .*..|.... (Morno)</OPTION>
+<OPTION VALUE="-2">-2 (Frio) ..*.|.... (Morno)</OPTION>
+<OPTION VALUE="-1">-1 (Frio) ...*|.... (Morno)</OPTION>
+<OPTION SELECTED VALUE="0">0 (Frio) ....*.... (Morno)</OPTION>
+<OPTION VALUE="1">+1 (Frio) ....|*... (Morno)</OPTION>
+<OPTION VALUE="2">+2 (Frio) ....|.*.. (Morno)</OPTION>
+<OPTION VALUE="3">+3 (Frio) ....|..*. (Morno)</OPTION>
+<OPTION VALUE="4">+4 (Frio) ....|...* (Morno)</OPTION>
+</SELECT>
+</td> </tr>
+
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE>
+</FORM>
+<BR>
+</BODY></HTML>

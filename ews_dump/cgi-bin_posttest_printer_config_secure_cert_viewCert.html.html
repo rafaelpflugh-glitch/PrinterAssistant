@@ -1,0 +1,47 @@
+
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Gerenciamento de certificado de dispositivo</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<body>
+<TITLE>Gerenciamento de certificado de dispositivo</TITLE>
+<script language="JavaScript">
+function goToInstall()
+{
+window.location="./installCert.html?index=";
+}
+
+function goToDelete()
+{
+window.location="./deleteCert.html?index=";
+}
+
+function goToDownloadToFile()
+{
+window.location="/cgi-bin/exportfile/printer/config/secure/cert/SystemCert.pem?index=";
+}
+
+function goToDownloadSgningReq()
+{
+window.location="/cgi-bin/exportfile/printer/config/secure/cert/CertReq.csr?index=";
+}
+</script>
+
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Gerenciamento de certificado de dispositivo</H4>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/cert/viewCert.html" METHOD="post">
+<B>:</B>
+<TABLE>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR>
+<TD><INPUT TYPE="button" NAME="delete" VALUE="Excluir" onClick="goToDelete()">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" NAME="DownloadToFile" VALUE="Carregar no arquivo" onClick="goToDownloadToFile()">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" NAME="DownloadSigningRequest" VALUE="Carregar solicitaÃ§Ã£o de assinatura"  onClick="goToDownloadSgningReq()">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE=button VALUE="Instalar certificado assinado" onClick="goToInstall()">&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+
+</FORM>
+</BODY></HTML>

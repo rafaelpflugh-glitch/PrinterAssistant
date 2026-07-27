@@ -1,0 +1,40 @@
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ãµes Gerais de Rede (CartÃ£o Ativo)</TITLE>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+</HEAD>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/postpf/cgi-bin/dynamic/config/net/gen_network.html" METHOD="post">
+<H4>ConfiguraÃ§Ãµes Gerais de Rede (CartÃ£o Ativo)</H4>
+<TABLE>
+
+<TR><TD><label for="vac.255.MAC_LAA">LAA*</label></TD><TD NOWRAP><INPUT ID="vac.255.MAC_LAA" NAME="vac.255.MAC_LAA" SIZE=22 MAXLENGTH=12 VALUE="000000000000" >
+</TD><TD><span class="helper" id="vac.255.MAC_LAA">(exemplo: 123456789012)</span></TD></TR>
+
+
+ <TR><TD><label for="vac.255.INTBANNERPAGE">PÃ¡gina de rosto</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.INTBANNERPAGE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.INTBANNERPAGE" NAME="vac.255.INTBANNERPAGE" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.INTBANNERPAGE"></span></TD></TR>
+
+
+<TR><TD><label for="vac.255.GENJOBTIMEOUT">Tempo de Espera de Trabalho na Rede</label></TD><TD NOWRAP><INPUT ID="vac.255.GENJOBTIMEOUT" NAME="vac.255.GENJOBTIMEOUT" SIZE=6 MAXLENGTH=22 VALUE="90" onchange="checkInput('vac.255.GENJOBTIMEOUT',10,255,'Esta config. aceita som. um valor entre 10 e 255.','0,')" id="vac.255.GENJOBTIMEOUT" >
+</TD><TD><span class="helper" id="vac.255.GENJOBTIMEOUT">(faixa: de 10 a 255 segundos, 0 para desativar)</span></TD></TR>
+
+ <TR><TD><label for="vac.255.MAC_IEEE_P802_3az">Energy Efficient Ethernet</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.MAC_IEEE_P802_3az" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.MAC_IEEE_P802_3az" NAME="vac.255.MAC_IEEE_P802_3az" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.MAC_IEEE_P802_3az">SÃ³ funciona c/ switch comp. c/ IEEE P802.3az EEE</span></TD></TR>
+
+
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD> <INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;
+ <INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;
+</TD>
+</TR>
+</FORM>
+</TABLE><BR>
+<TABLE>
+<TR><TD COLSPAN=3>* A alteraÃ§Ã£o desta configuraÃ§Ã£o irÃ¡ redefinir o servidor de impressÃ£o.</TD></TR>
+</TABLE>
+</BODY></HTML>

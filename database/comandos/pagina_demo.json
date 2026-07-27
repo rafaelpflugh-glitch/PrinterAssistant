@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Página demonstração",
+    "metodo": "GET",
+    "endpoint": "/cgi-bin/printer/demo"
+}
+

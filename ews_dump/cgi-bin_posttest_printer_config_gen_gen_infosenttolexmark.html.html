@@ -1,0 +1,185 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>InformaÃ§Ãµes enviadas Ã  Lexmark</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script type="text/javascript">
+function initialize() {
+    var start = document.getElementById("system.13315").value;
+    var stop = document.getElementById("system.13314").value;
+    document.getElementById("startTime").selectedIndex = start;
+    document.getElementById("stopTime").selectedIndex = stop;
+    document.getElementById("InfoSentToLexmarkMoreInfo").style.display = "none";
+    document.getElementById("UserInfoLevelMoreInfo").style.display = "none";
+    DisplayOptinValues();
+}
+function DisplayMoreInfo(display, id, moreinfo) {
+    if (display)
+    {
+        document.getElementById(id).style.display = "block";
+        document.getElementById(moreinfo).style.display = "none";
+    }
+    else
+    {
+        document.getElementById(id).style.display = "none";
+        document.getElementById(moreinfo).style.display = "table-row";
+    }
+}
+function ResetOptinValues() {
+    document.getElementById("optinForm").reset();
+    DisplayOptinValues();
+}
+function DisplayOptinValues() {
+    var optin = document.getElementById("system.13312").value;
+    if (optin == 1) EvaluateCheckbox1();
+    else if (optin == 2) EvaluateCheckbox2();
+    else EvaluateCheckbox0();
+}
+function EvaluateCheckbox1() {
+    document.getElementById("checkSuppliesAndPageUsage").checked = true;
+    document.getElementById("checkNoneOfTheAbove").checked = false;
+    document.getElementById("system.13354").disabled = true;
+    document.getElementById("horizontalLine").style.display = "block";
+    document.getElementById("SendTimeInfo").style.display = "block";
+    document.getElementById("system.13312").value = 1;
+}
+function EvaluateCheckbox2() {
+    document.getElementById("checkDevicePerformance").checked = true;
+    document.getElementById("checkSuppliesAndPageUsage").checked = true;
+    document.getElementById("checkSuppliesAndPageUsage").disabled = true;
+    document.getElementById("checkNoneOfTheAbove").checked = false;
+    document.getElementById("system.13354").disabled = false;
+    document.getElementById("horizontalLine").style.display = "block";
+    document.getElementById("SendTimeInfo").style.display = "block";
+    document.getElementById("system.13312").value = 2;
+}
+function EvaluateCheckbox0() {
+    document.getElementById("checkNoneOfTheAbove").checked = true;
+    document.getElementById("checkSuppliesAndPageUsage").checked = false;
+    document.getElementById("checkSuppliesAndPageUsage").disabled = false;
+    document.getElementById("checkDevicePerformance").checked = false;
+    document.getElementById("checkDevicePerformance").disabled = false;
+    document.getElementById("horizontalLine").style.display = "none";
+    DisplayMoreInfo(false, 'UserInfoLevelMoreInfo', 'MoreInfo2');
+    document.getElementById("SendTimeInfo").style.display = "none";
+    document.getElementById("system.13312").value = 0;
+}
+function SetTime(id, setting) {
+     document.getElementById(setting).value = document.getElementById(id).value;
+}
+</script>
+</HEAD>
+<BODY onload="initialize()">
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/dynamic/printer/config/gen/gen_infosenttolexmark.html" METHOD="post" id="optinForm">
+<H4>InformaÃ§Ãµes enviadas Ã  Lexmark</H4>
+<TABLE>
+<TR><TD style="display:none">
+<SELECT NAME="0.system.13312" ID="system.13312">
+<OPTION SELECTED VALUE="0">Nenhuma das anteriores</OPTION>
+<OPTION VALUE="1">Uso de pÃ¡gina e suprimentos (anÃ´nimo)</OPTION>
+<OPTION VALUE="2">Desempenho do dispositivo (anÃ´nimo)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD>Uso de pÃ¡gina e suprimentos (anÃ´nimo)</TD><TD><INPUT type="checkbox" id="checkSuppliesAndPageUsage" onclick="EvaluateCheckbox1()"></TD></TR>
+<TR><TD>Desempenho do dispositivo (anÃ´nimo)</TD><TD><INPUT type="checkbox" id="checkDevicePerformance" onclick="EvaluateCheckbox2()"></TD></TR>
+<TR><TD>Nenhuma das anteriores</TD><TD><INPUT type="checkbox" id="checkNoneOfTheAbove" onclick="EvaluateCheckbox0()"></TD></TR>
+<TR><TD><BR/></TD></TR>
+<TR id="MoreInfo1"><TD><A onClick="DisplayMoreInfo(true, 'InfoSentToLexmarkMoreInfo', 'MoreInfo1')">Mais info</A></TD></TR>
+</TABLE>
+<TABLE ID="InfoSentToLexmarkMoreInfo" width="75%">
+<TR><TD><B>Uso de pÃ¡gina e suprimentos (anÃ´nimo)</B></TD></TR>
+<TR><TD>Autoriza a Lexmark a coletar um resumo de inform. anÃ´nimas sobre uso de dispositivos, como o nÂº de pÃ¡g. impressas e nÃ­veis de toner p/ ajudar a Lexmark a entender melhor como os clientes usam os produtos.</TD></TR>
+<TR><TD><BR/><B>Desempenho do dispositivo (anÃ´nimo)</B></TD></TR>
+<TR><TD>Autoriza a Lexmark a coletar um resumo de inform. anÃ´nimas sobre desemp. de dispos., como mÃ©tricas e erros, para ajudar a Lexmark a melhorar o desemp. do dispos. e habilit o alto nÃ­vel do serviÃ§o.</TD></TR>
+<TR><TD><BR/>A Lexmark pode combinar as informaÃ§Ãµes de seu dispositivo anÃ´nimo com outras informaÃ§Ãµes que vocÃª concorda em fornecer ou forneceu Ã  Lexmark.</TD></TR>
+<TR><TD><BR/>Para obter mais informaÃ§Ãµes, visite <a href="http://www.Lexmark.com/deviceinformation" target=\"_blank\">Lexmark.com/deviceinformation</a>.</TD></TR>
+<TR><TD><BR/>Todas as suas informaÃ§Ãµes serÃ£o tratadas em conformidade com a DeclaraÃ§Ã£o de Privacidade da Lexmark encontrada em <a href="http://www.Lexmark.com/privacy" target=\"_blank\">Lexmark.com/privacy</a>.</TD></TR>
+<TR><TD style="text-align:right"><A onClick="DisplayMoreInfo(false, 'InfoSentToLexmarkMoreInfo', 'MoreInfo1')">Ocultar</A></TD></TR>
+</TABLE>
+<HR ID="horizontalLine" SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE/>
+<TABLE ID="SendTimeInfo">
+<TR></TR>
+<TR><TD style="font-size: 11pt; font-weight:bold" colspan="2">Enviar info de hora</TD></TR>
+<TR><TD colspan="2">Janela de hora de sua preferÃªncia na qual as informaÃ§Ãµes serÃ£o transmitidas Ã  Lexmark. Formato de 24 horas.</TD></TR>
+<TR><TD width="200"><label for="0.system.13315">Iniciar envio</label></TD>
+<TD style="display:none"><INPUT NAME="0.system.13315" onchange="checkInput('system.13315',0, 23, 'Esta config. aceita som. um valor entre 0 e 23.', '')" id="system.13315" SIZE=6 MAXLENGTH=22 VALUE="0"></TD>
+<TD><select id="startTime" name="0.system.13315" onchange="SetTime('startTime', 'system.13315')">
+    <option value="0">00:00:00</option>
+    <option value="1">01:00:00</option>
+    <option value="2">02:00:00</option>
+    <option value="3">03:00:00</option>
+    <option value="4">04:00:00</option>
+    <option value="5">05:00:00</option>
+    <option value="6">06:00:00</option>
+    <option value="7">07:00:00</option>
+    <option value="8">08:00:00</option>
+    <option value="9">09:00:00</option>
+    <option value="10">10:00:00</option>
+    <option value="11">11:00:00</option>
+    <option value="12">12:00:00</option>
+    <option value="13">13:00:00</option>
+    <option value="14">14:00:00</option>
+    <option value="15">15:00:00</option>
+    <option value="16">16:00:00</option>
+    <option value="17">17:00:00</option>
+    <option value="18">18:00:00</option>
+    <option value="19">19:00:00</option>
+    <option value="20">20:00:00</option>
+    <option value="21">21:00:00</option>
+    <option value="22">22:00:00</option>
+    <option value="23">23:00:00</option>
+</select></TD></TR>
+<TR><TD><label for="0.system.13314">Parar envio</label></TD>
+<TD style="display:none"><INPUT NAME="0.system.13314" onchange="checkInput('system.13314',0, 23, 'Esta config. aceita som. um valor entre 0 e 23.', '')" id="system.13314" SIZE=6 MAXLENGTH=22 VALUE="0"></TD>
+<TD><select id="stopTime" name="0.system.13314" onchange="SetTime('stopTime', 'system.13314')">
+    <option value="0">00:00:00</option>
+    <option value="1">01:00:00</option>
+    <option value="2">02:00:00</option>
+    <option value="3">03:00:00</option>
+    <option value="4">04:00:00</option>
+    <option value="5">05:00:00</option>
+    <option value="6">06:00:00</option>
+    <option value="7">07:00:00</option>
+    <option value="8">08:00:00</option>
+    <option value="9">09:00:00</option>
+    <option value="10">10:00:00</option>
+    <option value="11">11:00:00</option>
+    <option value="12">12:00:00</option>
+    <option value="13">13:00:00</option>
+    <option value="14">14:00:00</option>
+    <option value="15">15:00:00</option>
+    <option value="16">16:00:00</option>
+    <option value="17">17:00:00</option>
+    <option value="18">18:00:00</option>
+    <option value="19">19:00:00</option>
+    <option value="20">20:00:00</option>
+    <option value="21">21:00:00</option>
+    <option value="22">22:00:00</option>
+    <option value="23">23:00:00</option>
+</select></TD></TR>
+<TR><TD><BR/></TD></TR>
+<TR><TD><B><label for="0.system.13354">Inform. do usuÃ¡rio - NÃ­vel</label></B></TD>
+<TD>
+<SELECT NAME="0.system.13354" ID="system.13354">
+<OPTION SELECTED VALUE="0">Somente info de sessÃ£o anÃ´nima</OPTION>
+<OPTION VALUE="1">Info de sessÃ£o com info de usuÃ¡rio genÃ©ricas</OPTION>
+<OPTION VALUE="2">Info de sessÃ£o com IDs do usuÃ¡rio reais</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><BR/></TD></TR>
+<TR id="MoreInfo2"><TD><A onClick="DisplayMoreInfo(true, 'UserInfoLevelMoreInfo', 'MoreInfo2')">Mais info</A></TD></TR>
+</TABLE>
+<TABLE ID="UserInfoLevelMoreInfo" width="75%">
+<TR><TD>Autoriza a Lexmark a coletar informaÃ§Ãµes a fim de ajudÃ¡-la a compreender os eventos do usuÃ¡rio e a aprimorar os serviÃ§os e os diagnÃ³sticos.</TD></TR>
+<TR><TD><BR/><b>Apenas para informaÃ§Ãµes de sessÃ£o anÃ´nima</b> <p></b>Autoriza a Lexmark a coletar dados anÃ´nimos sobre atividades realizadas no dispositivo Lexmark.</p></TD></TR>
+<TR><TD><BR/><b>InformaÃ§Ãµes de sessÃ£o com informaÃ§Ãµes de usuÃ¡rio genÃ©rico</b> <p></b>Autoriza a Lexmark a coletar dados do dispositivo sobre atividades realizadas por usuÃ¡rios individuais no dispositivo. UsuÃ¡rios sÃ£o associados a identificadores exclusivos para fins de coleta, mas nÃ£o identificados nos dados coletados pela Lexmark.</p></TD></TR>
+<TR><TD><BR/><b>InformaÃ§Ãµes de sessÃ£o com IDs de usuÃ¡rio atual</b> <p></b>Autoriza a Lexmark a coletar dados do dispositivo sobre atividades realizadas por usuÃ¡rios individuais no dispositivo. InformaÃ§Ãµes de identificaÃ§Ã£o do usuÃ¡rio serÃ£o coletadas, se disponÃ­veis.</p></TD></TR>
+<TR><TD style="text-align:right"><A onClick="DisplayMoreInfo(false, 'UserInfoLevelMoreInfo', 'MoreInfo2')">Ocultar</A></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE/>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" ID="submit_button" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="button" onclick="ResetOptinValues()" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE><BR/>
+</FORM>
+</BODY></HTML>

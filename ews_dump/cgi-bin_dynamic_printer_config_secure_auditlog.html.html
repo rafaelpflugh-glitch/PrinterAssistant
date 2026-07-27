@@ -1,0 +1,127 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<script type="text/javascript">
+function disable()
+  {
+   var slog = document.getElementById("system.17048").value
+   if (slog == "")
+   { 
+    document.getElementById("system.17047").disabled=true
+    document.getElementById("system.17047").checked=false
+   }
+   if (slog != "")
+   { 
+    document.getElementById("system.17047").disabled=false
+   }
+   else
+   {
+   }
+ }
+function reset_and_disable()
+{
+    document.getElementById("system.17048").value = document.getElementById("system.17048").defaultValue;
+    disable();
+}
+</script>
+<TITLE>Log de Auditoria de SeguranÃ§a</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY onload="disable()">
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/auditlog.html" METHOD="post" onReset="reset_and_disable()">
+<H4>Log de Auditoria de SeguranÃ§a</H4>
+<TABLE>
+<TR><TD><label for="system.17153">Ativar Auditoria</label></TD><TD><INPUT TYPE="hidden" NAME=2.system.17153  VALUE=0><INPUT TYPE="checkbox" NAME=2.system.17153 id="system.17153" VALUE=1></TD></TR>
+<TR><TD><label for="system.17047">Ativar Syslog Remoto</label></TD><TD><INPUT TYPE="hidden" NAME=2.system.17047  VALUE=0><INPUT TYPE="checkbox" NAME=2.system.17047 id="system.17047" VALUE=1></TD></TR>
+<TR><TD><label for="system.17048">Servidor de Syslog Remoto</label></TD><TD><INPUT NAME="1.system.17048" id="system.17048" SIZE=22 MAXLENGTH=128 VALUE="" onKeyUp="disable()"></TD></TR>
+<TR><TD><label for="system.17049">Porta de Syslog Remoto</label></TD><TD><INPUT NAME="0.system.17049" onchange="checkInput('system.17049',1, 65535, 'Esta config. aceita som. um valor entre 1 e 65535.', '')" id="system.17049" SIZE=6 MAXLENGTH=22 VALUE="514"></TD><TD><span class="helper" id="helper.system.17049">Intervalo: 1 - 65535. PadrÃ£o: 514</span></TD></TR>
+<TR><TD><label for="system.17050">MÃ©todo de Syslog Remoto</label></TD><TD>
+<SELECT NAME="0.system.17050" ID="system.17050">
+<OPTION SELECTED VALUE="0">Normal UDP</OPTION>
+<OPTION VALUE="1">Stunnel</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.17051">Instrumento do Syslog Remoto</label></TD><TD>
+<SELECT NAME="0.system.17051" ID="system.17051">
+<OPTION VALUE="0">0 - mensagens kernel</OPTION>
+<OPTION VALUE="1">1 - mensagens de nÃ­vel do usuÃ¡rio</OPTION>
+<OPTION VALUE="2">2 - sistema de correspondÃªncia</OPTION>
+<OPTION VALUE="3">3 - daemons do sistema</OPTION>
+<OPTION SELECTED VALUE="4">4 - mensagens de seguranÃ§a/autorizaÃ§Ã£o</OPTION>
+<OPTION VALUE="5">5 - mensagens geradas internamente pelo syslogd</OPTION>
+<OPTION VALUE="6">6 - subsistema de linha de impressora</OPTION>
+<OPTION VALUE="7">7 - subsistema de notÃ­cias de rede</OPTION>
+<OPTION VALUE="8">8 - subsistema UUCP</OPTION>
+<OPTION VALUE="9">9 - daemon do relÃ³gio</OPTION>
+<OPTION VALUE="10">10 - mensagens de seguranÃ§a/autorizaÃ§Ã£o</OPTION>
+<OPTION VALUE="11">11 - daemon do FTP</OPTION>
+<OPTION VALUE="12">12 - subsistema NTP</OPTION>
+<OPTION VALUE="13">13 - auditoria de registro</OPTION>
+<OPTION VALUE="14">14 - alerta de registro</OPTION>
+<OPTION VALUE="15">15 - daemon do relÃ³gio</OPTION>
+<OPTION VALUE="16">16 - uso local 0  (local0)</OPTION>
+<OPTION VALUE="17">17 - uso local 1  (local1)</OPTION>
+<OPTION VALUE="18">18 - uso local 2  (local2)</OPTION>
+<OPTION VALUE="19">19 - uso local 3  (local3)</OPTION>
+<OPTION VALUE="20">20 - uso local 4  (local4)</OPTION>
+<OPTION VALUE="21">21 - uso local 5  (local5)</OPTION>
+<OPTION VALUE="22">22 - uso local 6  (local6)</OPTION>
+<OPTION VALUE="23">23 - uso local 7  (local7)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.17154">Registrar eventos critÃ­cos</label></TD><TD>
+<SELECT NAME="0.system.17154" ID="system.17154">
+<OPTION VALUE="0">0 - EmergÃªncia</OPTION>
+<OPTION VALUE="1">1 - Alerta</OPTION>
+<OPTION VALUE="2">2 - CrÃ­tica</OPTION>
+<OPTION VALUE="3">3 - Erro</OPTION>
+<OPTION SELECTED VALUE="4">4 - Aviso</OPTION>
+<OPTION VALUE="5">5 - NotificaÃ§Ã£o</OPTION>
+<OPTION VALUE="6">6 - Informacional</OPTION>
+<OPTION VALUE="7">7 - DepuraÃ§Ã£o</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.system.17154">0=gravidade mÃ¡xima, 7=gravidade mÃ­nima. SerÃ¡ registrado tudo o que for de gravidade igual ou superior.</span></TD></TR>
+<TR><TD><label for="system.17155">Eventos nÃ£o registrados do Syslog Remoto</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17155"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17155"  id="system.17155" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17053">EndereÃ§o de email do administrador</label></TD><TD><INPUT NAME="1.system.17053" id="system.17053" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.system.17053">Use uma vÃ­rgula para separar os endereÃ§os.</span></TD></TR>
+<TR><TD><label for="system.17156">Alerta de Log de email limpo</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17156"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17156"  id="system.17156" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17157">Alerta de log de email condensado</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17157"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17157"  id="system.17157" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17052">Comportamento de log cheio</label></TD><TD>
+<SELECT NAME="0.system.17052" ID="system.17052">
+<OPTION SELECTED VALUE="0">Finalizar entradas mais antigas</OPTION>
+<OPTION VALUE="1">Enviar log por email e excluir todas as entradas</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.17158">Alerta de email % cheio</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17158"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17158"  id="system.17158" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17159">nÃ­vel de alerta cheio %</label></TD><TD><INPUT NAME="0.system.17159" onchange="checkInput('system.17159',1, 99, 'Esta config. aceita som. um valor entre 1 e 99.', '')" id="system.17159" SIZE=6 MAXLENGTH=22 VALUE="90"></TD><TD><span class="helper" id="helper.system.17159">Intervalo: 1 - 99</span></TD></TR>
+<TR><TD><label for="system.17160">Alerta de log de email exportado</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17160"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17160"  id="system.17160" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17161">Alerta de configuraÃ§Ãµes alteradas de log de email</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17161"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17161"  id="system.17161" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.17162">Finais de linha de log</label></TD><TD>
+<SELECT NAME="0.system.17162" ID="system.17162">
+<OPTION SELECTED VALUE="0">LF (\n)</OPTION>
+<OPTION VALUE="1">CR (\r)</OPTION>
+<OPTION VALUE="2">CRLF (\r\n)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.17054">Assinar exportaÃ§Ãµes digitalmente</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17054"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17054"  id="system.17054" VALUE=1>
+</TD></TR>
+<TR><TD><A HREF="/cgi-bin/exportfile/printer/config/secure/audit.log" rel="nofollow">Export. log</A></TD></TR>
+
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/net/email.html">Configurar servidor de e-mail</A></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="submit" NAME="Audit.Delete" VALUE="Excluir Log">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE>
+</FORM>
+</BODY>
+</HTML>

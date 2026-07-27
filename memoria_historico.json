@@ -1,0 +1,35 @@
+[
+    {
+        "data": "14/07/2026 16:25:39",
+        "evento": {
+            "ip": "192.168.14.134",
+            "modelo": null,
+            "serial": "701644HH03ND3",
+            "acao": "diagnostico",
+            "resultado": "\n=================================\n\n      DIAGNÓSTICO LEXMARK\n\n=================================\n\nIP ANALISADO:\n192.168.14.134\n\n\n[REDE]\n\n80 - HTTP Web : ABERTA\n443 - HTTPS : ABERTA\n515 - LPR : ABERTA\n631 - IPP : ABERTA\n9100 - RAW Printing : ABERTA\n\n\n========== EWS LEXMARK EXPLORER ==========\n\nIP analisado: 192.168.14.134\n\nPÁGINAS ENCONTRADAS:\n\n[OK] /cgi-bin/sysdebugdata\n[--] /cgi-bin/dynamic/printer/config/\n[--] /cgi-bin/dynamic/printer/config/secure/\n[--] /cgi-bin/dynamic/printer/reports/\n[--] /cgi-bin/dynamic/printer/status/\n\nAÇÕES DETECTADAS:\n\n\n✓ restore_factory_settings\n\nEndpoint:\n/cgi-bin/dynamic/printer/config/secure/restore_factory_settings.html\n\nMétodo:\nPOST\n\nOpções:\n- base\n- network\n- les\n\n✓ erase_memory\n\nEndpoint:\n/cgi-bin/dynamic/printer/config/secure/erase_printer_memory.html\n\nMétodo:\nPOST\n\n\n==========================================\n\n=================================\n\nIDENTIFICAÇÃO\n\nSerial:\n701644HH03ND3\n\nFirmware:\nLW70.SB7.P022\n\nSysDebugData:\nOK\n\n=================================\n\n\n[ERRO DEBUG] 'toner_id'\n\n=================================\n\nDIAGNÓSTICO FINALIZADO\n\n=================================\n",
+            "analise_tecnica": "Coleta SysDebugData apresentou falha.\nPossível problema de comunicação EWS ou firmware.\nServidor EWS acessível."
+        }
+    },
+    {
+        "data": "14/07/2026 16:40:03",
+        "evento": {
+            "ip": "192.168.14.134",
+            "modelo": null,
+            "serial": "701644HH03ND3",
+            "acao": "pagina_configuracao",
+            "resultado": "Falha ao solicitar configuração. HTTP 404",
+            "analise_tecnica": "Nenhuma condição técnica conclusiva encontrada.\nNecessária coleta adicional de dados."
+        }
+    },
+    {
+        "data": "16/07/2026 14:19:23",
+        "evento": {
+            "ip": "192.168.14.134",
+            "modelo": null,
+            "serial": "701644HH03ND3",
+            "acao": "pagina_configuracao",
+            "resultado": "Falha ao solicitar configuração. HTTP 404",
+            "analise_tecnica": "Nenhuma condição técnica conclusiva encontrada.\nNecessária coleta adicional de dados."
+        }
+    }
+]

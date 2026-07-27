@@ -1,0 +1,100 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Modelos de seguranÃ§a</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+  <style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+  <script language="javascript">
+    function checkAuthz(element) {
+     if (document.getElementById(element).value == "")
+	alert("Nome exigido para Modelo de SeguranÃ§a.");
+     else{
+      var op_indicator = document.getElementById('form_operation');
+	  var form=document.getElementById("authForm")
+          var index=document.getElementById("authnId").selectedIndex;
+  	  form.action="/cgi-bin/posttest/printer/config/secure/auth/addsecutemp.html?index="+document.getElementsByTagName("option")[index].value
+        op_indicator.name = "no_op";
+        op_indicator.value = "no_op";
+    	document.getElementById("clickAuthz").click()
+     }
+    }
+
+    function change_action(action)
+    {
+        var myForm = document.getElementById("authForm");
+        if(myForm)
+        {
+            var op_indicator = document.getElementById('form_operation');
+    
+            if (op_indicator != null)
+            {
+                if(action == "modify")
+                {
+                    op_indicator.name = '102.applications.auth.configFactory';
+                    op_indicator.value = 'Modify';
+                }
+                else if(action == "delete_entry")
+                {
+                    op_indicator.name = '103.applications.auth.configFactory';
+                    op_indicator.value = 'Delete+Entry';
+                }
+            }
+            myForm.submit();
+        }
+    }
+
+  </script>
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/auth/addsecutemp.html?index=&index1=" METHOD="post" id="authForm">
+<INPUT TYPE="hidden" NAME="109.Security.Template"  VALUE="-1">
+
+<INPUT TYPE="hidden" NAME="110.Security.Template"  VALUE="-1">
+<H4>Modelos de seguranÃ§a</H4>
+
+
+
+
+
+
+
+
+
+
+
+<TABLE>
+
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 11"  VALUE="-1">
+
+<TR><TD><label for="1.name">Nome do modelo de seguranÃ§a</label></TD><TD><INPUT NAME="1.name" id="name" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="0.authId">ConfiguraÃ§Ã£o de autenticaÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.authnId" id="authnId">
+</SELECT></TD></TR>
+
+
+
+<TR><TD><input TYPE="button" VALUE="Adicionar autorizaÃ§Ã£o" onClick="checkAuthz('name')"></TD></TR>
+
+
+</TABLE>
+<TABLE>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+
+<input type="hidden" id="form_operation" name="101.applications.auth.configFactory" value="Add">
+<TR><TD class="visible"><input TYPE="submit" NAME="add_button" VALUE="Salvar modelo">&nbsp;&nbsp;</TD>
+<TD class="invisible"><input TYPE="submit" id="clickAuthz" NAME="101.applications.auth.configFactory" VALUE="addauthz">&nbsp;&nbsp;</TD>
+
+<TD><input TYPE="button" VALUE="Canc." onClick="theRandom=Math.random();window.open('/cgi-bin/dynamic/printer/config/secure/auth/secutemp.html?rand='+theRandom,'_self')"></TD>
+
+</TR>
+</TABLE>
+</FORM>
+</BODY>
+</HTML>

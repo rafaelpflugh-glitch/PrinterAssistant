@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Papel normal",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/paper/normal"
+}
+

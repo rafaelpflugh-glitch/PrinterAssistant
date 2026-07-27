@@ -1,0 +1,15 @@
+Teste Rede
+
+1 Ping
+
+2 HTTP
+
+3 HTTPS
+
+4 RAW 9100
+
+5 LPR
+
+6 IPP
+
+7 Abrir EWS

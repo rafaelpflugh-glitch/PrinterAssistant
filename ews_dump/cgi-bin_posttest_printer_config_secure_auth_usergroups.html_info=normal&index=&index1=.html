@@ -1,0 +1,125 @@
+
+<HTML><HEAD>
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="IA">
+<META http-equiv="expires" content="0">
+<TITLE>Grupos para contas internas</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script type="text/css">
+.hidden {display: none;}
+</script>
+<script language="javascript">
+<!--
+function disable_buttons()
+{
+
+
+    document.getElementById("modify_button").disabled = true;
+    document.getElementById("delete_button").disabled = true;
+
+    return true;
+}
+function change_action(action)
+
+{
+    var myForm = document.getElementById("authForm");
+    if(myForm)
+    {
+        var op_indicator = document.getElementById('form_operation');
+
+        if (op_indicator != null)
+        {
+            if(action == "modify")
+            {
+                op_indicator.name = '102.applications.auth.configFactory';
+                op_indicator.value = 'Modify';
+            }
+            else if(action == "delete_entry")
+            {
+                op_indicator.name = '103.applications.auth.configFactory';
+                op_indicator.value = 'Delete+Entry';
+            }
+            else if(action == "delete_list")
+            {
+                op_indicator.name = '104.applications.auth.configFactory';
+                op_indicator.value = 'Delete+List';
+            }
+        }
+        myForm.submit();
+    }
+}
+
+-->
+</script>
+</HEAD>
+<BODY onload="disable_buttons()">
+
+
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Grupos para contas internas</H4>
+
+
+
+
+
+
+
+
+
+
+<BR>
+<P>Insira um nome para cada grupo. Cada grupo nomeado pode ser associado Ã s contas internas e tambÃ©m pode ser usado na criaÃ§Ã£o de modelos de seguranÃ§a que usam contas internas para fins de autorizaÃ§Ã£o.</P>
+
+<H4>Grupos de ConfiguraÃ§Ã£o</H4>
+
+
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/auth/usergroups.html?info=normal&index=&index1=" METHOD="post" id="authForm">
+
+
+
+
+
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 28"  VALUE="-1">
+
+<TABLE>
+    <TR><TD><label for="1.name">Nome do Grupo</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.name" id="name" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+    <TR><TD colspan="2"> <HR/> </TD></TR>
+    <TR>
+        <TD colspan="2">
+            <input type="hidden" id="form_operation" name="101.applications.auth.configFactory" value="Add">
+            <INPUT TYPE="submit" NAME="add_button" VALUE="Adicionar">
+            &nbsp;
+            <INPUT TYPE="button" onclick="change_action('modify');" NAME="102.applications.auth.configFactory" ID="modify_button" VALUE="Modificar">
+            &nbsp;
+            <INPUT TYPE="button" onclick="change_action('delete_entry');" NAME="103.applications.auth.configFactory" ID="delete_button" VALUE="Excluir entrada">
+            &nbsp;
+            <INPUT TYPE="button" onclick="change_action('delete_list');"  NAME="104.applications.auth.configFactory" VALUE="Excluir lista">
+            &nbsp;
+            <INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">
+        </TD>
+    </TR>
+</TABLE>
+</FORM>
+
+<BR/>
+<TABLE>
+<TR><TD COLSPAN=3>Itens com * sÃ£o obrigatÃ³rios.</TD></TR>
+</TABLE>
+<BR/><BR/>
+
+<TABLE BORDER="1" width="50%">
+<TR><TD><B>Nome do Grupo</B></TD></TR>
+
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+
+
+<BR/><BR/>
+<A HREF="/cgi-bin/dynamic/printer/config/secure/auth/manageusers.html?info=normal">Retornar ao Gerenciamento de Contas Internas</A>
+
+
+</TABLE>
+</BODY>
+</HTML>
+

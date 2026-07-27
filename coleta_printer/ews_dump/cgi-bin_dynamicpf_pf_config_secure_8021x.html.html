@@ -1,0 +1,64 @@
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>AutenticaÃ§Ã£o 802.1x</TITLE>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/postpf/cgi-bin/dynamic/config/secure/8021x.html" METHOD="post">
+<H4>AutenticaÃ§Ã£o 802.1x</H4>
+<TABLE>
+<TR><TD><label for="vac.255.SEC_8021X_ENABLED">Ativo*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_ENABLED" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_ENABLED" NAME="vac.255.SEC_8021X_ENABLED" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_ENABLED"></span></TD></TR>
+<TR><TD><label for="vac.255.SEC_DEVNAME">Nome de login no dispositivo*</label></TD><TD NOWRAP><INPUT ID="vac.255.SEC_DEVNAME" NAME="vac.255.SEC_DEVNAME" SIZE=22 MAXLENGTH=32 VALUE="" >
+</TD><TD><span class="helper" id="vac.255.SEC_DEVNAME">Este Ã© o nome usado para efetuar login no servidor de autenticaÃ§Ã£o.</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_DEVPASS">Senha de login no dispositivo*</label></TD><TD NOWRAP><INPUT ID="vac.255.SEC_DEVPASS" TYPE="password" NAME="vac.255.SEC_DEVPASS" SIZE=22 onfocus="clearSettingByName('vac.255.SEC_DEVPASS')" MAXLENGTH=128 VALUE="" >
+</TD><TD><span class="helper" id="vac.255.SEC_DEVPASS"></span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_PHASE0_NAME">Nome usu. Fase 0 EAP*</label></TD><TD NOWRAP><INPUT ID="vac.255.SEC_8021X_PHASE0_NAME" NAME="vac.255.SEC_8021X_PHASE0_NAME" SIZE=22 MAXLENGTH=32 VALUE="" >
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_PHASE0_NAME">Nome de usuÃ¡rio p/ apagar negociaÃ§Ã£o de texto. Se em branco, usado Nome de login do dispositivo. Se em branco e sem Nome de login do dispositivo, definido c/o 'anonymous'.</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_VALIDATE_CERT">Validar certificado de servidor*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_VALIDATE_CERT" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_VALIDATE_CERT" NAME="vac.255.SEC_8021X_VALIDATE_CERT" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_VALIDATE_CERT">ObservaÃ§Ã£o: A validaÃ§Ã£o de certificado de servidor Ã© um recurso de seguranÃ§a que faz parte do TLS, do PEAP e do TTLS.</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_AUTH_STATUS_LOG">Ativar log de eventos*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_AUTH_STATUS_LOG" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_AUTH_STATUS_LOG" NAME="vac.255.SEC_8021X_AUTH_STATUS_LOG" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_AUTH_STATUS_LOG">Aviso: Para reduzir o desgaste da peÃ§a FLASH, ligue-a somente quando necessÃ¡rio.</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_SELDEVCERT">Certificado de dispositivo 802.1x*</label></TD><TD NOWRAP><SELECT ID="vac.255.SEC_8021X_SELDEVCERT" NAME="vac.255.SEC_8021X_SELDEVCERT" >
+<OPTION SELECTED VALUE="default">default</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_SELDEVCERT"></span></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<B>Mecanismos de autenticaÃ§Ã£o permitidos</B>
+<TABLE>
+<TR><TD><label for="vac.255.SEC_8021X_EAP_MD5">EAP - MD5*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_EAP_MD5" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_EAP_MD5" NAME="vac.255.SEC_8021X_EAP_MD5" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_EAP_MD5">ObrigatÃ³rio: nome de login do dispositivo, senha de login do dispositivo</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_EAP_MSCHAPV2">EAP - MSCHAPv2*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_EAP_MSCHAPV2" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_EAP_MSCHAPV2" NAME="vac.255.SEC_8021X_EAP_MSCHAPV2" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_EAP_MSCHAPV2">ObrigatÃ³rio: nome de login do dispositivo, senha de login do dispositivo</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_LEAP">LEAP*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_LEAP" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_LEAP" NAME="vac.255.SEC_8021X_LEAP" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_LEAP">ObrigatÃ³rio: nome de login do dispositivo, senha de login do dispositivo</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_PEAP">PEAP*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_PEAP" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_PEAP" NAME="vac.255.SEC_8021X_PEAP" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_PEAP">ObrigatÃ³rio: nome de login do dispositivo, senha de login do dispositivo, Certificado CA</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_EAP_TLS">EAP - TLS*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_EAP_TLS" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_EAP_TLS" NAME="vac.255.SEC_8021X_EAP_TLS" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_EAP_TLS">ObrigatÃ³rio: nome de login do dispositivo, Certificado CA, certificado assinado do dispositivo</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_EAP_TTLS">EAP - TTLS*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.SEC_8021X_EAP_TTLS" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.SEC_8021X_EAP_TTLS" NAME="vac.255.SEC_8021X_EAP_TTLS" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_EAP_TTLS">ObrigatÃ³rio: nome de login do dispositivo, senha de login do dispositivo, Certificado CA</span></TD></TR>
+<TR><TD><label for="vac.255.SEC_8021X_EAP_TTLS_OPTIONS">MÃ©todo de autenticaÃ§Ã£o TTLS*</label></TD><TD NOWRAP><SELECT ID="vac.255.SEC_8021X_EAP_TTLS_OPTIONS" NAME="vac.255.SEC_8021X_EAP_TTLS_OPTIONS" >
+<OPTION VALUE="0">CHAP</OPTION>
+<OPTION VALUE="1">MSCHAP</OPTION>
+<OPTION SELECTED VALUE="2">MSCHAPv2</OPTION>
+<OPTION VALUE="3">PAP</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="vac.255.SEC_8021X_EAP_TTLS_OPTIONS"></span></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+OBSERVAÃÃO: Certifique-se de configurar quaisquer certificados necessÃ¡rios na pÃ¡gina de certificados antes de enviar esta pÃ¡gina.
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD COLSPAN=3>* A alteraÃ§Ã£o desta configuraÃ§Ã£o irÃ¡ redefinir o servidor de impressÃ£o.</TD></TR>
+</TABLE>
+</BODY></HTML>

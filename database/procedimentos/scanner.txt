@@ -1,0 +1,11 @@
+Scanner
+
+1 Abrir tampa
+
+2 Digitalizar
+
+3 Conferir alimentação
+
+4 Conferir resolução
+
+5 Conferir comunicação

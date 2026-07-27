@@ -1,0 +1,110 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Painel do operador remoto</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+
+<STYLE TYPE="text/css">
+table.vncTable
+{
+    border:1px solid #000000;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: normal;
+}
+
+table.vncTable th
+{
+    font-weight: bold;
+}
+</STYLE>
+
+</HEAD>
+<BODY >
+<TABLE WIDTH="100%" HEIGHT="100%">
+<TR>
+<TD>
+<CENTER>
+<applet codebase="/cgi-bin/dynamic/printer/applets/remoteOp" code="VncViewer.class" align="left" hspace="0" width="800" height="480" name="RemoteOpPanel" archive="vncviewer.jar">
+<param name="PORT" value="5900">
+<param name="HOST" value="192.168.14.134">
+<param name="USETLS" value="1">
+<param name="Show Controls" value="no">
+<param name="Locale" value="pt">
+<param name="LocaleCountry" value=US>
+<param name="Enabled" value="0">
+<p>Suporte a Java necessÃ¡rio. Habilite Java no navegador ou clique <a href="http://www.java.com/getjava/" target="_blank">aqui</a> para baixar Java.</p>
+</applet>
+
+</CENTER>
+</TD>
+</TR>
+<TR>
+<TD>
+<TABLE>
+<TR valign="top">
+<TD>
+<TABLE BORDER="0" CLASS="vncTable">
+<TR>
+<TH>Tecla do teclado</TH>
+<TH>=</TH>
+<TH>BotÃ£o da impressora</TH>
+</TR>
+<TR>
+<TD>F2</TD>
+<TD>=</TD>
+<TD>Parar</TD>
+</TR>
+<TR>
+<TD>F3</TD>
+<TD>=</TD>
+<TD>Iniciar</TD>
+</TR>
+<TR>
+<TD>F4</TD>
+<TD>=</TD>
+<TD>InÃ­cio</TD>
+</TR>
+<TR>
+<TD>Retroceder</TD>
+<TD>=</TD>
+<TD>Retroceder</TD>
+</TR>
+</TABLE>
+</TD>
+<TD>
+<TABLE BORDER="0" CLASS="vncTable">
+<TR>
+<TH>Tecla do teclado</TH>
+<TH>=</TH>
+<TH>BotÃ£o da impressora</TH>
+</TR>
+<TR>
+<TD>,</TD>
+<TD>=</TD>
+<TD>Pausa na discagem</TD>
+</TR>
+<TR>
+<TD>*</TD>
+<TD>=</TD>
+<TD>*</TD>
+</TR>
+<TR>
+<TD>#</TD>
+<TD>=</TD>
+<TD>#</TD>
+</TR>
+<TR>
+<TD>0-9</TD>
+<TD>=</TD>
+<TD>0-9</TD>
+</TR>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

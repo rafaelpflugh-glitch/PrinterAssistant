@@ -1,0 +1,48 @@
+{
+    "modelo":"MX611de",
+
+    "familia":"MX",
+
+    "tem_usb":true,
+
+    "tem_rede":true,
+
+    "tem_fax":false,
+
+    "tem_scanner":true,
+
+    "duplex":true,
+
+    "display":"touch",
+
+    "velocidade":50,
+
+    "resolucao":"1200dpi",
+
+    "toner":"60F4H00",
+
+    "imagem":"56F0Z00",
+
+    "procedimentos":[
+
+        "pagina_configuracao",
+
+        "pagina_menus",
+
+        "pagina_demonstracao",
+
+        "relatorio_ativos",
+
+        "reset_fabrica",
+
+        "reset_rede",
+
+        "reset_apps",
+
+        "papel_pesado",
+
+        "textura_aspera"
+
+    ]
+
+}

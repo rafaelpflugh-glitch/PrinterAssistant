@@ -1,0 +1,88 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o do catÃ¡logo de endereÃ§os</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/net/addressbook.html" METHOD="post">
+<H4>ConfiguraÃ§Ã£o do catÃ¡logo de endereÃ§os</H4>
+<TABLE>
+<TR><TD><label for="system.16388">EndereÃ§o do servidor</label></TD><TD><INPUT NAME="1.system.16388" id="system.16388" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="system.16389">Porta do servidor</label></TD><TD><INPUT NAME="0.system.16389" onchange="checkInput('system.16389',1, 65535, 'Esta config. aceita som. um valor entre 1 e 65535.', '')" id="system.16389" SIZE=6 MAXLENGTH=22 VALUE="389"></TD><TD>PadrÃ£o 389 para o LDAP. Escolha 3268 para CatÃ¡logo Global ou 636 para SSL</TD></TR>
+<TR><TD><label for="system.16728">Usar SSL/TLS</label></TD><TD>
+<SELECT NAME="0.system.16728" ID="system.16728">
+<OPTION SELECTED VALUE="0">Nenhum</OPTION>
+<OPTION VALUE="1">SSL</OPTION>
+<OPTION VALUE="2">TLS</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16975">VerificaÃ§Ã£o de certificado LDAP</label></TD><TD>
+<SELECT NAME="0.system.16975" ID="system.16975">
+<OPTION VALUE="0">Nunca</OPTION>
+<OPTION VALUE="3">Permitir</OPTION>
+<OPTION VALUE="4">Tentar</OPTION>
+<OPTION SELECTED VALUE="2">Exigir</OPTION>
+</SELECT>
+</TD>
+<TD>Depois que esta configuraÃ§Ã£o for alterada o dispositivo de ser desligado (e em seguida ligado) para que as alteraÃ§Ãµes sejam aplicadas.</TD>
+</TR>
+<TR><TD><label for="system.16729">Usar GSSAPI</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16729"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16729"  id="system.16729" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.16731">Atributo de e-mail</label></TD><TD><INPUT NAME="1.system.16731" id="system.16731" SIZE=22 MAXLENGTH=127 VALUE="mail"></TD></TR>
+<TR><TD><label for="system.16732">Atributo de nÃºmero de fax</label></TD><TD><INPUT NAME="1.system.16732" id="system.16732" SIZE=22 MAXLENGTH=127 VALUE="facsimiletelephonenumber"></TD></TR>
+<TR><TD><label for="system.16390">Base de pesquisa</label></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.16390" onChange="textCounter(this,256, 'Este campo pode ter somente 256 caracteres. ');"></TEXTAREA>
+</TD></TR>
+<TR><TD><label for="system.16392">Tempo limite da pesquisa</label></TD><TD><INPUT NAME="0.system.16392" onchange="checkInput('system.16392',5, 300, 'Esta config. aceita som. um valor entre 5 e 300.', '')" id="system.16392" SIZE=6 MAXLENGTH=22 VALUE="30"></TD><TD>Intervalo: 5-300 segundos.</TD></TR>
+<TR><TD><label for="system.16730">Nome exibido</label></TD><TD>
+<SELECT NAME="0.system.16730" ID="system.16730">
+<OPTION SELECTED VALUE="0">O mais longo do nc ou (Nomefornecido + sn)</OPTION>
+<OPTION VALUE="1">Prim. cn</OPTION>
+<OPTION VALUE="2">givenName + sn</OPTION>
+<OPTION VALUE="3">cn mais lon.</OPTION>
+<OPTION VALUE="4">displayName</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16393">MÃ¡ximo de resultados de pesquisa</label></TD><TD><INPUT NAME="0.system.16393" onchange="checkInput('system.16393',5, 500, 'Esta config. aceita som. um valor entre 5 e 500.', '')" id="system.16393" SIZE=6 MAXLENGTH=22 VALUE="100"></TD><TD>Intervalo: 5-500.</TD></TR>
+<TR><TD><label for="system.17275">Usar credenciais de usuÃ¡rio</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17275"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17275"  id="system.17275" VALUE=1>
+</TD></TR>
+
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/secure/mfpcredentials.html">Creden. dispos.</a></TD></TR>
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/net/address/searchattri.html">Atributos de pesquisa</a></TD></TR>
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/net/address/searchspecific_search.html">Pesquisar classes de objeto especÃ­ficas</a></TD></TR>
+</TABLE>
+
+<TABLE>
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/secure/auth/manageldap.html?info=normal">Gerenciar serv. LDAP (segur.)</a></TD></TR>
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/secure/auth/managegssapi.html?info=normal">Gerenciar serv. LDAP+GSSAPI (segur.)</a></TD></TR>
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</TABLE><BR>
+</FORM>
+
+<FORM ACTION="/cgi-bin/posttest/printer/config/net/addressbook.html?index=search" METHOD="post">
+<B>MÃ©todo</B><BR>
+<TABLE>
+<TR>
+<TD><INPUT TYPE="text" NAME="search"></TD>
+<TD><INPUT TYPE="SUBMIT" VALUE="Pesquisar CatÃ¡logo de EndereÃ§os"></TD>
+<TD>ApÃ³s enviar alteraÃ§Ãµes, use este link para verificar a configuraÃ§Ã£o da autenticaÃ§Ã£o.</TD>
+</TR>
+</FORM>
+
+</BODY></HTML>

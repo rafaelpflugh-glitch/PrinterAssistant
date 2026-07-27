@@ -1,0 +1,77 @@
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Importar um arq. de config.</title>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/solutions.css" type="text/css">
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/breadcrumbs.css" type="text/css">
+<script type="text/javascript">
+function do_import()
+{
+    document.getElementById("submit_button").disabled = true;
+    document.getElementById("status_msg").innerHTML = "Importando...";
+    mainForm.submit();
+}
+
+</script>
+</head>
+
+<body>
+<br>
+<div>
+<a class="currentTool" href="/cgi-bin/dynamic/printer/config/gen/vcc_bundles.html">HistÃ³rico de arqs. de cfg</a>
+<a class="tool" href="/cgi-bin/dynamic/printer/config/gen/vcc_licenses.html">LicenÃ§as</a>
+</div>
+<hr>
+
+&nbsp;<h3>Importar um arq. de config.</h3>
+&nbsp;Importar arquivos de configuraÃ§Ã£o pode reiniciar o dispositivo.<br><br>
+
+<form name="mainForm" action="/cgi-bin/dynamic/printer/config/gen/vcc_import_bundle.html" method="post" enctype="multipart/form-data">
+
+<table width="100%" style="border-color:#000000;border-style:solid none;border-width:1px 0px;">
+<tr>
+<td align="left">Arq. configuraÃ§Ã£o</td>
+<td align="left"><input name="input_file" type="file" size="50"> </td>
+<td>&nbsp;</td>
+</tr>
+<tr >
+<td colspan="3">
+    <div style="text-align: right; background-image: url(/cgi-bin/dynamic/printer/images/gradient_bar.jpg); ">
+        <input value="Importar" type="button" id="submit_button" onclick="do_import();">&nbsp;&nbsp;
+        <input value="Canc." type="button" onclick="window.location='/cgi-bin/dynamic/printer/config/gen/vcc_bundles.html'">&nbsp;&nbsp;
+    </div>
+</td>
+</tr>
+</table>
+
+<table width="100%" style="border-color:#000000;border-style:none none solid;border-width:0px 0px 1px;">
+<tr>
+<td colspan="3" >
+   <table border="0">
+   <tr>
+      <td valign="top">
+         <span style="color:green;"><b>Status</b>&nbsp;&nbsp;</span>
+      </td>
+      <td>
+         <span id="status_msg">
+            
+
+            
+
+            
+
+            
+            
+         </span>
+      </td>
+   </tr>
+   </table>
+</td>
+</tr>
+</table>
+</form>
+</body>
+
+</html>
+

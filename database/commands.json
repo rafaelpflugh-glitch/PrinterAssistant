@@ -1,0 +1,16 @@
+{
+    "print_configuration": {
+        "method": "GET",
+        "endpoint": "/cgi-bin/dynamic/printer/config/reports/deviceinfo.html"
+    },
+
+    "print_statistics": {
+        "method": "GET",
+        "endpoint": "/cgi-bin/dynamic/printer/config/reports/devicestatistics.html"
+    },
+
+    "printer_status": {
+        "method": "GET",
+        "endpoint": "/cgi-bin/dynamic/printer/PrinterStatus.html"
+    }
+}

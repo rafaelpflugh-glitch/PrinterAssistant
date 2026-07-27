@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Relatório de ativos",
+    "metodo": "GET",
+    "endpoint": "/cgi-bin/printer/asset"
+}
+

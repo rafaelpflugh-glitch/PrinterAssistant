@@ -1,0 +1,30 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Remover cores</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/scan_color_drop.html" METHOD="post">
+<H4>Remover cores</H4>
+<TABLE>
+<TR><TD><label for="0.system.17086">Remover cores</label></TD><TD>
+<SELECT NAME="0.system.17086" ID="system.17086">
+<OPTION SELECTED VALUE="0">Nenhum</OPTION>
+<OPTION VALUE="1">Vermelho</OPTION>
+<OPTION VALUE="2">Verde</OPTION>
+<OPTION VALUE="3">Azul</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.17097">Limiar de vermelho padrÃ£o</label></TD><TD><INPUT NAME="0.system.17097" onchange="checkInput('system.17097',0, 255, 'Esta config. aceita som. um valor entre 0 e 255.', '')" id="system.17097" SIZE=6 MAXLENGTH=22 VALUE="128">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.system.17097">Intervalo: 0 - 255</span></TD></TR>
+<TR><TD><label for="0.system.17098">Limiar de verde padrÃ£o</label></TD><TD><INPUT NAME="0.system.17098" onchange="checkInput('system.17098',0, 255, 'Esta config. aceita som. um valor entre 0 e 255.', '')" id="system.17098" SIZE=6 MAXLENGTH=22 VALUE="128">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.system.17098">Intervalo: 0 - 255</span></TD></TR>
+<TR><TD><label for="0.system.17099">Limiar de azul padrÃ£o</label></TD><TD><INPUT NAME="0.system.17099" onchange="checkInput('system.17099',0, 255, 'Esta config. aceita som. um valor entre 0 e 255.', '')" id="system.17099" SIZE=6 MAXLENGTH=22 VALUE="128">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.system.17099">Intervalo: 0 - 255</span></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>
+

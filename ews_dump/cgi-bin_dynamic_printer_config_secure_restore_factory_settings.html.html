@@ -1,0 +1,49 @@
+
+<HTML>
+	<HEAD>
+		<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+		<META NAME="PAGE_TYPE" CONTENT="Settings">
+		<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+		<TITLE>Restaurar padrÃµes de fÃ¡brica</TITLE>
+		<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+		<script language="javascript">
+			function change_state()
+			{
+				var text = document.getElementById("text");
+				var option = document.getElementById("option").value;
+
+				if (option == "base")
+					text.innerHTML = "Esta operaÃ§Ã£o restaurarÃ¡ todas as definiÃ§Ãµes da impressora."
+				else if (option == "network")
+					text.innerHTML = "Esta operaÃ§Ã£o restaurarÃ¡ todas as definiÃ§Ãµes de rede."
+				else
+					text.innerHTML = "Esta operaÃ§Ã£o removerÃ¡ todos os apps nÃ£o padrÃ£o e restaurarÃ¡ as configuraÃ§Ãµes de fÃ¡brica de todos os apps padrÃ£o."
+			}
+			function reset_handler()
+			{
+				document.getElementById("option").value = "base";
+				change_state();
+			}
+		</script>
+	</HEAD>
+	<BODY onload="change_state()">
+		<H3>ConfiguraÃ§Ãµes</H3>
+		<H4>Restaurar padrÃµes de fÃ¡brica</H4>
+		<form action="/cgi-bin/dynamic/printer/config/secure/restore_factory_settings.html" method="post" onreset="reset_handler()">
+			Rest. definiÃ§Ãµes
+			<select name="option" id="option" onchange="change_state()">
+				<option value="base">DefiniÃ§Ãµes da impressora</option>
+				<option value="network">DefiniÃ§Ãµes de rede</option>
+				<option value="les">Apps</option>
+			</select>
+			<p>
+			<span id="text">
+				Esta operaÃ§Ã£o restaurarÃ¡ todas as definiÃ§Ãµes da impressora.
+			</span>
+			</p>
+			<hr />
+			<INPUT TYPE="submit" VALUE="Restaurar">
+			<INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">
+		</form>
+	</BODY>
+</HTML>

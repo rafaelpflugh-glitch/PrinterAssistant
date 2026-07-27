@@ -1,0 +1,229 @@
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>TCP/IP</TITLE>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+<SCRIPT LANGUAGE="JavaScript">
+
+function is_ads_joined() { return false; }
+
+function checkHostnameChange()
+{
+    document.getElementById('vac.255.IPRESTRICTLIST').value = document.getElementById('vac.255.IPRESTRICTLIST').value.replace(/\s/g, '');
+    if (document.getElementById('vac.255.IPNAME').defaultValue != document.getElementById('vac.255.IPNAME').value)
+ {
+  if(is_ads_joined())
+  {
+   var r = confirm("Changing the hostname will cause your printer to be unjoined from the AD Domain. Do you want to continue?");
+   return r;
+  }
+ }
+ return true;
+}
+</SCRIPT>
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/postpf/cgi-bin/dynamic/config/net/ip.html" METHOD="post" onSubmit="return checkHostnameChange()">
+<H4>TCP/IP</H4>
+<TABLE>
+<TR><TD><label for="vac.255.IPNAME">Definir nome do host</label></TD><TD NOWRAP><INPUT ID="vac.255.IPNAME" NAME="vac.255.IPNAME" SIZE=22 MAXLENGTH=63 VALUE="ET0021B7B14E36" >
+</TD><TD><span class="helper" id="vac.255.IPNAME">Exemplo: 'IMPRESSORA-MARIA' (US-ASCII, somente caracteres alfanumÃ©ricos e hÃ­fen)</span></TD></TR>
+<TR><TD><label for="vac.255.IPDOMAIN">Nome do domÃ­nio</label></TD><TD NOWRAP><INPUT ID="vac.255.IPDOMAIN" NAME="vac.255.IPDOMAIN" SIZE=22 MAXLENGTH=254 VALUE="cpa.local" >
+</TD><TD><span class="helper" id="vac.255.IPDOMAIN">test.company.com</span></TD></TR>
+<TR><TD><label for="vac.255.IPADDRESS">EndereÃ§o IP</label></TD><TD NOWRAP>
+<span class="text_only" id="vac.255.IPADDRESS">192.168.14.134</span></TD>
+<TD><A HREF="/cgi-bin/dynamicpf/pf/config/net/ipsettings.html">Definir endereÃ§o IP estÃ¡tico</A></TD></TR>
+<TR><TD><label for="vac.255.IPNETMASK">MÃ¡scara de rede</label></TD><TD NOWRAP>
+<span class="text_only" id="vac.255.IPNETMASK">255.255.255.0</span></TD></TR>
+<TR><TD><label for="vac.255.IPGATEWAY">Gateway</label></TD><TD NOWRAP>
+<span class="text_only" id="vac.255.IPGATEWAY">192.168.14.254</span></TD></TR>
+<TR><TD><label for="vac.255.IPDHCPENABLE">Ativar DHCP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPDHCPENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPDHCPENABLE" NAME="vac.255.IPDHCPENABLE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPDHCPENABLE"></span></TD></TR>
+<TR><TD><label for="vac.255.ALLOW_DHCP_TO_UPDATE_TIMESERVER">Permitir DHCP/BOOTP para atualizaÃ§Ã£o do servidor NTP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.ALLOW_DHCP_TO_UPDATE_TIMESERVER" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.ALLOW_DHCP_TO_UPDATE_TIMESERVER" NAME="vac.255.ALLOW_DHCP_TO_UPDATE_TIMESERVER" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.ALLOW_DHCP_TO_UPDATE_TIMESERVER"></span></TD></TR>
+
+<TR><TD><label for="vac.255.IPRARPENABLE">Ativar RARP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPRARPENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPRARPENABLE" NAME="vac.255.IPRARPENABLE" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.IPRARPENABLE"></span></TD></TR>
+
+
+<TR><TD><label for="vac.255.IPBOOTPENABLE">Ativar BOOTP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPBOOTPENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPBOOTPENABLE" NAME="vac.255.IPBOOTPENABLE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPBOOTPENABLE"></span></TD></TR>
+
+
+<TR><TD><label for="vac.255.IPAUTOIPENABLE">Ativar IP AutomÃ¡tico</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPAUTOIPENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPAUTOIPENABLE" NAME="vac.255.IPAUTOIPENABLE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPAUTOIPENABLE"></span></TD></TR>
+
+<TR><TD><label for="vac.255.IPFTPENABLE">Ativar FTP/TFTP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPFTPENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPFTPENABLE" NAME="vac.255.IPFTPENABLE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPFTPENABLE"></span></TD></TR>
+
+<TR><TD><label for="vac.255.IPHTTPENABLE">Ativar servidor HTTP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPHTTPENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPHTTPENABLE" NAME="vac.255.IPHTTPENABLE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPHTTPENABLE"></span></TD></TR>
+
+<TR><TD><label for="vac.255.RESOLVE_WITH_DNS">Resolver nomes de host usando DNS</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.RESOLVE_WITH_DNS" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.RESOLVE_WITH_DNS" NAME="vac.255.RESOLVE_WITH_DNS" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.RESOLVE_WITH_DNS"></span></TD></TR>
+
+<TR><TD><label for="vac.255.IPWINSADDR">EndereÃ§o do servidor WINS</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPWINSADDR" VALUE="">
+<span class="text_only" id="vac.255.IPWINSADDR" style="display:none;">0.0.0.0</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" >
+</TD><TD><span class="helper" id="vac.255.IPWINSADDR">Se o DHCP ou BOOTP nÃ£o estiver na rede</span></TD></TR>
+
+<TR><TD><label for="vac.255.IPDNSSERVERADDR">EndereÃ§o do servidor de DNS</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPDNSSERVERADDR" VALUE="">
+<span class="text_only" id="vac.255.IPDNSSERVERADDR" style="display:none;">192.168.200.8</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="192" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="168" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="200" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="8" >
+</TD><TD><span class="helper" id="vac.255.IPDNSSERVERADDR">Se o DHCP ou BOOTP nÃ£o estiver na rede</span></TD></TR>
+<TR><TD><label for="vac.255.IPDNSSERVERADDR2">EndereÃ§o do servidor DNS de backup</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPDNSSERVERADDR2" VALUE="">
+<span class="text_only" id="vac.255.IPDNSSERVERADDR2" style="display:none;">0.0.0.0</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" >
+</TD><TD><span class="helper" id="vac.255.IPDNSSERVERADDR2"></span></TD></TR>
+<TR><TD><label for="vac.255.IPDNSSERVERADDR3">2 endereÃ§o do servidor DNS-backup</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPDNSSERVERADDR3" VALUE="">
+<span class="text_only" id="vac.255.IPDNSSERVERADDR3" style="display:none;">0.0.0.0</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" >
+</TD><TD><span class="helper" id="vac.255.IPDNSSERVERADDR3"></span></TD></TR>
+<TR><TD><label for="vac.255.IPDNSSERVERADDR4">3 endereÃ§o do servidor DNS-backup</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.IPDNSSERVERADDR4" VALUE="">
+<span class="text_only" id="vac.255.IPDNSSERVERADDR4" style="display:none;">0.0.0.0</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" >
+</TD><TD><span class="helper" id="vac.255.IPDNSSERVERADDR4"></span></TD></TR>
+<TR><TD><label for="vac.255.DOMAINSEARCH">Ordem de busca de domÃ­nio</label></TD><TD NOWRAP><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit ) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( 'This field can only be '+maxlimit+' characters in length.' );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" ID="vac.255.DOMAINSEARCH" NAME="vac.255.DOMAINSEARCH" onChange="textCounter(this,254);"></TEXTAREA>
+</TD><TD><span class="helper" id="vac.255.DOMAINSEARCH">Lista delimitada por vÃ­rgulas. Exemplo: minha.empresa.com,servidor.meu.com</span></TD></TR>
+<TR><TD><label for="vac.255.IPRESTRICTLIST">Lista de servidores restritos</label></TD><TD NOWRAP><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit ) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( 'This field can only be '+maxlimit+' characters in length.' );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" ID="vac.255.IPRESTRICTLIST" NAME="vac.255.IPRESTRICTLIST" onChange="textCounter(this,2550);">,,,,,,,,,</TEXTAREA>
+</TD><TD><span class="helper" id="vac.255.IPRESTRICTLIST">Lista delimitada por vÃ­rgulas com atÃ© 50 endereÃ§os IP com permissÃ£o para fazer conexÃµes TCP. Exemplo: 157.184.195.0/24, onde /24 Ã© o prefixo da rede.</span></TD></TR>
+<TR><TD><label for="vac.255.RSL_OPTIONS">OpÃ§Ãµes da lista de servidor restrito</label></TD><TD NOWRAP><SELECT ID="vac.255.RSL_OPTIONS" NAME="vac.255.RSL_OPTIONS" >
+<OPTION SELECTED VALUE="0">Bloquear todas as portas</OPTION>
+<OPTION VALUE="1">Bloquear somente impressÃ£o</OPTION>
+<OPTION VALUE="2">Bloquear somente impressÃ£o e HTTP</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="vac.255.RSL_OPTIONS">Por padrÃ£o, os endereÃ§os que nÃ£o estÃ£o na lista de servidor restrito terÃ£o todos os acessos bloqueados. Quando a opÃ§Ã£o Bloquear somente impressÃ£o for selecionada, os endereÃ§os que nÃ£o estiverem na lista de servidor restrito serÃ£o bloqueados somente para impressÃ£o. Quando a opÃ§Ã£o Bloquear somente impressÃ£o e HTTP for selecionada, os endereÃ§os que nÃ£o estiverem na lista de servidor restrito serÃ£o bloqueados somente para impressÃ£o e HTTP.</span></TD></TR>
+<TR><TD><label for="vac.255.IPMTU">MTU</label></TD><TD NOWRAP><INPUT ID="vac.255.IPMTU" NAME="vac.255.IPMTU" SIZE=6 MAXLENGTH=22 VALUE="1500" onchange="checkInput('vac.255.IPMTU',256,1500,'Esta config. aceita som. um valor entre 256 e 1500.','')" id="vac.255.IPMTU" >
+</TD><TD><span class="helper" id="vac.255.IPMTU">Intervalo: 256-1500 - Ethernet</span></TD></TR>
+<TR><TD><label for="vac.255.IPDEFTTL">TTL padrÃ£o*</label></TD><TD NOWRAP><INPUT ID="vac.255.IPDEFTTL" NAME="vac.255.IPDEFTTL" SIZE=6 MAXLENGTH=22 VALUE="254" onchange="checkInput('vac.255.IPDEFTTL',5,254,'Esta config. aceita som. um valor entre 5 e 254.','')" id="vac.255.IPDEFTTL" >
+</TD><TD><span class="helper" id="vac.255.IPDEFTTL">Faixa: de 5 a 254 segundos</span></TD></TR>
+<TR><TD><label for="vac.255.RAW_PRINT_PORT">Porta de impressÃ£o bruta</label></TD><TD NOWRAP><INPUT ID="vac.255.RAW_PRINT_PORT" NAME="vac.255.RAW_PRINT_PORT" SIZE=6 MAXLENGTH=22 VALUE="9100" onchange="checkInput('vac.255.RAW_PRINT_PORT',1,65535,'Esta config. aceita som. um valor entre 1 e 65535.','')" id="vac.255.RAW_PRINT_PORT" >
+</TD><TD><span class="helper" id="vac.255.RAW_PRINT_PORT">Portas vÃ¡lidas: 1-65535 (padrÃ£o 9100)</span></TD></TR>
+<TR><TD><label for="vac.255.DDNSENABLE">Ativar DDNS</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.DDNSENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.DDNSENABLE" NAME="vac.255.DDNSENABLE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.DDNSENABLE"></span></TD></TR>
+<TR><TD><label for="vac.255.DNS_LEASE_TIME_SECONDS">Vida Ãºtil do DDNS</label></TD><TD NOWRAP><INPUT ID="vac.255.DNS_LEASE_TIME_SECONDS" NAME="vac.255.DNS_LEASE_TIME_SECONDS" SIZE=6 MAXLENGTH=22 VALUE="3600" onchange="checkInput('vac.255.DNS_LEASE_TIME_SECONDS',300,31536000,'Esta config. aceita som. um valor entre 300 e 31536000.','')" id="vac.255.DNS_LEASE_TIME_SECONDS" >
+</TD><TD><span class="helper" id="vac.255.DNS_LEASE_TIME_SECONDS">Intervalo: 300 a 31536000 segundos</span></TD></TR>
+<TR><TD><label for="vac.255.DDNS_REFRESH_TIME_SECONDS">Tempo de atualizaÃ§Ã£o do DDNS</label></TD><TD NOWRAP><INPUT ID="vac.255.DDNS_REFRESH_TIME_SECONDS" NAME="vac.255.DDNS_REFRESH_TIME_SECONDS" SIZE=6 MAXLENGTH=22 VALUE="604800" onchange="checkInput('vac.255.DDNS_REFRESH_TIME_SECONDS',300,31536000,'Esta config. aceita som. um valor entre 300 e 31536000.','')" id="vac.255.DDNS_REFRESH_TIME_SECONDS" >
+</TD><TD><span class="helper" id="vac.255.DDNS_REFRESH_TIME_SECONDS">Intervalo: 300 a 31536000 segundos</span></TD></TR>
+
+<TR><TD><label for="vac.255.MDNSENABLE">Ativar mDNS</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.MDNSENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.MDNSENABLE" NAME="vac.255.MDNSENABLE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.MDNSENABLE"></span></TD></TR>
+
+<TR><TD><label for="vac.255.MDNSNAME">Nome da Zero Configuration</label></TD><TD NOWRAP><INPUT ID="vac.255.MDNSNAME" NAME="vac.255.MDNSNAME" SIZE=22 MAXLENGTH=39 VALUE="Lexmark&#032;MX611dhe" >
+</TD><TD><span class="helper" id="vac.255.MDNSNAME">Exemplo: Impressora do escritÃ³rio do Ben</span></TD></TR>
+<TR><TD><label for="vac.255.TRAFFICSHAPING">Velocidade mÃ¡xima do trÃ¡fego de saÃ­da</label></TD><TD NOWRAP><INPUT ID="vac.255.TRAFFICSHAPING" NAME="vac.255.TRAFFICSHAPING" SIZE=6 MAXLENGTH=22 VALUE="0" onchange="checkInput('vac.255.TRAFFICSHAPING',100,1000000,'Esta config. aceita som. um valor entre 100 e 1000000.','0,')" id="vac.255.TRAFFICSHAPING" >
+</TD><TD><span class="helper" id="vac.255.TRAFFICSHAPING">Quilobits/segundo (intervalo: de 100 a 1000000; 0 indica sem limite)</span></TD></TR>
+
+<TR><TD><label for="vac.255.HTTPSSECSELDEVCERT">Certificado de dispositivo HTTPS*</label></TD><TD NOWRAP><SELECT ID="vac.255.HTTPSSECSELDEVCERT" NAME="vac.255.HTTPSSECSELDEVCERT" >
+<OPTION SELECTED VALUE="default">default</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="vac.255.HTTPSSECSELDEVCERT"></span></TD></TR>
+<TR><TD><label for="vac.255.ENABLE_SSL2_WEAKCIPHERS">Ativar SSLv2*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.ENABLE_SSL2_WEAKCIPHERS" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.ENABLE_SSL2_WEAKCIPHERS" NAME="vac.255.ENABLE_SSL2_WEAKCIPHERS" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.ENABLE_SSL2_WEAKCIPHERS"></span></TD></TR>
+<TR><TD><label for="vac.255.ENABLE_SSL3">Ativar SSLv3*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.ENABLE_SSL3" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.ENABLE_SSL3" NAME="vac.255.ENABLE_SSL3" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.ENABLE_SSL3"></span></TD></TR>
+<TR><TD><label for="vac.255.ENABLE_TLS1_0">Ativar TLSv1.0*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.ENABLE_TLS1_0" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.ENABLE_TLS1_0" NAME="vac.255.ENABLE_TLS1_0" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.ENABLE_TLS1_0"></span></TD></TR>
+<TR><TD><label for="vac.255.ENABLE_TLS1_1">Ativar TLSv1.1*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.ENABLE_TLS1_1" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.ENABLE_TLS1_1" NAME="vac.255.ENABLE_TLS1_1" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.ENABLE_TLS1_1"></span></TD></TR>
+<TR><TD><label for="vac.255.SSL_CIPHER_LIST">Lista de cifras SSL*</label></TD><TD NOWRAP><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit ) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( 'This field can only be '+maxlimit+' characters in length.' );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" ID="vac.255.SSL_CIPHER_LIST" NAME="vac.255.SSL_CIPHER_LIST" onChange="textCounter(this,1023);">ALL:!LOW:!MEDIUM:!EXP:!3DES:!RC4!DES-CBC-SHA</TEXTAREA>
+</TD><TD><span class="helper" id="vac.255.SSL_CIPHER_LIST"></span></TD></TR>
+<TD><A HREF="/cgi-bin/sslciphers">Cifras disponÃ­veis</A></TD></TR>
+
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<H4>ConfiguraÃ§Ã£o LPD</H4>
+<TABLE>
+<TR><TD><label for="vac.255.LPDTIMEOUT">Tempo limite LPD</label></TD><TD NOWRAP><INPUT ID="vac.255.LPDTIMEOUT" NAME="vac.255.LPDTIMEOUT" SIZE=6 MAXLENGTH=22 VALUE="90" onchange="checkInput('vac.255.LPDTIMEOUT',0,65535,'Esta config. aceita som. um valor entre 0 e 65535.','')" id="vac.255.LPDTIMEOUT" >
+</TD><TD><span class="helper" id="vac.255.LPDTIMEOUT">Faixa: de 0 a 65535 segundos</span></TD></TR>
+<TR><TD><label for="vac.255.LPDBANNPAGE">PÃ¡gina de rosto LPD</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.LPDBANNPAGE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.LPDBANNPAGE" NAME="vac.255.LPDBANNPAGE" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.LPDBANNPAGE"></span></TD></TR>
+<TR><TD><label for="vac.255.LPDTRAILPAGE">PÃ¡gina marcadora LPD</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.LPDTRAILPAGE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.LPDTRAILPAGE" NAME="vac.255.LPDTRAILPAGE" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.LPDTRAILPAGE"></span></TD></TR>
+<TR><TD><label for="vac.255.LPDAUTOCR">ConversÃ£o de retorno de carro LPD</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.LPDAUTOCR" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.LPDAUTOCR" NAME="vac.255.LPDAUTOCR" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.LPDAUTOCR"></span></TD></TR>
+</TABLE>
+
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<H4>ConfiguraÃ§Ãµes de HTTP/FTP</H4>
+<TABLE>
+<TR><TD><label for="vac.255.PPLOCALDOMAIN">DomÃ­nios locais</label></TD><TD NOWRAP><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit ) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( 'This field can only be '+maxlimit+' characters in length.' );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" ID="vac.255.PPLOCALDOMAIN" NAME="vac.255.PPLOCALDOMAIN" onChange="textCounter(this,254);"></TEXTAREA>
+</TD><TD><span class="helper" id="vac.255.PPLOCALDOMAIN">Exemplo:  ld1.seucomp.com, ld2.seucomp.com</span></TD></TR>
+<TR><TD><label for="vac.255.PPHTTPPROXYADDRESS">EndereÃ§o IP do proxy HTTP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.PPHTTPPROXYADDRESS" VALUE="">
+<span class="text_only" id="vac.255.PPHTTPPROXYADDRESS" style="display:none;">0.0.0.0</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" >
+</TD><TD><span class="helper" id="vac.255.PPHTTPPROXYADDRESS">Exemplo:  123.123.123.123</span></TD></TR>
+<TR><TD><label for="vac.255.PPFTPPROXYADDRESS">Porta IP do proxy FTP</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="PT_IPADDR" VALUE=""><INPUT TYPE="hidden" NAME="vac.255.PPFTPPROXYADDRESS" VALUE="">
+<span class="text_only" id="vac.255.PPFTPPROXYADDRESS" style="display:none;">0.0.0.0</span><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" ><B> . </B><INPUT NAME="A" SIZE=3 MAXLENGTH=3 VALUE="0" >
+</TD><TD><span class="helper" id="vac.255.PPFTPPROXYADDRESS">Exemplo:  123.123.123.123</span></TD></TR>
+<TR><TD><label for="vac.255.PPHTTPDEFAULTPORT">Porta IP padrÃ£o HTTP</label></TD><TD NOWRAP><INPUT ID="vac.255.PPHTTPDEFAULTPORT" NAME="vac.255.PPHTTPDEFAULTPORT" SIZE=6 MAXLENGTH=22 VALUE="80" onchange="checkInput('vac.255.PPHTTPDEFAULTPORT',1,65535,'Esta config. aceita som. um valor entre 1 e 65535.','')" id="vac.255.PPHTTPDEFAULTPORT" >
+</TD><TD><span class="helper" id="vac.255.PPHTTPDEFAULTPORT">Exemplo:  80</span></TD></TR>
+<TR><TD><label for="vac.255.PPFTPDEFAULTPORT">Porta IP padrÃ£o FTP</label></TD><TD NOWRAP><INPUT ID="vac.255.PPFTPDEFAULTPORT" NAME="vac.255.PPFTPDEFAULTPORT" SIZE=6 MAXLENGTH=22 VALUE="21" onchange="checkInput('vac.255.PPFTPDEFAULTPORT',1,65535,'Esta config. aceita som. um valor entre 1 e 65535.','')" id="vac.255.PPFTPDEFAULTPORT" >
+</TD><TD><span class="helper" id="vac.255.PPFTPDEFAULTPORT">Exemplo:  21</span></TD></TR>
+<TR><TD><label for="vac.255.PPTIMEOUT">Tempo de espera para solicitaÃ§Ãµes HTTP/FTP</label></TD><TD NOWRAP><INPUT ID="vac.255.PPTIMEOUT" NAME="vac.255.PPTIMEOUT" SIZE=6 MAXLENGTH=22 VALUE="30" onchange="checkInput('vac.255.PPTIMEOUT',1,299,'Esta config. aceita som. um valor entre 1 e 299.','')" id="vac.255.PPTIMEOUT" >
+</TD><TD><span class="helper" id="vac.255.PPTIMEOUT">Intervalo: 1 - 299 segundos</span></TD></TR>
+<TR><TD><label for="vac.255.PPRETRIES">RepetiÃ§Ãµes para solicitaÃ§Ãµes HTTP/FTP</label></TD><TD NOWRAP><INPUT ID="vac.255.PPRETRIES" NAME="vac.255.PPRETRIES" SIZE=6 MAXLENGTH=22 VALUE="3" onchange="checkInput('vac.255.PPRETRIES',1,299,'Esta config. aceita som. um valor entre 1 e 299.','')" id="vac.255.PPRETRIES" >
+</TD><TD><span class="helper" id="vac.255.PPRETRIES">Intervalo: 1 - 299</span></TD></TR>
+<TR><TD><label for="vac.255.PPSECSELDEVCERT">Certificado de dispositivo pull print</label></TD><TD NOWRAP><SELECT ID="vac.255.PPSECSELDEVCERT" NAME="vac.255.PPSECSELDEVCERT" >
+<OPTION SELECTED VALUE="default">default</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="vac.255.PPSECSELDEVCERT"></span></TD></TR>
+</TABLE>
+
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<H4>ThinPrint</H4>
+<TABLE>
+<TR><TD><label for="vac.255.THNPRTENABLED">ThinPrint ativado</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.THNPRTENABLED" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.THNPRTENABLED" NAME="vac.255.THNPRTENABLED" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.THNPRTENABLED"></span></TD></TR>
+<TR><TD><label for="vac.255.THNPRTPORT">NÃºmero da porta</label></TD><TD NOWRAP><INPUT ID="vac.255.THNPRTPORT" NAME="vac.255.THNPRTPORT" SIZE=6 MAXLENGTH=22 VALUE="4000" onchange="checkInput('vac.255.THNPRTPORT',4000,4999,'Esta config. aceita som. um valor entre 4000 e 4999.','')" id="vac.255.THNPRTPORT" >
+</TD><TD><span class="helper" id="vac.255.THNPRTPORT">Portas vÃ¡lidas: 4000-4999 (padrÃ£o: 4000)</span></TD></TR>
+<TR><TD><label for="vac.255.THNPRTBANDWIDTH">Largura de banda (bits/s)</label></TD><TD NOWRAP><INPUT ID="vac.255.THNPRTBANDWIDTH" NAME="vac.255.THNPRTBANDWIDTH" SIZE=6 MAXLENGTH=22 VALUE="0" onchange="checkInput('vac.255.THNPRTBANDWIDTH',100,1000000,'Esta config. aceita som. um valor entre 100 e 1000000.','0,')" id="vac.255.THNPRTBANDWIDTH" >
+</TD><TD><span class="helper" id="vac.255.THNPRTBANDWIDTH">Largura de banda vÃ¡lida: 100-1000000 (0=padrÃ£o do servidor)</span></TD></TR>
+<TR><TD><label for="vac.255.THNPRTPACKETSIZE">Tamanho do pacote (em kbytes)</label></TD><TD NOWRAP><INPUT ID="vac.255.THNPRTPACKETSIZE" NAME="vac.255.THNPRTPACKETSIZE" SIZE=6 MAXLENGTH=22 VALUE="0" onchange="checkInput('vac.255.THNPRTPACKETSIZE',0,64000,'Esta config. aceita som. um valor entre 0 e 64000.','')" id="vac.255.THNPRTPACKETSIZE" >
+</TD><TD><span class="helper" id="vac.255.THNPRTPACKETSIZE">Tamanho vÃ¡lido: 1-64000 (0=padrÃ£o do servidor)</span></TD></TR>
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD COLSPAN=3>* A alteraÃ§Ã£o desta configuraÃ§Ã£o irÃ¡ redefinir o servidor de impressÃ£o.</TD></TR>
+<TR><TD COLSPAN=3>A ativaÃ§Ã£o de qualquer serviÃ§o de endereÃ§amento automÃ¡tico substituirÃ¡ um endereÃ§o IP estÃ¡tico.</TD></TR>
+</TABLE>
+</BODY></HTML>

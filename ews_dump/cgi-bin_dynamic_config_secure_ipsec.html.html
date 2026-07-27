@@ -1,0 +1,181 @@
+<HTML><HEAD>
+ <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+        <META NAME="PAGE_TYPE" CONTENT="Settings">
+ <SCRIPT SRC="/include/mktree.js" LANGUAGE="JavaScript"></SCRIPT>
+    <script>
+        function hideShowAdvancedSettings(value)
+        {
+            var dhGroup = document.getElementById("dhGroup");
+            var encMethod = document.getElementById("encMethod");
+            var authMethod = document.getElementById("authMethod");
+            switch(parseInt(value))
+            {
+                case 0:
+                case 2:
+                    dhGroup.style.display = "none";
+                    encMethod.style.display = "none";
+                    authMethod.style.display = "none";
+                    break;
+                default:
+                    dhGroup.style.display = "block";
+                    encMethod.style.display = "block";
+                    authMethod.style.display = "block";
+                    break;
+            }
+        }
+    </script>
+ <link rel="stylesheet" href="/cgi-bin/dynamic/printer/include/mktree.css">
+    <TITLE>IPSec</TITLE>
+</HEAD>
+<BODY onload="hideShowAdvancedSettings(document.getElementById('vac.255.IPSECBASECONFIGURATION').value);">
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/postpf/cgi-bin/dynamic/config/secure/ipsec.html" METHOD="post">
+<H4>IPSec</H4>
+<TABLE>
+<TR><TD><label for="vac.255.IPSECACTIVE">IPSec ativado</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPSECACTIVE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPSECACTIVE" NAME="vac.255.IPSECACTIVE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPSECACTIVE"></span></TD></TR>
+</TABLE>
+<TABLE>
+<TR><TD><label for="vac.255.IPSECBASECONFIGURATION">ConfiguraÃ§Ã£o base</label></TD><TD><SELECT ID="vac.255.IPSECBASECONFIGURATION" NAME="vac.255.IPSECBASECONFIGURATION" onchange='hideShowAdvancedSettings(this.value);'>
+<OPTION SELECTED VALUE="0">PadrÃ£o</OPTION>
+<OPTION VALUE="1">Compatibilidade</OPTION>
+<OPTION VALUE="2">Seguro</OPTION>
+</SELECT></TD></TR>
+</TABLE>
+<table width=700 border=0>
+ <tr>
+  <td valign="center" align=left width="50%"><b>ConexÃµes</b>&nbsp;<A href="#" onClick="expandTree('Connections'); return false;"><font size=1>Expandir tudo</font></A>&nbsp;<A href="#" onClick="collapseTree('Connections'); return false;"><font size=1>Recolher</font></A></td>
+ </tr>
+ <tr>
+<td valign=top align=left>
+<ul class="mktree" id="Connections">
+ <li>ConexÃµes autenticadas de chave prÃ©-compartilhada
+  <ul>
+   <li>Host 1
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.0" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.0" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 2
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.1" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.1" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 3
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.2" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.2" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 4
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.3" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.3" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 5
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.4" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.4" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+                </ul>
+            <li>Host 6
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.5" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.5" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 7
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.6" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.6" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 8
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.7" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.7" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 9
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.8" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.8" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+   <li>Host 10
+    <ul>
+     <li>EndereÃ§o&nbsp;<INPUT ID="vac.255.IPSECPSKHOST" NAME="vac.255.IPSECPSKHOST.9" SIZE=22 MAXLENGTH=45 VALUE="" >
+     <li>Chave &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT ID="vac.255.IPSECPSKSECRET" TYPE="password" NAME="vac.255.IPSECPSKSECRET.9" SIZE=22 onfocus="clearSettingByName('vac.255.IPSECPSKSECRET')" MAXLENGTH=256 VALUE="" >
+    </ul>
+  </ul>
+ <li>ConexÃµes autenticadas de certificado
+  <ul>
+   <li>Host 1
+    <ul>
+     <li>EndereÃ§o[/subrede]&nbsp;<INPUT ID="vac.255.IPSECCERTHOST" NAME="vac.255.IPSECCERTHOST.0" SIZE=22 MAXLENGTH=49 VALUE="" >
+    </ul>
+   <li>Host 2
+    <ul>
+     <li>EndereÃ§o[/subrede]&nbsp;<INPUT ID="vac.255.IPSECCERTHOST" NAME="vac.255.IPSECCERTHOST.1" SIZE=22 MAXLENGTH=49 VALUE="" >
+    </ul>
+   <li>Host 3
+    <ul>
+     <li>EndereÃ§o[/subrede]&nbsp;<INPUT ID="vac.255.IPSECCERTHOST" NAME="vac.255.IPSECCERTHOST.2" SIZE=22 MAXLENGTH=49 VALUE="" >
+    </ul>
+   <li>Host 4
+    <ul>
+     <li>EndereÃ§o[/subrede]&nbsp;<INPUT ID="vac.255.IPSECCERTHOST" NAME="vac.255.IPSECCERTHOST.3" SIZE=22 MAXLENGTH=49 VALUE="" >
+    </ul>
+   <li>Host 5
+    <ul>
+     <li>EndereÃ§o[/subrede]&nbsp;<INPUT ID="vac.255.IPSECCERTHOST" NAME="vac.255.IPSECCERTHOST.4" SIZE=22 MAXLENGTH=49 VALUE="" >
+    </ul>
+  </ul>
+</ul>
+</td></tr>
+<tr>
+<td valign="center" align=left width="50%"><b>ConfiguraÃ§Ãµes</b>&nbsp;<A href="#" onClick="expandTree('Settings'); return false;"><font size=1>Expandir tudo</font></A>&nbsp;<A href="#" onClick="collapseTree('Settings'); return false;"><font size=1>Recolher</font></A></td>
+</tr><tr>
+<td valign=top align=left>
+<ul class="mktree" id="Settings">
+ <li id="dhGroup">Grupo DH
+  <ul>
+   <li>Proposta de grupo DH (Diffie-Hellman)&nbsp; <SELECT ID="vac.255.IPSECDHGROUP" NAME="vac.255.IPSECDHGROUP" >
+<OPTION SELECTED VALUE="14">modp2048 (14)</OPTION>
+<OPTION VALUE="15">modp3072 (15)</OPTION>
+<OPTION VALUE="16">modp4096 (16)</OPTION>
+<OPTION VALUE="17">modp6144 (17)</OPTION>
+</SELECT></li>
+  </ul>
+    </li>
+ <li id="encMethod">Criptografia
+  <ul>
+   <li>MÃ©todo de criptografia proposto&nbsp; <SELECT ID="vac.255.IPSECENCRYP" NAME="vac.255.IPSECENCRYP" >
+<OPTION VALUE="2">3DES</OPTION>
+<OPTION SELECTED VALUE="3">AES</OPTION>
+</SELECT></li>
+  </ul>
+    </li>
+ <li id="authMethod">AutenticaÃ§Ã£o
+  <ul>
+   <li>MÃ©todo de autenticaÃ§Ã£o proposto&nbsp; <SELECT ID="vac.255.IPSECAUTH" NAME="vac.255.IPSECAUTH" >
+<OPTION VALUE="2">SHA1</OPTION>
+<OPTION SELECTED VALUE="3">SHA256</OPTION>
+<OPTION VALUE="4">SHA512</OPTION>
+</SELECT></li>
+  </ul>
+    </li>
+    <li>Selecionar certificado de dispositivo
+  <ul>
+    <li>Certificado de dispositivo IPSec&nbsp; <SELECT ID="vac.255.IPSECSELDEVCERT" NAME="vac.255.IPSECSELDEVCERT" >
+<OPTION SELECTED VALUE="default">default</OPTION>
+</SELECT></li>
+  </ul>
+    </li>
+</ul>
+</td>
+</tr></table>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+<BR>
+</BODY></HTML>

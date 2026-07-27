@@ -1,0 +1,63 @@
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>IPv6</TITLE>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+</HEAD>
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/postpf/cgi-bin/dynamic/config/net/ipv6.html" METHOD="post">
+<H4>IPv6</H4>
+<!-- IPv6 configuration section -->
+<TABLE>
+<TR><TD><label for="vac.255.IPV6ACTIVE">Ativar IPv6*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPV6ACTIVE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPV6ACTIVE" NAME="vac.255.IPV6ACTIVE" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPV6ACTIVE"></span></TD></TR>
+<TR><TD><label for="vac.255.IPV6ACCEPTRA">Config. automÃ¡tica*</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPV6ACCEPTRA" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPV6ACCEPTRA" NAME="vac.255.IPV6ACCEPTRA" VALUE=1  CHECKED>
+</TD><TD><span class="helper" id="vac.255.IPV6ACCEPTRA"></span></TD></TR>
+<TR><TD><label for="vac.255.IPV6DHCPENABLE">Ativar DHCPv6</label></TD><TD NOWRAP><INPUT TYPE="hidden" NAME="vac.255.IPV6DHCPENABLE" VALUE=0><INPUT TYPE="checkbox" ID="vac.255.IPV6DHCPENABLE" NAME="vac.255.IPV6DHCPENABLE" VALUE=1  >
+</TD><TD><span class="helper" id="vac.255.IPV6DHCPENABLE"></span></TD></TR>
+<TR><TD><label for="vac.255.IPV6NAME">Definir nome do host</label></TD><TD NOWRAP><INPUT ID="vac.255.IPV6NAME" NAME="vac.255.IPV6NAME" SIZE=22 MAXLENGTH=63 VALUE="ET0021B7B14E36" >
+</TD><TD><span class="helper" id="vac.255.IPV6NAME">Exemplo: 'IMPRESSORA-MARIA' (US-ASCII, somente caracteres alfanumÃ©ricos e hÃ­fen)</span></TD></TR>
+<TR><TD><label for="vac.255.IPV6DOMAIN">Nome do domÃ­nio</label></TD><TD NOWRAP><INPUT ID="vac.255.IPV6DOMAIN" NAME="vac.255.IPV6DOMAIN" SIZE=22 MAXLENGTH=254 VALUE="cpa.local" >
+</TD><TD><span class="helper" id="vac.255.IPV6DOMAIN">test6.company.com</span></TD></TR>
+<TR><TD><label for="vac.255.IPV6DNSSERVER.0">EndereÃ§o do servidor de DNS</label></TD><TD NOWRAP><INPUT ID="vac.255.IPV6DNSSERVER" NAME="vac.255.IPV6DNSSERVER.0" SIZE=22 MAXLENGTH=45 VALUE="::" >
+</TD><TD><span class="helper" id="vac.255.IPV6DNSSERVER.0">1080::8:800:200C:417A</span></TD></TR>
+<TR><TD><label for="vac.255.IPV6DNSSERVER.1">EndereÃ§o do servidor DNS de backup</label></TD><TD NOWRAP><INPUT ID="vac.255.IPV6DNSSERVER" NAME="vac.255.IPV6DNSSERVER.1" SIZE=22 MAXLENGTH=45 VALUE="::" >
+</TD><TD><span class="helper" id="vac.255.IPV6DNSSERVER.1">1080::8:800:200C:417A</span></TD></TR>
+<TR><TD><label for="vac.255.IPV6MANADDRESS">EndereÃ§o IPv6 atribuÃ­do manualmente</label></TD><TD NOWRAP><INPUT ID="vac.255.IPV6MANADDRESS" NAME="vac.255.IPV6MANADDRESS" SIZE=22 MAXLENGTH=45 VALUE="::" >
+</TD><TD><span class="helper" id="vac.255.IPV6MANADDRESS">1080::8:800:200C:417A</span></TD></TR>
+<TR><TD><label for="vac.255.IPV6MANROUTER">Roteador IPv6 atribuÃ­do manualmente</label></TD><TD NOWRAP><INPUT ID="vac.255.IPV6MANROUTER" NAME="vac.255.IPV6MANROUTER" SIZE=22 MAXLENGTH=45 VALUE="::" >
+</TD><TD><span class="helper" id="vac.255.IPV6MANROUTER">1080::8:800:200C:417A</span></TD></TR>
+<TR><TD><label for="vac.255.IPV6PREFIX">Prefixo do endereÃ§o</label></TD><TD NOWRAP><INPUT ID="vac.255.IPV6PREFIX" NAME="vac.255.IPV6PREFIX" SIZE=6 MAXLENGTH=22 VALUE="64" onchange="checkInput('vac.255.IPV6PREFIX',0,128,'Esta config. aceita som. um valor entre 0 e 128.','')" id="vac.255.IPV6PREFIX" >
+</TD><TD><span class="helper" id="vac.255.IPV6PREFIX">Intervalo: 0 - 128</span></TD></TR>
+<!-- End of IPv6 configuration section -->
+<TR>&nbsp;</TR>
+<!-- IPv6 informational section -->
+
+<TR><TD><label for="vac.255.IPV6ADDRESS.0">Todos os endereÃ§os IPv6</label></TD><TD NOWRAP>
+<span class="text_only" id="vac.255.IPV6ADDRESS.0">fe80::221:b7ff:feb1:4e36</span></TD></TR>
+
+
+
+
+
+
+
+<TR><TD><label for="vac.255.IPV6ROUTER.0">Todos os endereÃ§os de roteador Ipv6</label></TD><TD NOWRAP>
+<span class="text_only" id="vac.255.IPV6ROUTER.0">::</span></TD></TR>
+
+
+<!-- End of IPv6 informational section -->
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD COLSPAN=3>* A alteraÃ§Ã£o desta configuraÃ§Ã£o irÃ¡ redefinir o servidor de impressÃ£o.</TD></TR>
+</TABLE>
+</BODY></HTML>

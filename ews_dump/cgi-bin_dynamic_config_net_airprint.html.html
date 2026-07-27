@@ -1,0 +1,71 @@
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>AirPrint</TITLE>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
+
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>AirPrint</H4>
+
+
+    <!--============== Turn AirPrint on Button ==============-->
+
+    
+        <H4>Todos os serviÃ§os necessÃ¡rios para o uso do AirPrint foram ativados.</H4>
+    
+
+    <BR></BR>
+
+    <!--============== AirPrint settings ==============-->
+    <HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+    <FORM ACTION="/cgi-bin/postpf/cgi-bin/dynamic/config/net/airprint.html" METHOD="post">
+        <TABLE>
+            <TR><TD><label for="vac.255.MDNSNAME">Nome da Zero Configuration</label></TD><TD NOWRAP><INPUT ID="vac.255.MDNSNAME" NAME="vac.255.MDNSNAME" SIZE=22 MAXLENGTH=39 VALUE="Lexmark&#032;MX611dhe" >
+</TD><TD><span class="helper" id="vac.255.MDNSNAME">Exemplo: Impressora do escritÃ³rio do Ben</span></TD></TR>
+            <TR><TD><label for="vac.255.VCCS_LOCATION_DUMMY">LocalizaÃ§Ã£o da impressora</label></TD><TD NOWRAP><INPUT ID="vac.255.VCCS_LOCATION_DUMMY" NAME="vac.255.VCCS_LOCATION_DUMMY" SIZE=22 MAXLENGTH=63 VALUE="" >
+</TD><TD><span class="helper" id="vac.255.VCCS_LOCATION_DUMMY">Segundo andar, Sala 2</span></TD></TR>
+            <TR><TD><label for="vac.255.GEO_LOCATION_LATITUDE">Latitude da impressora</label></TD><TD NOWRAP><INPUT ID="vac.255.GEO_LOCATION_LATITUDE" NAME="vac.255.GEO_LOCATION_LATITUDE" SIZE=22 MAXLENGTH=14 VALUE="" >
+</TD><TD><span class="helper" id="vac.255.GEO_LOCATION_LATITUDE">Latitude da impressora no GPS, intervalo: -90 a 90</span></TD></TR>
+            <TR><TD><label for="vac.255.GEO_LOCATION_LONGITUDE">Longitude da impressora</label></TD><TD NOWRAP><INPUT ID="vac.255.GEO_LOCATION_LONGITUDE" NAME="vac.255.GEO_LOCATION_LONGITUDE" SIZE=22 MAXLENGTH=14 VALUE="" >
+</TD><TD><span class="helper" id="vac.255.GEO_LOCATION_LONGITUDE">Longitude da impressora no GPS, intervalo: -180 a 180</span></TD></TR>
+        </TABLE>
+
+        <HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+        <TABLE>
+            <TR>
+            <TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD>
+            <TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+            </TR>
+        </TABLE>
+    </FORM>
+
+    <HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+    <BR></BR>
+
+    <TABLE>
+        <!--============== Security settings ==============-->
+        <TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/authsetup.html">ConfiguraÃ§Ã£o de seguranÃ§a</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/secusettings.html">ConfiguraÃ§Ãµes de seguranÃ§a variadas</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/schedule_usb.html">Programar dispositivos USB</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/confi_print_setup.html">ConfiguraÃ§Ã£o de impressÃ£o confidencial</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/datetime.html">Definir data e hora</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/certmg.html">Gerenciamento de certificados</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/printer_reset_options.html">Restaurar padrÃµes de fÃ¡brica</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/disk_wiping.html">Apagar arquivos de dados temporÃ¡rios </A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/disk_encryption.html">Criptografia de disco</A></TD></TR>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/auditlog.html">Log de Auditoria de SeguranÃ§a</A></TD></TR>
+
+        <!--============== Firmware update ==============-->
+        <TR><TD><A HREF="/cgi-bin/dynamic/config/gen/code_update.html">Atualizar firmware</A></TD></TR>
+        <!--============== Supplies status ==============-->
+        <TR><TD><A HREF="/cgi-bin/dynamic/printer/PrinterStatus.html">Status do dispositivo</A></TD></TR>
+    </TABLE>
+
+
+</BODY></HTML>

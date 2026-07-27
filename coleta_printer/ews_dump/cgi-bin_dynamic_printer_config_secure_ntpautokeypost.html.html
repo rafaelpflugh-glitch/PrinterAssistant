@@ -1,0 +1,48 @@
+
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta name="PAGE_TYPE" content="Settings">
+<title>Instalar parÃ¢m. IFF Autokey</title>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script src="/cgi-bin/dynamic/printer/include/jshelper.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+		function ShowPageLoading() {
+			objRef = document.getElementById("waitmessage");
+			objRef.className = "visible";
+			objRef = document.getElementById("fileinput");
+			objRef.className = "invisible";
+			objRef = document.getElementById("submitbutton");
+			objRef.className = "invisible";
+		}
+-->
+</script>
+<style type="text/css">
+<!--
+    .invisible { display:none; }
+    .visible { display:; }
+-->
+</style>
+</head>
+<body>
+<h3>ConfiguraÃ§Ãµes</h3>
+<h4>Instalar parÃ¢m. IFF Autokey</h4>
+<form action="/cgi-bin/dynamic/printer/config/secure/ntpautokeypost.html" enctype="multipart/form-data" method="post">
+<table>
+<tr class="invisible" id="waitmessage">
+<td>Please Wait</td>
+</tr>
+<tr class="visible" id="fileinput">
+<td>Instalar parÃ¢m. IFF Autokey</td><td><input type="file" name="ntpfilepost" size="22" maxlength="63"></td>
+</tr>
+</table>
+<table>
+<tr class="visible" id="submitbutton">
+<td><input type="submit" onclick="ShowPageLoading()" value="Enviar">&nbsp;&nbsp;</td>
+</tr>
+</table>
+</form>
+</body>
+</html>
+

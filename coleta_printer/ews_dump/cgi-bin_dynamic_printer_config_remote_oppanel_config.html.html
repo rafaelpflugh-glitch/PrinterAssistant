@@ -1,0 +1,84 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Painel do operador remoto</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+
+<SCRIPT language="JavaScript">
+
+var tip_4 = "Marque&nbsp;a&nbsp;caixa&nbsp;de&nbsp;seleÃ§Ã£o&nbsp;para&nbsp;ativar&nbsp;o&nbsp;Painel&nbsp;do&nbsp;operador&nbsp;remoto.&nbsp;Por&nbsp;padrÃ£o,&nbsp;ele&nbsp;fica&nbsp;desativado.";
+var tip_5 = 'O&nbsp;tipo&nbsp;da&nbsp;autenticaÃ§Ã£o.&nbsp;O&nbsp;&quot;Controle&nbsp;de&nbsp;acesso&nbsp;de&nbsp;gerenciamento&nbsp;remoto&quot;&nbsp;funciona&nbsp;apenas&nbsp;com&nbsp;o&nbsp;Applet&nbsp;do&nbsp;painel&nbsp;do&nbsp;operador&nbsp;remoto.';
+var tip_6 = 'A&nbsp;senha&nbsp;VNC&nbsp;a&nbsp;ser&nbsp;usada&nbsp;no&nbsp;tipo&nbsp;de&nbsp;autenticaÃ§Ã£o&nbsp;&quot;AutenticaÃ§Ã£o&nbsp;da&nbsp;senha&nbsp;VNC&quot;';
+var tip_7 = 'Use&nbsp;o&nbsp;protocolo&nbsp;SSL/TLS&nbsp;para&nbsp;a&nbsp;criptografia&nbsp;de&nbsp;dados.&nbsp;Para&nbsp;isso,&nbsp;Ã©&nbsp;necessÃ¡rio&nbsp;o&nbsp;cliente&nbsp;VNC&nbsp;compatÃ­vel&nbsp;com&nbsp;o&nbsp;protocolo&nbsp;SSL&nbsp;ou&nbsp;com&nbsp;o&nbsp;Applet&nbsp;do&nbsp;painel&nbsp;do&nbsp;operador&nbsp;remoto.&nbsp;';
+
+</SCRIPT>
+</HEAD>
+<BODY >
+    <H4>Painel do operador remoto</H4><BR/>
+		<FORM ACTION="/cgi-bin/posttest/printer/config/remote_oppanel_config.html" METHOD="post">
+			<TABLE>
+				<TBODY>
+					<TR>
+						<TD><LABEL FOR="system.12849">Ativar</LABEL></TD>
+						<TD>
+						    <INPUT TYPE="hidden" NAME="2.system.12849"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.12849"  id="system.12849" VALUE=1>
+
+							&nbsp;<IMG SRC= "/cgi-bin/dynamic/printer/images/tips.gif" ALT=""
+							onmouseover="this.T_BORDERCOLOR='#2591d6';this.T_OPACITY=100;this.T_PADDING=6;
+							this.T_TEXTALIGN='center';this.T_WIDTH=250;return escape(tip_4);" />
+						</TD>
+					</TR>
+					<TR>
+						<TD><LABEL FOR="system.12850">Tipo de autenticaÃ§Ã£o</LABEL></TD>
+						<TD>
+						    
+<SELECT NAME="0.system.12850" ID="system.12850">
+<OPTION SELECTED VALUE="1">Nenhuma autenticaÃ§Ã£o</OPTION>
+<OPTION VALUE="2">AutenticaÃ§Ã£o da senha VCN (padrÃ£o)</OPTION>
+<OPTION VALUE="255">Controle de acesso de gerenciamento remoto</OPTION>
+</SELECT>
+
+							&nbsp;<IMG SRC= "/cgi-bin/dynamic/printer/images/tips.gif" ALT=""
+							onmouseover="this.T_BORDERCOLOR='#2591d6';this.T_OPACITY=100;this.T_PADDING=6;
+							this.T_TEXTALIGN='center';this.T_WIDTH=250;return escape(tip_5);" />
+						</TD>
+					</TR>
+                     
+                     
+					<TR>
+						<TD><LABEL FOR="system.12851">A senha VNC da autenticaÃ§Ã£o padrÃ£o</LABEL></TD>
+						<TD>
+						    <INPUT TYPE="password" NAME="1.system.12851" SIZE=22 MAXLENGTH=8 onfocus="clearSettingByName('1.system.12851')" id="system.12851" VALUE="********">
+							&nbsp;<IMG SRC= "/cgi-bin/dynamic/printer/images/tips.gif" ALT=""
+							onmouseover="this.T_BORDERCOLOR='#2591d6';this.T_OPACITY=100;this.T_PADDING=6;
+							this.T_TEXTALIGN='center';this.T_WIDTH=250;return escape(tip_6);" />
+						</TD>
+					</TR>
+                    
+                    
+
+<!--					<TR>
+						 <TD><LABEL FOR="system.12852">ConexÃ£o segura</LABEL></TD>
+						 <TD>
+                                                         <INPUT TYPE="hidden" NAME="2.system.12852"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.12852"  id="system.12852" VALUE=1>
+
+							 &nbsp;<IMG SRC= "/cgi-bin/dynamic/printer/images/tips.gif" ALT=""
+							 onmouseover="this.T_BORDERCOLOR='#2591d6';this.T_OPACITY=100;this.T_PADDING=6;
+							 this.T_TEXTALIGN='center';this.T_WIDTH=250;return escape(tip_7);" />
+						</TD>
+                                            </TR>
+-->
+			    </TBODY>
+			</TABLE>
+			<HR SIZE="2" ALIGN="LEFT" WIDTH="75%" NOSHADE>
+            <TABLE>
+                <TR>
+                    <TD>
+                        <INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;
+				        <INPUT TYPE="reset"  VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;
+			        </TD>
+		        </TR>
+			</TABLE>
+		</FORM>
+	<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="/cgi-bin/dynamic/printer/include/wz_tooltip.js"></SCRIPT>
+</BODY></HTML>

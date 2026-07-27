@@ -1,0 +1,41 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Instalar chave MD5</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+
+	<script language="javascript">
+		function ShowPageLoading() {
+			objRef = document.getElementById("waitmessage");
+			objRef.className = "visible";
+			objRef = document.getElementById("fileinput");
+			objRef.className = "invisible";
+			objRef = document.getElementById("submitbutton");
+			objRef.className = "invisible";
+		}
+	</script>
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Instalar chave MD5</H4>
+<FORM ACTION="/cgi-bin/dynamic/printer/config/secure/ntpfilepost.html" enctype="multipart/form-data" METHOD="post">
+<TABLE>
+<TR class="invisible" id="waitmessage"><TD>
+Please Wait
+</TD></TR>
+<TR class="visible" id="fileinput"><TD>Instalar chave MD5</TD><TD><INPUT type="file" NAME="ntpfilepost" SIZE=22 MAXLENGTH=63 size="40"></TD></TR>
+</TABLE>
+<TABLE>
+<TR class="visible" id="submitbutton">
+<TD><INPUT TYPE="submit" onClick="ShowPageLoading()" VALUE=Enviar
+>&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+</BODY></HTML>
+

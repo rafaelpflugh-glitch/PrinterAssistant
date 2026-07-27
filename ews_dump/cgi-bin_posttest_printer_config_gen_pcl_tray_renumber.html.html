@@ -1,0 +1,37 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>RenumeraÃ§Ã£o de bandeja</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/pcl_tray_renumber.html" METHOD="post">
+<H4>RenumeraÃ§Ã£o de bandeja</H4>
+<TABLE>
+<TR><TD><label for="0.system.16616">Atribuir Bandeja 1</label></TD><TD><INPUT NAME="0.system.16616" onchange="checkInput('system.16616',0, 199, 'Esta config. aceita som. um valor entre 0 e 199.', '200,')" id="system.16616" SIZE=6 MAXLENGTH=22 VALUE="200"></TD><TD><span class="helper" id="helper.system.16616">Intervalo: Interv: 0-199, 200 = Nenhum</span></TD></TR>
+
+
+
+
+
+<TR><TD><label for="0.system.16621">Atribuir aliment. MF</label></TD><TD><INPUT NAME="0.system.16621" onchange="checkInput('system.16621',0, 199, 'Esta config. aceita som. um valor entre 0 e 199.', '200,')" id="system.16621" SIZE=6 MAXLENGTH=22 VALUE="200"></TD><TD><span class="helper" id="helper.system.16621">Intervalo: Interv: 0-199, 200 = Nenhum</span></TD></TR>
+
+
+<TR><TD><label for="0.system.16622">Atribuir papel manual</label></TD><TD><INPUT NAME="0.system.16622" onchange="checkInput('system.16622',0, 199, 'Esta config. aceita som. um valor entre 0 e 199.', '200,')" id="system.16622" SIZE=6 MAXLENGTH=22 VALUE="200"></TD><TD><span class="helper" id="helper.system.16622">Intervalo: Interv: 0-199, 200 = Nenhum</span></TD></TR>
+
+
+<TR><TD><label for="0.system.16623">Atribuir envelope manual</label></TD><TD><INPUT NAME="0.system.16623" onchange="checkInput('system.16623',0, 199, 'Esta config. aceita som. um valor entre 0 e 199.', '200,')" id="system.16623" SIZE=6 MAXLENGTH=22 VALUE="200"></TD><TD><span class="helper" id="helper.system.16623">Intervalo: Interv: 0-199, 200 = Nenhum</span></TD></TR>
+
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/gen/tray_viewfactory.html">Ver padrÃ£o fÃ¡brica</A></TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD>O valor de 201 Ã© automaticamente atribuÃ­do se o nÃºmero de origem prÃ©-alocado na fÃ¡brica de uma bandeja for atribuÃ­do a outra bandeja.</TD></TR>
+</TABLE>
+</BODY></HTML>
+

@@ -1,0 +1,46 @@
+# ==================================================
+# OBJETO IMPRESSORA
+# ==================================================
+
+def nova():
+
+    return {
+
+        "identificacao": {
+
+            "modelo": None,
+            "serial": None,
+            "firmware": None
+
+        },
+
+        "rede": {
+
+            "ip": None
+
+        },
+
+        "suprimentos": {
+
+            "toner": {
+
+                "serial": None,
+                "chip": None,
+                "nivel": None,
+                "paginas": None,
+                "restante": None,
+                "capacidade": None
+
+            },
+
+            "imagem": {
+
+                "serial": None,
+                "nivel": None,
+                "paginas": None
+
+            }
+
+        }
+
+    }

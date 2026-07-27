@@ -1,0 +1,59 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Fax">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o de atalho de fax</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<script language="javascript">
+function disable_buttons()
+{
+
+
+    document.getElementById("modify_button").disabled = true;
+    document.getElementById("delete_button").disabled = true;
+
+    return true;
+}
+</script>
+<BODY onload="disable_buttons()">
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/shortcuts/faxdest.html" METHOD="post">
+<H4>ConfiguraÃ§Ã£o de atalho de fax</H4><TABLE>
+<INPUT TYPE="hidden" NAME="100.mfp.faxDestinationFactory"  VALUE="-1">
+
+<TR><TD><label for="1.name">Nome</label><font color="red">*</font></TD><TD><INPUT NAME="1.name" id="name" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.name">NecessÃ¡rio.</span></TD></TR>
+<TR><TD><label for="1.faxNumbers">NÃºmeros</label><font color="red">*</font></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.faxNumbers" onChange="textCounter(this,512, 'Este campo pode ter somente 512 caracteres. ');"></TEXTAREA>
+</TD>
+<TD><span class="helper" id="helper.faxNumbers">NecessÃ¡rio. Caracteres vÃ¡lidos: 0-9,-,* e #. Separe vÃ¡rios nÃºmeros de telefone com um ';'. Use uma vÃ­rgula para indicar uma pausa de discagem. No mÃ¡ximo 512 caracteres.</span></TD></TR>
+<TR><TD><label for="1.id">Atalho</label><font color="red">*</font></TD><TD><INPUT NAME="1.id" onchange="checkInput('id',0, 99999, 'Esta config. aceita som. um valor entre 0 e 99999.', ' ')" id="id" SIZE=22 MAXLENGTH=5 VALUE=""></TD><TD><span class="helper" id="helper.id">NecessÃ¡rio. Intervalo: 1-99999. 0 = nÃ£o atribuÃ­do.</span></TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR>
+<TD><input TYPE="submit" NAME="101.mfp.faxDestinationFactory" VALUE="Adicionar">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="102.mfp.faxDestinationFactory" ID="modify_button" VALUE="Modificar">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="103.mfp.faxDestinationFactory" ID="delete_button" VALUE="Excluir entrada">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="104.mfp.faxDestinationFactory" VALUE="Excluir lista"></TD>
+<TD><input TYPE="button" VALUE="Esvaziar formulÃ¡rio" onClick="theRandom=Math.random();window.open('/cgi-bin/dynamic/printer/config/shortcuts/faxdest.html?rand='+theRandom,'_self')"></TD>
+<TD><input TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+<TABLE><TR><TD>Atalhos:</TD><TD><B>100% espaÃ§o total restante</B></TD></TR></TABLE>
+</TR></TABLE>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR><TD>Nome</TD><TD>NÃºmeros</TD><TD>Atalho</TD></TR>
+
+</TABLE>
+</BODY></HTML>
+

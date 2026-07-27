@@ -1,0 +1,53 @@
+
+
+=================================
+RELATÓRIO TÉCNICO LEXMARK
+=================================
+
+
+DATA:
+
+14/07/2026 16:42:00
+
+
+
+IMPRESSORA:
+
+IP:
+192.168.14.134
+
+
+MODELO:
+None
+
+
+SERIAL:
+701644HH03ND3
+
+
+
+=================================
+
+AÇÃO EXECUTADA:
+
+pagina_configuracao
+
+
+
+=================================
+
+RESULTADO:
+
+Falha ao solicitar configuração. HTTP 404
+
+
+
+=================================
+
+OBSERVAÇÃO HERMES:
+
+ACAO: pagina_configuracao
+
+
+=================================
+

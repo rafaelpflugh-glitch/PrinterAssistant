@@ -1,0 +1,76 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>ConfiguraÃ§Ã£o guiada de seguranÃ§a</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+  <style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+  <script language="javascript">
+    function checkAuthz(element) {
+     if (document.getElementById(element).value == "")
+	alert("Nome exigido para Modelo de SeguranÃ§a.");
+     else{
+	  var form=document.getElementById("authForm")
+          var index=document.getElementById("authnId").selectedIndex;
+  	  form.action="/cgi-bin/posttest/printer/config/secure/auth/addsecutemp.html?index="+document.getElementsByTagName("option")[index].value
+    	document.getElementById("clickAuthz").click()
+     }
+    }
+  </script>
+</HEAD>
+<BODY>
+
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/wiz/wizsecutemp.html?info=&index=&index1=&index2=" METHOD="post" id="authForm">
+
+<INPUT TYPE="hidden" NAME="109.Wiz.SecuTemp"  VALUE="-1">
+<INPUT TYPE="hidden" NAME="110.Wiz.SecuTemp"  VALUE="-1">
+
+<H3>ConfiguraÃ§Ã£o guiada de seguranÃ§a</H3>
+
+
+
+<h2><i><b><font color="gray">Iniciar -> de Teste -></font> de ConfiguraÃ§Ã£o <font color="gray"> ->MÃ©todo -> Aplicar</font></b></i></h2>
+
+
+<B>Adicionar Modelo de SeguranÃ§a</B>
+
+
+
+
+
+
+
+
+
+
+
+<TABLE>
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 11"  VALUE="-1">
+
+
+
+<TR><TD><INPUT TYPE="HIDDEN" NAME="0.authnId" SIZE=4 MAXLENGTH=4 VALUE=""></TD></TR>
+<TR><TD>Building Block de AutorizaÃ§Ã£o:</TD><TD></TD></TD></TR>
+
+<TR><TD><INPUT TYPE="HIDDEN" NAME="0.authzId" SIZE=4 MAXLENGTH=4 VALUE=""></TD></TR>
+<TR><TD>Building Block de AutorizaÃ§Ã£o:</TD><TD></TD></TD></TR>
+<TR><TD>Nome do modelo de seguranÃ§a</TD><TD><INPUT NAME="1.name" id="name" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+
+
+<TR><TD colspan=2>Grupos autorizados com este modelo:</TD></TR>
+<TR><TD></TD></TR>
+
+
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" NAME="101.applications.auth.configFactory" VALUE="Salvar, ir para a prÃ³xima etapa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" VALUE="Sair da ConfiguraÃ§Ã£o" onClick="window.open('/cgi-bin/dynamic/config/secure/security.html','_self')">&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE>
+
+</FORM>
+</BODY>
+</HTML>

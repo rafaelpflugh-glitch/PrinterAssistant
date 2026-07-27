@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Página de configuração",
+    "metodo": "GET",
+    "endpoint": "/cgi-bin/printer/configuration"
+}
+

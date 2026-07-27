@@ -1,0 +1,56 @@
+
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Gerenciamento de autoridade de certificado</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script language="JavaScript">
+function goToNew()
+{
+window.location="./installCA.html";
+}
+</script>
+
+<script language="JavaScript">
+function goToDelete()
+{
+window.location="./deleteAllCA.html";
+}
+</script>
+
+</HEAD>
+
+<H3>ConfiguraÃ§Ãµes</H3>
+<BODY>
+<H4>Gerenciamento de autoridade de certificado</H4>
+<form action="/cgi-bin/posttest/printer/config/secure/cert/authCert.html" method="post" id="myForm">
+<TABLE WIDTH = 700 >
+	<!--
+	<TD><INPUT TYPE="submit" VALUE=Duplicar name="duplicate"></TD> 
+	-->
+	<TR>
+	<TD >
+	     <INPUT TYPE=button VALUE="Novo" onClick="goToNew()">&nbsp;&nbsp;&nbsp;
+	     <INPUT TYPE=button id=deleteButton name="certificate.deleteAll" VALUE="Excluir tudo" onClick="goToDelete()">&nbsp;&nbsp;&nbsp;
+        </TD>
+	</TR>
+</TABLE>
+<BR>
+<TABLE BORDER="1" WIDTH="100%">
+<TR><TD width=30%>Nome comum da autoridade do certificado</TD></TR>
+
+</TABLE>
+
+<BR>
+<BR>
+<TABLE>
+
+
+
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/certmg.html">Retornar ao Gerenciamento do Certificado</A></TD></TR>
+</TABLE>
+
+</form>
+</BODY></HTML>
+

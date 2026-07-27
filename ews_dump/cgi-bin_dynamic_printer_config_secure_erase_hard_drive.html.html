@@ -1,0 +1,56 @@
+
+<HTML>
+	<HEAD>
+		<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+		<META NAME="PAGE_TYPE" CONTENT="Settings">
+		<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+		<TITLE>Apag disc rÃ­g</TITLE>
+		<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+		<script language="javascript">
+			function change_state()
+			{
+				var submit = document.getElementById("submit");
+				var confirmed = document.getElementById("confirm").checked;
+				var text = document.getElementById("text");
+				var option = document.getElementById("option").value;
+				submit.disabled = !confirmed;
+
+				if (option == "single")
+					text.innerHTML = "Esta operaÃ§Ã£o usarÃ¡ o mÃ©t. passagem Ãºnica para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 4 HORAS. Deseja continuar?"
+				else
+					text.innerHTML = "Esta operaÃ§Ã£o usarÃ¡ o mÃ©t. vÃ¡rias passagens para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 16 HORAS. Deseja continuar?"
+			}
+			function reset_handler()
+			{
+				document.getElementById("option").value = "single";
+				document.getElementById("confirm").checked = false;
+				change_state();
+			}
+		</script>
+	</HEAD>
+	<BODY onload="change_state()">
+		<H3>ConfiguraÃ§Ãµes</H3>
+		<H4>Restaurar padrÃµes de fÃ¡brica</H4>
+		<form action="/cgi-bin/dynamic/printer/config/secure/erase_hard_drive.html" method="post" onreset="reset_handler()">
+			<p>
+			Apag disc rÃ­g
+			<select name="option" id="option" onchange="change_state()">
+				<option value="single">Apag. pas. Ãºnica</option>
+				<option value="multi">Apag. vÃ¡rias pas.</option>
+			</select>
+			</p>
+
+			<p>
+			<input type="checkbox" name="confirm" id="confirm" value="confirm" onclick="change_state()" />
+			<label for="confirm">
+				<span id="text">
+					Esta operaÃ§Ã£o usarÃ¡ o mÃ©t. passagem Ãºnica para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 4 HORAS. Deseja continuar?
+				</span>
+			</label>
+			</p>
+			<hr />
+			<INPUT TYPE="submit" ID="submit" VALUE="Enviar">
+			<INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">
+		</form>
+	</BODY>
+</HTML>

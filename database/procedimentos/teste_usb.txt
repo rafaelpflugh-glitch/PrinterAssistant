@@ -1,0 +1,11 @@
+Teste USB
+
+1 Inserir pendrive FAT32
+
+2 Aguardar detecção
+
+3 Abrir menu USB
+
+4 Confirmar leitura
+
+5 Testar impressão via USB

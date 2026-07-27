@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Papel pesado",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/paper/heavy"
+}
+

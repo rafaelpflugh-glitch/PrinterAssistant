@@ -1,0 +1,60 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Gerenciar contas internas</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Gerenciar contas internas</H4>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/auth/manageusers.html?type=deleteAll" METHOD="post">
+<A HREF="/cgi-bin/dynamic/printer/config/secure/auth/usergroups.html?info=normal">Configurar grupos para uso com contas internas</A>
+<BR><BR>
+<A HREF="/cgi-bin/dynamic/printer/config/secure/auth/users.html?info=normal">Adicionar uma conta interna</A>
+<P>Para modificar uma Conta Interna jÃ¡ existente, clique no ID de UsuÃ¡rio na tabela abaixo.</P>
+
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 17"  VALUE="-1">
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<B>Contas internas</B>
+<!-- lspcontent here -->
+<TABLE BORDER="1" width="100%">
+
+<TR><TD><B>ID do usuÃ¡rio</B></TD>
+<TD><B>Nome da conta</B></TD>
+<TD><B>E-mail</B></TD>
+<TD><B>Grupos</B></TD>
+</TR>
+
+</TABLE>
+
+</FORM>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/auth/manageusers.html?type=settingsPost" METHOD="post">
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 21"  VALUE="-1">
+<INPUT TYPE="hidden" NAME="105.applications.auth.configFactory 21"  VALUE="Internal_Accounts_Building_Block">
+
+<TABLE>
+<TR>
+<TD><label for="promptName">Personalizar nome bloco de construÃ§Ã£o</label></TD>
+<TD><INPUT NAME="1.promptName" id="promptName" SIZE=32 MAXLENGTH=128 VALUE="Internal&#032;Accounts&#032;Building&#032;Block"></TD>
+</TR>
+<TR><TD><label for="requireEmailAddresses">Exigir endereÃ§o de e-mail</label></TD><TD><INPUT TYPE="hidden" NAME="2.requireEmailAddresses"   VALUE=0><INPUT TYPE="checkbox" NAME="2.requireEmailAddresses"  id="requireEmailAddresses" VALUE=1>
+</TD></TR>
+<TR><TD><label for="userInput">Credenciais do usuÃ¡rio necessÃ¡rias</label></TD><TD>
+<SELECT NAME="0.userInput" ID="userInput">
+<OPTION SELECTED VALUE="0">ID do usuÃ¡rio e senha</OPTION>
+<OPTION VALUE="1">ID do usuÃ¡rio</OPTION>
+</SELECT>
+</TD></TR>
+</TABLE>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" NAME="102.applications.auth.configFactory" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE>
+</FORM>
+
+<BR><BR>
+<A HREF="/cgi-bin/dynamic/printer/config/secure/authsetup.html">Voltar para configuraÃ§Ã£o de seguranÃ§a</A>
+<BR>
+<A HREF="/cgi-bin/dynamic/printer/config/secure/auth/secutemp.html?info=normal">Gerenciar Modelos de SeguranÃ§a</A>
+</BODY></HTML>

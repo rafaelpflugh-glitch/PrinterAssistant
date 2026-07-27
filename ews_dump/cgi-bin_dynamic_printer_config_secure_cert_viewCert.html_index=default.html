@@ -1,0 +1,115 @@
+
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Gerenciamento de certificado de dispositivo</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<body>
+<TITLE>Gerenciamento de certificado de dispositivo</TITLE>
+<script language="JavaScript">
+function goToInstall()
+{
+window.location="./installCert.html?index=default";
+}
+
+function goToDelete()
+{
+window.location="./deleteCert.html?index=default";
+}
+
+function goToDownloadToFile()
+{
+window.location="/cgi-bin/exportfile/printer/config/secure/cert/SystemCert.pem?index=default";
+}
+
+function goToDownloadSgningReq()
+{
+window.location="/cgi-bin/exportfile/printer/config/secure/cert/CertReq.csr?index=default";
+}
+</script>
+
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Gerenciamento de certificado de dispositivo</H4>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/cert/viewCert.html" METHOD="post">
+<B>default:</B>
+<TABLE>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR>
+<TD><INPUT TYPE="button" NAME="delete" VALUE="Excluir" onClick="goToDelete()">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" NAME="DownloadToFile" VALUE="Carregar no arquivo" onClick="goToDownloadToFile()">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" NAME="DownloadSigningRequest" VALUE="Carregar solicitaÃ§Ã£o de assinatura"  onClick="goToDownloadSgningReq()">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE=button VALUE="Instalar certificado assinado" onClick="goToInstall()">&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+<PRE>Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number:
+            fe:35:5b:80:59:f9:b3:ff
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: O=Lexmark, C=--, CN=Lexmark MX611dhe
+        Validity
+            Not Before: Jul 14 16:36:27 2026 GMT
+            Not After : Jul 11 16:36:27 2036 GMT
+        Subject: O=Lexmark, C=--, CN=Lexmark MX611dhe
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:9c:45:6d:05:65:1e:fa:7b:42:6f:38:f6:f1:9c:
+                    72:ec:0c:06:60:49:14:50:e7:53:e6:06:96:92:39:
+                    29:d6:29:27:30:d4:76:10:a7:fc:78:45:9d:21:29:
+                    91:60:26:14:88:58:b0:c2:4e:90:d5:61:5e:1e:07:
+                    5c:4d:52:e7:e2:d4:3a:50:eb:4d:1e:82:0d:03:8c:
+                    68:27:7a:da:05:3a:fa:05:ee:ff:a4:a3:da:96:ee:
+                    79:f9:57:c2:30:00:38:40:d3:3f:00:7a:42:db:53:
+                    57:31:ec:07:03:6d:9d:4a:ad:90:39:03:a5:b2:42:
+                    98:c8:a0:cb:52:e2:91:54:88:e7:5c:dd:e0:08:09:
+                    e6:84:79:ab:1f:bd:8c:3e:35:58:73:0c:5e:88:65:
+                    86:d7:62:8c:81:00:13:91:7f:25:86:4a:96:f4:ef:
+                    34:eb:7e:b6:f8:78:02:9f:2e:29:e5:65:28:cc:ba:
+                    18:47:3f:51:e6:f3:45:73:41:7c:74:78:e7:de:8d:
+                    6d:1e:c6:da:bd:d2:64:c8:14:6a:60:f2:81:cb:a2:
+                    03:f0:b0:ce:68:f7:3e:ef:c0:57:62:a8:1a:a9:29:
+                    9e:6c:98:a8:02:3b:d5:3b:6e:6d:9c:a4:35:83:be:
+                    4d:6e:ab:01:56:41:76:ef:c8:08:34:08:af:b4:0a:
+                    0c:53
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: sha256WithRSAEncryption
+         88:8a:65:05:41:18:39:94:38:fe:63:24:d3:db:d0:6f:b0:56:
+         20:5c:89:9e:5c:59:15:94:09:c8:6f:f4:f8:03:11:a9:28:29:
+         e6:e5:cf:eb:89:7c:d5:e4:76:34:d6:23:9b:20:0d:25:d8:76:
+         20:e5:01:49:fb:48:72:19:fd:92:70:4e:bc:94:be:a2:82:8b:
+         35:a0:65:4d:cf:b7:66:79:89:02:6f:51:04:84:c9:06:9a:09:
+         a8:68:3d:0d:ae:7f:5c:a7:f4:13:37:80:4b:72:b1:76:ab:dd:
+         ec:79:05:4c:05:68:88:48:b5:32:a5:4d:2b:8d:c6:8c:20:39:
+         9a:c6:5f:e6:af:a1:52:5c:b2:33:d3:c1:f0:e7:e0:80:92:46:
+         1c:a0:84:72:fd:80:f5:67:68:26:ad:42:33:4f:82:6d:fc:50:
+         9d:3e:6d:e9:ed:53:8b:ff:3e:5c:6a:cb:63:ee:36:ea:95:d9:
+         a5:80:c7:eb:01:5e:e0:94:8c:94:be:88:7f:af:7b:18:78:7a:
+         57:c3:30:c3:de:90:76:d6:0d:05:24:52:92:54:a1:5d:89:75:
+         a5:64:6e:e0:a4:54:18:c8:a5:7f:03:6d:32:26:a8:98:66:cc:
+         28:bc:81:f8:8a:3e:a2:a9:f5:c5:bb:5d:cc:56:bf:89:89:32:
+         e2:39:7d:b9
+-----BEGIN CERTIFICATE-----
+MIIC8DCCAdgCCQD+NVuAWfmz/zANBgkqhkiG9w0BAQsFADA6MRAwDgYDVQQKEwdM
+ZXhtYXJrMQswCQYDVQQGEwItLTEZMBcGA1UEAxMQTGV4bWFyayBNWDYxMWRoZTAe
+Fw0yNjA3MTQxNjM2MjdaFw0zNjA3MTExNjM2MjdaMDoxEDAOBgNVBAoTB0xleG1h
+cmsxCzAJBgNVBAYTAi0tMRkwFwYDVQQDExBMZXhtYXJrIE1YNjExZGhlMIIBIjAN
+BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnEVtBWUe+ntCbzj28Zxy7AwGYEkU
+UOdT5gaWkjkp1iknMNR2EKf8eEWdISmRYCYUiFiwwk6Q1WFeHgdcTVLn4tQ6UOtN
+HoINA4xoJ3raBTr6Be7/pKPalu55+VfCMAA4QNM/AHpC21NXMewHA22dSq2QOQOl
+skKYyKDLUuKRVIjnXN3gCAnmhHmrH72MPjVYcwxeiGWG12KMgQATkX8lhkqW9O80
+6362+HgCny4p5WUozLoYRz9R5vNFc0F8dHjn3o1tHsbavdJkyBRqYPKBy6ID8LDO
+aPc+78BXYqgaqSmebJioAjvVO25tnKQ1g75NbqsBVkF278gINAivtAoMUwIDAQAB
+MA0GCSqGSIb3DQEBCwUAA4IBAQCIimUFQRg5lDj+YyTT29BvsFYgXImeXFkVlAnI
+b/T4AxGpKCnm5c/riXzV5HY01iObIA0l2HYg5QFJ+0hyGf2ScE68lL6igos1oGVN
+z7dmeYkCb1EEhMkGmgmoaD0Nrn9cp/QTN4BLcrF2q93seQVMBWiISLUypU0rjcaM
+IDmaxl/mr6FSXLIz08Hw5+CAkkYcoIRy/YD1Z2gmrUIzT4Jt/FCdPm3p7VOL/z5c
+astj7jbqldmlgMfrAV7glIyUvoh/r3sYeHpXwzDD3pB21g0FJFKSVKFdiXWlZG7g
+pFQYyKV/A20yJqiYZswovIH4ij6iqfXFu13MVr+JiTLiOX25
+-----END CERTIFICATE-----
+</PRE>
+</FORM>
+</BODY></HTML>

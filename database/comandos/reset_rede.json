@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Reset rede",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/network/reset"
+}
+

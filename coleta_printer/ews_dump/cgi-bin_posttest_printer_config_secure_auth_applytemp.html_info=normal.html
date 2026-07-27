@@ -1,0 +1,239 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Editar Controles de Acesso</TITLE>
+<script src="/cgi-bin/dynamic/printer/include/mktree.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/include/bookmark.css">
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+
+
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Editar Controles de Acesso</H4>
+
+
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/auth/applytemp.html?info=normal" METHOD="post">
+<p>Escolher um modelo de seguranÃ§a para proteger cada funÃ§Ã£o</p>
+<p>As funÃ§Ãµes que podem ser desativadas possuem uma seleÃ§Ã£o 'Desativada'. Para permitir que alguÃ©m use a funÃ§Ã£o, escolha 'Sem seguranÃ§a'.</p>
+<A href="#" onClick="expandTree('bookmark1'); return false;"><font size=1>Expandir tudo</font></A>&nbsp;
+<A href="#" onClick="collapseTree('bookmark1'); return false;"><font size=1>Recolher</font></A>
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 10"  VALUE="-1">
+<ul class="mktree" id="bookmark1">  <li>&nbsp;Menus administrativos/
+    <ul>
+      <table><tbody>
+      <tr><td>&nbsp;</td><td>Menu de seguranÃ§a no dispositivo</td><td>
+<SELECT NAME="6.0.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu de seguranÃ§a de maneira remota</td><td>
+<SELECT NAME="6.1.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menus TÃ©cnicos do Dispositivo</td><td>
+<SELECT NAME="6.2.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menus TÃ©cnicos de Acesso Remoto</td><td>
+<SELECT NAME="6.3.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu de ConfiguraÃ§Ã£o</td><td>
+<SELECT NAME="6.4.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu diag</td><td>
+<SELECT NAME="6.5.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu Papel no dispositivo</td><td>
+<SELECT NAME="6.10.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu Papel remotamente</td><td>
+<SELECT NAME="6.11.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu RelatÃ³rios no dispositivo</td><td>
+<SELECT NAME="6.12.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu RelatÃ³rios remotamente</td><td>
+<SELECT NAME="6.13.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu ConfiguraÃ§Ãµes no dispositivo</td><td>
+<SELECT NAME="6.14.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu ConfiguraÃ§Ãµes remotamente</td><td>
+<SELECT NAME="6.15.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu Rede/Portas no dispositivo</td><td>
+<SELECT NAME="6.16.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Menu Rede/Portas remotamente</td><td>
+<SELECT NAME="6.17.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Gerenciar atalhos no dispositivo</td><td>
+<SELECT NAME="6.18.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Gerenciar atalhos remotamente</td><td>
+<SELECT NAME="6.19.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>ConfiguraÃ§Ã£o de Placa Adicional no Dispositivo</td><td>
+<SELECT NAME="6.65.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>ConfiguraÃ§Ã£o Remota de Placa Opcional</td><td>
+<SELECT NAME="6.66.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      </tbody></table>
+    </ul>
+  </li>
+  <li>&nbsp;AdministraÃ§Ã£o/
+    <ul>
+      <table><tbody>
+      <tr><td>&nbsp;</td><td>Config. de importaÃ§Ã£o/exportaÃ§Ã£o da Web</td><td>
+<SELECT NAME="6.25.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>ConfiguraÃ§Ã£o de aplicativos</td><td>
+<SELECT NAME="6.41.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Gerenciamento remoto</td><td>
+<SELECT NAME="6.53.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>AtualizaÃ§Ãµes de firmware</td><td>
+<SELECT NAME="6.54.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Alter. Config. Disposit. PJL</td><td>
+<SELECT NAME="6.71.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Bloqueio do Painel do Operador</td><td>
+<SELECT NAME="6.6.securityTemplateId">
+<OPTION SELECTED VALUE="1">Desativado</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Importar/exportar pacote de config.</td><td>
+<SELECT NAME="6.78.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>IPP (Protoc. ImpressÃ£o Internet)</td><td>
+<SELECT NAME="6.79.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      </tbody></table>
+    </ul>
+  </li>
+  <li>&nbsp;Acesso a funÃ§Ãµes/
+    <ul>
+      <table><tbody>
+      <tr><td>&nbsp;</td><td>CatÃ¡logo de endereÃ§os</td><td>
+<SELECT NAME="6.67.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Criar perfis</td><td>
+<SELECT NAME="6.68.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Criar marcadores no dispos.</td><td>
+<SELECT NAME="6.37.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Criar Marcadores Remotamente </td><td>
+<SELECT NAME="6.69.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>ImpressÃ£o da unidade flash</td><td>
+<SELECT NAME="6.20.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>DigitalizaÃ§Ã£o para a unidade flash</td><td>
+<SELECT NAME="6.22.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Copiar funÃ§Ã£o</td><td>
+<SELECT NAME="6.27.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Permitir acesso Ã  unidade flash</td><td>
+<SELECT NAME="6.81.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Remover cores</td><td>
+<SELECT NAME="6.29.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>FunÃ§Ã£o de e-mail</td><td>
+<SELECT NAME="6.30.securityTemplateId">
+<OPTION SELECTED VALUE="1">Desativado</OPTION><OPTION VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>FunÃ§Ã£o de fax</td><td>
+<SELECT NAME="6.31.securityTemplateId">
+<OPTION SELECTED VALUE="1">Desativado</OPTION><OPTION VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Liberar fax retidos</td><td>
+<SELECT NAME="6.32.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>FunÃ§Ã£o de FTP</td><td>
+<SELECT NAME="6.33.securityTemplateId">
+<OPTION SELECTED VALUE="1">Desativado</OPTION><OPTION VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Acesso a trabalhos retidos</td><td>
+<SELECT NAME="6.34.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Usar perfis</td><td>
+<SELECT NAME="6.35.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Trocar idioma da tela inicial</td><td>
+<SELECT NAME="6.7.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Cancelar trab. no disp.</td><td>
+<SELECT NAME="6.76.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      </tbody></table>
+    </ul>
+  </li>
+  <li>&nbsp;Aplicativos do dispositivo/
+    <ul>
+      <table><tbody>
+      <tr><td>&nbsp;</td><td>Aplicativo 1</td><td>
+<SELECT NAME="6.55.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 2</td><td>
+<SELECT NAME="6.56.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 3</td><td>
+<SELECT NAME="6.57.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 4</td><td>
+<SELECT NAME="6.58.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 5</td><td>
+<SELECT NAME="6.59.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 6</td><td>
+<SELECT NAME="6.60.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 7</td><td>
+<SELECT NAME="6.61.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 8</td><td>
+<SELECT NAME="6.62.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 9</td><td>
+<SELECT NAME="6.63.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Aplicativo 10</td><td>
+<SELECT NAME="6.64.securityTemplateId">
+<OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Novos aplicativos</td><td>
+<SELECT NAME="6.77.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Scan&nbsp;to&nbsp;Network</td><td>
+<SELECT NAME="6.esf.scanToNet.scanToNetworkFAC.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Multi&nbsp;Send</td><td>
+<SELECT NAME="6.esf.multiSend.multiSendFAC.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Card&nbsp;Copy</td><td>
+<SELECT NAME="6.esf.cardCopy.cardCopyFAC.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>MyShortcut</td><td>
+<SELECT NAME="6.esf.myShortcut.myShortcutsFac.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      <tr><td>&nbsp;</td><td>Forms&nbsp;and&nbsp;Favorites</td><td>
+<SELECT NAME="6.esf.ezForms.ezformsFAC.securityTemplateId">
+<OPTION VALUE="1">Desativado</OPTION><OPTION SELECTED VALUE="0">Sem&nbsp;seguranÃ§a</OPTION></SELECT></td></tr>
+      </tbody></table>
+    </ul>
+  </li>
+</ul>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+
+<TR><TD><INPUT TYPE="submit" NAME="101.applications.auth.configFactory" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+
+</TABLE>
+</FORM>
+
+
+<BR><BR>
+<A HREF="/cgi-bin/dynamic/printer/config/secure/authsetup.html">Voltar para configuraÃ§Ã£o de seguranÃ§a</A>
+
+
+</BODY>
+</HTML>

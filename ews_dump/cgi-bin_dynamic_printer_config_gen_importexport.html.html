@@ -1,0 +1,68 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Importar/exportar</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+
+<H4>Importar/exportar atalhos</H4>
+<BR>
+<TABLE>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/importdests.html">Importar arquivo de atalhos</A></TD></TR>
+</TABLE>
+<TABLE>
+    <FORM name="exportshortcuts" ACTION="/cgi-bin/exportfile/printer/config/secure/shortcuts.ucf" METHOD="post">
+        <TR><TD><A HREF="#" onclick="submitAction('exportshortcuts')" rel="nofollow">Exportar arquivo de atalhos</A></TD></TR>
+        <input type="hidden" name="" value="" id="exportshortcuts#">
+    </FORM>
+</TABLE>
+
+<BR>
+<H4>Importar/exportar configuraÃ§Ãµes</H4>
+<TABLE>
+    <TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/importsettings.html">Importar arquivo de configuraÃ§Ã£o</A></TD></TR>
+</TABLE>
+<TABLE>
+    <FORM name="exportsettings" ACTION="/cgi-bin/exportfile/printer/config/secure/settingfile.ucf" METHOD="post">
+        <TR><TD><A HREF="#" onclick="submitAction('exportsettings')" rel="nofollow">Exportar arquivo de configuraÃ§Ã£o</A></TD></TR>
+        <input type="hidden" name="" value="" id="exportsettings#">
+    </FORM>
+</TABLE>
+
+<H4>Importar/Exportar configuraÃ§Ãµes de soluÃ§Ãµes incorporadas</H4>
+<TABLE>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/importsettings.html">Importar Arquivo de ConfiguraÃ§Ãµes de SoluÃ§Ãµes Incorpadas</A></TD></TR>
+</TABLE>
+<TABLE>
+    <FORM name="exportesfsettings" ACTION="/cgi-bin/exportfile/printer/config/secure/settingfileesf.ucf" METHOD="post">
+        <TR><TD><A HREF="#" onclick="submitAction('exportesfsettings')" rel="nofollow">Exportar Arquivo de ConfiguraÃ§Ãµes de SoluÃ§Ãµes Incorpadas</A></TD></TR>
+        <input type="hidden" name="" value="" id="exportesfsettings#">
+    </FORM>
+</TABLE>
+<H4>Importar/exportar conf. segur.</H4>
+<TABLE>
+<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/secure/importauth.html">Importar arq. conf. segur.</A></TD></TR>
+</TABLE>
+<TABLE>
+    <FORM name="exportsecuritysettings" ACTION="/cgi-bin/exportfile/printer/config/secure/authfile.ucf" METHOD="post">
+        <TR><TD><A HREF="#" onclick="submitAction('exportsecuritysettings')" rel="nofollow">Exportar arq. conf. segur.</A></TD></TR>
+        <input type="hidden" name="" value="" id="exportsecuritysettings#">
+    </FORM>
+</TABLE>
+
+</BODY></HTML>
+
+<input type="hidden" name="csrf_token" value="" >
+<script>
+function submitAction(objectForm)
+{
+    var input=document.getElementsByName("csrf_token")[0];
+    var insert=document.getElementById(objectForm+"#");
+    insert.name = input.name;
+    insert.value = input.value;
+    document.forms[objectForm].submit();
+}
+</script>
+</BODY></HTML>

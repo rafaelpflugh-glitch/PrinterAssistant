@@ -1,0 +1,54 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ãµes</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/net/std_usb.html" METHOD="post">
+<H4>USB padrÃ£o</H4><TABLE>
+<TR><TD><label for="system.2059">PCL SmartSwitch</label> +</TD><TD><INPUT TYPE="hidden" NAME="2.system.2059"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.2059"  id="system.2059" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.2058">PS SmartSwitch</label> +</TD><TD><INPUT TYPE="hidden" NAME="2.system.2058"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.2058"  id="system.2058" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.2057">Modo NPA</label> * +</TD><TD>
+<SELECT NAME="0.system.2057" ID="system.2057">
+<OPTION VALUE="1">Ativar</OPTION>
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION SELECTED VALUE="2">AutomÃ¡tica</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.2060">Buffer USB</label> * +</TD><TD><INPUT NAME="0.system.2060" onchange="checkInput('system.2060',3, 8124, 'Esta config. aceita som. um valor entre 3 e 8124.', '0,2,')" id="system.2060" SIZE=6 MAXLENGTH=22 VALUE="2"></TD>
+<TD><span class="helper" id="helper.system.2060">Desativado = 0, AutomÃ¡tica = 2, MÃ­n = 3 KB,</TD><TD> MÃ¡x = 8124 KB</span></TD></TR>
+
+<TR><TD><label for="system.4520">Buffer de trabalhos</label></TD><TD>
+<SELECT NAME="0.system.4520" ID="system.4520">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">Ativar</OPTION>
+<OPTION VALUE="2">AutomÃ¡tica</OPTION>
+</SELECT>
+</TD></TR>
+
+<TR><TD><label for="system.2230">PS binÃ¡rio Mac</label></TD><TD>
+<SELECT NAME="0.system.2230" ID="system.2230">
+<OPTION VALUE="0">Ativar</OPTION>
+<OPTION VALUE="1">Desativar</OPTION>
+<OPTION SELECTED VALUE="2">AutomÃ¡tica</OPTION>
+</SELECT>
+</TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD COLSPAN=3>* Alterar esta configuraÃ§Ã£o causarÃ¡ a reinicializaÃ§Ã£o da impressora.</TD></TR>
+<TR><TD COLSPAN=3>+ A impressora deve estar em Estado Pronto antes do envio.</TD></TR>
+</TABLE>
+</BODY></HTML>

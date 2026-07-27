@@ -1,0 +1,46 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Config. emulaÃ§Ã£o PCL</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/pcl_emul.html" METHOD="post">
+<H4>Config. emulaÃ§Ã£o PCL</H4>
+<TABLE>
+<!-- need to add hide show here, something to do with font -->
+
+
+<TR><TD><label for="system.106">Pitch</label></TD><TD><INPUT NAME="0.system.106" onchange="checkInput('system.106',0.08, 100.00, 'Esta config. aceita som. um valor entre 0.08 e 100.00.', '')" id="system.106" SIZE=6 MAXLENGTH=22 VALUE="10.00"></TD><TD><span class="helper" id="helper.system.106">Interv: 0,08 - 100,00 em incrementos de 0,01.</span></TD></TR>
+
+
+
+
+
+<TR><TD><label for="system.55">OrientaÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.55" ID="system.55">
+<OPTION SELECTED VALUE="0">Retrato</OPTION>
+<OPTION VALUE="1">Paisagem</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.2264">Linhas por pÃ¡gina</label></TD><TD><INPUT NAME="0.system.2264" onchange="checkInput('system.2264',1, 255, 'Esta config. aceita som. um valor entre 1 e 255.', '')" id="system.2264" SIZE=6 MAXLENGTH=22 VALUE="64"></TD><TD><span class="helper" id="helper.system.2264">Intervalo : 1 - 255</span></TD></TR>
+<TR><TD><label for="system.85">Largura A4</label></TD><TD>
+<SELECT NAME="0.system.85" ID="system.85">
+<OPTION SELECTED VALUE="198">198 mm</OPTION>
+<OPTION VALUE="203">203 mm</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.96">RC auto apÃ³s AL</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.96"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.96"  id="system.96" VALUE=1>
+</TD></TR>
+<TR><TD><label for="system.97">AL auto apÃ³s RC</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.97"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.97"  id="system.97" VALUE=1>
+</TD></TR>
+
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>
+

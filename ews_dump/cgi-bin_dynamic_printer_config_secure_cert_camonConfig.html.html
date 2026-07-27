@@ -1,0 +1,87 @@
+
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>CA Certificate Monitor Setup</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<SCRIPT TYPE="text/javascript" LANGUAGE="javascript">
+function checkEnabled()
+{
+  disabledButton = document.getElementById('enableCertmon').disabled;
+  disabledValue = !document.getElementById('enableCertmon').checked | disabledButton;
+  document.getElementById('immediateFetch').disabled = disabledValue;
+  document.getElementById('timeSelect').disabled = disabledValue;
+  document.getElementById('repeatUnit').disabled = disabledValue;
+  document.getElementById('submit_button').disabled = disabledButton;
+}
+</SCRIPT>
+</HEAD>
+<BODY ONLOAD="checkEnabled()">
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>Conf. monitor Cert CA</H4>
+Para ter acesso Ã s configuraÃ§Ãµes, Ã© necessÃ¡rio entrar em um diretÃ³rio ativo.<br><br>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/cert/certmon_config.html" METHOD="post">
+<TABLE>
+<TR>
+<TD>Ativar monitor CA</TD>
+<TD><INPUT TYPE="checkbox" ID="enableCertmon" NAME="enableCertmon" VALUE="Enable" DISABLED  ONCHANGE="checkEnabled();"/></TD>
+</TR>						
+<TR>
+<TD>Proc imediatamente</TD>
+<TD><INPUT TYPE="checkbox" ID="immediateFetch" NAME="immediateFetch" VALUE="Enable" /></TD>
+</TR>
+<TR>
+<TD>Hora progr p/ exec</TD>
+<TD>
+<SELECT ID="timeSelect" NAME="timeSelect">
+<OPTION VALUE="0" SELECTED="selected">0:00</OPTION>
+<OPTION VALUE="1">1:00</OPTION>
+<OPTION VALUE="2">2:00</OPTION>
+<OPTION VALUE="3">3:00</OPTION>
+<OPTION VALUE="4">4:00</OPTION>
+<OPTION VALUE="5">5:00</OPTION>
+<OPTION VALUE="6">6:00</OPTION>
+<OPTION VALUE="7">7:00</OPTION>
+<OPTION VALUE="8">8:00</OPTION>
+<OPTION VALUE="9">9:00</OPTION>
+<OPTION VALUE="10">10:00</OPTION>
+<OPTION VALUE="11">11:00</OPTION>
+<OPTION VALUE="12">12:00</OPTION>
+<OPTION VALUE="13">13:00</OPTION>
+<OPTION VALUE="14">14:00</OPTION>
+<OPTION VALUE="15">15:00</OPTION>
+<OPTION VALUE="16">16:00</OPTION>
+<OPTION VALUE="17">17:00</OPTION>
+<OPTION VALUE="18">18:00</OPTION>
+<OPTION VALUE="19">19:00</OPTION>
+<OPTION VALUE="20">20:00</OPTION>
+<OPTION VALUE="21">21:00</OPTION>
+<OPTION VALUE="22">22:00</OPTION>
+<OPTION VALUE="23">23:00</OPTION>
+	
+</select>
+</TD>
+</TR>				
+<TR>
+<TD>Rep. a cada</TD>
+<TD> 
+<select ID="repeatUnit" NAME="repeatUnit">
+<OPTION VALUE="hourly">hour</option>
+<OPTION VALUE="daily" SELECTED="selected">day</option>
+<OPTION VALUE="weekly">week</option>
+<OPTION VALUE="monthly">30 days</option>
+
+</select>
+</TD>
+</TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><input type="submit" id="submit_button" name="submit_button" value="Enviar" >&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+</FORM>
+</BODY>
+</HTML>

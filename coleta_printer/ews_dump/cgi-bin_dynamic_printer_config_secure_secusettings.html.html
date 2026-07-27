@@ -1,0 +1,54 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ãµes de seguranÃ§a variadas</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/secusettings.html" METHOD="post">
+<H4>ConfiguraÃ§Ãµes de seguranÃ§a variadas</H4>
+<INPUT TYPE="hidden" NAME="109.Auth.MiscSettings"  VALUE="-1">
+
+
+
+<TABLE>
+<TR><TD><A HREF="restrict.html">RestriÃ§Ãµes de Login</A></TD></TR>
+<TR><TD><label for="system.16975">VerificaÃ§Ã£o de certificado LDAP</label></TD><TD>
+<SELECT NAME="0.system.16975" ID="system.16975">
+<OPTION VALUE="0">Nunca</OPTION>
+<OPTION VALUE="3">Permitir</OPTION>
+<OPTION VALUE="4">Tentar</OPTION>
+<OPTION SELECTED VALUE="2">Exigir</OPTION>
+</SELECT>
+</TD>
+<TD>Depois que esta configuraÃ§Ã£o for alterada o dispositivo de ser desligado (e em seguida ligado) para que as alteraÃ§Ãµes sejam aplicadas.</TD>
+</TR>
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 22"  VALUE="-1">
+<INPUT TYPE="hidden" NAME="105.applications.auth.configFactory 22"  VALUE="General">
+
+<TR><TD><label for="resetAction">Jumper de redefiniÃ§Ã£o de seguranÃ§a</label></TD><TD>
+<SELECT NAME="0.resetAction" ID="resetAction">
+<OPTION VALUE="0">Sem efeito</OPTION>
+<OPTION SELECTED VALUE="1">Controles de acesso = "Sem seguranÃ§a"</OPTION>
+<OPTION VALUE="2">Redefinir padrÃµes de seguranÃ§a de fÃ¡brica</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.resetAction">Especif. o ef. do uso do jumper do hardware de seguranÃ§a</span></TD></TR>
+<TR><TD><label for="minimumPinLength">ExtensÃ£o mÃ­nima do PIN</label></TD><TD><INPUT NAME="0.minimumPinLength" onchange="checkInput('minimumPinLength',1, 16, 'Esta config. aceita som. um valor entre 1 e 16.', '')" id="minimumPinLength" SIZE=6 MAXLENGTH=22 VALUE="4"></TD><TD><span class="helper" id="helper.minimumPinLength">Intervalo: 1 - 16. PadrÃ£o = 4. Define a ext. mÃ­n. PIN para criar seguranÃ§a de PIN para blocos de seguranÃ§a.</span></TD></TR>
+<tr>
+    <td><label for="followLDAPReferrals">Seguir referÃªncias LDAP</label></td>
+    <td><INPUT TYPE="hidden" NAME="2.followLDAPReferrals"   VALUE=0><INPUT TYPE="checkbox" NAME="2.followLDAPReferrals"  id="followLDAPReferrals" VALUE=1>
+</td>
+</tr>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<input type="hidden" name="102.applications.auth.configFactory" value="submit">
+<TABLE>
+<TR><TD><INPUT TYPE="submit" NAME="102.applications.auth.configFactory" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+<TR><TD><BR><A HREF="/cgi-bin/dynamic/config/secure/security.html">Retornar p/ SeguranÃ§a</A></TD></TR>
+</TABLE>
+</FORM>
+
+</BODY></HTML>
+

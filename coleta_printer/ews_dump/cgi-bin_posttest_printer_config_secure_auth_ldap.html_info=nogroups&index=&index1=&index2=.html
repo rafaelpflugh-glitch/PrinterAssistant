@@ -1,0 +1,180 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o de servidor LDAP</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+  <style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+
+<script type="text/javascript">
+function anonClickEvent()
+{
+    if (document.getElementById("anonBind").checked==true)
+    {
+        document.getElementById("mfpDN").disabled = true;
+        document.getElementById("mfpDN").value = "";
+        document.getElementById("mfpPassword").disabled = true;
+        document.getElementById("mfpPassword").value = "";
+        document.getElementById("useADSCreds").disabled = true;
+        document.getElementById("useADSCreds").checked = false;
+        
+        document.getElementById("mfpDN1").disabled = false;
+        document.getElementById("mfpDN1").value = "";
+        document.getElementById("mfpPassword1").disabled = false;
+        document.getElementById("mfpPassword1").value = "";
+    }
+    else
+    {
+        document.getElementById("mfpDN").disabled = false;
+        document.getElementById("mfpPassword").disabled = false;
+        document.getElementById("useADSCreds").disabled = false;
+        
+        document.getElementById("mfpDN1").disabled = true;
+        document.getElementById("mfpPassword1").disabled = true;
+    }
+}
+
+function useADSClickEvent()
+{
+    if (document.getElementById("useADSCreds").checked == true)
+    {
+        document.getElementById("mfpDN").disabled = true;
+        document.getElementById("mfpDN").value = "";
+        document.getElementById("mfpPassword").disabled = true;
+        document.getElementById("mfpPassword").value = "";
+        document.getElementById("anonBind").disabled = true;
+        document.getElementById("anonBind").checked = false;
+
+        document.getElementById("mfpDN1").disabled = false;
+        document.getElementById("mfpDN1").value = "";
+        document.getElementById("mfpPassword1").disabled = false;
+        document.getElementById("mfpPassword1").value = "";
+    }
+    else
+    {
+        document.getElementById("anonBind").disabled = false;
+        anonClickEvent();
+    }
+}
+</script>
+
+</HEAD>
+<BODY onload="useADSClickEvent()" onreset="useADSClickEvent()">
+
+
+<H3>ConfiguraÃ§Ã£o guiada de seguranÃ§a</H3>
+
+
+
+
+<h2><i><b><font color="gray">Iniciar -> de Teste -></font> de ConfiguraÃ§Ã£o <font color="gray">-> MÃ©todo -> Aplicar</font></b></i></h2>
+
+
+<H4>ConfiguraÃ§Ã£o de servidor LDAP</H4><BR>
+
+
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/auth/ldap.html?info=nogroups&index=&index1=&index2=" METHOD="post">
+<INPUT TYPE="hidden" NAME="109.Wiz.LDAP"  VALUE="-1">
+
+
+
+<INPUT TYPE="hidden" NAME="110.Wiz.LDAP"  VALUE="1">
+
+
+
+
+
+
+
+
+
+
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 12"  VALUE="-1">
+
+<BR>
+<b>InformaÃ§Ãµes gerais</b>
+<TABLE>
+<TR><TD><label for="name">Nome da configuraÃ§Ã£o</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.name" id="name" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.name">Este nome serÃ¡ utilizado para identificar uma configuraÃ§Ã£o LDAP especÃ­fica.</span></TD></TR>
+<TR><TD><label for="serverAddress">EndereÃ§o do servidor</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.serverAddress" id="serverAddress" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="serverPort">Porta do servidor</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="0.serverPort" onchange="checkInput('serverPort',1, 65535, 'Esta config. aceita som. um valor entre 1 e 65535.', '')" id="serverPort" SIZE=6 MAXLENGTH=22 VALUE="389"></TD>
+<TD><span class="helper" id="helper.serverPort">PadrÃ£o 389 para o LDAP. Escolha 3268 para CatÃ¡logo Global ou 636 para SSL</span></TD></TR>
+<TR><TD><label for="useSSL">Usar SSL/TLS</label></TD>
+<TD width="245px">
+<SELECT NAME="0.useSSL" ID="useSSL">
+<OPTION SELECTED VALUE="0">Nenhum</OPTION>
+<OPTION VALUE="1">SSL</OPTION>
+<OPTION VALUE="2">TLS</OPTION>
+</SELECT>
+</TD>
+<TD><span class="helper" id="helper.useSSL">A escolha SSL/TLS tentarÃ¡ primeiro uma conexÃ£o TLS, passando para SSL em caso de falha.</span></TD></TR>
+<TR><TD><label for="useridAttribute">Atributo de ID do usuÃ¡rio</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.useridAttribute" id="useridAttribute" SIZE=22 MAXLENGTH=32 VALUE="sAMAccountName"></TD><TD>Digite cn, uid, id do usuÃ¡rio ou outro definido pelo usuÃ¡rio</TD></TR>
+<TR><TD><label for="emailAttribute">Atributo de e-mail</label></TD><TD><INPUT NAME="1.emailAttribute" id="emailAttribute" SIZE=22 MAXLENGTH=48 VALUE="mail"></TD></TR>
+<TR><TD><label for="fullnameAttribute">Nome Completo do Atributo</label></TD><TD><INPUT NAME="1.fullnameAttribute" id="fullnameAttribute" SIZE=22 MAXLENGTH=48 VALUE="cn"></TD></TR>
+<TR><TD><label for="searchBase">Base de pesquisa</label></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.searchBase" onChange="textCounter(this,256, 'Este campo pode ter somente 256 caracteres. ');"></TEXTAREA>
+</TD></TR>
+<TR><TD><label for="searchTimeout">Tempo limite da pesquisa</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="0.searchTimeout" onchange="checkInput('searchTimeout',5, 300, 'Esta config. aceita som. um valor entre 5 e 300.', '')" id="searchTimeout" SIZE=6 MAXLENGTH=22 VALUE="30"></TD>
+<TD><span class="helper" id="helper.searchTimeout">Intervalo: 5 - 300</span></TD></TR>
+<TR><TD><label for="userInput">Entrada de usuÃ¡rio necessÃ¡ria</label></TD><TD>
+<SELECT NAME="0.userInput" ID="userInput">
+<OPTION SELECTED VALUE="0">ID do usuÃ¡rio e senha</OPTION>
+<OPTION VALUE="1">ID do usuÃ¡rio</OPTION>
+</SELECT>
+</TD></TR>
+</TABLE>
+<BR>
+<H4>Creden. dispos.</H4>
+<TABLE>
+<tr>
+<td><label for="useADSCreds">Usar Creden. Dispos. Active Directory</label></td><td><INPUT TYPE="hidden" NAME="2.useADSCreds"   VALUE=0><INPUT TYPE="checkbox" NAME="2.useADSCreds"  id="useADSCreds" VALUE=1 onchange="useADSClickEvent()"></td>
+<td><label for="ad.status">Status</label>: &nbsp;&nbsp;</td><td><span id="ad.status">NÃ£o ligado</span></td>
+</tr>
+<TR><TD><label for="anonbind">LigaÃ§Ã£o LDAP anÃ´nima</label></TD><TD><INPUT TYPE="hidden" NAME="2.anonBind"   VALUE=0><INPUT TYPE="checkbox" NAME="2.anonBind"   VALUE=1 id="anonBind" CHECKED onchange="anonClickEvent()"></TD></TR>
+<TR><TD><INPUT TYPE="HIDDEN" NAME="1.mfpDN" id="mfpDN1" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><INPUT TYPE="HIDDEN" NAME="1.mfpPassword" SIZE=22 MAXLENGTH=128 id="mfpPassword1" VALUE=""></TD></TR>
+<TR><TD><label for="mfpDN">Nome diferenc.</label</TD><TD><INPUT NAME="1.mfpDN" id="mfpDN" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="mfpPassword">Senha</label></TD><TD><INPUT TYPE="password" NAME="1.mfpPassword" SIZE=22 MAXLENGTH=128 onfocus="clearSettingByName('1.mfpPassword')" id="mfpPassword" VALUE=""></TD></TR>
+</TABLE>
+<BR>
+<H4>Pesquisar classes de objeto especÃ­ficas</H4>
+<TABLE>
+<TR><TD><label for="objClassPerson">person</label></TD><TD><INPUT TYPE="hidden" NAME="2.objClassPerson"   VALUE=0><INPUT TYPE="checkbox" NAME="2.objClassPerson"   VALUE=1 id="objClassPerson" CHECKED>
+</TD></TR>
+<TR><TD>[<label for="useObjClass1">Classe de objeto personalizada 1</label>]</TD><TD><INPUT TYPE="hidden" NAME="2.useObjClass1"   VALUE=0><INPUT TYPE="checkbox" NAME="2.useObjClass1"  id="useObjClass1" VALUE=1>
+</TD><TD><INPUT NAME="1.objClass1" id="objClass1" SIZE=22 MAXLENGTH=64 VALUE=""></TD></TR>
+<TR><TD>[<label for="useObjClass2">Classe de objeto personalizada 2</label>]</TD><TD><INPUT TYPE="hidden" NAME="2.useObjClass2"   VALUE=0><INPUT TYPE="checkbox" NAME="2.useObjClass2"  id="useObjClass2" VALUE=1>
+</TD><TD><INPUT NAME="1.objClass2" id="objClass2" SIZE=22 MAXLENGTH=64 VALUE=""></TD></TR>
+<TR><TD>[<label for="useObjClass3">Classe de objeto personalizada 3</label>]</TD><TD><INPUT TYPE="hidden" NAME="2.useObjClass3"   VALUE=0><INPUT TYPE="checkbox" NAME="2.useObjClass3"  id="useObjClass3" VALUE=1>
+</TD><TD><INPUT NAME="1.objClass3" id="objClass3" SIZE=22 MAXLENGTH=64 VALUE=""></TD></TR>
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+
+
+
+<TR>
+<TD><INPUT TYPE="submit" NAME="101.applications.auth.configFactory" VALUE="Salvar, ir para a prÃ³xima etapa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+
+<TD><INPUT TYPE="button" VALUE="Sair da ConfiguraÃ§Ã£o" onClick="window.open('/cgi-bin/dynamic/config/secure/security.html','_self')">&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+
+
+</TR>
+</TABLE>
+</FORM>
+<BR>
+<TABLE>
+<TR><TD>Itens com * sÃ£o obrigatÃ³rios.</TD></TR>
+</TABLE>
+<BR>
+</BODY></HTML>
+

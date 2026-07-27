@@ -1,0 +1,89 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o guiada de seguranÃ§a</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+  <style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+
+<script language="JavaScript">
+
+function setup_preexisting()
+{
+var x =document.getElementById("preexistingblock")
+
+var y = document.getElementById("preexistingblockhidden")
+y.selectedIndex = x.selectedIndex
+var indexStr = y.options[y.selectedIndex].text
+var firstIndex = indexStr.substring(0,indexStr.indexOf(","))
+var secondIndex = indexStr.substring(indexStr.indexOf(",")+1,indexStr.lastIndexOf(","))
+
+var thirdIndex = indexStr.substring(indexStr.lastIndexOf(",")+1,indexStr.length)
+var action = ""
+
+action = "?index="+thirdIndex+"&index1="+secondIndex+"&index2="+firstIndex+"&info=simplegroups"
+
+
+if (secondIndex=="12" || secondIndex=="13" || secondIndex=="14" || secondIndex=="20"){
+changeActionAndSubmit(action)
+}else{
+goToPreExist(action)
+}
+
+}
+
+function goToPreExist(action)
+{
+var goToPath = "/cgi-bin/dynamic/printer/config/secure/wiz/wizpreexist.html"
+var theRandom=Math.random()
+goToPath = goToPath + action + "&rand="+theRandom
+window.open(goToPath,'_self')
+}
+
+function changeActionAndSubmit(action)
+{
+var x=document.getElementById("myForm")
+x.action=x.action+action
+x.submit()
+}
+
+</script>
+
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ã£o guiada de seguranÃ§a</H3>
+
+
+
+<h2><i><b><font color="gray">Iniciar -></font> de Teste <font color="gray"> -> de ConfiguraÃ§Ã£o -> MÃ©todo -> Aplicar</font></b></i></h2>
+
+
+<h3>Blocos de SeguranÃ§a</h3>
+
+
+
+
+<p><b>Criar mÃ©todo de autenticaÃ§Ã£o e autorizaÃ§Ã£o</b><br /><br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cgi-bin/dynamic/printer/config/secure/wiz/wizusersgen.html?info=simplegroups">Contas internas</a><br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cgi-bin/dynamic/printer/config/secure/auth/ldap.html?info=simplegroups">LDAP</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cgi-bin/dynamic/printer/config/secure/auth/importkerberos.html?info=simplegroups&forGssapi=yes">LDAP+GSSAPI</a><br />
+<FORM id="myForm" ACTION="/cgi-bin/posttest/printer/config/secure/wiz/wizmethods.html" METHOD="post" id="authForm">
+
+</FORM>
+<br />
+
+
+
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="button" VALUE="Sair da ConfiguraÃ§Ã£o" onClick="window.open('/cgi-bin/dynamic/config/secure/security.html','_self')">&nbsp;&nbsp;</TD></TR>
+
+</TABLE><BR>
+
+</TABLE><BR>
+</BODY></HTML>

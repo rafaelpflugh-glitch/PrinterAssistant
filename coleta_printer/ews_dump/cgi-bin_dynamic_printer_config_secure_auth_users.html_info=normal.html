@@ -1,0 +1,155 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="IA">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o de conta interna</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+  <style type="text/css">
+    .invisible { display:none; }
+    .visible { display:; }
+  </style>
+
+<script type="text/javascript">
+function changeAction(action, is_modify)
+{
+	if (is_modify)
+	{
+		var pass1 = document.getElementsByName('1.password')[1];
+		document.getElementsByName('1.password2')[0].value = pass1.value;
+		pass1.disabled = true;
+
+		var op_indicator = document.getElementById('form_operation');
+		if (op_indicator != null)
+		{
+			op_indicator.name = '102.applications.auth.configFactory';
+		}
+
+		var auto_refresh_indicator = document.getElementById('auto_refresh_indicator');
+		if (auto_refresh_indicator != null)
+		{
+			// set to auto refresh
+			auto_refresh_indicator.name = '109.Wiz.Users';
+		}
+	}
+
+	var x=document.getElementById("myForm");
+	x.action=x.action+"&info1="+action;
+	x.submit();
+}
+</script>
+
+</HEAD>
+<BODY>
+
+
+<H3>ConfiguraÃ§Ãµes</H3>
+<H4>ConfiguraÃ§Ã£o de conta interna</H4>
+
+
+ 
+
+
+
+<FORM id="myForm" ACTION="/cgi-bin/posttest/printer/config/secure/auth/users.html?info=normal&index=&index1=&index2=" METHOD="post" id="authForm">
+<INPUT TYPE="hidden" NAME="109.Wiz.Users"  VALUE="-1">
+
+
+
+
+<INPUT TYPE="hidden" NAME="110.Wiz.Users"  VALUE="-1">
+
+<INPUT TYPE="hidden" ID="auto_refresh_indicator" NAME=""  VALUE="-1">
+
+
+
+
+
+
+
+
+
+
+
+<TABLE>
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 17"  VALUE="-1">
+
+<!-- Account Name -->
+<TR><TD><label for="1.accountName">Nome da conta</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.accountName" id="accountName" SIZE=22 MAXLENGTH=64 VALUE="">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.accountName">Intervalo: 1 - 64&nbsp;caracteres. Exemplo: John Smith</span></TD></TR>
+<!-- User ID -->
+<TR><TD><label for="1.username">ID do usuÃ¡rio</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.username" id="username" SIZE=22 MAXLENGTH=128 VALUE="">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.username">Intervalo: 1 - 128&nbsp;caracteres. Exemplo: jsmith</span></TD></TR>
+<td colspan="3">Insira a nova senha duas vezes. Limpe os dois campos para remover a senha.</td>
+
+<!-- Password Field -->
+<TR><TD>Senha
+
+
+<FONT color="red">*</FONT>
+
+</TD><TD><INPUT TYPE="password" NAME="1.password" SIZE=22 MAXLENGTH=128 onfocus="clearSettingByName('1.password')" id="password" VALUE="">&nbsp;&nbsp;</TD>
+<TD>Intervalo: 1 - 128&nbsp;caracteres.</TD></TR>
+
+<!-- Re-enter Password Field -->
+<TR>
+<TD>Reinserir senha:
+
+<FONT color="red">*</FONT>
+
+</TD>
+
+
+<TD><INPUT TYPE="password" NAME="1.password2" SIZE=22 MAXLENGTH=128 onfocus="clearSettingByName('1.password2')" id="password2" VALUE="">&nbsp;&nbsp;</TD><TD>Deve coincidir com a senha.</TD>
+</TR>
+
+
+
+<!-- Email field -->
+<TR><TD><label for="1.email">E-mail</label></TD><TD><INPUT NAME="1.email" id="email" SIZE=22 MAXLENGTH=128 VALUE="">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.email">Intervalo: 1 - 128&nbsp;caracteres.</span></TD></TR>
+
+
+<!-- Fax field -->
+<TR><TD><label for="1.fax">NÃºmero do fax</label></TD><TD><INPUT NAME="1.fax" id="fax" SIZE=22 MAXLENGTH=24 VALUE="">&nbsp;&nbsp;</TD><TD><span class="helper" id="helper.fax">Intervalo: 1 - 24&nbsp;dÃ­gitos.</span></TD></TR>
+
+
+<TR><TD><label for="4.selectedGroups.groupNumber">Grupos</label></TD><TD>
+<SELECT NAME="4.selectedGroups.groupNumber" SIZE=5 MULTIPLE>
+</SELECT></TD><TD><span class="helper" id="helper.selctedGroups.groupNumber">Selecione grupos para usuÃ¡rio se afiliar, use CTRL p/ selecionar vÃ¡rios.</span></TD></TR>
+
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+
+
+
+
+<TR>
+<TD class="visible"><input TYPE="submit" NAME="101.applications.auth.configFactory" VALUE="Enviar">&nbsp;&nbsp;&nbsp;</TD>
+<TD><input TYPE="button" VALUE="Canc." onClick="theRandom=Math.random();window.open('/cgi-bin/dynamic/printer/config/secure/auth/manageusers.html?info=normal&rand='+theRandom,'_self')"></TD>
+</TR>
+
+
+
+
+
+
+
+
+</TR>
+
+</TABLE>
+</FORM>
+<BR>
+<TABLE>
+<TR><TD>Itens com * sÃ£o obrigatÃ³rios.</TD></TR>
+</TABLE>
+<BR>
+<BR>
+
+
+
+
+
+
+
+</BODY>
+</HTML>
+

@@ -1,0 +1,74 @@
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Gerenc. de apps</title>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/solutions.css" type="text/css">
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/breadcrumbs.css" type="text/css">
+<script type="text/javascript">
+function selected(selected, notSelected) {
+    document.getElementById(selected).className="currentTool";
+    document.getElementById(notSelected).className="tool";
+}
+
+function init() {
+    var head_content = document.getElementById("head_content");
+    var frame_content = document.getElementById("frame_content");
+    var view_apps = document.getElementById("viewApps");
+
+    var container_height = 0;
+    var container = window.document.body;
+
+    if(window.innerHeight) {
+        container_height = window.innerHeight - head_content.offsetHeight;
+    } else if(container.parentElement.clientHeight) {
+        container_height = container.parentElement.clientHeight - head_content.offsetHeight;
+    } else if(container && container.clientHeight) {
+        container_height = view_apps.contentWindow.document.body.offsetHeight 
+                - (head_content.offsetHeight - container.clientHeight);
+    }
+
+    if(container_height > 0) {
+        frame_content.style.height = container_height + "px";
+    }
+}
+</script>
+</head>
+
+<body onload="init()" style="overflow: hidden">
+
+<div id="head_content">
+<h3>Apps</h3>
+
+<!-- breadcrumbs -->
+<div class="breadcrumbs">
+<a href="/cgi-bin/dynamic/config/config.html">ConfiguraÃ§Ãµes</a> &gt;
+<a href="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions.html" >Apps</a> &gt;
+Gerenc. de apps
+</div>
+
+<div>
+<a id="apps" class="currentTool" href="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_apps.html" target="viewApps" onclick="selected('apps', 'system')">Apps</a>
+<a id="system" class="tool" href="/cgi-bin/direct/printer/prtappauth/system/systemservlet" target="viewApps" onclick="selected('system', 'apps')">Sist.</a>
+</div>
+
+<!-- Header -->
+<div id="header">
+    <div class="navBar">
+
+     &nbsp;
+
+    </div>
+</div>
+
+</div>
+
+<div id="frame_content">
+    <iframe src="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_apps.html" name="viewApps" id="viewApps" height="100%" width="100%" frameborder="0"></iframe>
+</div>
+
+</body>
+
+</html>
+

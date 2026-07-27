@@ -1,0 +1,112 @@
+
+<HTML>
+		<HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+		<SCRIPT SRC="/cgi-bin/dynamic/printer/include/mktree.js" LANGUAGE="JavaScript"></SCRIPT>
+		<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/include/bookmark.css">
+<TITLE>ConfiguraÃ§Ã£o do marcador</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script language="JavaScript">
+function goToNewBookmark()
+{
+var text = document.getElementById("answer").value;
+window.location="./createNewBookmark.html?action=create&index="+text;
+}
+</script>
+
+<script language="JavaScript">
+function goToDelete()
+{
+var text = document.getElementById("answer").value;
+window.location="./deleteBookmark.html?index="+text;
+}
+</script>
+
+<script language="JavaScript">
+function goToModify()
+{
+var text = document.getElementById("answer").value;
+if (text.lastIndexOf("%2F") + 3 == text.length)
+window.location="./modifyFolder.html?action=modify&index="+text;
+else
+window.location="./createNewBookmark.html?action=modify&index="+text;
+}
+</script>
+
+<script language="JavaScript">
+function goToNewFolder()
+{
+var text = document.getElementById("answer").value;
+window.location="./modifyFolder.html?action=create&index="+text;
+}
+</script>
+
+<script language="JavaScript">
+function checkClickedItem(click)
+{
+document.getElementById("answer").value=click;
+        document.getElementById("modifyButton").disabled=false;
+        document.getElementById("deleteButton").disabled=false;
+}
+</script>
+
+<script language="JavaScript">
+function disableModDelButtons(click)
+{
+        document.getElementById("answer").value=click;
+        document.getElementById("modifyButton").disabled=true;
+        document.getElementById("deleteButton").disabled=true;
+}
+</script>
+
+<script language="JavaScript">
+function SetMeUp()
+{
+	document.getElementById("myForm").reset()
+        document.getElementById("modifyButton").disabled=true;
+        document.getElementById("deleteButton").disabled=true;
+	expandTree('bookmark1'); return false;
+}
+</script>
+
+</HEAD>
+
+<H3>ConfiguraÃ§Ãµes</H3>
+<BODY onload="SetMeUp()">
+<H4>ConfiguraÃ§Ã£o do marcador</H4>
+<form action="/cgi-bin/posttest/printer/config/bookmark/bookmarkMain.html" method="post" id="myForm">
+<TABLE WIDTH = 700 >
+	<!--
+	<TD><INPUT TYPE="submit" VALUE=Duplicar name="duplicate"></TD> 
+	-->
+	<TR>
+	<TD >
+	     <INPUT TYPE=button VALUE="Novo marcador" onClick="goToNewBookmark()">&nbsp;&nbsp;&nbsp;<!-- Novo marcador-->
+	     <INPUT TYPE=button VALUE="Nova pasta" name="folder" onClick="goToNewFolder()">&nbsp;&nbsp;&nbsp;<!-- Nova pasta-->
+	     <INPUT TYPE=button id=modifyButton VALUE="Modificar" name="modify" onClick="goToModify()">&nbsp;&nbsp;&nbsp;
+	     <INPUT TYPE=button id=deleteButton name="bookmark.delete" VALUE="Excluir" onClick="goToDelete()">&nbsp;&nbsp;&nbsp;
+        </TD>
+	</TR>
+	<TR><TD><input type="hidden" id="answer" name="clickedItem"></TD></TR>
+
+	<!--
+	<TD><INPUT TYPE=button VALUE=Duplicar name="duplicate" onClick="goToDuplicate()"></TD> 
+	<TD><INPUT TYPE=button VALUE=Ger. pasta onClick="goToManageFolder()"></TD>
+	-->
+</TABLE>
+<BR>
+	<td valign="center" align=left width="50%"><b>Marcadores</b>&nbsp;&nbsp;
+	<A href="#" onClick="expandTree('bookmark1'); return false;"><font size=1>Expandir tudo</font></A>&nbsp;
+	<A href="#" onClick="collapseTree('bookmark1'); return false;"><font size=1>Recolher</font></A></td>
+
+	<tr>
+<td valign=top align=left>
+<ul class="mktree" id="bookmark1">
+<li id="%2F" > <input type=radio name=bookmark id="%2F" onclick="disableModDelButtons(this.id)">&nbsp;/
+<ul>
+</ul>
+</ul>
+</td>  
+</form>
+</BODY></HTML>
+

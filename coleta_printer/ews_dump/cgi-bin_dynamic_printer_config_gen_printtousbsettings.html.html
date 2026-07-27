@@ -1,0 +1,110 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ãµes de ImpressÃ£o</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/printtousbsettings.html" METHOD="post">
+<H4>ConfiguraÃ§Ãµes de ImpressÃ£o</H4>
+<TABLE>
+
+
+<TR><TD><label for="0.system.4687">Lados (frente e verso)</label></TD><TD>
+<SELECT NAME="0.system.4687" ID="system.4687">
+<OPTION SELECTED VALUE="0">1 lado</OPTION>
+<OPTION VALUE="1">Frente e verso</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4688">EncadernaÃ§Ã£o Frente e Verso</label></TD><TD>
+<SELECT NAME="0.system.4688" ID="system.4688">
+<OPTION SELECTED VALUE="0">Borda longa</OPTION>
+<OPTION VALUE="1">Borda curta</OPTION>
+</SELECT>
+</TD></TR>
+
+
+<TR><TD><label for="0.system.4689">CÃ³pias</label> +</TD><TD><INPUT NAME="0.system.4689" onchange="checkInput('system.4689',1, 999, 'Esta config. aceita som. um valor entre 1 e 999.', '')" id="system.4689" SIZE=6 MAXLENGTH=22 VALUE="1"></TD><TD><span class="helper" id="helper.system.4689">Intervalo: 1 - 999</span></TD></TR>
+
+<TR><TD><label for="0.system.4694">Agrupar</label></TD><TD>
+<SELECT NAME="0.system.4694" ID="system.4694">
+<OPTION VALUE="0">(1,1,1) (2,2,2)</OPTION>
+<OPTION SELECTED VALUE="1">(1,2,3) (1,2,3)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4695">Folhas separadoras</label></TD><TD>
+<SELECT NAME="0.system.4695" ID="system.4695">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">Entre cÃ³pias</OPTION>
+<OPTION VALUE="2">Entre trabalhos</OPTION>
+<OPTION VALUE="3">Entre pÃ¡ginas</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4696">Origem da folha separadora</label></TD><TD>
+<SELECT NAME="0.system.4696" ID="system.4696">
+<OPTION SELECTED VALUE="1">Bandeja 1</OPTION>
+<OPTION VALUE="131">Alimentador MP</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4853">Origem do papel</label></TD><TD>
+<SELECT NAME="0.system.4853" ID="system.4853">
+<OPTION SELECTED VALUE="1">Bandeja 1</OPTION>
+<OPTION VALUE="131">Alimentador MP</OPTION>
+<OPTION VALUE="128">Papel manual</OPTION>
+<OPTION VALUE="129">Envelope manual</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4697">Economia de papel</label></TD><TD>
+<SELECT NAME="0.system.4697" ID="system.4697">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="2">2 pÃ¡g/folha</OPTION>
+<OPTION VALUE="3">3 pÃ¡g/folha</OPTION>
+<OPTION VALUE="4">4 pÃ¡g/folha</OPTION>
+<OPTION VALUE="6">6 pÃ¡g/folha</OPTION>
+<OPTION VALUE="9">9 pÃ¡g/folha</OPTION>
+<OPTION VALUE="12">12 pÃ¡g/folha</OPTION>
+<OPTION VALUE="16">16 pÃ¡g/folha</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4699">Pedido para economia de papel</label></TD><TD>
+<SELECT NAME="0.system.4699" ID="system.4699">
+<OPTION SELECTED VALUE="0">Horizontal</OPTION>
+<OPTION VALUE="2">Horizontal inversa</OPTION>
+<OPTION VALUE="3">Vertical inversa</OPTION>
+<OPTION VALUE="1">Vertical</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4698">OrientaÃ§Ã£o para economia de papel</label></TD><TD>
+<SELECT NAME="0.system.4698" ID="system.4698">
+<OPTION SELECTED VALUE="99">AutomÃ¡tica</OPTION>
+<OPTION VALUE="1">Paisagem</OPTION>
+<OPTION VALUE="0">Retrato</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.4700">Borda para economia de papel</label></TD><TD>
+<SELECT NAME="0.system.4700" ID="system.4700">
+<OPTION SELECTED VALUE="0">Nenhum</OPTION>
+<OPTION VALUE="1">SÃ³lido</OPTION>
+</SELECT>
+</TD></TR>
+
+
+
+<TR><TD><label for="0.system.4693">PÃ¡ginas em branco</label></TD><TD>
+<SELECT NAME="0.system.4693" ID="system.4693">
+<OPTION SELECTED VALUE="1">NÃ£o imprimir</OPTION>
+<OPTION VALUE="0">Imprimir</OPTION>
+</SELECT>
+</TD></TR>
+
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD COLSPAN=3>+ A impressora deve estar em Estado Pronto antes do envio.</TD></TR>
+</TABLE><BR>
+</BODY></HTML>

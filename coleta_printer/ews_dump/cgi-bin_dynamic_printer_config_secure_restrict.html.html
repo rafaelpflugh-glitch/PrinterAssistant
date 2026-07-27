@@ -1,0 +1,27 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>RestriÃ§Ãµes de Login</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/restrict.html" METHOD="post">
+<H4>RestriÃ§Ãµes de Login</H4>
+<TABLE>
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 22"  VALUE="-1">
+<INPUT TYPE="hidden" NAME="105.applications.auth.configFactory 22"  VALUE="General">
+
+<TR><TD><label for="0.loginAttemptsBeforeLock">Falhas de login</label></TD><TD><INPUT NAME="0.loginAttemptsBeforeLock" onchange="checkInput('loginAttemptsBeforeLock',1, 10, 'Esta config. aceita som. um valor entre 1 e 10.', '')" id="loginAttemptsBeforeLock" SIZE=6 MAXLENGTH=22 VALUE="3"> &nbsp;&nbsp;</TD><TD><span class="helper" id="helper.loginAttemptsBeforeLock">Intervalo: 1 - 10. PadrÃ£o = 3. NÃºmero de tentativas que falharam (durante a 'Falha no quadro de tempo') antes do bloqueio ser efetivado.</span></TD></TR>
+<TR><TD><label for="0.loginAttemptsWindowTime">Falha no quadro de tempo</label></TD><TD><INPUT NAME="0.loginAttemptsWindowTime" onchange="checkInput('loginAttemptsWindowTime',1, 60, 'Esta config. aceita som. um valor entre 1 e 60.', '')" id="loginAttemptsWindowTime" SIZE=6 MAXLENGTH=22 VALUE="5"> &nbsp;&nbsp;</TD><TD><span class="helper" id="helper.loginAttemptsWindowTime">Intervalo: 1 - 60 minutos. PadrÃ£o = 5.</span></TD></TR>
+<TR><TD><label for="0.loginAttemptsPunishmentTime">Tempo de bloqueio</label></TD><TD><INPUT NAME="0.loginAttemptsPunishmentTime" onchange="checkInput('loginAttemptsPunishmentTime',1, 60, 'Esta config. aceita som. um valor entre 1 e 60.', '')" id="loginAttemptsPunishmentTime" SIZE=6 MAXLENGTH=22 VALUE="5"> &nbsp;&nbsp;</TD><TD><span class="helper" id="helper.loginAttemptsPunishmentTime">Intervalo: 1 - 60 minutos. PadrÃ£o = 5. Por quanto tempo nenhum login Ã© permitido.</span></TD></TR>
+<TR><TD><label for="0.logoutDelay">Tempo Limite de Login do Painel</label></TD><TD><INPUT NAME="0.logoutDelay" onchange="checkInput('logoutDelay',1, 900, 'Esta config. aceita som. um valor entre 1 e 900.', '')" id="logoutDelay" SIZE=6 MAXLENGTH=22 VALUE="30"> &nbsp;&nbsp;</TD><TD><span class="helper" id="helper.logoutDelay">Intervalo: 1 - 900 segundos. PadrÃ£o = 30. Esse Ã© o atraso na tela InÃ­cio antes do logoff automÃ¡tico de um usuÃ¡rio autenticado.</span></TD></TR>
+<TR><TD><label for="0.remoteLoginTimeout">Tempo Limite de Login Remoto</label></TD><TD><INPUT NAME="0.remoteLoginTimeout" onchange="checkInput('remoteLoginTimeout',1, 120, 'Esta config. aceita som. um valor entre 1 e 120.', '')" id="remoteLoginTimeout" SIZE=6 MAXLENGTH=22 VALUE="10"> &nbsp;&nbsp;</TD><TD><span class="helper" id="helper.remoteLoginTimeout">Intervalo: 1 - 120 minutos. PadrÃ£o = 10. Ã o atraso de um login remoto antes de um usuÃ¡rio autenticado ser desconectado automaticamente.</span></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" NAME="102.applications.auth.configFactory" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE>
+</FORM>
+</BODY></HTML>

@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Scanner desligado",
+    "metodo": "POST",
+    "endpoint": "/cgi-bin/scanner/off"
+}
+

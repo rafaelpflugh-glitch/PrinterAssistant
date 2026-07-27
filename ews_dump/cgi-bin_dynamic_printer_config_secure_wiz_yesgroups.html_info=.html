@@ -1,0 +1,50 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o guiada de seguranÃ§a</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script language="JavaScript">
+
+function setLocation(page)
+{
+document.getElementById("answer").value=page;
+}
+function SetMeUp()
+{
+document.getElementById("answer").value="/cgi-bin/dynamic/printer/config/secure/wiz/wizmethods.html?info=simplegroups"
+}
+function gotoLocation()
+{
+var x = document.getElementById("answer").value;
+var theRandom=Math.random()
+x += "&rand="+theRandom
+window.open(x,'_self')
+}
+
+</script>
+
+</HEAD>
+<BODY onload="SetMeUp()">
+<H3>ConfiguraÃ§Ã£o guiada de seguranÃ§a</H3>
+<h2><i><b>Iniciar<font color="gray">-> de Teste -> de ConfiguraÃ§Ã£o -> MÃ©todo -> Aplicar</font></b></i></h2>
+
+<h3>MÃ©todos</h3>
+
+<h3>Deseja usar uma fonte para as credenciais de usuÃ¡rio e a associaÃ§Ã£o a grupos?</h3>
+<table>
+<TR><TD><INPUT TYPE="radio" NAME="choice" id="noGroups" onclick="setLocation('/cgi-bin/dynamic/printer/config/secure/wiz/wizmethods.html?info=simplegroups')" CHECKED >
+</TD><TD>Sim, as credenciais de usuÃ¡rio e a associaÃ§Ã£o a grupos usarÃ£o o mesmo servidor</TD></TR>
+<TR><TD><INPUT TYPE="radio" NAME="choice" id="yesGroups"  onclick="setLocation('/cgi-bin/dynamic/printer/config/secure/wiz/wizmethods.html?info=multigroups')">
+</TD><TD>NÃ£o, mÃ©todos diferentes serÃ£o usados para as credenciais de usuÃ¡rio e as associaÃ§Ãµes a grupos</TD></TR>
+<TR><TD><input type="hidden" id="answer" name="clickedItem"></TD></TR>
+</table>
+<br />
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="button" VALUE="PrÃ³xima Etapa" onClick="gotoLocation()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" VALUE="Sair da ConfiguraÃ§Ã£o" onClick="window.open('/cgi-bin/dynamic/config/secure/security.html','_self')">&nbsp;&nbsp;</TD></TR>
+</TABLE><BR>
+
+</TABLE><BR>
+</BODY></HTML>

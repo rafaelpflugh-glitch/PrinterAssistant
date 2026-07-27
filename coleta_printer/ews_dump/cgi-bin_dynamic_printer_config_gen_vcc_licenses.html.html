@@ -1,0 +1,80 @@
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>LicenÃ§as</title>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/solutions.css" type="text/css">
+<script type="text/javascript">
+function OnSelectLicense()
+{
+    var has_selected = false;
+
+    if (document.mainForm.SelectedLicenses != undefined)
+    {
+        var numLicenses = document.mainForm.SelectedLicenses.length;
+        if(numLicenses != undefined)
+        {
+            for (i = 0; i < numLicenses; i++)
+            {
+                if (document.mainForm.SelectedLicenses[i].checked)
+                {
+                    has_selected = true;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // only one license
+            if(document.mainForm.SelectedLicenses.checked)
+            {
+                has_selected = true;
+            }
+        }
+    }
+
+    if (has_selected)
+    {
+        document.getElementById("Uninstall").disabled = false;
+    }
+    else
+    {
+        document.getElementById("Uninstall").disabled = true;
+    }
+}
+</script>
+
+</head>
+
+<body onload="OnSelectLicense();">
+<br>
+<div>
+<a class="tool" href="/cgi-bin/dynamic/printer/config/gen/vcc_bundles.html">HistÃ³rico de arqs. de cfg</a>
+<a class="currentTool" href="/cgi-bin/dynamic/printer/config/gen/vcc_licenses.html">LicenÃ§as</a>
+</div>
+<hr>
+
+<form name="mainForm" action="/cgi-bin/dynamic/printer/config/gen/vcc_licenses.html" method="post" >
+<div id="header"> 
+    <div class="navBar"> 
+
+     <input name="installBtn" id="Install" value="Instalar" onclick="window.location='/cgi-bin/dynamic/printer/config/gen/vcc_install_license.html';" type="button">
+    <input name="uninstallBtn" id="Uninstall" value="Desinstalar" type="submit">
+    </div> 
+</div>
+
+<table border="1" rules="rows" width="98%">
+<tr><th width="15"></th><th width="250">ID licenÃ§a</th><th width="180">Produto/opÃ§Ã£o</th><th>Aviso legal</th><th width="150">Status</th></tr>
+<tr>
+<td><input name="SelectedLicenses" value="6d4ea29b-4c6d-4e59-b86d-0bd58b717c32" onclick="OnSelectLicense();" type="checkbox" disabled="disabled"></td>
+<td><a href="/cgi-bin/dynamic/printer/config/gen/vcc_license_details.html?id=6d4ea29b%2D4c6d%2D4e59%2Db86d%2D0bd58b717c32" alt="VCC License Details">6d4ea29b-4c6d-4e59-b86d-0bd58b717c32</a></td><td><a href="/cgi-bin/dynamic/printer/config/gen/vcc_license_features.html?id=6d4ea29b%2D4c6d%2D4e59%2Db86d%2D0bd58b717c32" alt="VCC License Details">Printer.Emulators.PDF ... <br></a></td><td></td>
+<td>VÃ¡lido</td>
+</tr>
+</table>
+
+</form>
+</body>
+
+</html>
+

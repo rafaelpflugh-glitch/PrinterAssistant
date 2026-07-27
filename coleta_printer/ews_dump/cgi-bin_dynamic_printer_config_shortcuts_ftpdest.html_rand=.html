@@ -1,0 +1,273 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="FTP">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<script type="text/javascript" src="/cgi-bin/dynamic/printer/include/jquery-1.2.6.min.js"></script>
+<TITLE>ConfiguraÃ§Ã£o de atalho de FTP</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script language="javascript">
+    $(document).ready(function(){
+       disable_buttons();
+
+       var isOcrSupported = false;
+        //include this script only when OCR is supported.
+        
+           
+        
+
+       if (!isOcrSupported){
+          $("#fileType option[value='10']").remove();     //remove 70861 from option
+          $("#fileType option[value='11']").remove();     //remove RTF from option
+       }
+
+       disable_fields();
+       window.default_resolution = document.getElementById("resolution").value;
+    });
+
+function disable_buttons()
+{
+
+
+    document.getElementById("modify_button").disabled = true;
+    document.getElementById("delete_button").disabled = true;
+
+    return true;
+}
+
+function enableSettings(settings, value)
+{
+    if (value == true) {
+        settings.disabled = false;
+    } else {
+        settings.disabled = true;
+    }
+}
+function showSettings(settings, value)
+{
+    if (value == true) {
+        settings.style.display = "table-row";
+    } else {
+        settings.style.display = "none";
+    }
+}
+function hideShow(enable, show, value) {enableSettings(enable, value); showSettings(show, value)}
+
+function disable_fields()
+{
+    var format = document.getElementById("fileType");
+    var pdfVer = document.getElementById("pdfVersion");
+    var pdfver = document.getElementById("pdfversion");
+    var pdfCompress = document.getElementById("pdfCompression");
+    var pdfcompress = document.getElementById("pdfcompression");
+    var srchablePdf = document.getElementById("searchablePdf");
+    var srchablepdf = document.getElementById("searchablepdf");
+    var tiffCompress = document.getElementById("tiffCompression");
+    var tiffcompress = document.getElementById("tiffcompression");
+    var resolution = document.getElementById("resolution");
+    var toSetResolution300 = false;
+    var tiffCompressionEnabled = false;
+    var pdfSettingsEnabled = false;
+
+    if (format.value == 0) {
+        tiffCompressionEnabled = true;
+    }
+
+    if (format.value == 2 || format.value == 6) { // PDF or Secure PDF
+        pdfSettingsEnabled = true;
+    }
+
+    if (pdfver) {hideShow(pdfVer, pdfver, pdfSettingsEnabled);}
+    if (pdfcompress) {hideShow(pdfCompress, pdfcompress, pdfSettingsEnabled);}
+    if (srchablepdf) {hideShow(srchablePdf, srchablepdf, pdfSettingsEnabled);}
+    if (tiffcompress) {hideShow(tiffCompress, tiffcompress, tiffCompressionEnabled);}
+
+    // PDF version
+    if (format.value == 6) {
+         // Secure PDF on
+        var selected = pdfVer.selectedIndex;
+        for (var i = 0; i < pdfVer.length; i++) {
+            var value = pdfVer.options[i].value;
+            if (
+                value == 0 || // 1.2
+                value == 1 || // 1.3
+                value == 5 || // A-1a
+                value == 6    // A-1b
+            ) {
+                pdfVer.options[i].disabled = true;
+
+                if( value == pdfVer.options[selected].value){
+                    pdfVer.selectedIndex = 2; // Select 1.4
+                }
+            }
+        }
+    } else {
+        // Secure PDF off. Reset
+        for (var i = 0; i < pdfVer.length; i++) {
+            pdfVer.options[i].disabled = false;
+        }
+    }
+
+    // Resolution ...
+    if (pdfCompress.value == 12 || searchablePdf.value == 1) { // High || On
+        toSetResolution300 = true;
+    } else {
+        toSetResolution300 = false;
+    }
+
+    // Resolution lock ...
+    if (format.value == 10 || format.value == 11){
+         toSetResolution300 = true;
+
+    }else if ((format.value == 2 || format.value == 6) && (pdfCompress.value == 12 || srchablePdf.value == 1)) { // High || On || RTF || 70861
+        toSetResolution300 = true;
+
+    } else {
+        toSetResolution300 = false;
+    }
+
+    // Resolution
+    if (toSetResolution300) { // PDF
+        // Lock resolution to 300
+        for (var i = 0; i < resolution.length; i++) {
+            var value = resolution.options[i].value;
+            if (value == 300) { // 300 dpi
+                resolution.options[i].defaultSelected = true;
+                resolution.selectedIndex = i;
+            } else {
+                resolution.options[i].disabled = true;
+            }
+        }
+    } else {
+        // Enable all resolution options
+        for (var i = 0; i < resolution.length; i++) {
+            resolution.options[i].disabled = false;
+        }
+    }
+}
+function onChangeAction()
+{
+    disable_fields();
+}
+function checkFilePathField(fieldname)
+{
+    checkFilename2(fieldname, "Caminho ou Nome de Arq. Inv.");
+}
+</script>
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/shortcuts/ftpdest.html" METHOD="post">
+<H4>ConfiguraÃ§Ã£o de atalho de FTP</H4><TABLE>
+<INPUT TYPE="hidden" NAME="100.mfp.ftpDestinationFactory"  VALUE="-1">
+
+<TR><TD><label for="1.name">Nome</label><font color="red">*</font></TD><TD><INPUT NAME="1.name" id="name" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.name">NecessÃ¡rio.</span></TD></TR>
+<TR><TD><label for="1.server">Servidor</label><font color="red">*</font></TD><TD><INPUT NAME="1.server" id="server" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.name">NecessÃ¡rio.</span></TD></TR>
+<TR><TD><label for="1.login">Login</label></TD><TD><INPUT NAME="1.login" id="login" SIZE=22 MAXLENGTH=64 VALUE=""></TD></TR>
+<TR><TD><label for="1.password">Senha</label></TD><TD><INPUT TYPE="password" NAME="1.password" SIZE=22 MAXLENGTH=64 onfocus="clearSettingByName('1.password')" id="password" VALUE=""></TD><TD>As senhas podem ser exibidas quando os atalhos de FTP sÃ£o exportados.</TD></TR>
+<TR><TD><label for="1.filePath">Caminho e nome do arquivo</label></TD><TD><INPUT NAME="1.filePath" id="filePath" SIZE=22 MAXLENGTH=128 VALUE="" id="filePath" onchange="checkFilePathField('filePath')"></TD><TD><span class="helper" id="helper.filePath">Caminho completo e nome do arquivo (",*,:,?,<,>,| invÃ¡lidos). Sem a barra '/ ' final, o Ãºltimo item do caminho do arquivo serÃ¡ usado como nome padrÃ£o.</span></TD></TR>
+<TR><TD><label for="0.fileType">Formato</label></TD><TD>
+<SELECT NAME="0.fileType" ID="fileType" onchange="onChangeAction()">
+<OPTION SELECTED VALUE="2">PDF (.pdf)</OPTION>
+<OPTION VALUE="6">PDF seguro</OPTION>
+<OPTION VALUE="0">TIFF (.tif)</OPTION>
+<OPTION VALUE="1">JPEG (.jpg)</OPTION>
+<OPTION VALUE="7">XPS (.xps)</OPTION>
+<OPTION VALUE="10">TXT (.txt)</OPTION>
+<OPTION VALUE="11">RTF (.rtf)</OPTION>
+</SELECT>
+</TD></TR>
+<TR id="pdfversion"><TD><label for="0.pdfVersion">VersÃ£o do PDF</label></TD><TD>
+<SELECT NAME="0.pdfVersion" ID="pdfVersion">
+<OPTION VALUE="0">1.2</OPTION>
+<OPTION VALUE="1">1.3</OPTION>
+<OPTION VALUE="2">1.4</OPTION>
+<OPTION SELECTED VALUE="3">1.5</OPTION>
+<OPTION VALUE="4">1.6</OPTION>
+<OPTION VALUE="5">A-1a</OPTION>
+<OPTION VALUE="6">A-1b</OPTION>
+<OPTION VALUE="7">1.7</OPTION>
+</SELECT>
+</TD></TR>
+
+    
+        <TR id="pdfcompression"><TD><label for="0.pdfCompression">CompactaÃ§Ã£o PDF</label></TD><TD>
+<SELECT NAME="0.pdfCompression" ID="pdfCompression" onchange="onChangeAction()">
+<OPTION VALUE="12">Alto</OPTION>
+<OPTION SELECTED VALUE="1">Normal</OPTION>
+</SELECT>
+</TD></TR>
+    
+
+
+    
+
+<TR id="tiffcompression"><TD><label for="0.tiffCompression">CompactaÃ§Ã£o TIFF</label></TD><TD>
+<SELECT NAME="0.tiffCompression" ID="tiffCompression">
+<OPTION SELECTED VALUE="5">LZW</OPTION>
+<OPTION VALUE="1">JPEG</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.content">Tipo de conteÃºdo</label></TD><TD>
+<SELECT NAME="0.content" ID="content">
+<OPTION VALUE="0">Texto</OPTION>
+<OPTION SELECTED VALUE="1">Texto/Foto</OPTION>
+<OPTION VALUE="2">Fotografia</OPTION>
+<OPTION VALUE="8">GrÃ¡ficos</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.documentSource">Origem do conteÃºdo</label></TD><TD>
+<SELECT NAME="0.documentSource" ID="documentSource">
+<OPTION SELECTED VALUE="0">Laser P/B</OPTION>
+<OPTION VALUE="1">Laser colorida</OPTION>
+<OPTION VALUE="2">Inkjet</OPTION>
+<OPTION VALUE="3">Foto/Filme</OPTION>
+<OPTION VALUE="4">Revista</OPTION>
+<OPTION VALUE="5">Jornal</OPTION>
+<OPTION VALUE="6">Press</OPTION>
+<OPTION VALUE="7">Outro</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.scanDepth">Cor</label></TD><TD>
+<SELECT NAME="0.scanDepth" ID="scanDepth">
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION SELECTED VALUE="1">Ativar</OPTION>
+</SELECT>
+</TD><TD><span class="helper" id="helper.scanDepth">A resoluÃ§Ã£o mÃ¡xima pode ser reduzida para digitalizaÃ§Ãµes de cor.</span></TD></TR>
+<TR><TD><label for="0.resolution">ResoluÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.resolution" ID="resolution">
+<OPTION VALUE="75">75 ppp</OPTION>
+<OPTION SELECTED VALUE="150">150 ppp</OPTION>
+<OPTION VALUE="200">200 ppp</OPTION>
+<OPTION VALUE="300">300 ppp</OPTION>
+<OPTION VALUE="400">400 ppp</OPTION>
+<OPTION VALUE="600">600 ppp</OPTION>
+</SELECT>
+</TD>
+    
+    <TD><span class="helper" id="helper.resolution">600 dpi sÃ£o exibidos somente se a capacidade de memÃ³ria instalada for maior que 1 gigabyte.</span></TD>
+    
+</TR>
+<TR><TD><label for="1.id">Atalho</label><font color="red">*</font></TD><TD><INPUT NAME="1.id" onchange="checkInput('id',0, 99999, 'Esta config. aceita som. um valor entre 0 e 99999.', ' ')" id="id" SIZE=22 MAXLENGTH=5 VALUE=""></TD><TD><span class="helper" id="helper.id">NecessÃ¡rio. Intervalo: 1-99999. 0 = nÃ£o atribuÃ­do.</span></TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR>
+<TD><input TYPE="submit" NAME="101.mfp.ftpDestinationFactory" VALUE="Adicionar">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="102.mfp.ftpDestinationFactory" ID="modify_button" VALUE="Modificar">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="103.mfp.ftpDestinationFactory" ID="delete_button" VALUE="Excluir entrada">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="104.mfp.ftpDestinationFactory" VALUE="Excluir lista"></TD>
+<TD><input TYPE="button" VALUE="Esvaziar formulÃ¡rio" onClick="theRandom=Math.random();window.open('/cgi-bin/dynamic/printer/config/shortcuts/ftpdest.html?rand='+theRandom,'_self')"></TD>
+<TD><input TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+</FORM>
+<TABLE><TR><TD>Atalhos:</TD><TD><B>100% espaÃ§o total restante</B></TD></TR></TABLE>
+</TR></TABLE>
+
+<TABLE BORDER="1" WIDTH="100%">
+<TR><TD>Nome</TD><TD>Servidor</TD><TD>Login</TD><TD>Caminho do arquivo</TD>
+<TD>Formato</TD><TD>VersÃ£o</TD><TD>CompactaÃ§Ã£o</TD><TD>PesquisÃ¡vel</TD>
+<TD>Tipo de conteÃºdo</TD><TD>Origem do conteÃºdo</TD><TD>Cor</TD><TD>ResoluÃ§Ã£o</TD>
+<TD>Atalho</TD></TR>
+
+</TABLE>
+</BODY></HTML>
+

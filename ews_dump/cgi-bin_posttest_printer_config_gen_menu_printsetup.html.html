@@ -1,0 +1,65 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Menu ConfiguraÃ§Ã£o</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/menu_printsetup.html" METHOD="post">
+<H4>Menu ConfiguraÃ§Ã£o</H4>
+<TABLE>
+
+  <TR><TD><label for="system.1">Linguagem impressora</label>+</TD><TD>
+<SELECT NAME="0.system.1" ID="system.1">
+<OPTION VALUE="1">EmulaÃ§Ã£o PCL</OPTION>
+<OPTION VALUE="2">EmulaÃ§Ã£o PS</OPTION>
+<OPTION SELECTED VALUE="4">EmulaÃ§Ã£o PPDS</OPTION>
+</SELECT>
+</TD></TR>
+
+
+	<TR><TD><label for="system.16615">Destino do download</label></TD><TD>
+<SELECT NAME="0.system.16615" ID="system.16615">
+<OPTION SELECTED VALUE="0">RAM</OPTION>
+<OPTION VALUE="2">Disco</OPTION>
+</SELECT>
+</TD></TR>
+
+ 
+ 
+ <TR><TD><label for="system.1953">Ãrea de impressÃ£o</label></TD><TD>
+<SELECT NAME="0.system.1953" ID="system.1953">
+<OPTION SELECTED VALUE="0">Normal</OPTION>
+<OPTION VALUE="4">PÃ¡gina completa</OPTION>
+</SELECT>
+</TD></TR>
+ 
+ 
+
+
+<TR><TD><label for="system.4854">Trabalho Esperando</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.4854"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.4854"  id="system.4854" VALUE=1>
+</TD><TD><span class="helper" id="helper.system.4854">Preserva trabalhos que requerem suprimentos p/ que os que nÃ£o requerem os suprimentos ausentes possam ser impressos.</span></TD></TR>
+
+
+ 
+ <TR><TD><label for="system.4997">Imprimir Todos os Pedidos</label></TD><TD>
+<SELECT NAME="0.system.4997" ID="system.4997">
+<OPTION SELECTED VALUE="0">AlfabÃ©tico</OPTION>
+<OPTION VALUE="1">O mais antigo primeiro</OPTION>
+<OPTION VALUE="2">O mais recente primeiro</OPTION>
+</SELECT>
+</TD></TR>
+
+ <TR><TD><A HREF="setup_resource.html">Economia de recursos</A></TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE>
+<BR>
+<TABLE>
+<TR><TD COLSPAN=3>+ A impressora deve estar em Estado Pronto antes do envio.</TD></TR>
+</TABLE><BR>
+</BODY></HTML>
+

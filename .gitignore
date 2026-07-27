@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ambiente virtual
+venv/
+.venv/
+
+# Arquivos gerados pelo PrinterAssistant
+printer_data.json
+printers_found.json
+
+# Logs
+*.log
+
+# Temporários
+*.tmp
+*.bak
+
+# Configurações locais
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+Thumbs.db
+Desktop.ini

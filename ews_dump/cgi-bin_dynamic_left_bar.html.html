@@ -1,0 +1,190 @@
+<HTML>
+<head>
+<SCRIPT LANGUAGE="JAVASCRIPT">
+  function navClick(rowId)
+  {
+      var selected="";
+      var e2 = document.getElementById("Config");
+      var e3 = document.getElementById("Information");
+      var e4 = document.getElementById("Linksindex")
+      var e1 = document.getElementById("Top1");
+      var e7 = document.getElementById("Top2");
+      var e8 = document.getElementById("Top3");
+      var e12 = document.getElementById("Top4");
+      var e13 = document.getElementById("Top5");
+      var e9 = document.getElementById("Bottom1");
+      var e10 = document.getElementById("Bottom2");
+      var e11 = document.getElementById("Bottom3");
+      var e14 = document.getElementById("Bottom4");
+      var e15 = document.getElementById("Bottom5");
+      if (e1 != null)
+      {
+            e1.className = "not_selected";
+      }
+      if (e7 != null)
+      {
+            e7.className = "not_selected";
+      }
+      if (e8 != null)
+      {
+            e8.className = "not_selected";
+      }
+      if (e9 != null)
+      {
+            e9.className = "not_selected";
+      }
+      if (e10 != null)
+      {
+            e10.className = "not_selected";
+      }
+      if (e11 != null)
+      {
+            e11.className = "not_selected";
+      }
+      if (e12 != null)
+      {
+            e12.className = "not_selected";
+      }
+      if (e13 != null)
+      {
+            e13.className = "not_selected";
+      }
+      if (e14 != null)
+      {
+            e14.className = "not_selected";
+      }
+      if (e15 != null)
+      {
+            e15.className = "not_selected";
+      }
+      if (e2 != null)
+      {
+            e2.className = "not_selected";
+      }
+      if (e3 != null)
+      {
+            e3.className = "not_selected";
+      }
+      if (e4 != null)
+      {
+            e4.className = "not_selected";
+      }
+      var loc = this.document.location;
+      var loc_str = loc.toString();
+      var elem;
+      marker_used = document.getElementById("selected_marker_used");
+      if ((marker_used != null) && (marker_used.value == 0) && (loc_str.match("selected") != null))
+      {
+          var temp = loc_str.split('=');
+          for(i=0;i<temp.length;i++)
+          {
+            if(temp[i].toString().match('selected'))
+            {
+                selected = temp[i+1];
+            }
+            elem = document.getElementById(selected);
+          }
+      }
+      else
+      {
+        elem = document.getElementById(rowId);
+      }
+      marker_used.value = 1;
+      if (elem != null)
+      {
+            elem.className = "selected";
+      }
+ }
+</SCRIPT>
+<style type="text/css">
+.invisible {display:none;}
+.visible {display:block;}
+
+</style>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Menu">
+<TITLE>Left Bar</TITLE>
+<base target="Main">
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/configStyle.css" type="text/css">
+</head>
+<body onload="navClick('Top1')" class="left_menu">
+
+
+  <p align="CENTER"><a href="http://www.lexmark.com/" rel="nofollow" target="_blank"><img border="0" src="/images/lexlogo.gif"></a></p>
+  <br/>
+
+<div class="left_menu">
+<table class="left_menu">
+
+<TR class="not_selected" ID="Top1"><TD class="left_menu_item">
+<a href="/cgi-bin/dynamic/printer/PrinterStatus.html" ONCLICK="navClick('Top1')"><b>Status do dispositivo</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+<TR class="not_selected" ID="Top2"><TD class="left_menu_item">
+<a href="/cgi-bin/dynamic/printer/config/scanprofile/createprofile.html" ONCLICK="navClick('Top2')"><b>Perfil de digitalizaÃ§Ã£o</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+<TR class="not_selected" ID="Top3"><TD class="left_menu_item">
+<a href="/cgi-bin/dynamic/printer/config/gen/copy_printer_settings.html" ONCLICK="navClick('Top3')"><b>Copiar config impr.</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+
+<TR class="not_selected" ID="Config"><TD class="left_menu_item">
+<a href="/cgi-bin/dynamic/config/config.html" ONCLICK="navClick('Config')"><b>ConfiguraÃ§Ãµes</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+<TR class="not_selected" ID="Information"><TD class="left_menu_item">
+<a href="/cgi-bin/dynamic/reports_and_information.html" rel="nofollow" ONCLICK="navClick('Information')"><b>RelatÃ³rios</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+<TR class="not_selected" ID="Linksindex"><TD class="left_menu_item">
+<a href="/cgi-bin/dynamic/linksindex.html" ONCLICK="navClick('Linksindex')"><b>VÃ­nculos e Ã­ndice</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+<TR class="not_selected" ID="Bottom1"><TD class="left_menu_item">
+<a href="/cgi-bin/direct/printer/prtapp/apps/webappsservlet" ONCLICK="navClick('Bottom1')"><b>Aplicativos</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+<TR class="not_selected" ID="Bottom2"><TD class="left_menu_item">
+<a href="/cgi-bin/direct/printer//prtappauth/apps/liteServlet" ONCLICK="navClick('Bottom2')"><b>Config Scan to Network</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+<TR class="not_selected" ID="Bottom3"><TD class="left_menu_item">
+<a href="/cgi-bin/dynamic/printer/config/remote_oppanel.html" ONCLICK="navClick('Bottom3')"><b>Painel do operador remoto</b></a>
+</TD></TR>
+<tr class="spacer"><td></td></tr>
+
+
+
+<TR><TD><BR></TD></TR>
+
+</TABLE>
+
+
+<table class="left_menu">
+<TR class="not_selected"><TD class="left_menu_item"><A HREF=http://www.lexmark.com/MD/?func=supplies&lang=24&prtr=B139050&src=3&creg=0002&ctry=00000416 TARGET="_blank"><B>Pedir suprimentos</B></A></TD></TR>
+</table>
+
+
+
+<br/>
+
+
+
+
+<div class="invisible" id="logout_div">
+
+<table class="left_menu">
+<TR class="not_selected" ID="Last1"><TD class="left_menu_item" style="background:#e0e0e0;text-align:right;padding-right:8px;">
+<a href="/cgi-bin/dynamic/printer/logout.html" rel="nofollow"><b>Logout</b></a>
+</TD></TR>
+</table>
+</div>
+
+</div>
+<form id="frame_info">
+<input type="hidden" name="selected_marker_used" id="selected_marker_used" value="0"/>
+</form>
+
+</BODY>
+</HTML>

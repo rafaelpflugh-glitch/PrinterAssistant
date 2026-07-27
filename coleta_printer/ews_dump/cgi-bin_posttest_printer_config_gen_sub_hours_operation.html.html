@@ -1,0 +1,90 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<TITLE>Prog. modos econ. energia</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/sub/hours_operation.html" METHOD="post">
+<INPUT TYPE="hidden" NAME="100.system.configurationScheduler"  VALUE="-1">
+
+<H4>Prog. modos econ. energia</H4>
+<TABLE>
+<TR><TD><label for="0.type">AÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.type" ID="type">
+<OPTION SELECTED VALUE="-1">----</OPTION>
+<OPTION VALUE="2">Disp. para ativar - NÃ£o permitir Modo de suspensÃ£o</OPTION>
+<OPTION VALUE="3">Modo de suspensÃ£o</OPTION>
+<OPTION VALUE="9">Disp. para ativar - Permitir Modo de suspensÃ£o</OPTION>
+<OPTION VALUE="8">Modo de hibernaÃ§Ã£o</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.hour">Hora</label></TD><TD>
+<SELECT NAME="0.hour" ID="hour">
+<OPTION SELECTED VALUE="-1">----</OPTION>
+<OPTION VALUE="0">00:00</OPTION>
+<OPTION VALUE="1">01:00</OPTION>
+<OPTION VALUE="2">02:00</OPTION>
+<OPTION VALUE="3">03:00</OPTION>
+<OPTION VALUE="4">04:00</OPTION>
+<OPTION VALUE="5">05:00</OPTION>
+<OPTION VALUE="6">06:00</OPTION>
+<OPTION VALUE="7">07:00</OPTION>
+<OPTION VALUE="8">08:00</OPTION>
+<OPTION VALUE="9">09:00</OPTION>
+<OPTION VALUE="10">10:00</OPTION>
+<OPTION VALUE="11">11:00</OPTION>
+<OPTION VALUE="12">12:00</OPTION>
+<OPTION VALUE="13">13:00</OPTION>
+<OPTION VALUE="14">14:00</OPTION>
+<OPTION VALUE="15">15:00</OPTION>
+<OPTION VALUE="16">16:00</OPTION>
+<OPTION VALUE="17">17:00</OPTION>
+<OPTION VALUE="18">18:00</OPTION>
+<OPTION VALUE="19">19:00</OPTION>
+<OPTION VALUE="20">20:00</OPTION>
+<OPTION VALUE="21">21:00</OPTION>
+<OPTION VALUE="22">22:00</OPTION>
+<OPTION VALUE="23">23:00</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.days">Dia(s)</label></TD><TD>
+<SELECT NAME="0.days" ID="days">
+<OPTION SELECTED VALUE="-1">----</OPTION>
+<OPTION VALUE="0">Domingo</OPTION>
+<OPTION VALUE="1">Segunda-feira</OPTION>
+<OPTION VALUE="2">TerÃ§a-feira</OPTION>
+<OPTION VALUE="3">Quarta-feira</OPTION>
+<OPTION VALUE="4">Quinta-feira</OPTION>
+<OPTION VALUE="5">Sexta-feira</OPTION>
+<OPTION VALUE="6">SÃ¡bado</OPTION>
+<OPTION VALUE="7">Todos os dias (seg-dom)</OPTION>
+<OPTION VALUE="8">Dias Ãºteis (seg-sex)</OPTION>
+<OPTION VALUE="9">Finais de semana (sÃ¡b-dom)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><INPUT TYPE="HIDDEN" NAME="1.id" id="id" SIZE=22 MAXLENGTH=16 VALUE=""></TD></TR>
+<TR><TD><INPUT TYPE="HIDDEN" NAME="0.minute" SIZE=4 MAXLENGTH=4 VALUE="0"></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+<TD><input TYPE="submit" NAME="101.system.configurationScheduler" VALUE="Adicionar">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="102.system.configurationScheduler" VALUE="Modificar">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="103.system.configurationScheduler" VALUE="Excluir entrada">&nbsp;&nbsp;</TD>
+<TD><input TYPE="submit" NAME="104.system.configurationScheduler" VALUE="Excluir lista"></TD>
+<TD><input TYPE="button" VALUE="Esvaziar formulÃ¡rio" onClick="theRandom=Math.random();window.open('/cgi-bin/dynamic/printer/config/gen/sub/hours_operation.html?rand='+theRandom,'_self')"></TD>
+</TR>
+</TABLE>
+</FORM>
+<TABLE BORDER="1" WIDTH="500">
+<TR><TD width=15%>AÃ§Ã£o</TD><TD width=15%>Hora</TD><TD width=15%>Dia(s)</TD></TR>
+
+</TABLE>
+<br/><br/>
+<span>Modo de suspensÃ£o - Modo de baixa energia em que o dispositivo ainda pode receber/enviar trabalhos</span><br/>
+</BODY></HTML>

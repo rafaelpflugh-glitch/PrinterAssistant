@@ -1,0 +1,169 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Kerberos 5</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+
+
+
+<!-- Wizard -->
+<H3>ConfiguraÃ§Ã£o guiada de seguranÃ§a</H3>
+
+
+
+
+<!-- Not multi-group -->
+<h2><i><b><font color="gray">Iniciar -> de Teste -></font> de ConfiguraÃ§Ã£o <font color="gray">-> MÃ©todo -> Aplicar</font></b></i></h2>
+
+
+<P>Somente uma versÃ£o do arquivo de configuraÃ§Ã£o Kerberos (ou carregado ou criado a partir de informaÃ§Ãµes 'Simples') pode existir no dispositivo. Carregar ou criar um arquivo novo irÃ¡ excluir o arquivo anterior.</P>
+<!-- end of Wizard -->
+
+
+
+<!-- GSSAPI -->
+<BR>
+<P>LDAP+GSSAPI precisam de uma configuraÃ§Ã£o Kerberos 5 vÃ¡lida.</P>
+<BR>
+
+
+
+
+
+
+
+
+
+
+<!-- Character Encoding -->
+
+<FORM ACTION="/cgi-bin/dynamic/printer/config/secure/auth/importkerberos.html?type=settingspost&function=encoding&info=nogroups&index=&index1=&index2=&forGssapi=yes" METHOD="post">
+
+
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 20"  VALUE="-1">
+<INPUT TYPE="hidden" NAME="105.applications.auth.configFactory 20"  VALUE="Kerberos_Building_Block">
+
+<TABLE>
+<TR><TH COLSPAN="4"><H4>ConfiguraÃ§Ãµes do Kerberos</H4></TH></TR>
+<TR>
+<TD><label for="promptName">Personalizar nome bloco de construÃ§Ã£o</label></TD>
+<TD><INPUT NAME="1.promptName" id="promptName" SIZE=32 MAXLENGTH=128 VALUE="Kerberos&#032;Building&#032;Block"></TD>
+</TR>
+<TR>
+<TD><label for="0.language">CodificaÃ§Ã£o de caracteres</label></TD>
+<TD>
+<SELECT NAME="0.language" ID="language">
+<OPTION VALUE="0">UTF-8</OPTION>
+<OPTION SELECTED VALUE="1">PC-858</OPTION>
+<OPTION VALUE="2">ISO 8859-2</OPTION>
+<OPTION VALUE="3">ISO 8859-5</OPTION>
+<OPTION VALUE="4">ISO 8859-9</OPTION>
+</SELECT>
+</TD>
+<TD><span class="helper" id="helper.language">CodificaÃ§Ã£o utilizada para senhas.</span></TD>
+<TD></TD>
+</TR>
+<TR>
+<TD><label for="disableReverseIPLookups">Desativar pesquisas de IP inverso</label></TD>
+<TD><INPUT TYPE="hidden" NAME="2.disableReverseIPLookups"   VALUE=0><INPUT TYPE="checkbox" NAME="2.disableReverseIPLookups"  id="disableReverseIPLookups" VALUE=1>
+</TD>
+<TD></TD>
+<TD></TD>
+</TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR>
+
+
+<TR><TD><INPUT TYPE="submit" NAME="102.applications.auth.configFactory" VALUE="Enviar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+
+
+</TR>
+</TABLE>
+</FORM>
+<BR/>
+
+<FORM ACTION="/cgi-bin/dynamic/printer/config/secure/auth/importkerberos.html?type=filepost&refreshBack=true&info=nogroups&forGssapi=yes" enctype="multipart/form-data" METHOD="post">
+
+
+<TABLE>
+<TR><TH COLSPAN="4"><H4>Importar Arquivo Kerberos</H4></TH></TR>
+<TR><TD>Importar Arquivo Kerberos</TD><TD><input type="file" name="input_file"><br></TD><TD>&nbsp;</TD><TD></TD></TR>
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+<TABLE>
+<TR>
+
+
+<!-- for Wizard, there is only the "Next Step" button -->
+<TD><INPUT TYPE="submit" VALUE="Salvar, ir para a prÃ³xima etapa">&nbsp;&nbsp;&nbsp;</TD>
+
+</FORM>
+
+<!-- Form for "View File", with cgi parameter mimetype=text_plain -->
+
+
+<FORM ACTION="/cgi-bin/dynamic/printer/config/secure/auth/importkerberos.html?type=filepost&refreshBack=true&info=nogroups&forGssapi=yes" enctype="multipart/form-data" METHOD="post">
+
+
+
+
+
+</FORM>
+
+</TR>
+</TABLE>
+
+<BR>
+
+<H4>Configurar Kerberos Simples</H4>
+
+<FORM ACTION="/cgi-bin/dynamic/printer/config/secure/auth/importkerberos.html?type=settingspost&info=nogroups&index=&index1=&index2=&forGssapi=yes" METHOD="post">
+
+
+<INPUT TYPE="hidden" NAME="109.Wiz.SimpleKerb"  VALUE="-1">
+<INPUT TYPE="hidden" NAME="110.Wiz.SimpleKerb"  VALUE="-1">
+
+
+
+<TABLE>
+<INPUT TYPE="hidden" NAME="100.applications.auth.configFactory 27"  VALUE="-1">
+<INPUT TYPE="hidden" NAME="105.applications.auth.configFactory 27"  VALUE="Simple">
+
+<TR><TD><label for="1.kdc">EndereÃ§o KDC</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.kdc" id="kdc" SIZE=22 MAXLENGTH=128 VALUE=""></TD>
+<TD><span class="helper" id="helper.kdc">Intervalo: 1 - 128&nbsp;caracteres</span></TD>
+</TR>
+<TR><TD><label for="0.port">Porta KDC</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="0.port" onchange="checkInput('port',1, 65535, 'Esta config. aceita som. um valor entre 1 e 65535.', '')" id="port" SIZE=6 MAXLENGTH=22 VALUE="88"></TD></TR>
+<TR><TD><label for="1.realm">DomÃ­nio</label><FONT color="red">*</FONT></TD><TD><INPUT NAME="1.realm" id="realm" SIZE=22 MAXLENGTH=128 VALUE=""></TD>
+<TD><span class="helper" id="helper.realm">Intervalo: 1 - 128&nbsp;caracteres</span></TD>
+</TR>
+
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE><TR>
+
+
+<TR><TD><INPUT TYPE="submit" NAME="102.applications.auth.configFactory" VALUE="Enviar">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="button" VALUE="Sair da ConfiguraÃ§Ã£o" onClick="window.open('/cgi-bin/dynamic/config/secure/security.html','_self')">&nbsp;&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+
+
+</TR>
+</TABLE>
+</FORM>
+
+<BR><BR>
+<TABLE>
+<TR><TD COLSPAN=3>Itens com * sÃ£o obrigatÃ³rios.</TD></TR>
+</TABLE>
+<BR><BR>
+
+
+
+</BODY></HTML>

@@ -1,0 +1,35 @@
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="page_type" content="settings">
+<title>Criptografia de disco</title>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</head>
+
+<body>
+<h3>ConfiguraÃ§Ãµes</h3>
+<h4>Criptografia de disco</h4>
+
+<form action="/cgi-bin/posttest/printer/config/secure/disk_encryption.html" method="post">
+<table>
+<tr><td>Criptografia atualmente desativada</td></tr><tr>
+<td>Criptografia de disco *</td>
+<td><select name="encrypt_action"><option value="0" selected="selected">Desativar</option>
+<option value="1">Ativar</option>
+</select></td>
+</tr>
+
+</table>
+<hr size=2 align=left width="75%" noshade>
+<table>
+<tr><td><input type="submit" value="Enviar">&nbsp;&nbsp;</td>
+<td><input type="reset" value="Redefinir formulÃ¡rio">&nbsp;&nbsp;</td></tr>
+</table>
+<br/>
+<table>
+<tr><td colspan=3>* Alterar esta configuraÃ§Ã£o causarÃ¡ a reinicializaÃ§Ã£o da impressora.</td></tr>
+</table>
+</form>
+</body>
+</html>

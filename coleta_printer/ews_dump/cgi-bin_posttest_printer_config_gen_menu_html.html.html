@@ -1,0 +1,79 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Menu HTML</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/menu_html.html" METHOD="post">
+<H4>Menu HTML</H4>
+<TABLE>
+<TR><TD><label for="0.system.33002">Nome da fonte</label></TD><TD>
+<SELECT NAME="0.system.33002">
+<OPTION VALUE="0">Albertus MT</OPTION>
+<OPTION VALUE="1">Antique Olive</OPTION>
+<OPTION VALUE="2">Apple Chancery</OPTION>
+<OPTION VALUE="3">Arial MT</OPTION>
+<OPTION VALUE="4">Avant Garde</OPTION>
+<OPTION VALUE="5">Bodoni</OPTION>
+<OPTION VALUE="6">Bookman</OPTION>
+<OPTION VALUE="7">Chicago</OPTION>
+<OPTION VALUE="8">Clarendon</OPTION>
+<OPTION VALUE="9">Cooper Black</OPTION>
+<OPTION VALUE="10">Copperplate</OPTION>
+<OPTION VALUE="11">Coronet</OPTION>
+<OPTION VALUE="12">Courier</OPTION>
+<OPTION VALUE="13">Eurostile</OPTION>
+<OPTION VALUE="14">Garamond</OPTION>
+<OPTION VALUE="15">Geneva</OPTION>
+<OPTION VALUE="16">Gill Sans</OPTION>
+<OPTION VALUE="17">Goudy</OPTION>
+<OPTION VALUE="18">Helvetica</OPTION>
+<OPTION VALUE="19">Hoefler Text</OPTION>
+<OPTION VALUE="20">Intl CG Times</OPTION>
+<OPTION VALUE="21">Intl Courier</OPTION>
+<OPTION VALUE="22">Intl Univers</OPTION>
+<OPTION VALUE="23">Joanna MT</OPTION>
+<OPTION VALUE="24">Letter Gothic</OPTION>
+<OPTION VALUE="25">Lubalin Graph</OPTION>
+<OPTION VALUE="26">Marigold</OPTION>
+<OPTION VALUE="27">MonaLisa Recut</OPTION>
+<OPTION VALUE="28">Monaco</OPTION>
+<OPTION VALUE="29">New CenturySbk</OPTION>
+<OPTION VALUE="30">New York</OPTION>
+<OPTION VALUE="31">Optima</OPTION>
+<OPTION VALUE="32">Oxford</OPTION>
+<OPTION VALUE="33">Palatino</OPTION>
+<OPTION VALUE="34">StempelGaramnd</OPTION>
+<OPTION VALUE="35">Taffy</OPTION>
+<OPTION SELECTED VALUE="36">Times</OPTION>
+<OPTION VALUE="37">TimesNewRoman</OPTION>
+<OPTION VALUE="38">Univers</OPTION>
+<OPTION VALUE="39">Zapf Chancery</OPTION>
+<OPTION VALUE="40">NewSansMTJA</OPTION>
+<OPTION VALUE="41">NewSansMTCS</OPTION>
+<OPTION VALUE="42">NewSansMTCT</OPTION>
+<OPTION VALUE="43">NewSansMTKO</OPTION>
+</SELECT></TD></TR>
+<TR><TD><label for="0.system.33003">Tamanho da fonte</label></TD><TD><INPUT NAME="0.system.33003" onchange="checkInput('system.33003',1, 255, 'Esta config. aceita som. um valor entre 1 e 255.', '')" id="system.33003" SIZE=6 MAXLENGTH=22 VALUE="12"></TD><TD><span class="helper" id="helper.system.33003">Intervalo: 1 pt - 255 pt</span></TD></TR>
+<TR><TD><label for="0.system.33005">OrientaÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.33005" ID="system.33005">
+<OPTION SELECTED VALUE="0">Retrato</OPTION>
+<OPTION VALUE="1">Paisagem</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.33004">Ajustar</label></TD><TD><INPUT NAME="0.system.33004" onchange="checkInput('system.33004',1, 400, 'Esta config. aceita som. um valor entre 1 e 400.', '')" id="system.33004" SIZE=6 MAXLENGTH=22 VALUE="100"></TD><TD><span class="helper" id="helper.system.33004">Intervalo: 1% - 400%</span></TD></TR>
+<TR><TD><label for="0.system.33006">Tamanho da margem</label></TD><TD><INPUT NAME="0.system.33006" onchange="checkInput('system.33006',8, 255, 'Esta config. aceita som. um valor entre 8 e 255.', '')" id="system.33006" SIZE=6 MAXLENGTH=22 VALUE="19"></TD><TD><span class="helper" id="helper.system.33006">Intervalo: 8 mm - 255 mm</span></TD></TR>
+<TR><TD><label for="0.system.33007">Planos de fundo</label></TD><TD>
+<SELECT NAME="0.system.33007" ID="system.33007">
+<OPTION VALUE="226">NÃ£o imprimir</OPTION>
+<OPTION SELECTED VALUE="227">Imprimir</OPTION>
+</SELECT>
+</TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>

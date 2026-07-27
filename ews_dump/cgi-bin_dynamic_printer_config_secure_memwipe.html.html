@@ -1,0 +1,115 @@
+
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+
+		<script language="javascript">
+			function change_state()
+			{
+				var submit = document.getElementById("submit");
+				var confirmed = document.getElementById("confirm").checked;
+				var text = document.getElementById("text");
+				var p_confirm = document.getElementById("p_confirm");
+				var option = document.getElementById("option").value;
+				var option_css = document.getElementById("option_css").checked;
+				var option_pdw = document.getElementById("option_pdw").checked;
+				submit.disabled = !confirmed;
+
+				p_confirm.style.display = 'inline';
+
+				if (option_css) {
+					if (option_pdw) {
+						if (option == "SINGLE")
+							text.innerHTML = "Esta operaÃ§Ã£o limparÃ¡ definiÃ§Ãµes, soluÃ§Ãµes e trabalhos desta impressora e usarÃ¡ o mÃ©t. de passagem Ãºnica para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 4 HORAS. Deseja continuar?"
+						else
+							text.innerHTML = "Esta operaÃ§Ã£o limparÃ¡ definiÃ§Ãµes, soluÃ§Ãµes e trabalhos desta impressora e usarÃ¡ o mÃ©t. de vÃ¡rias passagens para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 16 HORAS. Deseja continuar?"
+					} else {
+						text.innerHTML = "Esta operaÃ§Ã£o limparÃ¡ definiÃ§Ãµes, apps e trabalhos desta impressora e restaurarÃ¡ os padrÃµes de fÃ¡brica. Compreendo e desejo continuar."
+					}
+				} else {
+					if (option_pdw) {
+						if (option == "SINGLE")
+							text.innerHTML = "Esta operaÃ§Ã£o usarÃ¡ o mÃ©t. passagem Ãºnica para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 4 HORAS. Deseja continuar?"
+						else
+							text.innerHTML = "Esta operaÃ§Ã£o usarÃ¡ o mÃ©t. vÃ¡rias passagens para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 16 HORAS. Deseja continuar?"
+					} else {
+						p_confirm.style.display = 'none';
+					}
+				}
+			}
+			function reset_handler()
+			{
+				document.getElementById("option").value = "single";
+				document.getElementById("confirm").checked = false;
+				change_state();
+			}
+		</script>
+
+</HEAD>
+<BODY onload="change_state()">
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/memwipe.html" METHOD="post">
+<H3>Limp disco fora de serviÃ§o</H3>
+    <H5><FONT color="RED">Aviso: NÃO DESLIGUE</FONT></H5>
+
+<TABLE>
+<TR> <!-- Status info for last wiped -->
+		<TD WIDTH=250><B>Status de apagamento da memÃ³ria da impressora:</B></TD>
+    <TD>Tue 2026-07-14 12:34:36 STD</TD>
+</TR>
+<TD><BR></TD>
+<TR> <!-- Status info for last wiped -->
+    <TD WIDTH=250><B>Status apag disc rÃ­g:</B></TD>
+    <TD>Tue 2026-07-14 16:18:19 STD</TD>
+</TR>
+</TABLE>
+
+<BR><BR> 
+
+<TABLE>
+<TR> <!-- NAND Wipe (check box and label) VALUE="ENABLED" checked="checked"> -->
+	<TD WIDTH=10><INPUT TYPE="checkbox" id="option_css" NAME="option_css" VALUE="ENABLED" checked="checked" onclick="change_state()"></TD>
+	<TD WIDTH=200><B><label for="option_css">Apag mem impressora</label></B></TD>
+
+</TR>
+<!-- Empty Row space -->
+<TD><BR></TD>
+
+<TR>
+    <!-- Disk Wipe (check box, label and list box) -->
+
+    <TD WIDTH=10><INPUT TYPE="checkbox" id="option_pdw" NAME="option_pdw" VALUE="ENABLED" checked="checked" onclick="change_state()"></TD>
+		<TD WIDTH=200><B><label for="option_pdw">Apag disc rÃ­g</label></B></TD>
+    <TD>
+        <SELECT id="option" NAME="option_pdw_type" onchange="change_state()">
+
+            <OPTION SELECTED VALUE="SINGLE">Apag. pas. Ãºnica</OPTION>
+            <OPTION VALUE="MULTI">Apag. vÃ¡rias pas.</OPTION>
+        </SELECT>
+    </TD>
+</TR>
+
+</TABLE>
+
+<BR>
+<BR>
+
+			<p id="p_confirm">
+			<input type="checkbox" name="confirm" id="confirm" value="confirm" onclick="change_state()" />
+			<label for="confirm">
+				<span id="text">
+					Esta operaÃ§Ã£o limparÃ¡ definiÃ§Ãµes, soluÃ§Ãµes e trabalhos desta impressora e usarÃ¡ o mÃ©t. de passagem Ãºnica para apagar o conteÃºdo do disco rÃ­gido. ELA PODE LEVAR ATÃ 4 HORAS. Deseja continuar?
+				</span>
+			</label>
+			<br />
+			<br />
+			</p>
+
+<TABLE>
+<TR> <!-- submit button -->
+    <TD><INPUT TYPE="submit" id="submit" VALUE="Iniciar"></TD>
+</TR>
+</TABLE
+
+</FORM>
+</BODY>
+</HTML>

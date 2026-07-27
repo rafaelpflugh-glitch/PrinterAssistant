@@ -1,0 +1,111 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>NotificaÃ§Ãµes de Suprimentos</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/progsupplies.html" METHOD="post">
+<H4>NotificaÃ§Ãµes de Suprimentos</H4>
+<BR>
+ 
+<BR>
+<A HREF="sub/displayinfo.html">Mensagens de Suprimento Personalizadas</A>
+
+<BR>
+<A HREF="#set_exp">ExplicaÃ§Ãµes de ConfiguraÃ§Ã£o</A>
+
+<INPUT TYPE="hidden" NAME="108.SuppliesNotification"  VALUE="-1">
+
+<BR>
+<P>Na tabela a seguir, vocÃª pode configurar cada um dos suprimentos na mÃ¡quina.</P>
+<BR>
+<TABLE BORDER=1>
+<TR style="text-align:center;"><TD></TD><TD><B>Quase baixo</B></TD><TD><B>Baixo</B></TD><TD><B>Quase acabando</B><TD><B>Fim da vida Ãºtil</B></TD></TD></TR>
+</TR></TR><TR><TD>Kit manutenÃ§Ã£o</TD>
+<td><table><tr><td>Comportamento</td><td>
+
+<SELECT NAME="0.system.4775" ID="system.4775">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="5">Somente SNMP</OPTION>
+<OPTION VALUE="1">E-mail</OPTION>
+<OPTION VALUE="2">Aviso</OPTION>
+<OPTION VALUE="3">Parada continuÃ¡vel</OPTION>
+<OPTION VALUE="4">Parada nÃ£o contin.</OPTION>
+</SELECT>
+</td></tr><tr><td>Porcentagem</td><td>
+<INPUT NAME="0.system.4780" onchange="checkInput('system.4780',0, 100, 'Esta config. aceita som. um valor entre 0 e 100.', '')" id="system.4780" SIZE=6 MAXLENGTH=22 VALUE="10">%</td></tr></table></td>
+<td><table><tr><td>Comportamento</td><td>
+
+<SELECT NAME="0.system.4776" ID="system.4776">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="5">Somente SNMP</OPTION>
+<OPTION VALUE="1">E-mail</OPTION>
+<OPTION VALUE="2">Aviso</OPTION>
+<OPTION VALUE="3">Parada continuÃ¡vel</OPTION>
+<OPTION VALUE="4">Parada nÃ£o contin.</OPTION>
+</SELECT>
+</td></tr><tr><td>Porcentagem</td><td>
+20%</td></tr></table></td>
+<td><table><tr><td>Comportamento</td><td>
+
+<SELECT NAME="0.system.4777" ID="system.4777">
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION VALUE="5">Somente SNMP</OPTION>
+<OPTION VALUE="1">E-mail</OPTION>
+<OPTION SELECTED VALUE="2">Aviso</OPTION>
+<OPTION VALUE="3">Parada continuÃ¡vel</OPTION>
+<OPTION VALUE="4">Parada nÃ£o contin.</OPTION>
+</SELECT>
+</td></tr><tr><td>Porcentagem</td><td>
+1%</td></tr></table></td>
+<td><table><tr><td>Comportamento</td><td>
+
+<SELECT NAME="0.system.4778" ID="system.4778">
+<OPTION VALUE="0">Desativar</OPTION>
+<OPTION VALUE="5">Somente SNMP</OPTION>
+<OPTION VALUE="1">E-mail</OPTION>
+<OPTION SELECTED VALUE="2">Aviso</OPTION>
+<OPTION VALUE="3">Parada continuÃ¡vel</OPTION>
+<OPTION VALUE="4">Parada nÃ£o contin.</OPTION>
+</SELECT>
+</td></tr><tr></tr></table></td>
+</TR>
+</TABLE>
+<BR>
+
+<TABLE BORDER=0>
+<TR><TD><label for="0.system.5014">Controle de alarme</label></TD><TD>
+<SELECT NAME="0.system.5014" ID="system.5014">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">Uma vez</OPTION>
+<OPTION VALUE="2">ContÃ­nuo</OPTION>
+</SELECT>
+</TD></TR>
+</TABLE>
+<BR>
+
+<HR SIZE=2 ALIGN=LEFT NOSHADE>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</TABLE>
+</FORM>
+<BR>
+
+<BR>
+<a name="set_exp"></a>
+<P>A tabela abaixo descreve os vÃ¡rios modos que podem ser usados para configurar cada suprimento.</P>
+<TABLE BORDER=1>
+<TR><TD width="150"><B>ConfiguraÃ§Ã£o</B></TD><TD><B>Significado</B></TD></TR>
+<TR><TD>Desativar</TD><TD>OcorrerÃ¡ o comport. de impress. normal p/ tds os suprim.</TD></TR>
+<TR><TD>Somente SNMP</TD><TD>A impressora sÃ³ gera um alerta SNMP quando este estado Ã© atingido. NÃ£o haverÃ¡ indicaÃ§Ã£o no painel do estado. O estado aparecerÃ¡ nas pÃ¡ginas de menus e de status.</TD></TR>
+<TR><TD>E-mail</TD><TD>A impressora somente gerarÃ¡ um e-mail quando este estado for atingido. O estado nÃ£o serÃ¡ indicado no painel. O estado serÃ¡ exibido na pÃ¡gina de menus e na pÃ¡gina de status.</TD></TR>
+<TR><TD>Aviso</TD><TD>A impressora nÃ£o serÃ¡ interrompida quando o estado for atingido; no entanto, uma mensagem de aviso serÃ¡ exibida no painel e um e-mail serÃ¡ gerado.</TD></TR>
+<TR><TD>Parada continuÃ¡vel</TD><TD>A impressora serÃ¡ interrompida quando o estado for atingido, e o usuÃ¡rio poderÃ¡ pressionar um botÃ£o para continuar a impressÃ£o. Se a notificaÃ§Ã£o de e-mail para eventos de suprimento estiver ativada, serÃ¡ gerado um e-mail.</TD></TR>
+<TR><TD>Parada nÃ£o contin.</TD><TD>A impressora serÃ¡ interrompida qnd o estado for atingido e o usuÃ¡rio Ã± poderÃ¡ pressionar botÃ£o algum p/ continuar a impressÃ£o. O suprimento deve ser substituÃ­do neste momento para que a impressÃ£o continue. Se a notificaÃ§Ã£o de e-mail para eventos de suprimento estiver ativada, serÃ¡ gerado um e-mail. Para alguns suprimentos, Parada brusca Ã© a Ãºnica opÃ§Ã£o no caso, pois ocorrerÃ¡ dano fÃ­sico se a impressÃ£o continuar.
+</TD></TR>
+</TABLE>
+
+</BODY></HTML>

@@ -1,0 +1,30 @@
+[
+    {
+        "ip": "192.168.14.111",
+        "hostname": "192.168.14.111",
+        "modelo": null,
+        "fabricante": null,
+        "serial": null
+    },
+    {
+        "ip": "192.168.14.114",
+        "hostname": "192.168.14.114",
+        "modelo": null,
+        "fabricante": null,
+        "serial": null
+    },
+    {
+        "ip": "192.168.14.134",
+        "hostname": "192.168.14.134",
+        "modelo": "------------ BIOS Model names --------",
+        "fabricante": null,
+        "serial": "Key=serialNumber, Value=\"000000000000\" (String)"
+    },
+    {
+        "ip": "192.168.14.183",
+        "hostname": "192.168.14.183",
+        "modelo": null,
+        "fabricante": null,
+        "serial": null
+    }
+]

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="Author" content="Lexmark Intl." /> 
+<title>Sistema</title> 
+<style type="text/css"> 
+ @import "/cgi-bin/direct/printer/prtapp/res/appui.css"; 
+ @import "/cgi-bin/direct/printer/prtapp/res/sysappui.css"; 
+</style> 
+ 
+<script src="/cgi-bin/direct/printer/prtapp/res/appui.js" type="text/javascript"> </script> 
+ 
+</head> 
+ 
+<body> 
+ <div class="sysappContainer"> 
+	<iframe 
+		name="sysappInternalFrame" 
+		height="100%" 
+		width="100%" 
+		src="/cgi-bin/direct/printer/prtappauth/system/systeminfoservlet" 
+   frameborder="0" 
+   onLoad="synchTool('sysappInternalFrame');"> 
+ </iframe> 
+ </div> 
+ 
+ <div class="sysappHeader"> 
+   <p>
+	  <div class="sysappToolbar"> 
+     &nbsp;
+     <a href="/cgi-bin/direct/printer/prtappauth/system/systeminfoservlet" class="tool" target="sysappInternalFrame"> Informações</a> 
+     &nbsp;
+      <a href="/cgi-bin/direct/printer/prtappauth/admin/configureshellservlet" class="tool" target="sysappInternalFrame"> Configurar</a> 
+     &nbsp;
+     <a href="/cgi-bin/direct/printer/prtappauth/system/systemlogservlet" class="tool" target="sysappInternalFrame"> Log</a> 
+	  </div> 
+ </div> 
+ 
+</body> 
+</html> 

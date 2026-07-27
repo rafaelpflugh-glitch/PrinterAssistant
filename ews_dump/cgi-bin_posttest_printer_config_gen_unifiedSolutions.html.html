@@ -1,0 +1,91 @@
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Apps</title>
+<!-- CSS -->
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/breadcrumbs.css" type="text/css">
+</head>
+<style type="text/css">
+fieldset
+{
+    border:1px solid #888888;
+    margin:0 0 20px;
+    padding:10px 0 !important;
+    font-size: 12pt;
+}
+fieldset legend
+{
+    font-weight: bold;
+    margin: 0 0 0 10px;
+}
+
+p
+{
+    margin: 0;
+    padding: 5px 0 0 10px;
+}
+
+td 
+{
+  padding-left: 10px;
+}
+
+label.left
+{
+    float: left;
+    width: 200px;
+}
+
+</style>
+
+<body>
+
+<h3>Apps</h3>
+
+<!-- breadcrumbs -->
+<div class="breadcrumbs">
+<a href="/cgi-bin/dynamic/config/config.html">ConfiguraÃ§Ãµes</a> &gt; 
+Apps
+</div>
+
+<fieldset>
+<legend>Gerenc. de apps</legend>
+<p>P/ exibir, editar ou desinstalar aplicat. atualm. em sua impres., cliq. no link abaixo.</p>
+<br>
+<p><a href="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_bundles.html">Gerenc. de apps</a><br/></p>
+</fieldset>
+
+
+    <fieldset>
+    <legend>ConfiguraÃ§Ã£o de aplicativos</legend>
+    <form ACTION="/cgi-bin/posttest/printer/config/gen/unifiedSolutions.html" METHOD="post">
+    <table>
+    <tr>
+    <td width=25%><label for="system.12854">Aceitar cookies</label></td>
+    <td width=10%><INPUT TYPE="hidden" NAME="2.system.12854"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.12854"   VALUE=1 id="system.12854" CHECKED>
+</td>
+    <td>Permite que todos os aplicativos armazenem ou acessem os cookies deste dispositivo.Os cookies da sessÃ£o sÃ£o sempre permitidos.</td>
+    </tr>
+    </table>
+    <hr style="width:75%;text-align:left;margin-left:10px;height:2px;border-width:0;color:gray;background-color:gray"/>
+    <table>
+    <tr>
+    <td><input TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;
+        <INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio"</td>
+    </tr>
+    </table>
+    <br>
+    <p><a href="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_removeCookies.html">Remova todos os cookies</a></p>
+    </form>
+    </fieldset>
+
+
+<table>
+
+</table>
+</body>
+</html>
+

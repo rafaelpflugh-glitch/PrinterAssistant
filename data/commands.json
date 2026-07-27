@@ -1,0 +1,15 @@
+{
+    "Lexmark": [
+
+        {
+            "id": "exportar_configuracao",
+            "nome": "Exportar configuração",
+            "tipo": "backup",
+            "risco": "baixo",
+            "metodo": "POST",
+            "endpoint": "/cgi-bin/exportfile/printer/config/secure/settingfile.ucf",
+            "dados": {}
+        }
+
+    ]
+}

@@ -1,0 +1,296 @@
+
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Gerenc. de apps</title>
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/solutions.css" type="text/css">
+<link rel="stylesheet" href="/cgi-bin/dynamic/printer/breadcrumbs.css" type="text/css">
+<!-- Javascript -->
+<script type="text/javascript">
+
+function displayStatus()
+{
+
+    
+
+    
+
+
+
+
+
+}
+function ConfirmDelete(appId, solnType, appName)
+{
+    var agree = confirm("Deseja desinstalar o aplicativo selecionado?");
+    if (agree)
+    {
+        document.getElementById("appId").value = appId;
+        document.getElementById("state").value = appName;
+        document.getElementById("appType").value = solnType;
+        document.forms[0].submit();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function toggleState(appId, stateText)
+{
+    document.getElementById("appId").value = appId;
+    document.getElementById("state").value = stateText;
+    document.forms[0].submit();
+    return true;
+}
+
+function sortData()
+{
+	var tableData = document.getElementById('appsHeader').getElementsByTagName('tbody').item(0);
+	var rowData = tableData.getElementsByTagName('tr');
+
+	for(var i = 1; i < rowData.length; i++){
+		for(var j = 1; j < rowData.length - (i); j++){
+
+			var left_elem = rowData.item(j).getElementsByTagName('td').item(1).getElementsByTagName('a').item(0).innerHTML;
+			var right_elem = rowData.item(j+1).getElementsByTagName('td').item(1).getElementsByTagName('a').item(0).innerHTML;
+
+			if(left_elem > right_elem){
+				tableData.insertBefore(rowData.item(j+1),rowData.item(j));
+			}
+		}
+	}
+}
+
+function duplicateRemover()
+{
+	var tableData = document.getElementById('appsHeader').getElementsByTagName('tbody').item(0);
+	var rowData = tableData.getElementsByTagName('tr');
+
+	for(var i = 1; i < rowData.length; i++){
+		//the name to be checked
+		var left_elem = rowData.item(i).getElementsByTagName('td').item(1).getElementsByTagName('a').item(0).innerHTML.toUpperCase();
+
+		//loop through the finished list
+		for(var j = 1; j < i; j++){
+			//the name to be checked against but do not check hidden rows
+			if(rowData.item(j).className == "hiddenRow"){ continue; }
+			var right_elem = rowData.item(j).getElementsByTagName('td').item(1).getElementsByTagName('a').item(0).innerHTML.toUpperCase();
+
+			// if a match is found
+			if(left_elem == right_elem){
+				var left_elem_id = rowData.item(i).getAttribute("id");
+				var right_elem_id = rowData.item(j).getAttribute("id");
+
+				// RULE#1: Apps will prevail over licenses
+				if(left_elem_id != right_elem_id) {
+					if(left_elem_id == null) {
+						hide_row(j); // right is license; hide
+						break;
+					}
+					else if(right_elem_id == null) {
+						hide_row(i); // left is license; hide
+						break;
+					}
+				}
+				else {
+					// if both apps, skip
+					if(left_elem_id == null){
+						continue;
+					}
+				}
+
+				//RULE#2: Valid will prevail over Invalid licenses
+				var left_elem_validity = rowData.item(i).getElementsByTagName('td').item(4).className;
+				var right_elem_validity = rowData.item(j).getElementsByTagName('td').item(4).className;
+
+				if(left_elem_validity != right_elem_validity) {
+					if(right_elem_validity == "invalidLicense"){
+						hide_row(j); //right is invalid; hide
+						break;
+					}
+					else if(left_elem_validity == "invalidLicense"){
+						hide_row(i); //left is invalid; hide
+						break;
+					}
+				}
+
+				//In cases where both licenses are valid or both invalid...
+				else if(left_elem_validity == right_elem_validity){
+
+					//RULE#3: If both are valid, "Licensed" will prevail over "Demo"
+					if(left_elem_validity == "validLicense"){
+						var left_elem_license_type = rowData.item(i).getElementsByTagName('td').item(4).getElementsByTagName('a').item(0).className;
+						var right_elem_license_type = rowData.item(j).getElementsByTagName('td').item(4).getElementsByTagName('a').item(0).className;
+
+						if(left_elem_license_type != right_elem_license_type){
+							if(right_elem_license_type == "trial"){
+								hide_row(j); //right is demo; hide
+								break;
+							}
+							else if(left_elem_license_type == "trial"){
+								hide_row(i); //left is demo; hide
+								break;
+							}
+						}
+					}
+
+					//RULE#4: If both are of equal type and validity, the later end date will prevail
+					var left_elem_end_date = rowData.item(i).getElementsByTagName('td').item(3).getElementsByTagName('input').item(0).value;
+					var right_elem_end_date = rowData.item(j).getElementsByTagName('td').item(3).getElementsByTagName('input').item(0).value;
+
+					if(compareDate(left_elem_end_date, right_elem_end_date) > 0){
+						hide_row(j); // right has earlier end date; hide
+						break;
+					}
+					else if (compareDate(left_elem_end_date, right_elem_end_date) <= 0){
+						hide_row(i); // left has earlier (or equal) end date; hide
+						break;
+					}
+				}
+			}
+		}
+	}
+}
+
+function compareDate(dateX, dateY)
+{
+	var YEAR = 0;
+	var MONTH = 1;
+	var DAY = 2;
+
+	var LEFT_IS_GREATER = 1;
+	var RIGHT_IS_GREATER = -1;
+	var BOTH_ARE_EQUAL = 0;
+
+	if(dateX == "" && dateY != ""){
+		return LEFT_IS_GREATER;
+	}
+	else if(dateX != "" && dateY == ""){
+		return RIGHT_IS_GREATER;
+	}
+	else if(dateX == "" && dateY == ""){
+		return BOTH_ARE_EQUAL;
+	}
+
+	var left_elem_end_date = dateX.split("-");
+	var right_elem_end_date = dateY.split("-");
+
+	if(left_elem_end_date[YEAR] > right_elem_end_date[YEAR]){
+		return LEFT_IS_GREATER;
+	}
+	else if(left_elem_end_date[YEAR] < right_elem_end_date[YEAR]) {
+		return RIGHT_IS_GREATER;
+	}
+	else {
+		if(left_elem_end_date[MONTH] > right_elem_end_date[MONTH]){
+			return LEFT_IS_GREATER;
+		}
+		else if(left_elem_end_date[MONTH] < right_elem_end_date[MONTH]) {
+			return RIGHT_IS_GREATER;
+		}
+		else {
+			if(left_elem_end_date[DAY] > right_elem_end_date[DAY]){
+				return LEFT_IS_GREATER;
+			}
+			else if(left_elem_end_date[DAY] < right_elem_end_date[DAY]) {
+				return RIGHT_IS_GREATER;
+			}
+			else {
+				return BOTH_ARE_EQUAL;
+			}
+		}
+	}
+}
+
+function hide_row(i)
+{
+	var tableData = document.getElementById('appsHeader').getElementsByTagName('tbody').item(0);
+	var rowData = tableData.getElementsByTagName('tr');
+	rowData.item(i).className = "hiddenRow";
+}
+
+function initialize()
+{
+	sortData();
+	duplicateRemover();
+	displayStatus();
+}
+</script>
+<style>
+.hiddenRow
+{
+	display: none;
+}
+</style>
+</head>
+
+<body onload="initialize()">
+
+<form name="mainForm" action="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_bundles.html" method="post">
+
+<div id="container">
+<table id="appsHeader" width="85%" border="1" cellpadding="0" cellspacing="0" vspace="4" rules="rows">
+<tbody>
+<tr>
+<th width="150">&nbsp;</th>
+<th width="250" style="text-align: left;">&nbsp;&nbsp;Apps</th>
+<th width="70">VersÃ£o</th>
+<th width="10">&nbsp;</th>
+<th width="150">LicenÃ§a</th>
+<th>&nbsp;</th>
+</tr>
+
+<input type="hidden" name="appId" value="" ID="appId"> 
+<input type="hidden" name="state" value="" ID="state"> 
+<input type="hidden" name="appType" value="" ID="appType"> 
+<TR><TD>&nbsp;&nbsp;&nbsp;<A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=multiSend"> <img src=" /cgi-bin/direct/printer/prtapp/apps/resourceservlet?bundle=multiSend&resource=multi_send_ews.gif " title="VÃ¡rios envios"></A></TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=multiSend" ID="multiSend">VÃ¡rios envios</A></TD>
+<TD style="vertical-align:middle"> 2.7.6</TD>
+<TD> &nbsp;</TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=multiSend&license=license">Nenhuma necessÃ¡ria</A></TD>
+<TD style="vertical-align:middle"> <input type="button" value="Desativar" onClick="toggleState('multiSend', 'Desativar')">&nbsp;&nbsp;<input type="button" disabled="disabled" value="Desinstalar"></TD></TR>
+<TR><TD>&nbsp;&nbsp;&nbsp;<A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=cardCopy"> <img src=" /cgi-bin/direct/printer/prtapp/apps/resourceservlet?bundle=cardCopy&resource=webIcon_Lite.gif " title="CÃ³pia do cartÃ£o"></A></TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=cardCopy" ID="cardCopy">CÃ³pia do cartÃ£o</A></TD>
+<TD style="vertical-align:middle"> 2.12.5</TD>
+<TD> &nbsp;</TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=cardCopy&license=license">Nenhuma necessÃ¡ria</A></TD>
+<TD style="vertical-align:middle"> <input type="button" value="Desativar" onClick="toggleState('cardCopy', 'Desativar')">&nbsp;&nbsp;<input type="button" disabled="disabled" value="Desinstalar"></TD></TR>
+<TR><TD>&nbsp;&nbsp;&nbsp;<A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=scanToNet"> <img src=" /cgi-bin/direct/printer/prtapp/apps/resourceservlet?bundle=scanToNet&resource=snf_basic_small_HS.gif " title="Digitalizar para rede"></A></TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=scanToNet" ID="scanToNet">Digitalizar para rede</A></TD>
+<TD style="vertical-align:middle"> 4.9.7</TD>
+<TD> &nbsp;</TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=scanToNet&license=license">NÃ£o licenciado</A></TD>
+<TD style="vertical-align:middle"> <input type="button" value="Desativar" onClick="toggleState('scanToNet', 'Desativar')">&nbsp;&nbsp;<input type="button" disabled="disabled" value="Desinstalar"></TD></TR>
+<TR><TD>&nbsp;&nbsp;&nbsp;<A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=ezForms"> <img src=" /cgi-bin/direct/printer/prtapp/apps/resourceservlet?bundle=ezForms&resource=upicon.gif " title="FormulÃ¡rios sob demanda"></A></TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=ezForms" ID="ezForms">FormulÃ¡rios sob demanda</A></TD>
+<TD style="vertical-align:middle"> 4.3.3</TD>
+<TD> &nbsp;</TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=ezForms&license=license">Nenhuma necessÃ¡ria</A></TD>
+<TD style="vertical-align:middle"> <input type="button" value="Desativar" onClick="toggleState('ezForms', 'Desativar')">&nbsp;&nbsp;<input type="button" disabled="disabled" value="Desinstalar"></TD></TR>
+<TR><TD>&nbsp;&nbsp;&nbsp;<A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=myShortcut"> <img src=" /cgi-bin/direct/printer/prtapp/apps/resourceservlet?bundle=myShortcut&resource=webIcon.gif " title="MeuAtalho"></A></TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=myShortcut" ID="myShortcut">MeuAtalho</A></TD>
+<TD style="vertical-align:middle"> 1.6.1</TD>
+<TD> &nbsp;</TD>
+<TD style="vertical-align:middle"> <A HREF="/cgi-bin/direct/printer/prtappauth/admin/appservlet?SelectedAppsNames=myShortcut&license=license">Nenhuma necessÃ¡ria</A></TD>
+<TD style="vertical-align:middle"> <input type="button" value="Desativar" onClick="toggleState('myShortcut', 'Desativar')">&nbsp;&nbsp;<input type="button" disabled="disabled" value="Desinstalar"></TD></TR>
+
+
+
+
+</tbody>
+</table>
+<br>
+<!-- Do not show "Install a new app" link if Firmware Updates FAC is disabled -->
+
+<a href="/cgi-bin/dynamic/printer/config/gen/unifiedSolutions_install.html">Instal. novo app</a>
+
+</div>
+
+</form>
+
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+Troca de Toner
+
+1 Abrir tampa frontal
+
+2 Remover toner
+
+3 Instalar novo toner
+
+4 Fechar tampa
+
+5 Conferir reconhecimento
+
+6 Imprimir página de configuração

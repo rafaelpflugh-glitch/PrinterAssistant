@@ -1,0 +1,40 @@
+
+<HTML>
+	<HEAD>
+		<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+		<META NAME="PAGE_TYPE" CONTENT="Settings">
+		<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+		<TITLE>Apag mem impressora</TITLE>
+		<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+		<script language="javascript">
+			function change_state()
+			{
+				var submit = document.getElementById("submit");
+				var confirmed = document.getElementById("confirm").checked;
+				submit.disabled = !confirmed;
+			}
+			function reset_handler()
+			{
+				document.getElementById("confirm").checked = false;
+				change_state();
+			}
+		</script>
+	</HEAD>
+	<BODY onload="change_state()">
+		<H3>ConfiguraÃ§Ãµes</H3>
+		<H4>Apag mem impressora</H4>
+		<form action="/cgi-bin/dynamic/printer/config/secure/erase_printer_memory.html" method="post" onreset="reset_handler()">
+			<p>
+			<input type="checkbox" name="confirm" id="confirm" value="confirm" onclick="change_state()" />
+			<label for="confirm">
+				<span id="text">
+					Esta operaÃ§Ã£o limparÃ¡ definiÃ§Ãµes, apps e trabalhos desta impressora e restaurarÃ¡ os padrÃµes de fÃ¡brica. Compreendo e desejo continuar.
+				</span>
+			</label>
+			</p>
+			<hr />
+			<INPUT TYPE="submit" ID="submit" VALUE="Apagar">
+			<INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">
+		</form>
+	</BODY>
+</HTML>

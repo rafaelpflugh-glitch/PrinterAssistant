@@ -1,0 +1,6 @@
+﻿{
+    "nome": "Página menus",
+    "metodo": "GET",
+    "endpoint": "/cgi-bin/printer/menus"
+}
+

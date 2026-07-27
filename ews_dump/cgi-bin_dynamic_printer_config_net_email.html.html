@@ -1,0 +1,127 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o de SMTP</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+<script type="text/javascript">
+function useADSClickEvent()
+{
+    if (document.getElementById("system.17440").checked == true)
+    {
+        //user id
+        document.getElementById("system.16526").value = "";
+        document.getElementById("system.16526").disabled = true;
+        //password
+        document.getElementById("system.16527").value = "";
+        document.getElementById("system.16527").disabled = true;
+    }
+    else
+    {
+        document.getElementById("system.16526").disabled = false;
+        document.getElementById("system.16527").disabled = false;
+    }
+}
+</script>
+</HEAD>
+<BODY onload="useADSClickEvent()" onreset="useADSClickEvent()">
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/net/email.html" METHOD="post">
+<H4>ConfiguraÃ§Ã£o de SMTP</H4>
+
+<TABLE>
+ <TR><TD><label for="1.system.16510">Gateway SMTP primÃ¡rio</label></TD><TD><INPUT NAME="1.system.16510" id="system.16510" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.system.16510">ObrigatÃ³rio.</span></TD></TR>
+ <TR><TD><label for="0.system.16511">Porta do gateway SMTP primÃ¡rio</label></TD><TD><INPUT NAME="0.system.16511" onchange="checkInput('system.16511',1, 65535, 'Esta config. aceita som. um valor entre 1 e 65535.', '')" id="system.16511" SIZE=6 MAXLENGTH=22 VALUE="25"></TD><TD><span class="helper" id="helper.system.16511">Porta padrÃ£o: 25&nbsp;Intervalo: 1-65535</span></TD></TR>
+ <TR><TD><label for="1.system.16512">Gateway SMTP secundÃ¡rio</label></TD><TD><INPUT NAME="1.system.16512" id="system.16512" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+ <TR><TD><label for="0.system.16513">Porta do gateway SMTP secundÃ¡rio</label></TD><TD><INPUT NAME="0.system.16513" onchange="checkInput('system.16513',1, 65535, 'Esta config. aceita som. um valor entre 1 e 65535.', '')" id="system.16513" SIZE=6 MAXLENGTH=22 VALUE="25"></TD><TD><span class="helper" id="helper.system.16513">Porta padrÃ£o: 25&nbsp;Intervalo: 1-65535</span></TD></TR>
+ <TR><TD><label for="0.system.16514">Tempo limite SMTP</label></TD><TD><INPUT NAME="0.system.16514" onchange="checkInput('system.16514',5, 30, 'Esta config. aceita som. um valor entre 5 e 30.', '')" id="system.16514" SIZE=6 MAXLENGTH=22 VALUE="30"></TD><TD><span class="helper" id="helper.system.16514">Intervalo: 5-30 segundos.</span></TD></TR>
+ <TR><TD><label for="1.system.16515">EndereÃ§o de resposta</label></TD><TD><INPUT NAME="1.system.16515" id="system.16515" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.system.16515">Exemplo:  jsmith@mydomain.com.</span></TD></TR>
+ <TR><TD>Usar SSL/TLS</TD><TD>
+<SELECT NAME="0.system.17072" ID="system.17072">
+<OPTION SELECTED VALUE="0">Desativado</OPTION>
+<OPTION VALUE="1">Negociar</OPTION>
+<OPTION VALUE="2">NecessÃ¡rio</OPTION>
+</SELECT>
+</TD></TR>
+ <TR><TD>Validar CA</TD><TD><INPUT TYPE="hidden" NAME="2.system.17438"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17438"   VALUE=1 id="system.17438" CHECKED>
+</TD></TR>
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+<H4>AutenticaÃ§Ã£o</H4>
+<TABLE>
+ <TR><TD><label for="0.system.16528">AutenticaÃ§Ã£o do Servidor SMTP</label></TD><TD>
+<SELECT NAME="0.system.16528" ID="system.16528">
+<OPTION SELECTED VALUE="0">Nenhuma autenticaÃ§Ã£o necessÃ¡ria</OPTION>
+<OPTION VALUE="1">Login / Comum</OPTION>
+<OPTION VALUE="2">CRAM-MD5</OPTION>
+<OPTION VALUE="3">Digest-MD5</OPTION>
+<OPTION VALUE="4">NTLM</OPTION>
+<OPTION VALUE="5">Kerberos 5</OPTION>
+</SELECT>
+</TD></TR>
+ <TR><TD><label for="0.system.17070">E-mail iniciado por dispositivo</label></TD><TD>
+<SELECT NAME="0.system.17070" ID="system.17070">
+<OPTION SELECTED VALUE="0">Nenhum</OPTION>
+<OPTION VALUE="1">Usar Credenciais de SMTP do Dispositivo</OPTION>
+</SELECT>
+</TD> <TD><span class="helper" id="helper.system.17070">Alertas de e-mail, Encaminhamento de fax etc.</span></TD></TR>
+ <TR><TD><label for="0.system.17071">E-mail iniciado por usuÃ¡rio</label></TD><TD>
+<SELECT NAME="0.system.17071" ID="system.17071">
+<OPTION SELECTED VALUE="0">Nenhum</OPTION>
+<OPTION VALUE="1">Usar Credenciais de SMTP do Dispositivo</OPTION>
+<OPTION VALUE="2">Usar Senha e ID do UsuÃ¡rio da SessÃ£o</OPTION>
+<OPTION VALUE="3">Usar endereÃ§o de Email e Senha da SessÃ£o</OPTION>
+<OPTION VALUE="4">Solicitar ao usuÃ¡rio</OPTION>
+</SELECT>
+</TD></TR>
+</TABLE>
+
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+<H4>Creden. dispos.</H4>
+<TABLE>
+<TR>
+<TD><label for="system.17440">Usar Creden. Dispos. Active Directory</label></TD>
+<TD><INPUT TYPE="hidden" NAME="2.system.17440"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17440"  id="system.17440" VALUE=1 onchange="useADSClickEvent()"></TD>
+<TD>
+<TABLE>
+<TR><td><label for="ad.status">Status</label>: &nbsp;&nbsp;</td><td><span id="ad.status">NÃ£o ligado</span></td></TR>
+</TABLE>
+</TD>
+</TR>
+
+ <TR><TD><label for="1.system.16526">ID do usuÃ¡rio do dispositivo</label></TD><TD><INPUT NAME="1.system.16526" id="system.16526" SIZE=22 MAXLENGTH=64 VALUE=""></TD></TR>
+ <TR><TD><label for="1.system.16527">Senha do dispositivo</label></TD><TD><INPUT TYPE="password" NAME="1.system.16527" SIZE=22 MAXLENGTH=32 onfocus="clearSettingByName('1.system.16527')" id="system.16527" VALUE=""></TD></TR>
+ <TR><TD><label for="1.system.17074">UNIVERSO Kerberos 5</label></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.17074" onChange="textCounter(this,255, 'Este campo pode ter somente 255 caracteres. ');"></TEXTAREA>
+</TD><TD><span class="helper" id="helper.system.17074">ObrigatÃ³rio para alguns tipos de autenticaÃ§Ã£o.</span></TD></TR>
+ <TR><TD><label for="1.system.17073">DomÃ­nio NTLM</label></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.17073" onChange="textCounter(this,255, 'Este campo pode ter somente 255 caracteres. ');"></TEXTAREA>
+</TD><TD><span class="helper" id="helper.system.17073">ObrigatÃ³rio para autenticaÃ§Ã£o NTLM.</span></TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+<TABLE>
+<TR>
+<TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD>
+<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+</TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>

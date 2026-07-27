@@ -1,0 +1,151 @@
+
+<HTML>
+	<HEAD>
+		<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+                <META NAME="PAGE_TYPE" CONTENT="Settings">
+		<SCRIPT SRC="/cgi-bin/dynamic/printer/include/mktree.js" LANGUAGE="JavaScript"></SCRIPT>
+		<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/include/mktree.css">
+		<TITLE>ConfiguraÃ§Ã£o de alerta de e-mail</TITLE>
+        <LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+	</HEAD>
+	<BODY >
+		<H3>ConfiguraÃ§Ãµes</H3>
+		<H4>ConfiguraÃ§Ã£o de alerta de e-mail</H4>
+		<FORM ACTION="/cgi-bin/posttest/printer/config/gen/email_alert_setup.html" METHOD="post">
+	<BR>
+	<TABLE>
+		<TR><TD><A HREF="/cgi-bin/dynamic/printer/config/net/email.html">Configurar servidor de e-mail</A></TD></TR>
+	</TABLE>
+		<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+		
+		<BR>
+		<H4>Configurar listas e alertas de e-mail</H4>
+		<TABLE>
+			<TR>
+				<TD colspan="5">ObservaÃ§Ã£o: As listas de e-mail sÃ£o delimitadas por vÃ­rgulas e atÃ© 255 caracteres podem ser usados para armazenar todos os endereÃ§os em cada lista.</TD>
+            </TR>
+			<TR>
+				<TD colspan="1"><label for="1.system.20480"><b>Lista de e-mail 1</b></label></TD>
+				<TD colspan="1"><label for="1.system.20481"><b>Lista de e-mail 2</b></label></TD>
+				<TD></TD>
+			</TR>
+			<TR>
+				<TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.20480" onChange="textCounter(this,255, 'Este campo pode ter somente 255 caracteres. ');"></TEXTAREA>
+</TD>
+				<TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.20481" onChange="textCounter(this,255, 'Este campo pode ter somente 255 caracteres. ');"></TEXTAREA>
+</TD>
+				<TD>joao.silva@empresa.com, maria.silva@empresa.com</TD>
+			</TR>
+		</TABLE>
+
+<table width=700 border=0>
+	<tr>
+		<td valign="center" align=left width="50%"><b>Lista1</b>&nbsp;<A href="#" onClick="expandTree('list1'); return false;"><font size=1>Expandir tudo</font></A>&nbsp;<A href="#" onClick="collapseTree('list1'); return false;"><font size=1>Recolher</font></A></td>
+		<td valign="center" align=left width="50%"><b>Lista2</b>&nbsp;<A href="#" onClick="expandTree('list2'); return false;"><font size=1>Expandir tudo</font></A>&nbsp;<A href="#" onClick="collapseTree('list2'); return false;"><font size=1>Recolher</font></A></td>
+    </tr>
+		<tr>
+<td valign=top align=left>
+<ul class="mktree" id="list1">
+<li>Exibir suprimentos
+<ul>
+<li>Cartucho toner
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.27.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.27.1" value=1 CHECKED>&nbsp;Cartucho baixo
+<li><input type=hidden name="0.applications.emailAlerts.23.34.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.34.1" value=1 CHECKED>&nbsp;Trocar Cartucho
+<li><input type=hidden name="0.applications.emailAlerts.23.31.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.31.1" value=1 CHECKED>&nbsp;Cartucho invÃ¡lido
+<li><input type=hidden name="0.applications.emailAlerts.23.29.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.29.1" value=1 CHECKED>&nbsp;Cartucho danificado
+<li><input type=hidden name="0.applications.emailAlerts.23.30.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.30.1" value=1 CHECKED>&nbsp;Cartucho nÃ£o suportado
+</ul>
+<li>Kit manutenÃ§Ã£o
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.35.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.35.1" value=1 CHECKED>&nbsp;ManutenÃ§Ã£o programada
+</ul>
+<li>Unid. imagem
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.43.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.43.1" value=1 CHECKED>&nbsp;Unidade de criaÃ§Ã£o de imagens baixa
+<li><input type=hidden name="0.applications.emailAlerts.23.52.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.52.1" value=1 CHECKED>&nbsp;Substitua a unidade de criaÃ§Ã£o de imagens ausente
+<li><input type=hidden name="0.applications.emailAlerts.23.53.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.53.1" value=1 CHECKED>&nbsp;Substitua unidade de imagem
+<li><input type=hidden name="0.applications.emailAlerts.23.55.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.55.1" value=1 CHECKED>&nbsp;Substitua a unidade de criaÃ§Ã£o de imagens danificada
+<li><input type=hidden name="0.applications.emailAlerts.23.56.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.56.1" value=1 CHECKED>&nbsp;Substitua a unidade de criaÃ§Ã£o de imagens nÃ£o suportada
+</ul>
+</ul>
+<li>Manuseio Papel
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.58.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.58.1" value=1 CHECKED>&nbsp;Trocar MÃ­dia
+<li><input type=hidden name="0.applications.emailAlerts.23.60.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.60.1" value=1 CHECKED>&nbsp;2XX Atol. Pap.
+</ul>
+<li>Scanner
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.62.1" value=0><input type=checkbox name="0.applications.emailAlerts.23.62.1" value=1 CHECKED>&nbsp;Atolamento de papel
+</ul>
+</ul>
+</td>
+<td valign=top align=left>
+<ul class="mktree" id="list2">
+<li>Exibir suprimentos
+<ul>
+<li>Cartucho toner
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.27.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.27.2" value=1 CHECKED>&nbsp;Cartucho baixo
+<li><input type=hidden name="0.applications.emailAlerts.23.34.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.34.2" value=1 CHECKED>&nbsp;Trocar Cartucho
+<li><input type=hidden name="0.applications.emailAlerts.23.31.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.31.2" value=1 CHECKED>&nbsp;Cartucho invÃ¡lido
+<li><input type=hidden name="0.applications.emailAlerts.23.29.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.29.2" value=1 CHECKED>&nbsp;Cartucho danificado
+<li><input type=hidden name="0.applications.emailAlerts.23.30.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.30.2" value=1 CHECKED>&nbsp;Cartucho nÃ£o suportado
+</ul>
+<li>Kit manutenÃ§Ã£o
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.35.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.35.2" value=1 CHECKED>&nbsp;ManutenÃ§Ã£o programada
+</ul>
+<li>Unid. imagem
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.43.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.43.2" value=1 CHECKED>&nbsp;Unidade de criaÃ§Ã£o de imagens baixa
+<li><input type=hidden name="0.applications.emailAlerts.23.52.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.52.2" value=1 CHECKED>&nbsp;Substitua a unidade de criaÃ§Ã£o de imagens ausente
+<li><input type=hidden name="0.applications.emailAlerts.23.53.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.53.2" value=1 CHECKED>&nbsp;Substitua unidade de imagem
+<li><input type=hidden name="0.applications.emailAlerts.23.55.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.55.2" value=1 CHECKED>&nbsp;Substitua a unidade de criaÃ§Ã£o de imagens danificada
+<li><input type=hidden name="0.applications.emailAlerts.23.56.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.56.2" value=1 CHECKED>&nbsp;Substitua a unidade de criaÃ§Ã£o de imagens nÃ£o suportada
+</ul>
+</ul>
+<li>Manuseio Papel
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.58.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.58.2" value=1 CHECKED>&nbsp;Trocar MÃ­dia
+<li><input type=hidden name="0.applications.emailAlerts.23.60.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.60.2" value=1 CHECKED>&nbsp;2XX Atol. Pap.
+</ul>
+<li>Scanner
+<ul>
+<li><input type=hidden name="0.applications.emailAlerts.23.62.2" value=0><input type=checkbox name="0.applications.emailAlerts.23.62.2" value=1 CHECKED>&nbsp;Atolamento de papel
+</ul>
+</ul>
+</td>
+</tr>	
+</table>
+
+		<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+
+		<TABLE>
+			<TR>
+			<TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD>
+			<TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD>
+			</TR>
+		</TABLE>
+        <BR>
+		</FORM>
+
+	</BODY>
+</HTML>
+

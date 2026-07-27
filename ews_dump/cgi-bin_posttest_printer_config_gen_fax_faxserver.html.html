@@ -1,0 +1,135 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o de servidor de fax</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css"></HEAD>
+<BODY >
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/fax/faxserver.html" METHOD="post">
+<H4>ConfiguraÃ§Ã£o de e-mail do servidor de fax</H4>
+<TABLE>
+<TR><TD><label for="system.16559">Formato de destino</label></TD><TD><INPUT NAME="1.system.16559" id="system.16559" SIZE=22 MAXLENGTH=128 VALUE=""></TD><TD><span class="helper" id="helper.system.16559">Use [#] para o NÃºmero do fax. Exemplo: '[#]@fax.minhaempresa.com'</span></TD></TR>
+<TR><TD><label for="system.16560">EndereÃ§o de resposta</label></TD><TD><INPUT NAME="1.system.16560" id="system.16560" SIZE=22 MAXLENGTH=128 VALUE=""></TD></TR>
+<TR><TD><label for="system.16561">Assunto:</label></TD><TD><INPUT NAME="1.system.16561" id="system.16561" SIZE=22 MAXLENGTH=64 VALUE=""></TD></TR>
+<TR><TD><label for="system.16562">Mensagem<colon/></label></TD><TD><SCRIPT LANGUAGE="JavaScript"> 
+function textCounter( field, maxlimit, msg) { 
+if ( field.value.length > maxlimit ) {
+field.value = field.value.substring( 0, maxlimit );
+alert( msg );
+return false;
+}
+}</SCRIPT>
+<TEXTAREA COLS=25 ROWS=4 WRAP="SOFT" NAME="1.system.16562" onChange="textCounter(this,512, 'Este campo pode ter somente 512 caracteres. ');"></TEXTAREA>
+</TD></TR>
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/net/email.html">Gateway SMTP primÃ¡rio</a></TD><TD></TD></TR>
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/net/email.html">Gateway SMTP secundÃ¡rio</a></TD><TD></TD></TR>
+</TABLE>
+<H4>Config. padrÃ£o de digitalizaÃ§Ã£o do servidor de fax</H4>
+<TABLE>
+<TR><TD><label for="system.16563">Formato da imagem</label></TD><TD>
+<SELECT NAME="0.system.16563" ID="system.16563">
+<OPTION VALUE="0">TIFF (.tif)</OPTION>
+<OPTION SELECTED VALUE="2">PDF (.pdf)</OPTION>
+<OPTION VALUE="7">XPS (.xps)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16471">Tipo de conteÃºdo</label></TD><TD>
+<SELECT NAME="0.system.16471" ID="system.16471">
+<OPTION SELECTED VALUE="0">Texto</OPTION>
+<OPTION VALUE="1">Texto/Foto</OPTION>
+<OPTION VALUE="2">Fotografia</OPTION>
+<OPTION VALUE="8">GrÃ¡ficos</OPTION>
+</SELECT>
+</TD></TR>
+<tr><td><label for="system.17399">Origem do conteÃºdo</label></td><td>
+<SELECT NAME="0.system.17399" ID="system.17399">
+<OPTION SELECTED VALUE="0">Laser P/B</OPTION>
+<OPTION VALUE="1">Laser colorida</OPTION>
+<OPTION VALUE="2">Inkjet</OPTION>
+<OPTION VALUE="3">Foto/Filme</OPTION>
+<OPTION VALUE="4">Revista</OPTION>
+<OPTION VALUE="5">Jornal</OPTION>
+<OPTION VALUE="6">Press</OPTION>
+<OPTION VALUE="7">Outro</OPTION>
+</SELECT>
+</td></tr>
+<TR><TD><label for="system.16470">ResoluÃ§Ã£o do fax</label></TD><TD>
+<SELECT NAME="0.system.16470" ID="system.16470">
+<OPTION SELECTED VALUE="0">PadrÃ£o</OPTION>
+<OPTION VALUE="1">Alta 200 ppp</OPTION>
+<OPTION VALUE="2">Super Fino 300 ppp</OPTION>
+<OPTION VALUE="3">Ultra Fino 600 ppp</OPTION>
+</SELECT>
+</TD></TR>
+<tr><td><label for="system.17379">Temperatura</label></td><td>
+<SELECT NAME="0.system.17379" ID="system.17379">
+<OPTION VALUE="-4">-4 (Frio) *...|.... (Morno)</OPTION>
+<OPTION VALUE="-3">-3 (Frio) .*..|.... (Morno)</OPTION>
+<OPTION VALUE="-2">-2 (Frio) ..*.|.... (Morno)</OPTION>
+<OPTION VALUE="-1">-1 (Frio) ...*|.... (Morno)</OPTION>
+<OPTION SELECTED VALUE="0">0 (Frio) ....*.... (Morno)</OPTION>
+<OPTION VALUE="1">+1 (Frio) ....|*... (Morno)</OPTION>
+<OPTION VALUE="2">+2 (Frio) ....|.*.. (Morno)</OPTION>
+<OPTION VALUE="3">+3 (Frio) ....|..*. (Morno)</OPTION>
+<OPTION VALUE="4">+4 (Frio) ....|...* (Morno)</OPTION>
+</SELECT>
+</td></tr>
+<TR><TD><label for="system.16482">Tonalidade</label></TD><TD>
+<SELECT NAME="0.system.16482" ID="system.16482">
+<OPTION VALUE="1">1 (-)*...|....(+)</OPTION>
+<OPTION VALUE="2">2 (-).*..|....(+)</OPTION>
+<OPTION VALUE="3">3 (-)..*.|....(+)</OPTION>
+<OPTION VALUE="4">4 (-)...*|....(+)</OPTION>
+<OPTION SELECTED VALUE="5">5 (-)....*....(+)</OPTION>
+<OPTION VALUE="6">6 (-)....|*...(+)</OPTION>
+<OPTION VALUE="7">7 (-)....|.*..(+)</OPTION>
+<OPTION VALUE="8">8 (-)....|..*.(+)</OPTION>
+<OPTION VALUE="9">9 (-)....|...*(+)</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16564">OrientaÃ§Ã£o</label></TD><TD>
+<SELECT NAME="0.system.16564" ID="system.16564">
+<OPTION SELECTED VALUE="0">Retrato</OPTION>
+<OPTION VALUE="1">Paisagem</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16485">Tamanho original</label></TD><TD>
+<SELECT NAME="0.system.16485" ID="system.16485">
+<OPTION SELECTED VALUE="4">A4</OPTION>
+<OPTION VALUE="5">A5</OPTION>
+<OPTION VALUE="26">A6</OPTION>
+<OPTION VALUE="7">JIS B5</OPTION>
+<OPTION VALUE="0">Carta</OPTION>
+<OPTION VALUE="2">OfÃ­cio</OPTION>
+<OPTION VALUE="1">Executivo</OPTION>
+<OPTION VALUE="9">Folio</OPTION>
+<OPTION VALUE="10">Statement (US)</OPTION>
+<OPTION VALUE="17">Oficio (Mexico)</OPTION>
+<OPTION VALUE="18">Universal</OPTION>
+<OPTION VALUE="14">DetecÃ§Ã£o automÃ¡tica de tamanho</OPTION>
+<OPTION VALUE="15">Tamanhos mistos</OPTION>
+<OPTION VALUE="20">DigitalizaÃ§Ã£o do tamanho personalizada 1</OPTION>
+<OPTION VALUE="21">DigitalizaÃ§Ã£o do tamanho personalizada 2</OPTION>
+<OPTION VALUE="22">DigitalizaÃ§Ã£o do tamanho personalizada 3</OPTION>
+<OPTION VALUE="23">DigitalizaÃ§Ã£o do tamanho personalizada 4</OPTION>
+<OPTION VALUE="24">DigitalizaÃ§Ã£o do tamanho personalizada 5</OPTION>
+<OPTION VALUE="25">DigitalizaÃ§Ã£o do tamanho personalizada 6</OPTION>
+<OPTION VALUE="16">Tamanho original</OPTION>
+<OPTION VALUE="13">CartÃ£o de visita</OPTION>
+<OPTION VALUE="11">3 x 5 pol</OPTION>
+<OPTION VALUE="12">4 x 6 pol</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="system.16565">Usar TIFF de vÃ¡rias pÃ¡ginas</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.16565"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.16565"   VALUE=1 id="system.16565" CHECKED>
+</TD></TR>
+<TR><TD><label for="system.17343">Ativar recebimento analÃ³gico</label></TD><TD><INPUT TYPE="hidden" NAME="2.system.17343"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17343"  id="system.17343" VALUE=1>
+</TD></TR>
+<tr><td><a href="color_balance_fax.html">EquilÃ­brio de cores</a></td></tr>
+<TR><TD><a href="/cgi-bin/dynamic/printer/config/net/email.html">ConfiguraÃ§Ã£o de servidor de e-mail</a></TD></TR>
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE=Enviar>&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>

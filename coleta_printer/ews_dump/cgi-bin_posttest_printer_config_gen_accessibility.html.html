@@ -1,0 +1,57 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>Acessibilidade</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/gen/accessibility.html" METHOD="post">
+<H4>Acessibilidade</H4>
+<TABLE>
+
+<TR>
+    <TD><label for="0.system.5491">Prolong tempo lim tela</label></TD>
+    <TD><INPUT TYPE="hidden" NAME="2.system.5491"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.5491"  id="system.5491" VALUE=1>
+</TD>
+</TR>
+
+<TR>
+    <TD><label for="0.system.17522">Ativar cursor de foco</label></TD>
+    <TD><INPUT TYPE="hidden" NAME="2.system.17522"   VALUE=0><INPUT TYPE="checkbox" NAME="2.system.17522"   VALUE=1 id="system.17522" CHECKED>
+</TD>
+    <TD><No Textid></TD>
+</TR>
+<TR>
+    <TD><label for="system.17521">Taxa de voz</label></TD>
+    <TD>
+<SELECT NAME="0.system.17521" ID="system.17521">
+<OPTION VALUE="50">Muito lenta</OPTION>
+<OPTION VALUE="100">Lento</OPTION>
+<OPTION SELECTED VALUE="150">Normal</OPTION>
+<OPTION VALUE="155">RÃ¡pido</OPTION>
+<OPTION VALUE="170">RÃ¡pida</OPTION>
+<OPTION VALUE="195">Muito rÃ¡pida</OPTION>
+<OPTION VALUE="230">Veloz</OPTION>
+<OPTION VALUE="275">Muito veloz</OPTION>
+<OPTION VALUE="330">Mais rÃ¡pida</OPTION>
+</SELECT>
+</TD>
+</TR>
+<TR>
+    <TD><label for="0.system.17506">Volume do fone</label></TD>
+    <TD><INPUT NAME="0.system.17506" onchange="checkInput('system.17506',1, 10, 'Esta config. aceita som. um valor entre 1 e 10.', '')" id="system.17506" SIZE=6 MAXLENGTH=22 VALUE="5"></TD>
+    <TD>Intervalo: 1 - 10.</TD>
+</TR>
+
+</TABLE><HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE><TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+<TABLE>
+<TR><TD COLSPAN=3>+ A impressora deve estar em Estado Pronto antes do envio.</TD></TR>
+</TABLE>
+
+</BODY></HTML>
+

@@ -1,0 +1,59 @@
+
+<HTML><HEAD><META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+<META NAME="PAGE_TYPE" CONTENT="Settings">
+<SCRIPT SRC="/cgi-bin/dynamic/printer/include/jshelper.js" LANGUAGE="JavaScript"></SCRIPT>
+<TITLE>ConfiguraÃ§Ã£o de impressÃ£o confidencial</TITLE>
+<LINK REL="stylesheet" HREF="/cgi-bin/dynamic/printer/configStyle.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<H3>ConfiguraÃ§Ãµes</H3>
+<FORM ACTION="/cgi-bin/posttest/printer/config/secure/confi_print_setup.html" METHOD="post">
+<H4>ConfiguraÃ§Ã£o de impressÃ£o confidencial</H4>
+<TABLE>
+
+<TR><TD><label for="0.system.4494">MÃ¡ximo de PINs invÃ¡lidos</label></TD><TD><INPUT NAME="0.system.4494" onchange="checkInput('system.4494',2, 10, 'Esta config. aceita som. um valor entre 2 e 10.', '0,')" id="system.4494" SIZE=6 MAXLENGTH=22 VALUE="0"></TD><TD><span class="helper" id="helper.system.4494">Intervalo: 2 - 10, Desativar = 0.<No Textid></span></TD></TR>
+
+<TR><TD><label for="0.system.4455">Trabalho expirado</label></TD><TD>
+<SELECT NAME="0.system.4455" ID="system.4455">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">1 hora</OPTION>
+<OPTION VALUE="4">4 horas</OPTION>
+<OPTION VALUE="24">24 horas</OPTION>
+<OPTION VALUE="168">1 semana</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.5333">Repetir validade do trabalho</label></TD><TD>
+<SELECT NAME="0.system.5333" ID="system.5333">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">1 hora</OPTION>
+<OPTION VALUE="4">4 horas</OPTION>
+<OPTION VALUE="24">24 horas</OPTION>
+<OPTION VALUE="168">1 semana</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.5334">Verificar validade do trabalho</label></TD><TD>
+<SELECT NAME="0.system.5334" ID="system.5334">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">1 hora</OPTION>
+<OPTION VALUE="4">4 horas</OPTION>
+<OPTION VALUE="24">24 horas</OPTION>
+<OPTION VALUE="168">1 semana</OPTION>
+</SELECT>
+</TD></TR>
+<TR><TD><label for="0.system.5335">Manter validade do trabalho</label></TD><TD>
+<SELECT NAME="0.system.5335" ID="system.5335">
+<OPTION SELECTED VALUE="0">Desativar</OPTION>
+<OPTION VALUE="1">1 hora</OPTION>
+<OPTION VALUE="4">4 horas</OPTION>
+<OPTION VALUE="24">24 horas</OPTION>
+<OPTION VALUE="168">1 semana</OPTION>
+</SELECT>
+</TD></TR>
+</TABLE>
+<HR SIZE=2 ALIGN=LEFT WIDTH="75%" NOSHADE>
+<TABLE>
+<TR><TD><INPUT TYPE="submit" VALUE="Enviar">&nbsp;&nbsp;</TD><TD><INPUT TYPE="reset" VALUE="Redefinir formulÃ¡rio">&nbsp;&nbsp;</TD></TR>
+</FORM>
+</TABLE><BR>
+</BODY></HTML>
+
