@@ -1,540 +1,845 @@
+import asyncio
+
+
 # ============================================================
-# PRINTER ASSISTANT
-# core/device.py
+# PRINTER ASSISTANT - DEVICE
+# ============================================================
 #
-# Modelo e identificação dos dispositivos encontrados na rede.
+# Representa uma impressora física dentro do sistema.
+#
+# Este módulo NÃO faz a comunicação diretamente.
+#
+# Ele utiliza:
+#
+#   core.pjl  -> identificação / contador
+#   core.snmp -> suprimentos
+#
+# Objetivo:
+#
+# Transformar uma impressora em um objeto único:
+#
+#   PrinterDevice
+#
+# No futuro será esse objeto que o scanner entregará
+# para o restante do sistema.
+#
 # ============================================================
 
-import json
-from pathlib import Path
+
+from core.pjl import coletar_identificacao
+from core.snmp import coletar_supplies
 
 
 # ============================================================
-# CONFIGURAÇÃO
-# ============================================================
-
-ARQUIVO_DISPOSITIVOS = (
-    Path(__file__).resolve().parent.parent
-    / "printers_found.json"
-)
-
-
-# ============================================================
-# CLASSE DO DISPOSITIVO
+# CLASSE DA IMPRESSORA
 # ============================================================
 
 class PrinterDevice:
 
-    def __init__(self, dados):
+    def __init__(
+        self,
+        ip,
+        nome=None
+    ):
 
-        # ----------------------------------------------------
-        # IDENTIFICAÇÃO BÁSICA
-        # ----------------------------------------------------
+        self.ip = ip
 
-        self.ip = dados.get("ip")
+        self.nome = nome
 
-        self.fabricante = "Desconhecido"
-        self.modelo = "Desconhecido"
-        self.familia = ""
-        self.tipo = ""
+        self.identificacao = {
 
-        # ----------------------------------------------------
-        # SERVIÇOS DETECTADOS
-        # ----------------------------------------------------
+            "fabricante": "Desconhecido",
 
-        self.web = bool(
-            dados.get("web", False)
-        )
+            "modelo": "Desconhecido",
 
-        self.raw = bool(
-            dados.get("raw", False)
-        )
+            "familia": "",
 
-        self.ipp = bool(
-            dados.get("ipp", False)
-        )
+            "tipo": "",
 
-        self.snmp_resposta = dados.get(
-            "snmp"
-        )
+            "serial": "Desconhecido",
 
-        self.suporta_snmp = bool(
-            self.snmp_resposta
-        )
+            "contador": None
 
-        # ----------------------------------------------------
-        # CAPACIDADES
-        # ----------------------------------------------------
+        }
 
-        self.suporta_pjl = False
+        self.supplies = []
 
-        # ----------------------------------------------------
-        # IDENTIFICAÇÃO
-        # ----------------------------------------------------
+        self.conectividade = {
 
-        self.identificar()
+            "ip": ip,
 
-        # ----------------------------------------------------
-        # INTEGRAÇÃO
-        # ----------------------------------------------------
+            "snmp": False,
 
-        self.integracao = self.calcular_integracao()
+            "pjl": False,
 
+            "web": False,
 
-    # ========================================================
-    # IDENTIFICAÇÃO PRINCIPAL
-    # ========================================================
+            "raw": False,
 
-    def identificar(self):
-
-        if not self.snmp_resposta:
-            return
-
-        texto = self.snmp_resposta.lower()
-
-        # ----------------------------------------------------
-        # LEXMARK
-        # ----------------------------------------------------
-
-        if "lexmark" in texto:
-
-            self.fabricante = "Lexmark"
-
-            self.identificar_lexmark(
-                texto
-            )
-
-            # Atualmente nosso módulo PJL
-            # é direcionado para Lexmark.
-            self.suporta_pjl = True
-
-            return
-
-
-        # ----------------------------------------------------
-        # BROTHER
-        # ----------------------------------------------------
-
-        if "brother" in texto:
-
-            self.fabricante = "Brother"
-
-            self.identificar_brother(
-                texto
-            )
-
-            return
-
-
-        # ----------------------------------------------------
-        # HP
-        # ----------------------------------------------------
-
-        if (
-            "hewlett" in texto
-            or "hp " in texto
-            or texto.startswith("hp")
-        ):
-
-            self.fabricante = "HP"
-
-            self.tipo = "Impressora HP"
-
-            return
-
-
-        # ----------------------------------------------------
-        # CANON
-        # ----------------------------------------------------
-
-        if "canon" in texto:
-
-            self.fabricante = "Canon"
-
-            self.tipo = "Impressora Canon"
-
-            return
-
-
-        # ----------------------------------------------------
-        # OUTRO DISPOSITIVO SNMP
-        # ----------------------------------------------------
-
-        self.fabricante = "Desconhecido"
-
-
-    # ========================================================
-    # IDENTIFICAÇÃO LEXMARK
-    # ========================================================
-
-    def identificar_lexmark(self, texto):
-
-        modelos = {
-
-            "mx611": (
-                "MX611",
-                "MX",
-                "Multifuncional Laser Mono"
-            ),
-
-            "mx511": (
-                "MX511",
-                "MX",
-                "Multifuncional Laser Mono"
-            ),
-
-            "mx711": (
-                "MX711",
-                "MX",
-                "Multifuncional Laser Mono"
-            ),
-
-            "ms610": (
-                "MS610",
-                "MS",
-                "Laser Mono"
-            ),
-
-            "e460": (
-                "E460",
-                "E",
-                "Laser Mono"
-            ),
-
-            "cs725": (
-                "CS725",
-                "CS",
-                "Laser Color"
-            ),
-
-            "cx510": (
-                "CX510",
-                "CX",
-                "Laser Color MFP"
-            ),
+            "ipp": False
 
         }
 
 
-        for chave, dados in modelos.items():
+    # ========================================================
+    # FABRICANTE
+    # ========================================================
 
-            if chave in texto:
+    def detectar_fabricante(
+        self,
+        modelo
+    ):
 
-                (
-                    self.modelo,
-                    self.familia,
-                    self.tipo
-                ) = dados
-
-                return
+        texto = str(
+            modelo or ""
+        ).lower()
 
 
-        # Lexmark identificada,
-        # mas modelo ainda não conhecido.
+        if "lexmark" in texto:
 
-        self.modelo = "Lexmark"
-        self.familia = "Desconhecida"
-        self.tipo = "Impressora Lexmark"
+            return "Lexmark"
+
+
+        if "brother" in texto:
+
+            return "Brother"
+
+
+        if "canon" in texto:
+
+            return "Canon"
+
+
+        if (
+            "hp" in texto
+            or
+            "hewlett" in texto
+        ):
+
+            return "HP"
+
+
+        return "Desconhecido"
 
 
     # ========================================================
-    # IDENTIFICAÇÃO BROTHER
+    # FAMÍLIA
     # ========================================================
 
-    def identificar_brother(self, texto):
+    def detectar_familia(
+        self,
+        modelo
+    ):
 
-        # Alguns modelos Brother podem aparecer
-        # apenas pelo nome da placa/controladora.
+        if not modelo:
+
+            return ""
+
+
+        partes = str(
+            modelo
+        ).split()
+
+
+        if not partes:
+
+            return ""
+
+
+        # ----------------------------------------------------
+        # Lexmark normalmente aparece como:
         #
-        # O modelo real será refinado posteriormente
-        # através de SNMP/PJL/Web.
+        # Lexmark MX611dhe
+        #
+        # Queremos:
+        #
+        # MX
+        # ----------------------------------------------------
 
-        self.modelo = "Desconhecido"
-        self.familia = ""
-        self.tipo = "Impressora Brother"
+        if (
+            partes[0].lower()
+            == "lexmark"
+            and
+            len(partes) > 1
+        ):
+
+            modelo_texto = partes[1].upper()
+
+
+        else:
+
+            modelo_texto = partes[0].upper()
+
+
+        if modelo_texto.startswith(
+            "MX"
+        ):
+
+            return "MX"
+
+
+        if modelo_texto.startswith(
+            "MS"
+        ):
+
+            return "MS"
+
+
+        if modelo_texto.startswith(
+            "CX"
+        ):
+
+            return "CX"
+
+
+        if modelo_texto.startswith(
+            "CS"
+        ):
+
+            return "CS"
+
+
+        if modelo_texto.startswith(
+            "XM"
+        ):
+
+            return "XM"
+
+
+        return modelo_texto
 
 
     # ========================================================
-    # CÁLCULO DE INTEGRAÇÃO
+    # TIPO DO EQUIPAMENTO
     # ========================================================
 
-    def calcular_integracao(self):
+    def detectar_tipo(
+        self,
+        fabricante,
+        modelo
+    ):
 
-        pontos = 0
-
-        # ----------------------------------------------------
-        # WEB
-        # ----------------------------------------------------
-
-        if self.web:
-            pontos += 20
-
-
-        # ----------------------------------------------------
-        # RAW / PORTA 9100
-        # ----------------------------------------------------
-
-        if self.raw:
-            pontos += 20
+        modelo_lower = str(
+            modelo or ""
+        ).lower()
 
 
-        # ----------------------------------------------------
-        # IPP
-        # ----------------------------------------------------
+        if fabricante == "Lexmark":
 
-        if self.ipp:
-            pontos += 20
+            if "mx" in modelo_lower:
 
-
-        # ----------------------------------------------------
-        # SNMP
-        # ----------------------------------------------------
-
-        if self.suporta_snmp:
-            pontos += 20
+                return (
+                    "Multifuncional Laser Mono"
+                )
 
 
-        # ----------------------------------------------------
-        # PJL
-        # ----------------------------------------------------
+            if "ms" in modelo_lower:
 
-        if self.suporta_pjl:
-            pontos += 20
-
-
-        return pontos
+                return (
+                    "Impressora Laser Mono"
+                )
 
 
-    # ========================================================
-    # NÍVEL DE INTEGRAÇÃO
-    # ========================================================
+            if "cx" in modelo_lower:
 
-    def nivel_integracao(self):
+                return (
+                    "Multifuncional Laser Color"
+                )
 
-        if self.integracao >= 80:
-            return "ALTA"
 
-        if self.integracao >= 40:
-            return "MEDIA"
+            if "cs" in modelo_lower:
 
-        if self.integracao >= 20:
-            return "BAIXA"
+                return (
+                    "Impressora Laser Color"
+                )
 
-        return "MINIMA"
+
+            return "Impressora Lexmark"
+
+
+        if fabricante == "Brother":
+
+            return "Impressora Brother"
+
+
+        if fabricante == "Canon":
+
+            return "Impressora Canon"
+
+
+        if fabricante == "HP":
+
+            return "Impressora HP"
+
+
+        return "Equipamento de impressão"
 
 
     # ========================================================
-    # RESUMO
+    # NORMALIZAR IDENTIFICAÇÃO
     # ========================================================
 
-    def resumo(self):
+    def normalizar_identificacao(
+        self,
+        dados
+    ):
+
+        if not dados:
+
+            return
+
+
+        modelo = dados.get(
+            "modelo"
+        )
+
+
+        serial = dados.get(
+            "serial"
+        )
+
+
+        contador = dados.get(
+            "contador"
+        )
+
+
+        if not modelo:
+
+            modelo = "Desconhecido"
+
+
+        if not serial:
+
+            serial = "Desconhecido"
+
+
+        fabricante = (
+            self.detectar_fabricante(
+                modelo
+            )
+        )
+
+
+        familia = (
+            self.detectar_familia(
+                modelo
+            )
+        )
+
+
+        tipo = (
+            self.detectar_tipo(
+                fabricante,
+                modelo
+            )
+        )
+
+
+        self.identificacao = {
+
+            "fabricante":
+                fabricante,
+
+            "modelo":
+                modelo,
+
+            "familia":
+                familia,
+
+            "tipo":
+                tipo,
+
+            "serial":
+                serial,
+
+            "contador":
+                contador
+
+        }
+
+
+    # ========================================================
+    # COLETAR PJL
+    # ========================================================
+
+    def coletar_pjl(
+        self
+    ):
+
+        try:
+
+            dados = (
+                coletar_identificacao(
+                    self.ip
+                )
+            )
+
+
+            if dados:
+
+                self.normalizar_identificacao(
+                    dados
+                )
+
+
+                self.conectividade[
+                    "pjl"
+                ] = bool(
+                    dados.get("modelo")
+                    or
+                    dados.get("serial")
+                    or
+                    dados.get("contador")
+                )
+
+
+                self.conectividade[
+                    "raw"
+                ] = self.conectividade[
+                    "pjl"
+                ]
+
+
+                return dados
+
+
+        except Exception as erro:
+
+            print(
+                f"[DEVICE] Erro PJL: {erro}"
+            )
+
+
+        return {}
+
+
+    # ========================================================
+    # COLETAR SNMP
+    # ========================================================
+
+    async def coletar_snmp(
+        self
+    ):
+
+        try:
+
+            dados = await coletar_supplies(
+                self.ip
+            )
+
+
+            if dados is not None:
+
+                self.supplies = dados
+
+
+                self.conectividade[
+                    "snmp"
+                ] = True
+
+
+                return dados
+
+
+        except Exception as erro:
+
+            print(
+                f"[DEVICE] Erro SNMP: {erro}"
+            )
+
+
+        self.supplies = []
+
+
+        return []
+
+
+    # ========================================================
+    # COLETA COMPLETA
+    # ========================================================
+
+    async def coletar(
+        self
+    ):
+
+        # ----------------------------------------------------
+        # PJL é síncrono
+        # ----------------------------------------------------
+
+        self.coletar_pjl()
+
+
+        # ----------------------------------------------------
+        # SNMP é assíncrono
+        # ----------------------------------------------------
+
+        await self.coletar_snmp()
+
+
+        return self.to_dict()
+
+
+    # ========================================================
+    # ESTADO GERAL
+    # ========================================================
+
+    def estado(
+        self
+    ):
+
+        if (
+            self.conectividade["pjl"]
+            and
+            self.conectividade["snmp"]
+        ):
+
+            return "EXCELENTE"
+
+
+        if (
+            self.conectividade["pjl"]
+            or
+            self.conectividade["snmp"]
+        ):
+
+            return "PARCIAL"
+
+
+        return "OFFLINE"
+
+
+    # ========================================================
+    # TOTAL DE SUPRIMENTOS
+    # ========================================================
+
+    def total_supplies(
+        self
+    ):
+
+        return len(
+            self.supplies
+        )
+
+
+    # ========================================================
+    # CONTADOR
+    # ========================================================
+
+    def contador(
+        self
+    ):
+
+        return self.identificacao.get(
+            "contador"
+        )
+
+
+    # ========================================================
+    # SERIAL
+    # ========================================================
+
+    def serial(
+        self
+    ):
+
+        return self.identificacao.get(
+            "serial"
+        )
+
+
+    # ========================================================
+    # MODELO
+    # ========================================================
+
+    def modelo(
+        self
+    ):
+
+        return self.identificacao.get(
+            "modelo"
+        )
+
+
+    # ========================================================
+    # REPRESENTAÇÃO
+    # ========================================================
+
+    def to_dict(
+        self
+    ):
 
         return {
 
             "ip":
                 self.ip,
 
-            "fabricante":
-                self.fabricante,
+            "nome":
+                self.nome,
 
-            "modelo":
-                self.modelo,
+            "identificacao":
+                self.identificacao,
 
-            "familia":
-                self.familia,
+            "conectividade":
+                self.conectividade,
 
-            "tipo":
-                self.tipo,
+            "supplies":
+                self.supplies,
 
-            "web":
-                self.web,
+            "estado":
+                self.estado(),
 
-            "raw":
-                self.raw,
-
-            "ipp":
-                self.ipp,
-
-            "snmp":
-                self.suporta_snmp,
-
-            "pjl":
-                self.suporta_pjl,
-
-            "integracao":
-                self.integracao,
-
-            "nivel_integracao":
-                self.nivel_integracao()
+            "total_supplies":
+                self.total_supplies()
 
         }
 
 
 # ============================================================
-# CARREGAR DISPOSITIVOS
+# FUNÇÃO DE CONVENIÊNCIA
 # ============================================================
 
-def carregar_dispositivos(
-    caminho=None
+async def coletar_device(
+    ip,
+    nome=None
 ):
 
-    if caminho is None:
+    device = PrinterDevice(
 
-        caminho = (
-            ARQUIVO_DISPOSITIVOS
-        )
+        ip=ip,
 
+        nome=nome
 
-    caminho = Path(
-        caminho
     )
 
 
-    if not caminho.exists():
-
-        raise FileNotFoundError(
-            f"Arquivo não encontrado: {caminho}"
-        )
+    await device.coletar()
 
 
-    with caminho.open(
-        "r",
-        encoding="utf-8"
-    ) as arq:
-
-        bruto = json.load(
-            arq
-        )
-
-
-    dispositivos = []
-
-
-    for dados in bruto:
-
-        dispositivos.append(
-            PrinterDevice(dados)
-        )
-
-
-    return dispositivos
+    return device
 
 
 # ============================================================
-# BUSCAR DISPOSITIVO POR IP
+# TESTE DIRETO
 # ============================================================
 
-def buscar_por_ip(
-    ip,
-    dispositivos=None
-):
+async def teste():
 
-    if dispositivos is None:
+    print("=" * 60)
 
-        dispositivos = (
-            carregar_dispositivos()
+    print(
+        "PRINTER ASSISTANT - TESTE DEVICE"
+    )
+
+    print("=" * 60)
+
+
+    print()
+
+    ip = input(
+        "Digite o IP da impressora: "
+    ).strip()
+
+
+    if not ip:
+
+        print(
+            "IP não informado."
         )
 
-
-    for dispositivo in dispositivos:
-
-        if dispositivo.ip == ip:
-
-            return dispositivo
+        return
 
 
-    return None
+    print()
+
+    print(
+        "Criando dispositivo..."
+    )
 
 
-# ============================================================
-# TESTE
-# ============================================================
-
-if __name__ == "__main__":
-
-    dispositivos = (
-        carregar_dispositivos()
+    device = PrinterDevice(
+        ip
     )
 
 
     print()
-    print("=" * 70)
+
     print(
-        "DISPOSITIVOS IDENTIFICADOS"
+        "Coletando dados..."
     )
-    print("=" * 70)
 
 
-    for dispositivo in dispositivos:
+    await device.coletar()
 
-        resumo = dispositivo.resumo()
 
+    print()
+
+    print("=" * 60)
+
+    print(
+        "DISPOSITIVO"
+    )
+
+    print("=" * 60)
+
+
+    print()
+
+    print(
+        "IP:",
+        device.ip
+    )
+
+
+    print(
+        "Fabricante:",
+        device.identificacao[
+            "fabricante"
+        ]
+    )
+
+
+    print(
+        "Modelo:",
+        device.identificacao[
+            "modelo"
+        ]
+    )
+
+
+    print(
+        "Família:",
+        device.identificacao[
+            "familia"
+        ]
+    )
+
+
+    print(
+        "Tipo:",
+        device.identificacao[
+            "tipo"
+        ]
+    )
+
+
+    print(
+        "Serial:",
+        device.identificacao[
+            "serial"
+        ]
+    )
+
+
+    print(
+        "Contador:",
+        device.identificacao[
+            "contador"
+        ]
+    )
+
+
+    print()
+
+    print(
+        "PJL:",
+        "ATIVO"
+        if device.conectividade[
+            "pjl"
+        ]
+        else
+        "INATIVO"
+    )
+
+
+    print(
+        "SNMP:",
+        "ATIVO"
+        if device.conectividade[
+            "snmp"
+        ]
+        else
+        "INATIVO"
+    )
+
+
+    print(
+        "Estado:",
+        device.estado()
+    )
+
+
+    print(
+        "Suprimentos:",
+        device.total_supplies()
+    )
+
+
+    print()
+
+    print("=" * 60)
+
+    print(
+        "SUPRIMENTOS"
+    )
+
+    print("=" * 60)
+
+
+    for numero, supply in enumerate(
+
+        device.supplies,
+
+        start=1
+
+    ):
 
         print()
 
         print(
-            f"IP             : "
-            f"{resumo['ip']}"
+            f"[{numero}]",
+            supply.get(
+                "nome",
+                "Desconhecido"
+            )
         )
 
-        print(
-            f"Fabricante     : "
-            f"{resumo['fabricante']}"
-        )
 
         print(
-            f"Modelo         : "
-            f"{resumo['modelo']}"
+            "    Nível:",
+            f'{supply.get("nivel", 0)}%'
         )
 
-        print(
-            f"Família        : "
-            f"{resumo['familia']}"
-        )
 
         print(
-            f"Tipo           : "
-            f"{resumo['tipo']}"
-        )
-
-        print(
-            f"WEB            : "
-            f"{resumo['web']}"
-        )
-
-        print(
-            f"RAW 9100       : "
-            f"{resumo['raw']}"
-        )
-
-        print(
-            f"IPP            : "
-            f"{resumo['ipp']}"
-        )
-
-        print(
-            f"SNMP           : "
-            f"{resumo['snmp']}"
-        )
-
-        print(
-            f"PJL            : "
-            f"{resumo['pjl']}"
-        )
-
-        print(
-            f"Integração     : "
-            f"{resumo['integracao']}%"
-        )
-
-        print(
-            f"Nível          : "
-            f"{resumo['nivel_integracao']}"
+            "    Status:",
+            supply.get(
+                "status",
+                "DESCONHECIDO"
+            )
         )
 
 
     print()
+
+    print("=" * 60)
+
     print(
-        f"Total: {len(dispositivos)}"
+        "TESTE CONCLUÍDO"
     )
+
+    print("=" * 60)
+
+
     print()
+
+
+# ============================================================
+# START
+# ============================================================
+
+if __name__ == "__main__":
+
+    asyncio.run(
+        teste()
+    )
