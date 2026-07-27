@@ -1,11 +1,11 @@
 {
     "ativo": {
         "criado_em": "27/07/2026 21:28:29",
-        "atualizado_em": "27/07/2026 21:28:35",
+        "atualizado_em": "27/07/2026 21:49:43",
         "identificacao": {
             "fabricante": "Lexmark",
-            "modelo": "MX611dhe",
-            "familia": "MX",
+            "modelo": "Lexmark MX611dhe",
+            "familia": "Lexmark",
             "tipo": "Multifuncional Laser Mono",
             "serial": "701644HH03ND3"
         },
@@ -13,9 +13,9 @@
             "ip": "192.168.14.134",
             "snmp": true,
             "pjl": true,
-            "web": true,
+            "web": false,
             "raw": true,
-            "ipp": true
+            "ipp": false
         },
         "historico_contador": [
             {
@@ -30,6 +30,34 @@
                 "ip": "192.168.14.134"
             }
         ],
-        "supplies": []
+        "supplies": [
+            {
+                "indice": "1",
+                "nome": "Toner preto",
+                "capacidade": 20000,
+                "restante": 16000,
+                "consumido": 4000,
+                "nivel": 80.0,
+                "status": "BOM"
+            },
+            {
+                "indice": "2",
+                "nome": "Unidade de imagem",
+                "capacidade": 60000,
+                "restante": 33600,
+                "consumido": 26400,
+                "nivel": 56.0,
+                "status": "ATENCAO"
+            },
+            {
+                "indice": "3",
+                "nome": "Kit manutenção",
+                "capacidade": 200000,
+                "restante": 62000,
+                "consumido": 138000,
+                "nivel": 31.0,
+                "status": "BAIXO"
+            }
+        ]
     }
 }

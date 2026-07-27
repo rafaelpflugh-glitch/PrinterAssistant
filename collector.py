@@ -30,6 +30,7 @@ def solicitar_ip():
     ).strip()
 
     if not ip:
+
         raise ValueError(
             "IP não informado."
         )
@@ -44,19 +45,26 @@ def solicitar_ip():
 def normalizar_identificacao(dados):
 
     if not dados:
+
         return {
 
-            "fabricante": "Desconhecido",
+            "fabricante":
+                "Desconhecido",
 
-            "modelo": "Desconhecido",
+            "modelo":
+                "Desconhecido",
 
-            "familia": "",
+            "familia":
+                "",
 
-            "tipo": "",
+            "tipo":
+                "",
 
-            "serial": "Desconhecido",
+            "serial":
+                "Desconhecido",
 
-            "contador": None
+            "contador":
+                None
 
         }
 
@@ -66,50 +74,85 @@ def normalizar_identificacao(dados):
         "Desconhecido"
     )
 
+
     serial = dados.get(
         "serial",
         "Desconhecido"
     )
+
 
     contador = dados.get(
         "contador"
     )
 
 
+    # --------------------------------------------------------
+    # FABRICANTE
+    # --------------------------------------------------------
+
     fabricante = "Desconhecido"
 
-    texto = str(modelo).lower()
+
+    texto = str(
+        modelo
+    ).lower()
 
 
     if "lexmark" in texto:
+
         fabricante = "Lexmark"
 
+
     elif "brother" in texto:
+
         fabricante = "Brother"
 
+
     elif "canon" in texto:
+
         fabricante = "Canon"
 
-    elif "hp" in texto or "hewlett" in texto:
+
+    elif (
+        "hp" in texto
+        or
+        "hewlett" in texto
+    ):
+
         fabricante = "HP"
 
 
+    # --------------------------------------------------------
+    # FAMÍLIA
+    # --------------------------------------------------------
+
     familia = ""
+
 
     if modelo != "Desconhecido":
 
-        partes = str(modelo).split()
+        partes = str(
+            modelo
+        ).split()
+
 
         if partes:
 
             familia = partes[0]
 
 
+    # --------------------------------------------------------
+    # TIPO
+    # --------------------------------------------------------
+
     tipo = ""
+
 
     if fabricante == "Lexmark":
 
-        tipo = "Impressora Lexmark"
+        tipo = (
+            "Impressora Lexmark"
+        )
 
 
         modelo_lower = str(
@@ -131,19 +174,46 @@ def normalizar_identificacao(dados):
             )
 
 
+    elif fabricante == "Brother":
+
+        tipo = (
+            "Impressora Brother"
+        )
+
+
+    elif fabricante == "Canon":
+
+        tipo = (
+            "Impressora Canon"
+        )
+
+
+    elif fabricante == "HP":
+
+        tipo = (
+            "Impressora HP"
+        )
+
+
     return {
 
-        "fabricante": fabricante,
+        "fabricante":
+            fabricante,
 
-        "modelo": modelo,
+        "modelo":
+            modelo,
 
-        "familia": familia,
+        "familia":
+            familia,
 
-        "tipo": tipo,
+        "tipo":
+            tipo,
 
-        "serial": serial,
+        "serial":
+            serial,
 
-        "contador": contador
+        "contador":
+            contador
 
     }
 
@@ -153,24 +223,34 @@ def normalizar_identificacao(dados):
 # ============================================================
 
 def criar_conectividade(
+
     ip,
+
     pjl_ok,
+
     snmp_ok
+
 ):
 
     return {
 
-        "ip": ip,
+        "ip":
+            ip,
 
-        "snmp": bool(snmp_ok),
+        "snmp":
+            bool(snmp_ok),
 
-        "pjl": bool(pjl_ok),
+        "pjl":
+            bool(pjl_ok),
 
-        "web": False,
+        "web":
+            False,
 
-        "raw": bool(pjl_ok),
+        "raw":
+            bool(pjl_ok),
 
-        "ipp": False
+        "ipp":
+            False
 
     }
 
@@ -180,10 +260,15 @@ def criar_conectividade(
 # ============================================================
 
 def salvar_snapshot(
+
     ip,
+
     identificacao,
+
     supplies,
+
     conectividade
+
 ):
 
     dados = {
@@ -218,6 +303,7 @@ def salvar_snapshot(
 
     ) as arquivo:
 
+
         json.dump(
 
             dados,
@@ -239,9 +325,13 @@ def salvar_snapshot(
 # ============================================================
 
 def exibir_resumo(
+
     identificacao,
+
     supplies,
+
     conectividade
+
 ):
 
     print()
@@ -262,20 +352,24 @@ def exibir_resumo(
         conectividade["ip"]
     )
 
+
     print(
         "Fabricante:",
         identificacao["fabricante"]
     )
+
 
     print(
         "Modelo:",
         identificacao["modelo"]
     )
 
+
     print(
         "Serial:",
         identificacao["serial"]
     )
+
 
     print(
         "Contador:",
@@ -291,6 +385,7 @@ def exibir_resumo(
         if conectividade["snmp"]
         else "INATIVO"
     )
+
 
     print(
         "PJL:",
@@ -320,52 +415,81 @@ def exibir_resumo(
 
 
     for numero, item in enumerate(
+
         supplies,
+
         start=1
+
     ):
 
         print()
 
         print(
+
             f"[{numero}]",
+
             item.get(
                 "nome",
                 "Desconhecido"
             )
+
         )
 
+
         print(
+
             "    Capacidade:",
+
             item.get(
                 "capacidade"
             )
+
         )
 
+
         print(
+
             "    Restante:",
+
             item.get(
                 "restante"
             )
+
         )
 
+
         print(
+
             "    Consumido:",
+
             item.get(
                 "consumido"
             )
+
         )
 
+
         print(
+
             "    Nível:",
+
             f'{item.get("nivel", 0)}%'
+
         )
 
+
         print(
+
             "    Status:",
+
             item.get(
+
                 "status",
+
                 "DESCONHECIDO"
+
             )
+
         )
 
 
@@ -408,9 +532,9 @@ async def main():
     )
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # PJL
-    # --------------------------------------------------------
+    # ========================================================
 
     print()
 
@@ -421,20 +545,35 @@ async def main():
 
     try:
 
+        # IMPORTANTE:
+        #
+        # coletar_identificacao()
+        # é uma função síncrona.
+        #
+        # NÃO usar await aqui.
+        #
+
         identificacao_bruta = (
-            await coletar_identificacao(ip)
+            coletar_identificacao(
+                ip
+            )
         )
+
 
         pjl_ok = bool(
             identificacao_bruta
         )
 
+
     except Exception as erro:
+
+        print()
 
         print(
             "Aviso PJL:",
             erro
         )
+
 
         identificacao_bruta = {}
 
@@ -448,9 +587,9 @@ async def main():
     )
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # SNMP
-    # --------------------------------------------------------
+    # ========================================================
 
     print()
 
@@ -461,29 +600,36 @@ async def main():
 
     try:
 
-        supplies = await coletar_supplies(
-            ip
+        supplies = (
+            await coletar_supplies(
+                ip
+            )
         )
+
 
         snmp_ok = bool(
             supplies
         )
 
+
     except Exception as erro:
+
+        print()
 
         print(
             "Aviso SNMP:",
             erro
         )
 
+
         supplies = []
 
         snmp_ok = False
 
 
-    # --------------------------------------------------------
-    # Conectividade
-    # --------------------------------------------------------
+    # ========================================================
+    # CONECTIVIDADE
+    # ========================================================
 
     conectividade = criar_conectividade(
 
@@ -496,11 +642,11 @@ async def main():
     )
 
 
-    # --------------------------------------------------------
-    # Snapshot
-    # --------------------------------------------------------
+    # ========================================================
+    # SNAPSHOT
+    # ========================================================
 
-    dados_snapshot = salvar_snapshot(
+    salvar_snapshot(
 
         ip,
 
@@ -513,19 +659,26 @@ async def main():
     )
 
 
-    # --------------------------------------------------------
-    # Ativo
-    # --------------------------------------------------------
+    # ========================================================
+    # ATIVO
+    # ========================================================
 
     ativo_salvo = False
 
 
-    if identificacao.get(
+    serial = identificacao.get(
         "serial"
-    ) not in (
+    )
+
+
+    if serial not in (
+
         None,
+
         "",
+
         "Desconhecido"
+
     ):
 
         try:
@@ -540,7 +693,9 @@ async def main():
 
             )
 
+
             ativo_salvo = True
+
 
         except Exception as erro:
 
@@ -552,9 +707,9 @@ async def main():
             )
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # RESUMO
-    # --------------------------------------------------------
+    # ========================================================
 
     exibir_resumo(
 
@@ -566,6 +721,10 @@ async def main():
 
     )
 
+
+    # ========================================================
+    # FINAL
+    # ========================================================
 
     print()
 
@@ -583,6 +742,7 @@ async def main():
     print(
         "Snapshot salvo em:"
     )
+
 
     print(
         PRINTER_DATA
