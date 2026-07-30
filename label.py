@@ -1,6 +1,10 @@
 import socket
 from pathlib import Path
-import json
+
+from core.context import (
+    obter_impressora_ativa,
+    NoActivePrinterError
+)
 
 
 # ============================================================
@@ -10,48 +14,49 @@ import json
 # Impressão de etiqueta de ativo em etiquetadora TSC
 # utilizando TSPL diretamente pela rede.
 #
-# Etiqueta:
-#   100 x 150 mm
+# A impressora em atendimento NÃO é informada manualmente.
 #
-# Conteúdo:
-#   fabricante + modelo
-#   número de série
-#   código de barras Code 128
-#   contador de páginas
+# Ela vem da:
+#
+#     session.json
+#
+# A TSC é outro equipamento:
+#
+#     TSC -> 192.168.14.151:9100
 #
 # ============================================================
 
 
 # ============================================================
-# CONFIGURAÇÃO
+# TSC
 # ============================================================
 
 LABEL_PRINTER_IP = "192.168.14.151"
 
 LABEL_PRINTER_PORT = 9100
 
-# Dimensões físicas da etiqueta
+
+# ============================================================
+# ETIQUETA
+# ============================================================
+
 LABEL_WIDTH_MM = 100
+
 LABEL_HEIGHT_MM = 150
-
-# Resolução padrão da TSC
-DPI = 203
-
-# Arquivo produzido pelo collector.py
-PRINTER_DATA = (
-    Path(__file__).resolve().parent
-    / "printer_data.json"
-)
 
 
 # ============================================================
-# CONVERSÃO MM -> DOTS
+# TSC 203 DPI
+# ============================================================
+
+DPI = 203
+
+
+# ============================================================
+# CONVERSÃO
 # ============================================================
 
 def mm_para_dots(mm):
-    """
-    Converte milímetros para pontos da impressora.
-    """
 
     return int(
         mm * DPI / 25.4
@@ -59,23 +64,32 @@ def mm_para_dots(mm):
 
 
 # ============================================================
-# ESCAPAR TEXTO TSPL
+# TEXTO
 # ============================================================
 
 def limpar_texto(texto):
 
     if texto is None:
+
         return ""
 
-    texto = str(texto)
 
-    # Evita problemas com aspas
+    texto = str(
+        texto
+    )
+
+
     texto = texto.replace(
         '"',
         "'"
     )
 
-    # TSPL trabalha melhor com ASCII
+
+    # --------------------------------------------------------
+    # TSPL / impressoras térmicas costumam trabalhar melhor
+    # com ASCII simples.
+    # --------------------------------------------------------
+
     texto = texto.encode(
         "ascii",
         errors="replace"
@@ -83,17 +97,20 @@ def limpar_texto(texto):
         "ascii"
     )
 
+
     return texto
 
 
 # ============================================================
-# FORMATAR NÚMERO
+# NÚMEROS
 # ============================================================
 
 def formatar_numero(numero):
 
     if numero is None:
+
         return "N/A"
+
 
     try:
 
@@ -102,71 +119,16 @@ def formatar_numero(numero):
             "."
         )
 
-    except:
 
-        return str(numero)
+    except Exception:
 
-
-# ============================================================
-# CARREGAR DADOS
-# ============================================================
-
-def carregar_dados():
-
-    if not PRINTER_DATA.exists():
-
-        raise FileNotFoundError(
-            f"Arquivo não encontrado:\n{PRINTER_DATA}"
+        return str(
+            numero
         )
 
 
-    with open(
-        PRINTER_DATA,
-        "r",
-        encoding="utf-8"
-    ) as arquivo:
-
-        dados = json.load(
-            arquivo
-        )
-
-
-    identificacao = dados.get(
-        "identificacao",
-        {}
-    )
-
-
-    return {
-
-        "fabricante":
-            identificacao.get(
-                "fabricante",
-                "Desconhecido"
-            ),
-
-        "modelo":
-            identificacao.get(
-                "modelo",
-                "Desconhecido"
-            ),
-
-        "serial":
-            identificacao.get(
-                "serial",
-                "Desconhecido"
-            ),
-
-        "contador":
-            identificacao.get(
-                "contador"
-            )
-
-    }
-
-
 # ============================================================
-# TESTAR CONEXÃO
+# CONEXÃO TSC
 # ============================================================
 
 def testar_conexao():
@@ -201,6 +163,8 @@ def testar_conexao():
 
     except Exception as erro:
 
+        print()
+
         print(
             "ERRO ao conectar na TSC:"
         )
@@ -219,29 +183,37 @@ def testar_conexao():
 def gerar_tspl(dados):
 
     fabricante = limpar_texto(
-        dados["fabricante"]
+        dados.get(
+            "fabricante"
+        )
     )
+
 
     modelo = limpar_texto(
-        dados["modelo"]
+        dados.get(
+            "modelo"
+        )
     )
+
 
     serial = limpar_texto(
-        dados["serial"]
+        dados.get(
+            "serial"
+        )
     )
+
 
     contador = formatar_numero(
-        dados["contador"]
+        dados.get(
+            "contador"
+        )
     )
 
-
-    # --------------------------------------------------------
-    # Dimensões em dots
-    # --------------------------------------------------------
 
     largura = mm_para_dots(
         LABEL_WIDTH_MM
     )
+
 
     altura = mm_para_dots(
         LABEL_HEIGHT_MM
@@ -249,85 +221,52 @@ def gerar_tspl(dados):
 
 
     # --------------------------------------------------------
-    # Coordenadas
-    #
-    # Etiqueta em pé:
-    #
-    # 100 mm largura
-    # 150 mm altura
-    #
+    # Margens
     # --------------------------------------------------------
 
-    margem_x = mm_para_dots(5)
-
-    x = margem_x
+    margem_x = mm_para_dots(
+        6
+    )
 
 
     # --------------------------------------------------------
     # Cabeçalho
     # --------------------------------------------------------
 
-    y_fabricante = mm_para_dots(8)
-
-    y_modelo = mm_para_dots(22)
+    tspl = []
 
 
-    # --------------------------------------------------------
-    # Serial
-    # --------------------------------------------------------
-
-    y_serial_titulo = mm_para_dots(45)
-
-    y_serial = mm_para_dots(54)
-
-
-    # --------------------------------------------------------
-    # Código de barras
-    # --------------------------------------------------------
-
-    y_barcode = mm_para_dots(70)
-
-    barcode_altura = mm_para_dots(28)
-
-
-    # --------------------------------------------------------
-    # Contador
-    # --------------------------------------------------------
-
-    y_paginas_titulo = mm_para_dots(112)
-
-    y_paginas = mm_para_dots(122)
-
-
-    # ========================================================
-    # TSPL
-    # ========================================================
-
-    comandos = []
-
-
-    # --------------------------------------------------------
-    # Configuração
-    # --------------------------------------------------------
-
-    comandos.append(
+    tspl.append(
         f"SIZE {LABEL_WIDTH_MM} mm,{LABEL_HEIGHT_MM} mm"
     )
 
-    comandos.append(
-        "GAP 3 mm,0"
+
+    tspl.append(
+        "GAP 3 mm,0 mm"
     )
 
-    comandos.append(
+
+    tspl.append(
         "DIRECTION 1"
     )
 
-    comandos.append(
+
+    tspl.append(
         "REFERENCE 0,0"
     )
 
-    comandos.append(
+
+    tspl.append(
         "CLS"
+    )
+
+
+    # ========================================================
+    # TÍTULO
+    # ========================================================
+
+    tspl.append(
+        'TEXT 40,40,"3",0,1,1,"PRINTER ASSISTANT"'
     )
 
 
@@ -335,11 +274,8 @@ def gerar_tspl(dados):
     # FABRICANTE
     # ========================================================
 
-    comandos.append(
-
-        f'TEXT {x},{y_fabricante},'
-        f'"3",0,1,1,"{fabricante}"'
-
+    tspl.append(
+        f'TEXT 40,100,"3",0,1,1,"{fabricante}"'
     )
 
 
@@ -347,11 +283,17 @@ def gerar_tspl(dados):
     # MODELO
     # ========================================================
 
-    comandos.append(
+    tspl.append(
+        f'TEXT 40,150,"3",0,1,1,"{modelo}"'
+    )
 
-        f'TEXT {x},{y_modelo},'
-        f'"3",0,1,1,"{modelo}"'
 
+    # ========================================================
+    # LINHA
+    # ========================================================
+
+    tspl.append(
+        f"BAR 40,210,{largura - 80},3"
     )
 
 
@@ -359,102 +301,89 @@ def gerar_tspl(dados):
     # SERIAL
     # ========================================================
 
-    comandos.append(
-
-        f'TEXT {x},{y_serial_titulo},'
-        f'"3",0,1,1,"SERIAL"'
-
+    tspl.append(
+        'TEXT 40,250,"2",0,1,1,"SERIAL"'
     )
 
 
-    comandos.append(
-
-        f'TEXT {x},{y_serial},'
-        f'"3",0,2,2,"{serial}"'
-
+    tspl.append(
+        f'TEXT 40,290,"3",0,1,1,"{serial}"'
     )
 
 
     # ========================================================
     # CÓDIGO DE BARRAS
     # ========================================================
-    #
-    # CODE128
-    #
-    # 128 = Code 128
-    #
-    # rotation = 0
-    # narrow = 2
-    # wide = 2
-    #
-    # ========================================================
 
-    comandos.append(
+    if serial:
 
-        f'BARCODE {x},{y_barcode},'
-        f'"128",'
-        f'{barcode_altura},'
-        f'1,0,2,2,'
-        f'"{serial}"'
-
-    )
+        tspl.append(
+            f'BARCODE 40,350,"128",100,1,0,3,3,"{serial}"'
+        )
 
 
     # ========================================================
     # CONTADOR
     # ========================================================
 
-    comandos.append(
-
-        f'TEXT {x},{y_paginas_titulo},'
-        f'"3",0,1,1,"PAGINAS"'
-
+    tspl.append(
+        'TEXT 40,490,"2",0,1,1,"CONTADOR"'
     )
 
 
-    comandos.append(
-
-        f'TEXT {x},{y_paginas},'
-        f'"3",0,3,3,"{contador}"'
-
+    tspl.append(
+        f'TEXT 40,530,"3",0,1,1,"{contador}"'
     )
 
 
     # ========================================================
-    # IMPRIMIR
+    # RODAPÉ
     # ========================================================
 
-    comandos.append(
+    tspl.append(
+        f"BAR 40,610,{largura - 80},3"
+    )
+
+
+    tspl.append(
+        'TEXT 40,650,"2",0,1,1,"ATIVO DE TI"'
+    )
+
+
+    tspl.append(
+        'TEXT 40,690,"2",0,1,1,"PRINTER ASSISTANT"'
+    )
+
+
+    # ========================================================
+    # IMPRESSÃO
+    # ========================================================
+
+    tspl.append(
         "PRINT 1,1"
     )
 
 
-    comandos.append(
-        "END"
+    tspl.append(
+        ""
     )
 
 
     return "\r\n".join(
-        comandos
-    ) + "\r\n"
+        tspl
+    )
 
 
 # ============================================================
 # ENVIAR PARA TSC
 # ============================================================
 
-def imprimir(tspl):
+def imprimir_tspl(tspl):
 
     print()
 
     print(
-        "Enviando etiqueta para a TSC..."
-    )
-
-
-    dados = tspl.encode(
-        "ascii",
-        errors="replace"
+        "Enviando etiqueta para TSC..."
     )
 
 
@@ -472,7 +401,10 @@ def imprimir(tspl):
         ) as sock:
 
             sock.sendall(
-                dados
+                tspl.encode(
+                    "ascii",
+                    errors="replace"
+                )
             )
 
 
@@ -485,8 +417,10 @@ def imprimir(tspl):
 
     except Exception as erro:
 
+        print()
+
         print(
-            "ERRO durante a impressão:"
+            "ERRO ao imprimir:"
         )
 
         print(
@@ -497,7 +431,7 @@ def imprimir(tspl):
 
 
 # ============================================================
-# MOSTRAR PRÉVIA
+# MOSTRAR DADOS
 # ============================================================
 
 def mostrar_dados(dados):
@@ -507,7 +441,7 @@ def mostrar_dados(dados):
     print("=" * 60)
 
     print(
-        "DADOS DA ETIQUETA"
+        "IMPRESSORA ATIVA"
     )
 
     print("=" * 60)
@@ -516,42 +450,44 @@ def mostrar_dados(dados):
     print()
 
     print(
-        "Fabricante:",
-        dados["fabricante"]
-    )
-
-    print(
-        "Modelo:",
-        dados["modelo"]
-    )
-
-    print(
-        "Serial:",
-        dados["serial"]
-    )
-
-    print(
-        "Páginas:",
-        formatar_numero(
-            dados["contador"]
+        "IP:",
+        dados.get(
+            "ip"
         )
     )
 
-    print()
 
     print(
-        "Etiquetadora:",
-        LABEL_PRINTER_IP
+        "Fabricante:",
+        dados.get(
+            "fabricante"
+        )
     )
 
-    print(
-        "Tamanho:",
-        f"{LABEL_WIDTH_MM} x {LABEL_HEIGHT_MM} mm"
-    )
 
     print(
-        "DPI:",
-        DPI
+        "Modelo:",
+        dados.get(
+            "modelo"
+        )
+    )
+
+
+    print(
+        "Serial:",
+        dados.get(
+            "serial"
+        )
+    )
+
+
+    print(
+        "Contador:",
+        formatar_numero(
+            dados.get(
+                "contador"
+            )
+        )
     )
 
 
@@ -566,21 +502,29 @@ def main():
     print("=" * 60)
 
     print(
-        "PRINTER ASSISTANT - ETIQUETA DE ATIVO"
+        "PRINTER ASSISTANT - ETIQUETA"
     )
 
     print("=" * 60)
 
 
-    # --------------------------------------------------------
-    # Dados
-    # --------------------------------------------------------
+    # ========================================================
+    # CONTEXTO
+    # ========================================================
+
+    print()
+
+    print(
+        "Carregando impressora ativa..."
+    )
+
 
     try:
 
-        dados = carregar_dados()
+        dados = obter_impressora_ativa()
 
-    except Exception as erro:
+
+    except NoActivePrinterError as erro:
 
         print()
 
@@ -592,35 +536,33 @@ def main():
             erro
         )
 
+        print()
+
+        print(
+            "Primeiro execute o scanner e selecione"
+        )
+
+        print(
+            "uma impressora para criar a sessão."
+        )
+
+        print()
+
         return
 
+
+    # ========================================================
+    # MOSTRAR
+    # ========================================================
 
     mostrar_dados(
         dados
     )
 
 
-    # --------------------------------------------------------
-    # Conexão
-    # --------------------------------------------------------
-
-    if not testar_conexao():
-
-        return
-
-
-    # --------------------------------------------------------
-    # Gerar TSPL
-    # --------------------------------------------------------
-
-    tspl = gerar_tspl(
-        dados
-    )
-
-
-    # --------------------------------------------------------
-    # Imprimir
-    # --------------------------------------------------------
+    # ========================================================
+    # CONFIRMAÇÃO
+    # ========================================================
 
     print()
 
@@ -637,10 +579,34 @@ def main():
             "Impressão cancelada."
         )
 
+        print()
+
         return
 
 
-    imprimir(
+    # ========================================================
+    # TSC
+    # ========================================================
+
+    if not testar_conexao():
+
+        return
+
+
+    # ========================================================
+    # GERAR
+    # ========================================================
+
+    tspl = gerar_tspl(
+        dados
+    )
+
+
+    # ========================================================
+    # IMPRIMIR
+    # ========================================================
+
+    imprimir_tspl(
         tspl
     )
 
@@ -650,10 +616,12 @@ def main():
     print("=" * 60)
 
     print(
-        "FIM"
+        "OPERAÇÃO CONCLUÍDA"
     )
 
     print("=" * 60)
+
+    print()
 
 
 # ============================================================

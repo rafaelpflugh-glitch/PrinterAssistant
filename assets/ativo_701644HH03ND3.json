@@ -1,11 +1,11 @@
 {
     "ativo": {
         "criado_em": "27/07/2026 21:28:29",
-        "atualizado_em": "27/07/2026 21:49:43",
+        "atualizado_em": "27/07/2026 23:34:27",
         "identificacao": {
             "fabricante": "Lexmark",
             "modelo": "Lexmark MX611dhe",
-            "familia": "Lexmark",
+            "familia": "MX",
             "tipo": "Multifuncional Laser Mono",
             "serial": "701644HH03ND3"
         },
@@ -22,6 +22,11 @@
                 "data": "27/07/2026 21:28:29",
                 "contador": 137954,
                 "diferenca": null
+            },
+            {
+                "data": "27/07/2026 23:34:27",
+                "contador": 137958,
+                "diferenca": 4
             }
         ],
         "historico_ip": [
