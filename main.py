@@ -1,10 +1,185 @@
 import asyncio
 import json
 
-from modules.discovery import descobrir, coletar_snmp
+from modules.discovery import descobrir
+from modules.inventory import inventariar_lista
 
 
-def menu(dispositivos):
+
+# ============================================================
+# MOSTRAR EQUIPAMENTO
+# ============================================================
+
+def mostrar_equipamento(device):
+
+
+    dados = device.to_dict()
+
+
+    ident = dados["identificacao"]
+
+    conexao = dados["conectividade"]
+
+    supplies = dados["supplies"]
+
+
+
+    print()
+
+    print("=" * 70)
+    print("EQUIPAMENTO SELECIONADO")
+    print("=" * 70)
+
+
+    print()
+
+    print(
+        f"Fabricante : {ident.get('fabricante')}"
+    )
+
+    print(
+        f"Modelo     : {ident.get('modelo')}"
+    )
+
+    print(
+        f"Família    : {ident.get('familia')}"
+    )
+
+    print(
+        f"Tipo       : {ident.get('tipo')}"
+    )
+
+    print(
+        f"Serial     : {ident.get('serial')}"
+    )
+
+
+    contador = ident.get(
+        "contador"
+    )
+
+
+    if contador:
+
+        contador = (
+            f"{contador:,}"
+            .replace(
+                ",",
+                "."
+            )
+        )
+
+
+    else:
+
+        contador = "Desconhecido"
+
+
+    print(
+        f"Contador   : {contador}"
+    )
+
+
+    print()
+
+    print(
+        "CONECTIVIDADE"
+    )
+
+    print("-"*70)
+
+
+    for chave, valor in conexao.items():
+
+        if isinstance(valor,bool):
+
+            valor = (
+                "ATIVO"
+                if valor
+                else
+                "INATIVO"
+            )
+
+
+        print(
+            f"{chave.upper():12}: {valor}"
+        )
+
+
+
+    print()
+
+    print(
+        "SUPRIMENTOS"
+    )
+
+    print("-"*70)
+
+
+
+    if not supplies:
+
+
+        print(
+            "Nenhum suprimento."
+        )
+
+
+    for s in supplies:
+
+
+        print()
+
+        print(
+            s["nome"]
+        )
+
+
+        print(
+            "  Capacidade:",
+            s["capacidade"]
+        )
+
+        print(
+            "  Restante:",
+            s["restante"]
+        )
+
+        print(
+            "  Nível:",
+            s["nivel"],
+            "%"
+        )
+
+
+        print(
+            "  Status:",
+            s["status"]
+        )
+
+
+
+    print()
+
+    print(
+        "Estado:",
+        dados["estado"]
+    )
+
+
+    print()
+
+    print("="*70)
+
+
+
+
+# ============================================================
+# MENU
+# ============================================================
+
+def menu(lista):
+
 
     print()
 
@@ -13,35 +188,49 @@ def menu(dispositivos):
     print("="*70)
 
 
-    for i,d in enumerate(dispositivos,1):
 
-        print()
+    for i,device in enumerate(lista,1):
+
 
         print(
-            f"[{i}] {d.modelo()} - {d.ip}"
+
+            f"[{i}] "
+            f"{device.modelo()} "
+            f"- {device.ip}"
+
         )
+
 
 
     print()
 
-    escolha = input(
+
+    escolha=input(
         "Escolha: "
     )
 
 
     try:
 
-        return dispositivos[
+        return lista[
             int(escolha)-1
         ]
 
+
     except:
+
 
         return None
 
 
 
+
+# ============================================================
+# MAIN
+# ============================================================
+
 async def main():
+
 
     print()
 
@@ -50,24 +239,28 @@ async def main():
     )
 
 
+
     impressoras = await descobrir(
         "192.168.14"
     )
 
 
+
     if not impressoras:
 
+
         print(
-            "Nenhuma encontrada."
+            "Nenhuma impressora encontrada."
         )
 
         return
 
 
 
-    await coletar_snmp(
-        impressoras
-    )
+    await inventariar_lista(
+    impressoras
+)
+
 
 
     selecionada = menu(
@@ -75,48 +268,65 @@ async def main():
     )
 
 
-    if selecionada:
 
-        dados = selecionada.to_dict()
+    if not selecionada:
 
-
-        with open(
-            "selected_printer.json",
-            "w",
-            encoding="utf-8"
-        ) as f:
-
-            json.dump(
-                dados,
-                f,
-                indent=4,
-                ensure_ascii=False
-            )
-
-
-        print()
 
         print(
-            "Selecionada:"
+            "Cancelado."
         )
 
-        print(
-            json.dumps(
-                dados,
-                indent=4,
-                ensure_ascii=False
-            )
+        return
+
+
+
+    mostrar_equipamento(
+        selecionada
+    )
+
+
+
+    dados = selecionada.to_dict()
+
+
+
+    with open(
+
+        "selected_printer.json",
+
+        "w",
+
+        encoding="utf-8"
+
+    ) as f:
+
+
+        json.dump(
+
+            dados,
+
+            f,
+
+            indent=4,
+
+            ensure_ascii=False
+
         )
 
 
-        print()
+    print()
 
-        print(
-            "Salvo selected_printer.json"
-        )
+    print(
+        "Salvo selected_printer.json"
+    )
 
 
 
-if __name__ == "__main__":
 
-    asyncio.run(main())
+
+if __name__=="__main__":
+
+
+    asyncio.run(
+        main()
+    )

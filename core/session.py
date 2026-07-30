@@ -708,7 +708,80 @@ def teste():
 
     print()
 
+    # ========================================================
+    # EXIBIR SESSÃO
+    # ========================================================
 
+    def mostrar(self):
+
+        if not self.existe():
+
+            print(
+                "Nenhuma impressora ativa."
+            )
+
+            return
+
+
+        print()
+
+        print("="*70)
+        print("IMPRESSORA ATUAL")
+        print("="*70)
+
+        print()
+
+        print(
+            "Fabricante:",
+            self.fabricante()
+        )
+
+        print(
+            "Modelo:",
+            self.modelo()
+        )
+
+        print(
+            "Serial:",
+            self.serial()
+        )
+
+        contador = self.contador()
+
+
+        if contador:
+
+            contador = (
+                f"{contador:,}"
+                .replace(",", ".")
+            )
+
+
+        print(
+            "Contador:",
+            contador
+        )
+
+        print(
+            "IP:",
+            self.ip
+        )
+
+        print(
+            "Estado:",
+            self.estado
+        )
+
+
+        print()
+
+        print(
+            "Suprimentos:",
+            self.total_supplies
+        )
+
+
+        print("="*70)
 # ============================================================
 # START
 # ============================================================

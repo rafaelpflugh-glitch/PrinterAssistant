@@ -4,92 +4,170 @@ from tools.network import scan_rede
 from core.device import PrinterDevice
 
 
+TIMEOUT_PJL = 15
+
+
+# ============================================================
+# DISCOVERY
+# ============================================================
+
 async def descobrir(base):
 
-    print()
-    print("="*70)
-    print("DISCOVERY - PRINTER ASSISTANT")
-    print("="*70)
 
     print()
-    print("Escaneando rede...")
+
+    print("=" * 70)
+    print("DISCOVERY - PRINTER ASSISTANT")
+    print("=" * 70)
+
+    print()
+
+    print(
+        "Escaneando rede..."
+    )
+
 
     ips = scan_rede(base)
-
-    print()
-    print(f"{len(ips)} hosts ativos encontrados.")
-
-    candidatos = []
-
-    print()
-    print("Testando PJL...")
-
-    for ip in ips:
-
-        device = PrinterDevice(ip)
-
-        try:
-
-            await asyncio.to_thread(
-                device.coletar_pjl
-            )
-
-        except Exception:
-
-            continue
-
-
-        modelo = device.identificacao.get(
-            "modelo",
-            "Desconhecido"
-        )
-
-
-        serial = device.identificacao.get(
-            "serial",
-            "Desconhecido"
-        )
-
-
-        if (
-            modelo != "Desconhecido"
-            or
-            serial != "Desconhecido"
-        ):
-
-            candidatos.append(device)
 
 
     print()
 
     print(
-        f"{len(candidatos)} impressora(s) encontrada(s)."
+        f"{len(ips)} hosts ativos encontrados."
     )
 
 
-    return candidatos
+    encontrados = []
 
-
-
-async def coletar_snmp(dispositivos):
 
     print()
-    print("Consultando SNMP...")
+
+    print(
+        "Testando PJL..."
+    )
 
 
-    for device in dispositivos:
+    tarefas = []
 
-        try:
 
-            await asyncio.to_thread(
-                device.coletar_snmp
+    for ip in ips:
+
+        tarefas.append(
+            testar_pjl(ip)
+        )
+
+
+    resultados = await asyncio.gather(
+        *tarefas
+    )
+
+
+    for device in resultados:
+
+        if device:
+
+            encontrados.append(
+                device
             )
 
-        except Exception as erro:
 
-            print(
-                f"SNMP falhou {device.ip}: {erro}"
-            )
+    print()
+
+    print(
+        f"{len(encontrados)} impressora(s) encontrada(s)."
+    )
 
 
-    return dispositivos
+    return encontrados
+
+
+
+# ============================================================
+# TESTE PJL
+# ============================================================
+
+async def testar_pjl(ip):
+
+
+    device = PrinterDevice(
+        ip
+    )
+
+
+    try:
+
+
+        await asyncio.wait_for(
+
+            asyncio.to_thread(
+                device.coletar_pjl
+            ),
+
+            timeout=TIMEOUT_PJL
+
+        )
+
+
+    except asyncio.TimeoutError:
+
+
+        print(
+            f"[PJL TIMEOUT] {ip}"
+        )
+
+        return None
+
+
+
+    except Exception as erro:
+
+
+        print(
+            f"[PJL ERRO] {ip}: {erro}"
+        )
+
+        return None
+
+
+
+    ident = device.identificacao
+
+
+    modelo = ident.get(
+        "modelo",
+        "Desconhecido"
+    )
+
+
+    serial = ident.get(
+        "serial",
+        "Desconhecido"
+    )
+
+
+    fabricante = ident.get(
+        "fabricante",
+        "Desconhecido"
+    )
+
+
+    if (
+
+        modelo != "Desconhecido"
+
+        or
+
+        serial != "Desconhecido"
+
+        or
+
+        fabricante != "Desconhecido"
+
+    ):
+
+
+        return device
+
+
+
+    return None
