@@ -1,66 +1,12 @@
-import json
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-ARQUIVO = BASE_DIR / "printers_found.json"
+from core.device import PrinterDevice
 
 
-def salvar(dispositivos):
+async def inventariar(device: PrinterDevice):
 
-    dados = []
+    print()
 
-    for device in dispositivos:
+    print(f"Inventariando {device.ip}")
 
-        dados.append({
+    await device.coletar_snmp()
 
-            "ip": device.ip,
-
-            "identificacao": device.identificacao,
-
-            "estado": device.estado(),
-
-            "conectividade": device.conectividade,
-
-            "total_supplies": device.total_supplies()
-
-        })
-
-    with open(
-
-        ARQUIVO,
-
-        "w",
-
-        encoding="utf-8"
-
-    ) as f:
-
-        json.dump(
-
-            dados,
-
-            f,
-
-            indent=4,
-
-            ensure_ascii=False
-
-        )
-
-
-def carregar():
-
-    if not ARQUIVO.exists():
-
-        return []
-
-    with open(
-
-        ARQUIVO,
-
-        encoding="utf-8"
-
-    ) as f:
-
-        return json.load(f)
+    return device

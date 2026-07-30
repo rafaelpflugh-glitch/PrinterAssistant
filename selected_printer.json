@@ -1,0 +1,23 @@
+{
+    "ip": "192.168.14.134",
+    "nome": null,
+    "identificacao": {
+        "fabricante": "Lexmark",
+        "modelo": "Lexmark MX611dhe",
+        "familia": "MX",
+        "tipo": "Multifuncional Laser Mono",
+        "serial": "701644HH03ND3",
+        "contador": 137965
+    },
+    "conectividade": {
+        "ip": "192.168.14.134",
+        "snmp": false,
+        "pjl": true,
+        "web": false,
+        "raw": true,
+        "ipp": false
+    },
+    "supplies": [],
+    "estado": "PARCIAL",
+    "total_supplies": 0
+}
