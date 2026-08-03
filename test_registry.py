@@ -1,19 +1,20 @@
-from core.build_registry import build_registry
+from core.registry import Registry
+from tools.pjl_tool import PJLTool
+from tools.reset import ResetTool
+from tools.firmware import FirmwareTool
 
-registry = build_registry()
 
-print()
+registry = Registry()
 
-print("TOOLS INSTALADAS")
 
-print("----------------")
+registry.register(PJLTool())
+registry.register(ResetTool())
+registry.register(FirmwareTool())
 
-for categoria, lista in registry.categories().items():
 
-    print()
+print(
+    registry.summary()
+)
 
-    print(categoria)
 
-    for tool in lista:
-
-        print("  •", tool.name)
+registry.list_everything()

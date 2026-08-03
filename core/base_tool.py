@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 class BaseTool(ABC):
 
+
     name = ""
 
     description = ""
@@ -14,10 +15,36 @@ class BaseTool(ABC):
     actions = {}
 
 
+
+    def __init__(self):
+
+        if not self.name:
+
+            raise ValueError(
+                "Tool precisa definir atributo 'name'"
+            )
+
+
+
+    # =====================================================
+    # EXECUÇÃO
+    # =====================================================
+
     @abstractmethod
-    def execute(self, session, action=None, **kwargs):
+    def execute(
+        self,
+        session,
+        action=None,
+        **kwargs
+    ):
+
         pass
 
+
+
+    # =====================================================
+    # INFORMAÇÕES
+    # =====================================================
 
     def info(self):
 
@@ -36,11 +63,40 @@ class BaseTool(ABC):
         }
 
 
-    def has_action(self, action):
+
+    # =====================================================
+    # ACTIONS
+    # =====================================================
+
+    def has_action(
+        self,
+        action
+    ):
 
         return action in self.actions
 
 
+
     def list_actions(self):
 
-        return list(self.actions.keys())
+        return list(
+            self.actions.keys()
+        )
+
+
+
+    # =====================================================
+    # CAPABILITIES
+    # =====================================================
+
+    def capabilities(self):
+
+        return {
+
+            "name": self.name,
+
+            "category": self.category,
+
+            "actions": self.list_actions()
+
+        }

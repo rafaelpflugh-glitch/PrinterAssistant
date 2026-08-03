@@ -2,21 +2,11 @@
 # PRINTER ASSISTANT
 # TOOL RESULT
 # ============================================================
-#
-# Retorno padrão de todas as ferramentas.
-#
-# PJL
-# RESET
-# FIRMWARE
-# REPORTS
-# WORKFLOWS
-#
-# Todos devem retornar este formato.
-#
-# ============================================================
-
 
 class ToolResult:
+
+
+    MAX_PREVIEW = 500
 
 
     def __init__(
@@ -25,7 +15,8 @@ class ToolResult:
         action,
         resultado=None,
         sucesso=True,
-        mensagem=""
+        mensagem="",
+        debug=None
     ):
 
         self.sucesso = sucesso
@@ -37,6 +28,33 @@ class ToolResult:
         self.resultado = resultado
 
         self.mensagem = mensagem
+
+        self.debug = debug
+
+
+
+    # ========================================================
+    # LIMPA RESULTADOS GRANDES
+    # ========================================================
+
+    def _limitar_resultado(self):
+
+        if self.resultado is None:
+            return None
+
+
+        if isinstance(self.resultado, str):
+
+            if len(self.resultado) > self.MAX_PREVIEW:
+
+                return (
+                    self.resultado[:self.MAX_PREVIEW]
+                    +
+                    "\n...[TRUNCADO]"
+                )
+
+
+        return self.resultado
 
 
 
@@ -71,7 +89,12 @@ class ToolResult:
 
             "resultado":
 
-                self.resultado
+                self._limitar_resultado(),
+
+
+            "debug":
+
+                self.debug
 
 
         }

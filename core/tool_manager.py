@@ -1,124 +1,176 @@
 from core.registry import Registry
+from core.result import ToolResult
+
 
 from tools.pjl_tool import PJLTool
-
 from tools.reset import ResetTool
-
 from tools.firmware import FirmwareTool
+
+
 
 class ToolManager:
 
+
     """
-    Gerencia todas as ferramentas do Printer Assistant.
+    Camada central de gerenciamento das ferramentas.
 
-    O Dispatcher conversa apenas com o ToolManager.
+    Responsabilidades:
 
-    O ToolManager conversa apenas com as ferramentas.
+    - registrar tools
+    - localizar tools
+    - executar tools
+    - expor capacidades
 
-    Nenhum outro módulo deve instanciar ferramentas diretamente.
+    Não conhece lógica interna das ferramentas.
+
     """
 
-    def __init__(self, session):
+
+
+    def __init__(
+        self,
+        session
+    ):
 
         self.session = session
 
         self.registry = Registry()
 
-        self._register_builtin_tools()
+        self.load_builtin_tools()
 
-    # ==========================================================
+
+
+    # =====================================================
+    # LOAD
+    # =====================================================
+
+
+    def load_builtin_tools(self):
+
+
+        tools = [
+
+            PJLTool(),
+
+            ResetTool(),
+
+            FirmwareTool()
+
+        ]
+
+
+        for tool in tools:
+
+            self.register(tool)
+
+
+
+    # =====================================================
     # REGISTRO
-    # ==========================================================
+    # =====================================================
 
-    def register(self, tool):
 
-        self.registry.register(tool)
-
-    def _register_builtin_tools(self):
-
-        self.register(PJLTool())
-
-        self.register(ResetTool())
-
-        self.register(FirmwareTool())
-
-    # ==========================================================
-    # EXECUÇÃO
-    # ==========================================================
-
-    def execute(
-
+    def register(
         self,
-
-        tool,
-
-        action=None,
-
-        **kwargs
-
+        tool
     ):
 
-        ferramenta = self.registry.get(tool)
+
+        self.registry.register(
+            tool
+        )
+
+
+
+    # =====================================================
+    # EXECUÇÃO
+    # =====================================================
+
+
+    def execute(
+        self,
+        tool,
+        action=None,
+        **kwargs
+    ):
+
+
+        ferramenta = self.registry.get(
+            tool
+        )
+
 
         if ferramenta is None:
 
-            return {
 
-                "sucesso": False,
+            return ToolResult.erro(
 
-                "tool": tool,
+                tool,
 
-                "action": action,
+                action,
 
-                "mensagem": f"Ferramenta '{tool}' não encontrada.",
+                f"Ferramenta '{tool}' não encontrada"
 
-                "resultado": None
+            ).to_dict()
 
-            }
+
+
+        if action and not ferramenta.has_action(action):
+
+
+            return ToolResult.erro(
+
+                tool,
+
+                action,
+
+                "Ação não suportada"
+
+            ).to_dict()
+
+
 
         try:
+
 
             return ferramenta.execute(
 
                 self.session,
 
-                action=action,
+                action,
 
                 **kwargs
 
             )
 
+
         except Exception as erro:
 
-            return {
 
-                "sucesso": False,
+            return ToolResult.erro(
 
-                "tool": tool,
+                tool,
 
-                "action": action,
+                action,
 
-                "mensagem": str(erro),
+                str(erro)
 
-                "resultado": None
+            ).to_dict()
 
-            }
 
-    # ==========================================================
+
+    # =====================================================
     # COMPATIBILIDADE
-    # ==========================================================
+    # =====================================================
+
 
     def executar(
-
         self,
-
         tool,
-
         action=None,
-
         **kwargs
-
     ):
+
 
         return self.execute(
 
@@ -130,43 +182,63 @@ class ToolManager:
 
         )
 
-    # ==========================================================
+
+
+    # =====================================================
     # CONSULTAS
-    # ==========================================================
+    # =====================================================
 
-    def exists(self, tool):
 
-        return self.registry.get(tool) is not None
+    def exists(
+        self,
+        tool
+    ):
+
+        return self.registry.exists(
+            tool
+        )
+
+
 
     def tools(self):
 
         return [
 
-            ferramenta.info()
+            tool.info()
 
-            for ferramenta in self.registry.all()
+            for tool in self.registry.all()
 
         ]
+
+
 
     def names(self):
 
-        return [
+        return self.registry.names()
 
-            ferramenta.name
 
-            for ferramenta in self.registry.all()
-
-        ]
 
     def categories(self):
 
-        categorias = {}
 
-        for ferramenta in self.registry.all():
+        resultado = {}
 
-            categoria = ferramenta.category or "Geral"
 
-            categorias.setdefault(
+        for tool in self.registry.all():
+
+
+            categoria = (
+
+                tool.category
+
+                or
+
+                "Geral"
+
+            )
+
+
+            resultado.setdefault(
 
                 categoria,
 
@@ -174,30 +246,28 @@ class ToolManager:
 
             ).append(
 
-                ferramenta.name
+                tool.name
 
             )
 
-        return categorias
+
+        return resultado
+
+
 
     def capabilities(self):
 
-        dados = {}
 
-        for ferramenta in self.registry.all():
+        return {
 
-            if hasattr(
 
-                ferramenta,
+            tool.name:
 
-                "capabilities"
+            tool.capabilities()
 
-            ):
+            for tool
 
-                dados[ferramenta.name] = ferramenta.capabilities()
+            in self.registry.all()
 
-            else:
 
-                dados[ferramenta.name] = []
-
-        return dados
+        }

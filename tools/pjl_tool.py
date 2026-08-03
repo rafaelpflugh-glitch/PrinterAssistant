@@ -1,11 +1,23 @@
+"""
+Printer Assistant
+PJL Tool
+
+Ferramenta responsável por executar comandos PJL
+e retornar resultados padronizados.
+
+"""
+
 from core.base_tool import BaseTool
 from core.result import ToolResult
 
 from modules.pjl import PJL
-from modules.pjl_parser import PJLParser
+
+from parsers.pjl_parser import PJLParser
+
 
 
 class PJLTool(BaseTool):
+
 
     name = "pjl"
 
@@ -15,63 +27,130 @@ class PJLTool(BaseTool):
 
     icon = "terminal"
 
+
+
     actions = {
 
+
         "id": {
+
             "description": "Modelo"
+
         },
+
 
         "prodinfo": {
+
             "description": "Informações"
+
         },
+
 
         "pagecount": {
-            "description": "Contador"
+
+            "description": "Contador de páginas"
+
         },
+
 
         "status": {
+
             "description": "Status"
+
         },
+
 
         "memory": {
+
             "description": "Memória"
+
         },
+
 
         "config": {
+
             "description": "Configuração"
+
         },
 
+
         "variables": {
+
             "description": "Variáveis"
+
         }
+
 
     }
 
-    def execute(self, session, action="status", **kwargs):
+
+
+
+    def execute(
+
+        self,
+
+        session,
+
+        action="status",
+
+        **kwargs
+
+    ):
+
 
         try:
 
+
             pjl = PJL(session)
+
+
 
             comandos = {
 
-                "id": pjl.info_id,
 
-                "prodinfo": pjl.prodinfo,
+                "id":
 
-                "pagecount": pjl.pagecount,
+                    pjl.info_id,
 
-                "status": pjl.status,
 
-                "memory": pjl.memory,
+                "prodinfo":
 
-                "config": pjl.config,
+                    pjl.prodinfo,
 
-                "variables": pjl.variables
+
+                "pagecount":
+
+                    pjl.pagecount,
+
+
+                "status":
+
+                    pjl.status,
+
+
+                "memory":
+
+                    pjl.memory,
+
+
+                "config":
+
+                    pjl.config,
+
+
+                "variables":
+
+                    pjl.variables
+
 
             }
 
+
+
+
             if action not in comandos:
+
 
                 return ToolResult.erro(
 
@@ -79,39 +158,114 @@ class PJLTool(BaseTool):
 
                     action,
 
-                    "Ação inexistente"
+                    "Ação PJL inexistente"
 
                 ).to_dict()
 
+
+
+
             resposta = comandos[action]()
 
-            resultado = resposta
+
+
+
+            resultado = {
+
+
+                "raw_size":
+
+                    len(resposta),
+
+
+                "preview":
+
+                    resposta[:300]
+
+            }
+
+
+
 
             if action == "pagecount":
 
+
                 resultado = {
+
 
                     "pagecount":
 
-                    PJLParser.pagecount(resposta)
+                        PJLParser.pagecount(
+
+                            resposta
+
+                        )
 
                 }
 
+
+
+
             elif action == "status":
 
-                resultado = PJLParser.status(resposta)
+
+                resultado = PJLParser.status(
+
+                    resposta
+
+                )
+
+
+
+
+            elif action == "memory":
+
+
+                resultado = PJLParser.memory(
+
+                    resposta
+
+                )
+
+
+
+
+            elif action == "id":
+
+
+                resultado = {
+
+
+                    "model":
+
+                        PJLParser.info_id(
+
+                            resposta
+
+                        )
+
+                }
+
+
+
 
             return ToolResult(
 
-                self.name,
+                tool=self.name,
 
-                action,
+                action=action,
 
-                resultado
+                resultado=resultado,
+
+                sucesso=True
 
             ).to_dict()
 
+
+
+
         except Exception as e:
+
 
             return ToolResult.erro(
 
