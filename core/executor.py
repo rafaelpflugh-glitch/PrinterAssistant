@@ -1,44 +1,30 @@
-import requests
+from core.tool_manager import ToolManager
 
 
 class Executor:
 
-    def __init__(self, printer):
+    def __init__(self, session):
 
-        self.printer = printer
+        self.manager = ToolManager(session)
 
-        self.timeout = 10
+    def execute(
 
-    def get(self, endpoint):
+        self,
 
-        url = f"http://{self.printer.ip}{endpoint}"
+        tool,
 
-        print(f"\nGET -> {url}")
+        action,
 
-        r = requests.get(
-            url,
-            timeout=self.timeout
+        **kwargs
+
+    ):
+
+        return self.manager.execute(
+
+            tool,
+
+            action,
+
+            **kwargs
+
         )
-
-        print("STATUS:", r.status_code)
-
-        return r
-
-    def post(self, endpoint, dados=None):
-
-        url = f"http://{self.printer.ip}{endpoint}"
-
-        print(f"\nPOST -> {url}")
-
-        if dados is None:
-            dados = {}
-
-        r = requests.post(
-            url,
-            data=dados,
-            timeout=self.timeout
-        )
-
-        print("STATUS:", r.status_code)
-
-        return r

@@ -1,7 +1,9 @@
-from core.tool import Tool
+from core.base_tool import BaseTool
+
+from core.result import ToolResult
 
 
-class ResetTool(Tool):
+class ResetTool(BaseTool):
 
     name = "reset"
 
@@ -9,14 +11,48 @@ class ResetTool(Tool):
 
     category = "Reset"
 
-    def run(self, action=None, **kwargs):
+    actions = {
 
-        print()
+        "maintenance":{
 
-        print("Reset Tool")
+            "description":"Reset manutenção"
 
-        print()
+        },
 
-        print("Reset:", action)
+        "network":{
 
-        return True
+            "description":"Reset rede"
+
+        },
+
+        "apps":{
+
+            "description":"Reset Apps"
+
+        },
+
+        "erase_memory":{
+
+            "description":"Apagar memória"
+
+        }
+
+    }
+
+    def execute(self, session, action=None, **kwargs):
+
+        return ToolResult(
+
+            self.name,
+
+            action,
+
+            {
+
+                "reset":action,
+
+                "executado":True
+
+            }
+
+        ).to_dict()

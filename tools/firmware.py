@@ -1,22 +1,52 @@
-from core.tool import Tool
+from core.base_tool import BaseTool
+
+from core.result import ToolResult
 
 
-class FirmwareTool(Tool):
+class FirmwareTool(BaseTool):
 
-    name = "firmware"
+    name="firmware"
 
-    description = "Operações de firmware"
+    description="Firmware"
 
-    category = "Firmware"
+    category="Firmware"
 
-    def run(self, action=None, **kwargs):
+    actions={
 
-        print()
+        "install":{
 
-        print("Firmware Tool")
+            "description":"Instalar"
 
-        print()
+        },
 
-        print("Ação:", action)
+        "backup":{
 
-        return True
+            "description":"Backup"
+
+        },
+
+        "downgrade":{
+
+            "description":"Downgrade"
+
+        }
+
+    }
+
+    def execute(self,session,action=None,**kwargs):
+
+        return ToolResult(
+
+            self.name,
+
+            action,
+
+            {
+
+                "acao":action,
+
+                "executado":True
+
+            }
+
+        ).to_dict()

@@ -1,47 +1,12 @@
+from core.router import Router
+
+
 class Dispatcher:
 
-    def __init__(self, registry):
+    def __init__(self, session):
 
-        self.registry = registry
+        self.router = Router(session)
 
-    # -----------------------
+    def dispatch(self, intent):
 
-    def execute(
-
-        self,
-
-        tool_id,
-
-        session,
-
-        **kwargs
-
-    ):
-
-        tool = self.registry.get(tool_id)
-
-        if tool is None:
-
-            raise Exception(
-
-                f"Ferramenta inexistente: {tool_id}"
-
-            )
-
-        if tool.requires_session:
-
-            if session is None:
-
-                raise Exception(
-
-                    "Sessão obrigatória."
-
-                )
-
-        return tool.callback(
-
-            session,
-
-            **kwargs
-
-        )
+        return self.router.run(intent)

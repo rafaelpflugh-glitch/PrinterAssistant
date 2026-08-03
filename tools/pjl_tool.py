@@ -1,60 +1,124 @@
 from core.base_tool import BaseTool
+from core.result import ToolResult
+
 from modules.pjl import PJL
+from modules.pjl_parser import PJLParser
 
 
 class PJLTool(BaseTool):
 
-
     name = "pjl"
 
-    description = "Comandos PJL da impressora"
+    description = "Comandos PJL"
 
-    category = "PJL"
+    category = "Impressora"
 
-    icon = "🖨️"
+    icon = "terminal"
 
+    actions = {
 
+        "id": {
+            "description": "Modelo"
+        },
 
-    def execute(self, session, action="pagecount", **kwargs):
+        "prodinfo": {
+            "description": "Informações"
+        },
 
+        "pagecount": {
+            "description": "Contador"
+        },
 
-        pjl = PJL(session)
+        "status": {
+            "description": "Status"
+        },
 
+        "memory": {
+            "description": "Memória"
+        },
 
+        "config": {
+            "description": "Configuração"
+        },
 
-        if action == "pagecount":
+        "variables": {
+            "description": "Variáveis"
+        }
 
-            return pjl.pagecount()
+    }
 
+    def execute(self, session, action="status", **kwargs):
 
+        try:
 
-        elif action == "status":
+            pjl = PJL(session)
 
-            return pjl.status()
+            comandos = {
 
+                "id": pjl.info_id,
 
+                "prodinfo": pjl.prodinfo,
 
-        elif action == "serial":
+                "pagecount": pjl.pagecount,
 
-            return pjl.serial()
+                "status": pjl.status,
 
+                "memory": pjl.memory,
 
+                "config": pjl.config,
 
-        elif action == "memory":
+                "variables": pjl.variables
 
-            return pjl.memory()
-
-
-
-        elif action == "config":
-
-            return pjl.config()
-
-
-
-        else:
-
-            return {
-                "erro":
-                f"Ação PJL desconhecida: {action}"
             }
+
+            if action not in comandos:
+
+                return ToolResult.erro(
+
+                    self.name,
+
+                    action,
+
+                    "Ação inexistente"
+
+                ).to_dict()
+
+            resposta = comandos[action]()
+
+            resultado = resposta
+
+            if action == "pagecount":
+
+                resultado = {
+
+                    "pagecount":
+
+                    PJLParser.pagecount(resposta)
+
+                }
+
+            elif action == "status":
+
+                resultado = PJLParser.status(resposta)
+
+            return ToolResult(
+
+                self.name,
+
+                action,
+
+                resultado
+
+            ).to_dict()
+
+        except Exception as e:
+
+            return ToolResult.erro(
+
+                self.name,
+
+                action,
+
+                str(e)
+
+            ).to_dict()

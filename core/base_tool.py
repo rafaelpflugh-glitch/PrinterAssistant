@@ -11,9 +11,13 @@ class BaseTool(ABC):
 
     icon = ""
 
+    actions = {}
+
+
     @abstractmethod
-    def execute(self, session, **kwargs):
+    def execute(self, session, action=None, **kwargs):
         pass
+
 
     def info(self):
 
@@ -25,6 +29,18 @@ class BaseTool(ABC):
 
             "category": self.category,
 
-            "icon": self.icon
+            "icon": self.icon,
+
+            "actions": self.actions
 
         }
+
+
+    def has_action(self, action):
+
+        return action in self.actions
+
+
+    def list_actions(self):
+
+        return list(self.actions.keys())
