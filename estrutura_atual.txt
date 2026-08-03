@@ -1,0 +1,3657 @@
+Listagem de caminhos de pasta
+O n£mero de s‚rie do volume ‚ 9A0B-2752
+C:.
+|   .gitignore
+|   baixar_js.py
+|   BANCO DE DADOS FABRICANTES.docx
+|   coleta_printer.zip
+|   collector.py
+|   controller.py
+|   debug_dump.txt
+|   device.txt
+|   deviceinfo.py
+|   diagnosis.py
+|   dump_page.html
+|   estrutura.txt
+|   estrutura_atual.txt
+|   extrair_strings_jar.py
+|   hidden.txt
+|   hidden.zip
+|   imports.txt
+|   label.py
+|   main.py
+|   main_old.py
+|   memoria_historico.json
+|   mkdir
+|   modelo.txt
+|   modelo.zip
+|   netstat_completo.txt
+|   notepad
+|   pesquisa_print.txt
+|   pjl_commands.py
+|   PrinterAssistant.zip
+|   printers_found.json
+|   printer_data.json
+|   printer_report_ps.py
+|   print_resultado.txt
+|   python
+|   relatorio_bancada.html
+|   report.py
+|   reports.html
+|   salvar_html.py
+|   scanner_cgi.py
+|   scanner_paginas.py
+|   selected_printer.json
+|   serial.txt
+|   serial.zip
+|   session.json
+|   se_index.html
+|   snmp_lexmark_walk.txt
+|   sysddebug.txt
+|   sysddebug.zip
+|   teste.pdf
+|   teste_analisar_html.py
+|   teste_auto.py
+|   teste_busca_js.py
+|   teste_busca_print.py
+|   teste_cgi.py
+|   teste_cgi_scan.py
+|   teste_comando.py
+|   teste_comandos.py
+|   teste_common.py
+|   teste_config_menu.py
+|   teste_crawler.py
+|   teste_crawler_ews.py
+|   teste_device.py
+|   teste_deviceinfo_completo.py
+|   teste_direct.py
+|   teste_discover_reports.py
+|   teste_download_vnc.py
+|   teste_endpoint.py
+|   teste_endpoints_impressao.py
+|   teste_ews.py
+|   teste_executor.py
+|   teste_explorer.py
+|   teste_extract_cgi.py
+|   teste_forms.py
+|   teste_forms_config.py
+|   teste_forms_detalhado.py
+|   teste_forms_dump.py
+|   teste_forms_scan.py
+|   teste_forms_todos.py
+|   teste_home_links.py
+|   teste_home_raw.py
+|   teste_identificacao.py
+|   teste_impressao.py
+|   teste_impressao_pjl.py
+|   teste_impressao_real.py
+|   teste_iop3.py
+|   teste_iop3_headers.py
+|   teste_ipp.py
+|   teste_jar.py
+|   teste_jshelper.py
+|   teste_js_calls.py
+|   teste_leftbar.py
+|   teste_links_html.py
+|   teste_mapa_ews.py
+|   teste_memory.py
+|   teste_menuspage.py
+|   teste_modelo.py
+|   teste_netstat_completo.py
+|   teste_pagina_pcl.py
+|   teste_parser.py
+|   teste_parser_novo.py
+|   teste_parser_snmp.py
+|   teste_pdf_controlado.py
+|   teste_pdf_direct.py
+|   teste_perfil.py
+|   teste_pjl.py
+|   teste_pjl2.py
+|   teste_pjl_info.py
+|   teste_pjl_lista.py
+|   teste_pjl_paper.py
+|   teste_pjl_variables.py
+|   teste_postscript.py
+|   teste_postscript_bancada.py
+|   teste_printdirectory.py
+|   teste_printer.py
+|   teste_printersettings.py
+|   teste_print_links.py
+|   teste_print_post.py
+|   teste_procura_comandos.py
+|   teste_procura_print.py
+|   teste_prtappse.py
+|   teste_relatorio.py
+|   teste_relatorios.py
+|   teste_remote_panel.py
+|   teste_reports.py
+|   teste_reports_index.py
+|   teste_reports_menu.py
+|   teste_reports_root.py
+|   teste_report_forms.py
+|   teste_report_raw.py
+|   teste_rotinas.py
+|   teste_scanner.py
+|   teste_scripts.py
+|   teste_script_printer.py
+|   teste_sniffer.py
+|   teste_snmp.py
+|   teste_snmp_identificacao.py
+|   teste_snmp_novo.py
+|   teste_snmp_real.py
+|   teste_snmp_suprimentos.py
+|   teste_snmp_walk.py
+|   teste_snmp_walk_novo.py
+|   teste_submit.py
+|   teste_submit_get.py
+|   teste_supply_parser.py
+|   teste_supply_parser_v2.py
+|   teste_sysdebug.py
+|   teste_ucf.py
+|   teste_vnc.py
+|   teste_vnc_port.py
+|   teste_webapps.py
+|   testpage.py
+|   test_actions.py
+|   test_app_registry.py
+|   test_capabilities.py
+|   test_commands.py
+|   test_commands_menu.py
+|   test_hermes.py
+|   test_hermes_tools.py
+|   test_label.py
+|   test_lexmark_snmp.py
+|   test_pjl.py
+|   test_pjl_actions.py
+|   test_pjl_actions2.py
+|   test_pjl_parser.py
+|   test_pjl_parser2.py
+|   test_pjl_tool.py
+|   test_registry.py
+|   test_registry_pjl.py
+|   test_session.py
+|   test_workflow.py
+|   web_mapper.py
+|   __init__.py
+|   
++---.venv
+|   |   .gitignore
+|   |   pyvenv.cfg
+|   |   
+|   +---Include
+|   +---Lib
+|   |   \---site-packages
+|   |       +---pip
+|   |       |   |   py.typed
+|   |       |   |   __init__.py
+|   |       |   |   __main__.py
+|   |       |   |   __pip-runner__.py
+|   |       |   |   
+|   |       |   +---_internal
+|   |       |   |   |   build_env.py
+|   |       |   |   |   cache.py
+|   |       |   |   |   configuration.py
+|   |       |   |   |   exceptions.py
+|   |       |   |   |   main.py
+|   |       |   |   |   pyproject.py
+|   |       |   |   |   self_outdated_check.py
+|   |       |   |   |   wheel_builder.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   +---cli
+|   |       |   |   |   |   autocompletion.py
+|   |       |   |   |   |   base_command.py
+|   |       |   |   |   |   cmdoptions.py
+|   |       |   |   |   |   command_context.py
+|   |       |   |   |   |   index_command.py
+|   |       |   |   |   |   main.py
+|   |       |   |   |   |   main_parser.py
+|   |       |   |   |   |   parser.py
+|   |       |   |   |   |   progress_bars.py
+|   |       |   |   |   |   req_command.py
+|   |       |   |   |   |   spinners.py
+|   |       |   |   |   |   status_codes.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           autocompletion.cpython-314.pyc
+|   |       |   |   |           base_command.cpython-314.pyc
+|   |       |   |   |           cmdoptions.cpython-314.pyc
+|   |       |   |   |           command_context.cpython-314.pyc
+|   |       |   |   |           index_command.cpython-314.pyc
+|   |       |   |   |           main.cpython-314.pyc
+|   |       |   |   |           main_parser.cpython-314.pyc
+|   |       |   |   |           parser.cpython-314.pyc
+|   |       |   |   |           progress_bars.cpython-314.pyc
+|   |       |   |   |           req_command.cpython-314.pyc
+|   |       |   |   |           spinners.cpython-314.pyc
+|   |       |   |   |           status_codes.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---commands
+|   |       |   |   |   |   cache.py
+|   |       |   |   |   |   check.py
+|   |       |   |   |   |   completion.py
+|   |       |   |   |   |   configuration.py
+|   |       |   |   |   |   debug.py
+|   |       |   |   |   |   download.py
+|   |       |   |   |   |   freeze.py
+|   |       |   |   |   |   hash.py
+|   |       |   |   |   |   help.py
+|   |       |   |   |   |   index.py
+|   |       |   |   |   |   inspect.py
+|   |       |   |   |   |   install.py
+|   |       |   |   |   |   list.py
+|   |       |   |   |   |   lock.py
+|   |       |   |   |   |   search.py
+|   |       |   |   |   |   show.py
+|   |       |   |   |   |   uninstall.py
+|   |       |   |   |   |   wheel.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           cache.cpython-314.pyc
+|   |       |   |   |           check.cpython-314.pyc
+|   |       |   |   |           completion.cpython-314.pyc
+|   |       |   |   |           configuration.cpython-314.pyc
+|   |       |   |   |           debug.cpython-314.pyc
+|   |       |   |   |           download.cpython-314.pyc
+|   |       |   |   |           freeze.cpython-314.pyc
+|   |       |   |   |           hash.cpython-314.pyc
+|   |       |   |   |           help.cpython-314.pyc
+|   |       |   |   |           index.cpython-314.pyc
+|   |       |   |   |           inspect.cpython-314.pyc
+|   |       |   |   |           install.cpython-314.pyc
+|   |       |   |   |           list.cpython-314.pyc
+|   |       |   |   |           lock.cpython-314.pyc
+|   |       |   |   |           search.cpython-314.pyc
+|   |       |   |   |           show.cpython-314.pyc
+|   |       |   |   |           uninstall.cpython-314.pyc
+|   |       |   |   |           wheel.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---distributions
+|   |       |   |   |   |   base.py
+|   |       |   |   |   |   installed.py
+|   |       |   |   |   |   sdist.py
+|   |       |   |   |   |   wheel.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           base.cpython-314.pyc
+|   |       |   |   |           installed.cpython-314.pyc
+|   |       |   |   |           sdist.cpython-314.pyc
+|   |       |   |   |           wheel.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---index
+|   |       |   |   |   |   collector.py
+|   |       |   |   |   |   package_finder.py
+|   |       |   |   |   |   sources.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           collector.cpython-314.pyc
+|   |       |   |   |           package_finder.cpython-314.pyc
+|   |       |   |   |           sources.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---locations
+|   |       |   |   |   |   base.py
+|   |       |   |   |   |   _distutils.py
+|   |       |   |   |   |   _sysconfig.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           base.cpython-314.pyc
+|   |       |   |   |           _distutils.cpython-314.pyc
+|   |       |   |   |           _sysconfig.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---metadata
+|   |       |   |   |   |   base.py
+|   |       |   |   |   |   pkg_resources.py
+|   |       |   |   |   |   _json.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---importlib
+|   |       |   |   |   |   |   _compat.py
+|   |       |   |   |   |   |   _dists.py
+|   |       |   |   |   |   |   _envs.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           _compat.cpython-314.pyc
+|   |       |   |   |   |           _dists.cpython-314.pyc
+|   |       |   |   |   |           _envs.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           base.cpython-314.pyc
+|   |       |   |   |           pkg_resources.cpython-314.pyc
+|   |       |   |   |           _json.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---models
+|   |       |   |   |   |   candidate.py
+|   |       |   |   |   |   direct_url.py
+|   |       |   |   |   |   format_control.py
+|   |       |   |   |   |   index.py
+|   |       |   |   |   |   installation_report.py
+|   |       |   |   |   |   link.py
+|   |       |   |   |   |   release_control.py
+|   |       |   |   |   |   scheme.py
+|   |       |   |   |   |   search_scope.py
+|   |       |   |   |   |   selection_prefs.py
+|   |       |   |   |   |   target_python.py
+|   |       |   |   |   |   wheel.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           candidate.cpython-314.pyc
+|   |       |   |   |           direct_url.cpython-314.pyc
+|   |       |   |   |           format_control.cpython-314.pyc
+|   |       |   |   |           index.cpython-314.pyc
+|   |       |   |   |           installation_report.cpython-314.pyc
+|   |       |   |   |           link.cpython-314.pyc
+|   |       |   |   |           release_control.cpython-314.pyc
+|   |       |   |   |           scheme.cpython-314.pyc
+|   |       |   |   |           search_scope.cpython-314.pyc
+|   |       |   |   |           selection_prefs.cpython-314.pyc
+|   |       |   |   |           target_python.cpython-314.pyc
+|   |       |   |   |           wheel.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---network
+|   |       |   |   |   |   auth.py
+|   |       |   |   |   |   cache.py
+|   |       |   |   |   |   download.py
+|   |       |   |   |   |   lazy_wheel.py
+|   |       |   |   |   |   session.py
+|   |       |   |   |   |   utils.py
+|   |       |   |   |   |   xmlrpc.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           auth.cpython-314.pyc
+|   |       |   |   |           cache.cpython-314.pyc
+|   |       |   |   |           download.cpython-314.pyc
+|   |       |   |   |           lazy_wheel.cpython-314.pyc
+|   |       |   |   |           session.cpython-314.pyc
+|   |       |   |   |           utils.cpython-314.pyc
+|   |       |   |   |           xmlrpc.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---operations
+|   |       |   |   |   |   check.py
+|   |       |   |   |   |   freeze.py
+|   |       |   |   |   |   prepare.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---build
+|   |       |   |   |   |   |   build_tracker.py
+|   |       |   |   |   |   |   metadata.py
+|   |       |   |   |   |   |   metadata_editable.py
+|   |       |   |   |   |   |   wheel.py
+|   |       |   |   |   |   |   wheel_editable.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           build_tracker.cpython-314.pyc
+|   |       |   |   |   |           metadata.cpython-314.pyc
+|   |       |   |   |   |           metadata_editable.cpython-314.pyc
+|   |       |   |   |   |           wheel.cpython-314.pyc
+|   |       |   |   |   |           wheel_editable.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---install
+|   |       |   |   |   |   |   wheel.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           wheel.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           check.cpython-314.pyc
+|   |       |   |   |           freeze.cpython-314.pyc
+|   |       |   |   |           prepare.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---req
+|   |       |   |   |   |   constructors.py
+|   |       |   |   |   |   pep723.py
+|   |       |   |   |   |   req_dependency_group.py
+|   |       |   |   |   |   req_file.py
+|   |       |   |   |   |   req_install.py
+|   |       |   |   |   |   req_set.py
+|   |       |   |   |   |   req_uninstall.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           constructors.cpython-314.pyc
+|   |       |   |   |           pep723.cpython-314.pyc
+|   |       |   |   |           req_dependency_group.cpython-314.pyc
+|   |       |   |   |           req_file.cpython-314.pyc
+|   |       |   |   |           req_install.cpython-314.pyc
+|   |       |   |   |           req_set.cpython-314.pyc
+|   |       |   |   |           req_uninstall.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---resolution
+|   |       |   |   |   |   base.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---legacy
+|   |       |   |   |   |   |   resolver.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           resolver.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---resolvelib
+|   |       |   |   |   |   |   base.py
+|   |       |   |   |   |   |   candidates.py
+|   |       |   |   |   |   |   factory.py
+|   |       |   |   |   |   |   found_candidates.py
+|   |       |   |   |   |   |   provider.py
+|   |       |   |   |   |   |   reporter.py
+|   |       |   |   |   |   |   requirements.py
+|   |       |   |   |   |   |   resolver.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           base.cpython-314.pyc
+|   |       |   |   |   |           candidates.cpython-314.pyc
+|   |       |   |   |   |           factory.cpython-314.pyc
+|   |       |   |   |   |           found_candidates.cpython-314.pyc
+|   |       |   |   |   |           provider.cpython-314.pyc
+|   |       |   |   |   |           reporter.cpython-314.pyc
+|   |       |   |   |   |           requirements.cpython-314.pyc
+|   |       |   |   |   |           resolver.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           base.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---utils
+|   |       |   |   |   |   appdirs.py
+|   |       |   |   |   |   compat.py
+|   |       |   |   |   |   compatibility_tags.py
+|   |       |   |   |   |   datetime.py
+|   |       |   |   |   |   deprecation.py
+|   |       |   |   |   |   direct_url_helpers.py
+|   |       |   |   |   |   egg_link.py
+|   |       |   |   |   |   entrypoints.py
+|   |       |   |   |   |   filesystem.py
+|   |       |   |   |   |   filetypes.py
+|   |       |   |   |   |   glibc.py
+|   |       |   |   |   |   hashes.py
+|   |       |   |   |   |   logging.py
+|   |       |   |   |   |   misc.py
+|   |       |   |   |   |   packaging.py
+|   |       |   |   |   |   pylock.py
+|   |       |   |   |   |   retry.py
+|   |       |   |   |   |   subprocess.py
+|   |       |   |   |   |   temp_dir.py
+|   |       |   |   |   |   unpacking.py
+|   |       |   |   |   |   urls.py
+|   |       |   |   |   |   virtualenv.py
+|   |       |   |   |   |   wheel.py
+|   |       |   |   |   |   _jaraco_text.py
+|   |       |   |   |   |   _log.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           appdirs.cpython-314.pyc
+|   |       |   |   |           compat.cpython-314.pyc
+|   |       |   |   |           compatibility_tags.cpython-314.pyc
+|   |       |   |   |           datetime.cpython-314.pyc
+|   |       |   |   |           deprecation.cpython-314.pyc
+|   |       |   |   |           direct_url_helpers.cpython-314.pyc
+|   |       |   |   |           egg_link.cpython-314.pyc
+|   |       |   |   |           entrypoints.cpython-314.pyc
+|   |       |   |   |           filesystem.cpython-314.pyc
+|   |       |   |   |           filetypes.cpython-314.pyc
+|   |       |   |   |           glibc.cpython-314.pyc
+|   |       |   |   |           hashes.cpython-314.pyc
+|   |       |   |   |           logging.cpython-314.pyc
+|   |       |   |   |           misc.cpython-314.pyc
+|   |       |   |   |           packaging.cpython-314.pyc
+|   |       |   |   |           pylock.cpython-314.pyc
+|   |       |   |   |           retry.cpython-314.pyc
+|   |       |   |   |           subprocess.cpython-314.pyc
+|   |       |   |   |           temp_dir.cpython-314.pyc
+|   |       |   |   |           unpacking.cpython-314.pyc
+|   |       |   |   |           urls.cpython-314.pyc
+|   |       |   |   |           virtualenv.cpython-314.pyc
+|   |       |   |   |           wheel.cpython-314.pyc
+|   |       |   |   |           _jaraco_text.cpython-314.pyc
+|   |       |   |   |           _log.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---vcs
+|   |       |   |   |   |   bazaar.py
+|   |       |   |   |   |   git.py
+|   |       |   |   |   |   mercurial.py
+|   |       |   |   |   |   subversion.py
+|   |       |   |   |   |   versioncontrol.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           bazaar.cpython-314.pyc
+|   |       |   |   |           git.cpython-314.pyc
+|   |       |   |   |           mercurial.cpython-314.pyc
+|   |       |   |   |           subversion.cpython-314.pyc
+|   |       |   |   |           versioncontrol.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           build_env.cpython-314.pyc
+|   |       |   |           cache.cpython-314.pyc
+|   |       |   |           configuration.cpython-314.pyc
+|   |       |   |           exceptions.cpython-314.pyc
+|   |       |   |           main.cpython-314.pyc
+|   |       |   |           pyproject.cpython-314.pyc
+|   |       |   |           self_outdated_check.cpython-314.pyc
+|   |       |   |           wheel_builder.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   +---_vendor
+|   |       |   |   |   README.rst
+|   |       |   |   |   vendor.txt
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   +---cachecontrol
+|   |       |   |   |   |   adapter.py
+|   |       |   |   |   |   cache.py
+|   |       |   |   |   |   controller.py
+|   |       |   |   |   |   filewrapper.py
+|   |       |   |   |   |   heuristics.py
+|   |       |   |   |   |   LICENSE.txt
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   serialize.py
+|   |       |   |   |   |   wrapper.py
+|   |       |   |   |   |   _cmd.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---caches
+|   |       |   |   |   |   |   file_cache.py
+|   |       |   |   |   |   |   redis_cache.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           file_cache.cpython-314.pyc
+|   |       |   |   |   |           redis_cache.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           adapter.cpython-314.pyc
+|   |       |   |   |           cache.cpython-314.pyc
+|   |       |   |   |           controller.cpython-314.pyc
+|   |       |   |   |           filewrapper.cpython-314.pyc
+|   |       |   |   |           heuristics.cpython-314.pyc
+|   |       |   |   |           serialize.cpython-314.pyc
+|   |       |   |   |           wrapper.cpython-314.pyc
+|   |       |   |   |           _cmd.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---certifi
+|   |       |   |   |   |   cacert.pem
+|   |       |   |   |   |   core.py
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   __main__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           core.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           __main__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---distlib
+|   |       |   |   |   |   compat.py
+|   |       |   |   |   |   LICENSE.txt
+|   |       |   |   |   |   resources.py
+|   |       |   |   |   |   scripts.py
+|   |       |   |   |   |   t32.exe
+|   |       |   |   |   |   t64-arm.exe
+|   |       |   |   |   |   t64.exe
+|   |       |   |   |   |   util.py
+|   |       |   |   |   |   w32.exe
+|   |       |   |   |   |   w64-arm.exe
+|   |       |   |   |   |   w64.exe
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           compat.cpython-314.pyc
+|   |       |   |   |           resources.cpython-314.pyc
+|   |       |   |   |           scripts.cpython-314.pyc
+|   |       |   |   |           util.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---distro
+|   |       |   |   |   |   distro.py
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   __main__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           distro.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           __main__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---idna
+|   |       |   |   |   |   codec.py
+|   |       |   |   |   |   compat.py
+|   |       |   |   |   |   core.py
+|   |       |   |   |   |   idnadata.py
+|   |       |   |   |   |   intranges.py
+|   |       |   |   |   |   LICENSE.md
+|   |       |   |   |   |   package_data.py
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   uts46data.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           codec.cpython-314.pyc
+|   |       |   |   |           compat.cpython-314.pyc
+|   |       |   |   |           core.cpython-314.pyc
+|   |       |   |   |           idnadata.cpython-314.pyc
+|   |       |   |   |           intranges.cpython-314.pyc
+|   |       |   |   |           package_data.cpython-314.pyc
+|   |       |   |   |           uts46data.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---msgpack
+|   |       |   |   |   |   COPYING
+|   |       |   |   |   |   exceptions.py
+|   |       |   |   |   |   ext.py
+|   |       |   |   |   |   fallback.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           exceptions.cpython-314.pyc
+|   |       |   |   |           ext.cpython-314.pyc
+|   |       |   |   |           fallback.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---packaging
+|   |       |   |   |   |   dependency_groups.py
+|   |       |   |   |   |   direct_url.py
+|   |       |   |   |   |   errors.py
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   LICENSE.APACHE
+|   |       |   |   |   |   LICENSE.BSD
+|   |       |   |   |   |   markers.py
+|   |       |   |   |   |   metadata.py
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   pylock.py
+|   |       |   |   |   |   requirements.py
+|   |       |   |   |   |   specifiers.py
+|   |       |   |   |   |   tags.py
+|   |       |   |   |   |   utils.py
+|   |       |   |   |   |   version.py
+|   |       |   |   |   |   _elffile.py
+|   |       |   |   |   |   _manylinux.py
+|   |       |   |   |   |   _musllinux.py
+|   |       |   |   |   |   _parser.py
+|   |       |   |   |   |   _structures.py
+|   |       |   |   |   |   _tokenizer.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---licenses
+|   |       |   |   |   |   |   _spdx.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           _spdx.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           dependency_groups.cpython-314.pyc
+|   |       |   |   |           direct_url.cpython-314.pyc
+|   |       |   |   |           errors.cpython-314.pyc
+|   |       |   |   |           markers.cpython-314.pyc
+|   |       |   |   |           metadata.cpython-314.pyc
+|   |       |   |   |           pylock.cpython-314.pyc
+|   |       |   |   |           requirements.cpython-314.pyc
+|   |       |   |   |           specifiers.cpython-314.pyc
+|   |       |   |   |           tags.cpython-314.pyc
+|   |       |   |   |           utils.cpython-314.pyc
+|   |       |   |   |           version.cpython-314.pyc
+|   |       |   |   |           _elffile.cpython-314.pyc
+|   |       |   |   |           _manylinux.cpython-314.pyc
+|   |       |   |   |           _musllinux.cpython-314.pyc
+|   |       |   |   |           _parser.cpython-314.pyc
+|   |       |   |   |           _structures.cpython-314.pyc
+|   |       |   |   |           _tokenizer.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---pkg_resources
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---platformdirs
+|   |       |   |   |   |   android.py
+|   |       |   |   |   |   api.py
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   macos.py
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   unix.py
+|   |       |   |   |   |   version.py
+|   |       |   |   |   |   windows.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   __main__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           android.cpython-314.pyc
+|   |       |   |   |           api.cpython-314.pyc
+|   |       |   |   |           macos.cpython-314.pyc
+|   |       |   |   |           unix.cpython-314.pyc
+|   |       |   |   |           version.cpython-314.pyc
+|   |       |   |   |           windows.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           __main__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---pygments
+|   |       |   |   |   |   console.py
+|   |       |   |   |   |   filter.py
+|   |       |   |   |   |   formatter.py
+|   |       |   |   |   |   lexer.py
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   modeline.py
+|   |       |   |   |   |   plugin.py
+|   |       |   |   |   |   regexopt.py
+|   |       |   |   |   |   scanner.py
+|   |       |   |   |   |   sphinxext.py
+|   |       |   |   |   |   style.py
+|   |       |   |   |   |   token.py
+|   |       |   |   |   |   unistring.py
+|   |       |   |   |   |   util.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   __main__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---filters
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---formatters
+|   |       |   |   |   |   |   _mapping.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           _mapping.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---lexers
+|   |       |   |   |   |   |   python.py
+|   |       |   |   |   |   |   _mapping.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           python.cpython-314.pyc
+|   |       |   |   |   |           _mapping.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---styles
+|   |       |   |   |   |   |   _mapping.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           _mapping.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           console.cpython-314.pyc
+|   |       |   |   |           filter.cpython-314.pyc
+|   |       |   |   |           formatter.cpython-314.pyc
+|   |       |   |   |           lexer.cpython-314.pyc
+|   |       |   |   |           modeline.cpython-314.pyc
+|   |       |   |   |           plugin.cpython-314.pyc
+|   |       |   |   |           regexopt.cpython-314.pyc
+|   |       |   |   |           scanner.cpython-314.pyc
+|   |       |   |   |           sphinxext.cpython-314.pyc
+|   |       |   |   |           style.cpython-314.pyc
+|   |       |   |   |           token.cpython-314.pyc
+|   |       |   |   |           unistring.cpython-314.pyc
+|   |       |   |   |           util.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           __main__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---pyproject_hooks
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   _impl.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---_in_process
+|   |       |   |   |   |   |   _in_process.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           _in_process.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           _impl.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---requests
+|   |       |   |   |   |   adapters.py
+|   |       |   |   |   |   api.py
+|   |       |   |   |   |   auth.py
+|   |       |   |   |   |   certs.py
+|   |       |   |   |   |   compat.py
+|   |       |   |   |   |   cookies.py
+|   |       |   |   |   |   exceptions.py
+|   |       |   |   |   |   help.py
+|   |       |   |   |   |   hooks.py
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   models.py
+|   |       |   |   |   |   packages.py
+|   |       |   |   |   |   sessions.py
+|   |       |   |   |   |   status_codes.py
+|   |       |   |   |   |   structures.py
+|   |       |   |   |   |   utils.py
+|   |       |   |   |   |   _internal_utils.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   __version__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           adapters.cpython-314.pyc
+|   |       |   |   |           api.cpython-314.pyc
+|   |       |   |   |           auth.cpython-314.pyc
+|   |       |   |   |           certs.cpython-314.pyc
+|   |       |   |   |           compat.cpython-314.pyc
+|   |       |   |   |           cookies.cpython-314.pyc
+|   |       |   |   |           exceptions.cpython-314.pyc
+|   |       |   |   |           help.cpython-314.pyc
+|   |       |   |   |           hooks.cpython-314.pyc
+|   |       |   |   |           models.cpython-314.pyc
+|   |       |   |   |           packages.cpython-314.pyc
+|   |       |   |   |           sessions.cpython-314.pyc
+|   |       |   |   |           status_codes.cpython-314.pyc
+|   |       |   |   |           structures.cpython-314.pyc
+|   |       |   |   |           utils.cpython-314.pyc
+|   |       |   |   |           _internal_utils.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           __version__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---resolvelib
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   providers.py
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   reporters.py
+|   |       |   |   |   |   structs.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---resolvers
+|   |       |   |   |   |   |   abstract.py
+|   |       |   |   |   |   |   criterion.py
+|   |       |   |   |   |   |   exceptions.py
+|   |       |   |   |   |   |   resolution.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           abstract.cpython-314.pyc
+|   |       |   |   |   |           criterion.cpython-314.pyc
+|   |       |   |   |   |           exceptions.cpython-314.pyc
+|   |       |   |   |   |           resolution.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           providers.cpython-314.pyc
+|   |       |   |   |           reporters.cpython-314.pyc
+|   |       |   |   |           structs.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---rich
+|   |       |   |   |   |   abc.py
+|   |       |   |   |   |   align.py
+|   |       |   |   |   |   ansi.py
+|   |       |   |   |   |   bar.py
+|   |       |   |   |   |   box.py
+|   |       |   |   |   |   cells.py
+|   |       |   |   |   |   color.py
+|   |       |   |   |   |   color_triplet.py
+|   |       |   |   |   |   columns.py
+|   |       |   |   |   |   console.py
+|   |       |   |   |   |   constrain.py
+|   |       |   |   |   |   containers.py
+|   |       |   |   |   |   control.py
+|   |       |   |   |   |   default_styles.py
+|   |       |   |   |   |   diagnose.py
+|   |       |   |   |   |   emoji.py
+|   |       |   |   |   |   errors.py
+|   |       |   |   |   |   filesize.py
+|   |       |   |   |   |   file_proxy.py
+|   |       |   |   |   |   highlighter.py
+|   |       |   |   |   |   json.py
+|   |       |   |   |   |   jupyter.py
+|   |       |   |   |   |   layout.py
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   live.py
+|   |       |   |   |   |   live_render.py
+|   |       |   |   |   |   logging.py
+|   |       |   |   |   |   markup.py
+|   |       |   |   |   |   measure.py
+|   |       |   |   |   |   padding.py
+|   |       |   |   |   |   pager.py
+|   |       |   |   |   |   palette.py
+|   |       |   |   |   |   panel.py
+|   |       |   |   |   |   pretty.py
+|   |       |   |   |   |   progress.py
+|   |       |   |   |   |   progress_bar.py
+|   |       |   |   |   |   prompt.py
+|   |       |   |   |   |   protocol.py
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   region.py
+|   |       |   |   |   |   repr.py
+|   |       |   |   |   |   rule.py
+|   |       |   |   |   |   scope.py
+|   |       |   |   |   |   screen.py
+|   |       |   |   |   |   segment.py
+|   |       |   |   |   |   spinner.py
+|   |       |   |   |   |   status.py
+|   |       |   |   |   |   style.py
+|   |       |   |   |   |   styled.py
+|   |       |   |   |   |   syntax.py
+|   |       |   |   |   |   table.py
+|   |       |   |   |   |   terminal_theme.py
+|   |       |   |   |   |   text.py
+|   |       |   |   |   |   theme.py
+|   |       |   |   |   |   themes.py
+|   |       |   |   |   |   traceback.py
+|   |       |   |   |   |   tree.py
+|   |       |   |   |   |   _cell_widths.py
+|   |       |   |   |   |   _emoji_codes.py
+|   |       |   |   |   |   _emoji_replace.py
+|   |       |   |   |   |   _export_format.py
+|   |       |   |   |   |   _extension.py
+|   |       |   |   |   |   _fileno.py
+|   |       |   |   |   |   _inspect.py
+|   |       |   |   |   |   _log_render.py
+|   |       |   |   |   |   _loop.py
+|   |       |   |   |   |   _null_file.py
+|   |       |   |   |   |   _palettes.py
+|   |       |   |   |   |   _pick.py
+|   |       |   |   |   |   _ratio.py
+|   |       |   |   |   |   _spinners.py
+|   |       |   |   |   |   _stack.py
+|   |       |   |   |   |   _timer.py
+|   |       |   |   |   |   _win32_console.py
+|   |       |   |   |   |   _windows.py
+|   |       |   |   |   |   _windows_renderer.py
+|   |       |   |   |   |   _wrap.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   __main__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           abc.cpython-314.pyc
+|   |       |   |   |           align.cpython-314.pyc
+|   |       |   |   |           ansi.cpython-314.pyc
+|   |       |   |   |           bar.cpython-314.pyc
+|   |       |   |   |           box.cpython-314.pyc
+|   |       |   |   |           cells.cpython-314.pyc
+|   |       |   |   |           color.cpython-314.pyc
+|   |       |   |   |           color_triplet.cpython-314.pyc
+|   |       |   |   |           columns.cpython-314.pyc
+|   |       |   |   |           console.cpython-314.pyc
+|   |       |   |   |           constrain.cpython-314.pyc
+|   |       |   |   |           containers.cpython-314.pyc
+|   |       |   |   |           control.cpython-314.pyc
+|   |       |   |   |           default_styles.cpython-314.pyc
+|   |       |   |   |           diagnose.cpython-314.pyc
+|   |       |   |   |           emoji.cpython-314.pyc
+|   |       |   |   |           errors.cpython-314.pyc
+|   |       |   |   |           filesize.cpython-314.pyc
+|   |       |   |   |           file_proxy.cpython-314.pyc
+|   |       |   |   |           highlighter.cpython-314.pyc
+|   |       |   |   |           json.cpython-314.pyc
+|   |       |   |   |           jupyter.cpython-314.pyc
+|   |       |   |   |           layout.cpython-314.pyc
+|   |       |   |   |           live.cpython-314.pyc
+|   |       |   |   |           live_render.cpython-314.pyc
+|   |       |   |   |           logging.cpython-314.pyc
+|   |       |   |   |           markup.cpython-314.pyc
+|   |       |   |   |           measure.cpython-314.pyc
+|   |       |   |   |           padding.cpython-314.pyc
+|   |       |   |   |           pager.cpython-314.pyc
+|   |       |   |   |           palette.cpython-314.pyc
+|   |       |   |   |           panel.cpython-314.pyc
+|   |       |   |   |           pretty.cpython-314.pyc
+|   |       |   |   |           progress.cpython-314.pyc
+|   |       |   |   |           progress_bar.cpython-314.pyc
+|   |       |   |   |           prompt.cpython-314.pyc
+|   |       |   |   |           protocol.cpython-314.pyc
+|   |       |   |   |           region.cpython-314.pyc
+|   |       |   |   |           repr.cpython-314.pyc
+|   |       |   |   |           rule.cpython-314.pyc
+|   |       |   |   |           scope.cpython-314.pyc
+|   |       |   |   |           screen.cpython-314.pyc
+|   |       |   |   |           segment.cpython-314.pyc
+|   |       |   |   |           spinner.cpython-314.pyc
+|   |       |   |   |           status.cpython-314.pyc
+|   |       |   |   |           style.cpython-314.pyc
+|   |       |   |   |           styled.cpython-314.pyc
+|   |       |   |   |           syntax.cpython-314.pyc
+|   |       |   |   |           table.cpython-314.pyc
+|   |       |   |   |           terminal_theme.cpython-314.pyc
+|   |       |   |   |           text.cpython-314.pyc
+|   |       |   |   |           theme.cpython-314.pyc
+|   |       |   |   |           themes.cpython-314.pyc
+|   |       |   |   |           traceback.cpython-314.pyc
+|   |       |   |   |           tree.cpython-314.pyc
+|   |       |   |   |           _cell_widths.cpython-314.pyc
+|   |       |   |   |           _emoji_codes.cpython-314.pyc
+|   |       |   |   |           _emoji_replace.cpython-314.pyc
+|   |       |   |   |           _export_format.cpython-314.pyc
+|   |       |   |   |           _extension.cpython-314.pyc
+|   |       |   |   |           _fileno.cpython-314.pyc
+|   |       |   |   |           _inspect.cpython-314.pyc
+|   |       |   |   |           _log_render.cpython-314.pyc
+|   |       |   |   |           _loop.cpython-314.pyc
+|   |       |   |   |           _null_file.cpython-314.pyc
+|   |       |   |   |           _palettes.cpython-314.pyc
+|   |       |   |   |           _pick.cpython-314.pyc
+|   |       |   |   |           _ratio.cpython-314.pyc
+|   |       |   |   |           _spinners.cpython-314.pyc
+|   |       |   |   |           _stack.cpython-314.pyc
+|   |       |   |   |           _timer.cpython-314.pyc
+|   |       |   |   |           _win32_console.cpython-314.pyc
+|   |       |   |   |           _windows.cpython-314.pyc
+|   |       |   |   |           _windows_renderer.cpython-314.pyc
+|   |       |   |   |           _wrap.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           __main__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---tomli
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   _parser.py
+|   |       |   |   |   |   _re.py
+|   |       |   |   |   |   _types.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           _parser.cpython-314.pyc
+|   |       |   |   |           _re.cpython-314.pyc
+|   |       |   |   |           _types.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---tomli_w
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   _writer.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           _writer.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---truststore
+|   |       |   |   |   |   LICENSE
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   _api.py
+|   |       |   |   |   |   _macos.py
+|   |       |   |   |   |   _openssl.py
+|   |       |   |   |   |   _ssl_constants.py
+|   |       |   |   |   |   _windows.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           _api.cpython-314.pyc
+|   |       |   |   |           _macos.cpython-314.pyc
+|   |       |   |   |           _openssl.cpython-314.pyc
+|   |       |   |   |           _ssl_constants.cpython-314.pyc
+|   |       |   |   |           _windows.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---urllib3
+|   |       |   |   |   |   connection.py
+|   |       |   |   |   |   connectionpool.py
+|   |       |   |   |   |   exceptions.py
+|   |       |   |   |   |   fields.py
+|   |       |   |   |   |   filepost.py
+|   |       |   |   |   |   LICENSE.txt
+|   |       |   |   |   |   poolmanager.py
+|   |       |   |   |   |   py.typed
+|   |       |   |   |   |   response.py
+|   |       |   |   |   |   _base_connection.py
+|   |       |   |   |   |   _collections.py
+|   |       |   |   |   |   _request_methods.py
+|   |       |   |   |   |   _version.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---contrib
+|   |       |   |   |   |   |   pyopenssl.py
+|   |       |   |   |   |   |   socks.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   +---emscripten
+|   |       |   |   |   |   |   |   connection.py
+|   |       |   |   |   |   |   |   emscripten_fetch_worker.js
+|   |       |   |   |   |   |   |   fetch.py
+|   |       |   |   |   |   |   |   request.py
+|   |       |   |   |   |   |   |   response.py
+|   |       |   |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   |   
+|   |       |   |   |   |   |   \---__pycache__
+|   |       |   |   |   |   |           connection.cpython-314.pyc
+|   |       |   |   |   |   |           fetch.cpython-314.pyc
+|   |       |   |   |   |   |           request.cpython-314.pyc
+|   |       |   |   |   |   |           response.cpython-314.pyc
+|   |       |   |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |   |           
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           pyopenssl.cpython-314.pyc
+|   |       |   |   |   |           socks.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---http2
+|   |       |   |   |   |   |   connection.py
+|   |       |   |   |   |   |   probe.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           connection.cpython-314.pyc
+|   |       |   |   |   |           probe.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---util
+|   |       |   |   |   |   |   connection.py
+|   |       |   |   |   |   |   proxy.py
+|   |       |   |   |   |   |   request.py
+|   |       |   |   |   |   |   response.py
+|   |       |   |   |   |   |   retry.py
+|   |       |   |   |   |   |   ssltransport.py
+|   |       |   |   |   |   |   ssl_.py
+|   |       |   |   |   |   |   ssl_match_hostname.py
+|   |       |   |   |   |   |   timeout.py
+|   |       |   |   |   |   |   url.py
+|   |       |   |   |   |   |   util.py
+|   |       |   |   |   |   |   wait.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           connection.cpython-314.pyc
+|   |       |   |   |   |           proxy.cpython-314.pyc
+|   |       |   |   |   |           request.cpython-314.pyc
+|   |       |   |   |   |           response.cpython-314.pyc
+|   |       |   |   |   |           retry.cpython-314.pyc
+|   |       |   |   |   |           ssltransport.cpython-314.pyc
+|   |       |   |   |   |           ssl_.cpython-314.pyc
+|   |       |   |   |   |           ssl_match_hostname.cpython-314.pyc
+|   |       |   |   |   |           timeout.cpython-314.pyc
+|   |       |   |   |   |           url.cpython-314.pyc
+|   |       |   |   |   |           util.cpython-314.pyc
+|   |       |   |   |   |           wait.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           connection.cpython-314.pyc
+|   |       |   |   |           connectionpool.cpython-314.pyc
+|   |       |   |   |           exceptions.cpython-314.pyc
+|   |       |   |   |           fields.cpython-314.pyc
+|   |       |   |   |           filepost.cpython-314.pyc
+|   |       |   |   |           poolmanager.cpython-314.pyc
+|   |       |   |   |           response.cpython-314.pyc
+|   |       |   |   |           _base_connection.cpython-314.pyc
+|   |       |   |   |           _collections.cpython-314.pyc
+|   |       |   |   |           _request_methods.cpython-314.pyc
+|   |       |   |   |           _version.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   \---__pycache__
+|   |       |           __init__.cpython-314.pyc
+|   |       |           __main__.cpython-314.pyc
+|   |       |           __pip-runner__.cpython-314.pyc
+|   |       |           
+|   |       +---pip-26.1.2.dist-info
+|   |       |   |   entry_points.txt
+|   |       |   |   INSTALLER
+|   |       |   |   METADATA
+|   |       |   |   RECORD
+|   |       |   |   REQUESTED
+|   |       |   |   WHEEL
+|   |       |   |   
+|   |       |   \---licenses
+|   |       |       |   AUTHORS.txt
+|   |       |       |   LICENSE.txt
+|   |       |       |   
+|   |       |       \---src
+|   |       |           \---pip
+|   |       |               \---_vendor
+|   |       |                   +---cachecontrol
+|   |       |                   |       LICENSE.txt
+|   |       |                   |       
+|   |       |                   +---certifi
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---distlib
+|   |       |                   |       LICENSE.txt
+|   |       |                   |       
+|   |       |                   +---distro
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---idna
+|   |       |                   |       LICENSE.md
+|   |       |                   |       
+|   |       |                   +---msgpack
+|   |       |                   |       COPYING
+|   |       |                   |       
+|   |       |                   +---packaging
+|   |       |                   |       LICENSE
+|   |       |                   |       LICENSE.APACHE
+|   |       |                   |       LICENSE.BSD
+|   |       |                   |       
+|   |       |                   +---pkg_resources
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---platformdirs
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---pygments
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---pyproject_hooks
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---requests
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---resolvelib
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---rich
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---tomli
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---tomli_w
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   +---truststore
+|   |       |                   |       LICENSE
+|   |       |                   |       
+|   |       |                   \---urllib3
+|   |       |                           LICENSE.txt
+|   |       |                           
+|   |       +---pyasn1
+|   |       |   |   debug.py
+|   |       |   |   error.py
+|   |       |   |   __init__.py
+|   |       |   |   
+|   |       |   +---codec
+|   |       |   |   |   streaming.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   +---ber
+|   |       |   |   |   |   decoder.py
+|   |       |   |   |   |   encoder.py
+|   |       |   |   |   |   eoo.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           decoder.cpython-314.pyc
+|   |       |   |   |           encoder.cpython-314.pyc
+|   |       |   |   |           eoo.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---cer
+|   |       |   |   |   |   decoder.py
+|   |       |   |   |   |   encoder.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           decoder.cpython-314.pyc
+|   |       |   |   |           encoder.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---der
+|   |       |   |   |   |   decoder.py
+|   |       |   |   |   |   encoder.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           decoder.cpython-314.pyc
+|   |       |   |   |           encoder.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---native
+|   |       |   |   |   |   decoder.py
+|   |       |   |   |   |   encoder.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           decoder.cpython-314.pyc
+|   |       |   |   |           encoder.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           streaming.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   +---compat
+|   |       |   |   |   integer.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   \---__pycache__
+|   |       |   |           integer.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   +---type
+|   |       |   |   |   base.py
+|   |       |   |   |   char.py
+|   |       |   |   |   constraint.py
+|   |       |   |   |   error.py
+|   |       |   |   |   namedtype.py
+|   |       |   |   |   namedval.py
+|   |       |   |   |   opentype.py
+|   |       |   |   |   tag.py
+|   |       |   |   |   tagmap.py
+|   |       |   |   |   univ.py
+|   |       |   |   |   useful.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   \---__pycache__
+|   |       |   |           base.cpython-314.pyc
+|   |       |   |           char.cpython-314.pyc
+|   |       |   |           constraint.cpython-314.pyc
+|   |       |   |           error.cpython-314.pyc
+|   |       |   |           namedtype.cpython-314.pyc
+|   |       |   |           namedval.cpython-314.pyc
+|   |       |   |           opentype.cpython-314.pyc
+|   |       |   |           tag.cpython-314.pyc
+|   |       |   |           tagmap.cpython-314.pyc
+|   |       |   |           univ.cpython-314.pyc
+|   |       |   |           useful.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   \---__pycache__
+|   |       |           debug.cpython-314.pyc
+|   |       |           error.cpython-314.pyc
+|   |       |           __init__.cpython-314.pyc
+|   |       |           
+|   |       +---pyasn1-0.6.4.dist-info
+|   |       |   |   INSTALLER
+|   |       |   |   METADATA
+|   |       |   |   RECORD
+|   |       |   |   top_level.txt
+|   |       |   |   WHEEL
+|   |       |   |   zip-safe
+|   |       |   |   
+|   |       |   \---licenses
+|   |       |           LICENSE.rst
+|   |       |           
+|   |       +---pysnmp
+|   |       |   |   .DS_Store
+|   |       |   |   cache.py
+|   |       |   |   debug.py
+|   |       |   |   error.py
+|   |       |   |   nextid.py
+|   |       |   |   __init__.py
+|   |       |   |   
+|   |       |   +---carrier
+|   |       |   |   |   base.py
+|   |       |   |   |   error.py
+|   |       |   |   |   sockfix.py
+|   |       |   |   |   sockmsg.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   +---asyncio
+|   |       |   |   |   |   base.py
+|   |       |   |   |   |   dispatch.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---dgram
+|   |       |   |   |   |   |   base.py
+|   |       |   |   |   |   |   udp.py
+|   |       |   |   |   |   |   udp6.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           base.cpython-314.pyc
+|   |       |   |   |   |           udp.cpython-314.pyc
+|   |       |   |   |   |           udp6.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           base.cpython-314.pyc
+|   |       |   |   |           dispatch.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           base.cpython-314.pyc
+|   |       |   |           error.cpython-314.pyc
+|   |       |   |           sockfix.cpython-314.pyc
+|   |       |   |           sockmsg.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   +---entity
+|   |       |   |   |   config.py
+|   |       |   |   |   engine.py
+|   |       |   |   |   observer.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   +---rfc3413
+|   |       |   |   |   |   cmdgen.py
+|   |       |   |   |   |   cmdrsp.py
+|   |       |   |   |   |   config.py
+|   |       |   |   |   |   context.py
+|   |       |   |   |   |   ntforg.py
+|   |       |   |   |   |   ntfrcv.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           cmdgen.cpython-314.pyc
+|   |       |   |   |           cmdrsp.cpython-314.pyc
+|   |       |   |   |           config.cpython-314.pyc
+|   |       |   |   |           context.cpython-314.pyc
+|   |       |   |   |           ntforg.cpython-314.pyc
+|   |       |   |   |           ntfrcv.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           config.cpython-314.pyc
+|   |       |   |           engine.cpython-314.pyc
+|   |       |   |           observer.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   +---hlapi
+|   |       |   |   |   transport.py
+|   |       |   |   |   varbinds.py
+|   |       |   |   |   
+|   |       |   |   +---asyncio
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---v1arch
+|   |       |   |   |   |   dispatch.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---asyncio
+|   |       |   |   |   |   |   auth.py
+|   |       |   |   |   |   |   cmdgen.py
+|   |       |   |   |   |   |   dispatch.py
+|   |       |   |   |   |   |   ntforg.py
+|   |       |   |   |   |   |   slim.py
+|   |       |   |   |   |   |   transport.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           auth.cpython-314.pyc
+|   |       |   |   |   |           cmdgen.cpython-314.pyc
+|   |       |   |   |   |           dispatch.cpython-314.pyc
+|   |       |   |   |   |           ntforg.cpython-314.pyc
+|   |       |   |   |   |           slim.cpython-314.pyc
+|   |       |   |   |   |           transport.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           dispatch.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---v3arch
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---asyncio
+|   |       |   |   |   |   |   auth.py
+|   |       |   |   |   |   |   cmdgen.py
+|   |       |   |   |   |   |   context.py
+|   |       |   |   |   |   |   lcd.py
+|   |       |   |   |   |   |   ntforg.py
+|   |       |   |   |   |   |   transport.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           auth.cpython-314.pyc
+|   |       |   |   |   |           cmdgen.cpython-314.pyc
+|   |       |   |   |   |           context.cpython-314.pyc
+|   |       |   |   |   |           lcd.cpython-314.pyc
+|   |       |   |   |   |           ntforg.cpython-314.pyc
+|   |       |   |   |   |           transport.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           transport.cpython-314.pyc
+|   |       |   |           varbinds.cpython-314.pyc
+|   |       |   |           
+|   |       |   +---proto
+|   |       |   |   |   cache.py
+|   |       |   |   |   errind.py
+|   |       |   |   |   error.py
+|   |       |   |   |   rfc1155.py
+|   |       |   |   |   rfc1157.py
+|   |       |   |   |   rfc1901.py
+|   |       |   |   |   rfc1902.py
+|   |       |   |   |   rfc1905.py
+|   |       |   |   |   rfc3411.py
+|   |       |   |   |   rfc3412.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   +---acmod
+|   |       |   |   |   |   rfc3415.py
+|   |       |   |   |   |   void.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           rfc3415.cpython-314.pyc
+|   |       |   |   |           void.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---api
+|   |       |   |   |   |   v1.py
+|   |       |   |   |   |   v2c.py
+|   |       |   |   |   |   verdec.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           v1.cpython-314.pyc
+|   |       |   |   |           v2c.cpython-314.pyc
+|   |       |   |   |           verdec.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---mpmod
+|   |       |   |   |   |   base.py
+|   |       |   |   |   |   cache.py
+|   |       |   |   |   |   rfc2576.py
+|   |       |   |   |   |   rfc3412.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           base.cpython-314.pyc
+|   |       |   |   |           cache.cpython-314.pyc
+|   |       |   |   |           rfc2576.cpython-314.pyc
+|   |       |   |   |           rfc3412.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---proxy
+|   |       |   |   |   |   rfc2576.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           rfc2576.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   +---secmod
+|   |       |   |   |   |   base.py
+|   |       |   |   |   |   cache.py
+|   |       |   |   |   |   rfc2576.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---eso
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   +---priv
+|   |       |   |   |   |   |   |   aes192.py
+|   |       |   |   |   |   |   |   aes256.py
+|   |       |   |   |   |   |   |   aesbase.py
+|   |       |   |   |   |   |   |   des3.py
+|   |       |   |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   |   
+|   |       |   |   |   |   |   \---__pycache__
+|   |       |   |   |   |   |           aes192.cpython-314.pyc
+|   |       |   |   |   |   |           aes256.cpython-314.pyc
+|   |       |   |   |   |   |           aesbase.cpython-314.pyc
+|   |       |   |   |   |   |           des3.cpython-314.pyc
+|   |       |   |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |   |           
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---rfc3414
+|   |       |   |   |   |   |   localkey.py
+|   |       |   |   |   |   |   service.py
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   +---auth
+|   |       |   |   |   |   |   |   base.py
+|   |       |   |   |   |   |   |   hmacmd5.py
+|   |       |   |   |   |   |   |   hmacsha.py
+|   |       |   |   |   |   |   |   noauth.py
+|   |       |   |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   |   
+|   |       |   |   |   |   |   \---__pycache__
+|   |       |   |   |   |   |           base.cpython-314.pyc
+|   |       |   |   |   |   |           hmacmd5.cpython-314.pyc
+|   |       |   |   |   |   |           hmacsha.cpython-314.pyc
+|   |       |   |   |   |   |           noauth.cpython-314.pyc
+|   |       |   |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |   |           
+|   |       |   |   |   |   +---priv
+|   |       |   |   |   |   |   |   base.py
+|   |       |   |   |   |   |   |   des.py
+|   |       |   |   |   |   |   |   nopriv.py
+|   |       |   |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   |   
+|   |       |   |   |   |   |   \---__pycache__
+|   |       |   |   |   |   |           base.cpython-314.pyc
+|   |       |   |   |   |   |           des.cpython-314.pyc
+|   |       |   |   |   |   |           nopriv.cpython-314.pyc
+|   |       |   |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |   |           
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           localkey.cpython-314.pyc
+|   |       |   |   |   |           service.cpython-314.pyc
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---rfc3826
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   +---priv
+|   |       |   |   |   |   |   |   aes.py
+|   |       |   |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   |   
+|   |       |   |   |   |   |   \---__pycache__
+|   |       |   |   |   |   |           aes.cpython-314.pyc
+|   |       |   |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |   |           
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   +---rfc7860
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   +---auth
+|   |       |   |   |   |   |   |   hmacsha2.py
+|   |       |   |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   |   
+|   |       |   |   |   |   |   \---__pycache__
+|   |       |   |   |   |   |           hmacsha2.cpython-314.pyc
+|   |       |   |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |   |           
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           base.cpython-314.pyc
+|   |       |   |   |           cache.cpython-314.pyc
+|   |       |   |   |           rfc2576.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           cache.cpython-314.pyc
+|   |       |   |           errind.cpython-314.pyc
+|   |       |   |           error.cpython-314.pyc
+|   |       |   |           rfc1155.cpython-314.pyc
+|   |       |   |           rfc1157.cpython-314.pyc
+|   |       |   |           rfc1901.cpython-314.pyc
+|   |       |   |           rfc1902.cpython-314.pyc
+|   |       |   |           rfc1905.cpython-314.pyc
+|   |       |   |           rfc3411.cpython-314.pyc
+|   |       |   |           rfc3412.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   +---smi
+|   |       |   |   |   .DS_Store
+|   |       |   |   |   builder.py
+|   |       |   |   |   compiler.py
+|   |       |   |   |   error.py
+|   |       |   |   |   exval.py
+|   |       |   |   |   indices.py
+|   |       |   |   |   instrum.py
+|   |       |   |   |   rfc1902.py
+|   |       |   |   |   types.py
+|   |       |   |   |   view.py
+|   |       |   |   |   __init__.py
+|   |       |   |   |   
+|   |       |   |   +---mibs
+|   |       |   |   |   |   ASN1-ENUMERATION.py
+|   |       |   |   |   |   ASN1-REFINEMENT.py
+|   |       |   |   |   |   ASN1.py
+|   |       |   |   |   |   INET-ADDRESS-MIB.py
+|   |       |   |   |   |   PYSNMP-MIB.py
+|   |       |   |   |   |   PYSNMP-SOURCE-MIB.py
+|   |       |   |   |   |   PYSNMP-USM-MIB.py
+|   |       |   |   |   |   RFC1158-MIB.py
+|   |       |   |   |   |   RFC1213-MIB.py
+|   |       |   |   |   |   SNMP-COMMUNITY-MIB.py
+|   |       |   |   |   |   SNMP-FRAMEWORK-MIB.py
+|   |       |   |   |   |   SNMP-MPD-MIB.py
+|   |       |   |   |   |   SNMP-NOTIFICATION-MIB.py
+|   |       |   |   |   |   SNMP-PROXY-MIB.py
+|   |       |   |   |   |   SNMP-TARGET-MIB.py
+|   |       |   |   |   |   SNMP-USER-BASED-SM-3DES-MIB.py
+|   |       |   |   |   |   SNMP-USER-BASED-SM-MIB.py
+|   |       |   |   |   |   SNMP-USM-AES-MIB.py
+|   |       |   |   |   |   SNMP-USM-HMAC-SHA2-MIB.py
+|   |       |   |   |   |   SNMP-VIEW-BASED-ACM-MIB.py
+|   |       |   |   |   |   SNMPv2-CONF.py
+|   |       |   |   |   |   SNMPv2-MIB.py
+|   |       |   |   |   |   SNMPv2-SMI.py
+|   |       |   |   |   |   SNMPv2-TC.py
+|   |       |   |   |   |   SNMPv2-TM.py
+|   |       |   |   |   |   TRANSPORT-ADDRESS-MIB.py
+|   |       |   |   |   |   __init__.py
+|   |       |   |   |   |   
+|   |       |   |   |   +---instances
+|   |       |   |   |   |   |   __init__.py
+|   |       |   |   |   |   |   __PYSNMP-USM-MIB.py
+|   |       |   |   |   |   |   __SNMP-FRAMEWORK-MIB.py
+|   |       |   |   |   |   |   __SNMP-MPD-MIB.py
+|   |       |   |   |   |   |   __SNMP-TARGET-MIB.py
+|   |       |   |   |   |   |   __SNMP-USER-BASED-SM-MIB.py
+|   |       |   |   |   |   |   __SNMP-VIEW-BASED-ACM-MIB.py
+|   |       |   |   |   |   |   __SNMPv2-MIB.py
+|   |       |   |   |   |   |   
+|   |       |   |   |   |   \---__pycache__
+|   |       |   |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |   |           __PYSNMP-USM-MIB.cpython-314.pyc
+|   |       |   |   |   |           __SNMP-FRAMEWORK-MIB.cpython-314.pyc
+|   |       |   |   |   |           __SNMP-MPD-MIB.cpython-314.pyc
+|   |       |   |   |   |           __SNMP-TARGET-MIB.cpython-314.pyc
+|   |       |   |   |   |           __SNMP-USER-BASED-SM-MIB.cpython-314.pyc
+|   |       |   |   |   |           __SNMP-VIEW-BASED-ACM-MIB.cpython-314.pyc
+|   |       |   |   |   |           __SNMPv2-MIB.cpython-314.pyc
+|   |       |   |   |   |           
+|   |       |   |   |   \---__pycache__
+|   |       |   |   |           ASN1-ENUMERATION.cpython-314.pyc
+|   |       |   |   |           ASN1-REFINEMENT.cpython-314.pyc
+|   |       |   |   |           ASN1.cpython-314.pyc
+|   |       |   |   |           INET-ADDRESS-MIB.cpython-314.pyc
+|   |       |   |   |           PYSNMP-MIB.cpython-314.pyc
+|   |       |   |   |           PYSNMP-SOURCE-MIB.cpython-314.pyc
+|   |       |   |   |           PYSNMP-USM-MIB.cpython-314.pyc
+|   |       |   |   |           RFC1158-MIB.cpython-314.pyc
+|   |       |   |   |           RFC1213-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-COMMUNITY-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-FRAMEWORK-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-MPD-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-NOTIFICATION-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-PROXY-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-TARGET-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-USER-BASED-SM-3DES-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-USER-BASED-SM-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-USM-AES-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-USM-HMAC-SHA2-MIB.cpython-314.pyc
+|   |       |   |   |           SNMP-VIEW-BASED-ACM-MIB.cpython-314.pyc
+|   |       |   |   |           SNMPv2-CONF.cpython-314.pyc
+|   |       |   |   |           SNMPv2-MIB.cpython-314.pyc
+|   |       |   |   |           SNMPv2-SMI.cpython-314.pyc
+|   |       |   |   |           SNMPv2-TC.cpython-314.pyc
+|   |       |   |   |           SNMPv2-TM.cpython-314.pyc
+|   |       |   |   |           TRANSPORT-ADDRESS-MIB.cpython-314.pyc
+|   |       |   |   |           __init__.cpython-314.pyc
+|   |       |   |   |           
+|   |       |   |   \---__pycache__
+|   |       |   |           builder.cpython-314.pyc
+|   |       |   |           compiler.cpython-314.pyc
+|   |       |   |           error.cpython-314.pyc
+|   |       |   |           exval.cpython-314.pyc
+|   |       |   |           indices.cpython-314.pyc
+|   |       |   |           instrum.cpython-314.pyc
+|   |       |   |           rfc1902.cpython-314.pyc
+|   |       |   |           types.cpython-314.pyc
+|   |       |   |           view.cpython-314.pyc
+|   |       |   |           __init__.cpython-314.pyc
+|   |       |   |           
+|   |       |   \---__pycache__
+|   |       |           cache.cpython-314.pyc
+|   |       |           debug.cpython-314.pyc
+|   |       |           error.cpython-314.pyc
+|   |       |           nextid.cpython-314.pyc
+|   |       |           __init__.cpython-314.pyc
+|   |       |           
+|   |       \---pysnmp-7.1.27.dist-info
+|   |           |   INSTALLER
+|   |           |   METADATA
+|   |           |   RECORD
+|   |           |   REQUESTED
+|   |           |   WHEEL
+|   |           |   
+|   |           \---licenses
+|   |                   LICENSE.rst
+|   |                   
+|   \---Scripts
+|           activate
+|           activate.bat
+|           activate.fish
+|           Activate.ps1
+|           deactivate.bat
+|           pip.exe
+|           pip3.14.exe
+|           pip3.exe
+|           python.exe
+|           pythonw.exe
+|           
++---assets
+|       ativo_701644HH03ND3.json
+|       
++---backup
+|   |   printers_found.json
+|   |   
+|   +---core
+|   |   |   agente.py
+|   |   |   asset.py
+|   |   |   atualizar_printer.py
+|   |   |   banco.py
+|   |   |   cache.py
+|   |   |   comandos.py
+|   |   |   comandos_db.py
+|   |   |   commands.py
+|   |   |   command_executor.py
+|   |   |   command_manager.py
+|   |   |   conhecimento.py
+|   |   |   context.py
+|   |   |   contexto.py
+|   |   |   database.py
+|   |   |   device.py
+|   |   |   diagnosis.py
+|   |   |   driver.py
+|   |   |   executor.py
+|   |   |   form_scanner.py
+|   |   |   hermes.py
+|   |   |   impressora.py
+|   |   |   lexmark.py
+|   |   |   listar_banco.py
+|   |   |   memoria.py
+|   |   |   modelos.py
+|   |   |   ollama_ai.py
+|   |   |   parser.py
+|   |   |   pjl.py
+|   |   |   printer
+|   |   |   printer.py
+|   |   |   printer_memory.py
+|   |   |   printer_profile.py
+|   |   |   registry.py
+|   |   |   relatorio.py
+|   |   |   roteador.py
+|   |   |   safety.py
+|   |   |   scanner.py
+|   |   |   session.py
+|   |   |   sniffer.py
+|   |   |   snmp.py
+|   |   |   state.py
+|   |   |   status.py
+|   |   |   tools_registry.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---knowledge
+|   |   |   |   actions.py
+|   |   |   |   builder.py
+|   |   |   |   crawler.py
+|   |   |   |   extractor.py
+|   |   |   |   report.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           crawler.cpython-314.pyc
+|   |   |           __init__.cpython-314.pyc
+|   |   |           
+|   |   \---__pycache__
+|   |           agente.cpython-314.pyc
+|   |           asset.cpython-314.pyc
+|   |           atualizar_printer.cpython-314.pyc
+|   |           banco.cpython-314.pyc
+|   |           comandos_db.cpython-314.pyc
+|   |           commands.cpython-314.pyc
+|   |           command_executor.cpython-314.pyc
+|   |           command_manager.cpython-314.pyc
+|   |           context.cpython-314.pyc
+|   |           contexto.cpython-314.pyc
+|   |           device.cpython-314.pyc
+|   |           executor.cpython-314.pyc
+|   |           form_scanner.cpython-314.pyc
+|   |           hermes.cpython-314.pyc
+|   |           impressora.cpython-314.pyc
+|   |           lexmark.cpython-314.pyc
+|   |           listar_banco.cpython-314.pyc
+|   |           memoria.cpython-314.pyc
+|   |           ollama_ai.cpython-314.pyc
+|   |           parser.cpython-314.pyc
+|   |           pjl.cpython-314.pyc
+|   |           printer.cpython-314.pyc
+|   |           printer_memory.cpython-314.pyc
+|   |           printer_profile.cpython-314.pyc
+|   |           relatorio.cpython-314.pyc
+|   |           roteador.cpython-314.pyc
+|   |           safety.cpython-314.pyc
+|   |           scanner.cpython-314.pyc
+|   |           session.cpython-314.pyc
+|   |           sniffer.cpython-314.pyc
+|   |           snmp.cpython-314.pyc
+|   |           status.cpython-314.pyc
+|   |           tools_registry.cpython-314.pyc
+|   |           __init__.cpython-314.pyc
+|   |           
+|   \---tools
+|       |   analisar.py
+|       |   analise_tecnica.py
+|       |   auto_detect.py
+|       |   bancada.py
+|       |   build_database.py
+|       |   cgi_scanner.py
+|       |   comandos_impressora.py
+|       |   comando_executor.py
+|       |   config_interpreter.py
+|       |   controle.py
+|       |   conversor.py
+|       |   debug.py
+|       |   device_info.py
+|       |   diagnostico.py
+|       |   discovery.py
+|       |   endpoint_scanner.py
+|       |   ews.py
+|       |   ews_actions.py
+|       |   ews_explorer.py
+|       |   ews_map.py
+|       |   ews_parser.py
+|       |   executor.py
+|       |   explorer.py
+|       |   form_extractor.py
+|       |   identify.py
+|       |   lexmark_actions.py
+|       |   lexmark_config.py
+|       |   lexmark_mapper.py
+|       |   lexmark_reset.py
+|       |   lexmark_snmp.py
+|       |   link_extractor.py
+|       |   manual_indexer.py
+|       |   manual_reader.py
+|       |   manual_search.py
+|       |   menu_extractor.py
+|       |   network.py
+|       |   page_fuzzer.py
+|       |   painel.py
+|       |   parser_old.py
+|       |   post_executor.py
+|       |   printer.py
+|       |   printer_actions.py
+|       |   printer_commands.py
+|       |   printer_selector.py
+|       |   procurar_hidden.py
+|       |   procurar_modelo.py
+|       |   procurar_serial.py
+|       |   report_scanner.py
+|       |   routines.py
+|       |   salvar_automatico.py
+|       |   salvar_ews.py
+|       |   scanner.py
+|       |   selecionar.py
+|       |   send_post.py
+|       |   service_mode.py
+|       |   snmp.py
+|       |   snmp_parser.py
+|       |   ucf_parser.py
+|       |   usb.py
+|       |   web_probe.py
+|       |   __init__.py
+|       |   
+|       +---actions
+|       |       impressao.py
+|       |       papel.py
+|       |       reset.py
+|       |       usb.py
+|       |       __init__.py
+|       |       
+|       +---hardware
+|       |       usb.py
+|       |       
+|       +---pages
+|       |       endpoints.py
+|       |       
+|       +---parser
+|       |   |   firmware.py
+|       |   |   identificacao.py
+|       |   |   modelo.py
+|       |   |   parser2.py
+|       |   |   secoes.py
+|       |   |   snmp_ident.py
+|       |   |   suprimentos.py
+|       |   |   __init__.py
+|       |   |   
+|       |   \---__pycache__
+|       |           identificacao.cpython-314.pyc
+|       |           modelo.cpython-314.pyc
+|       |           snmp_ident.cpython-314.pyc
+|       |           suprimentos.cpython-314.pyc
+|       |           __init__.cpython-314.pyc
+|       |           
+|       +---procedimentos
+|       |       bancada.py
+|       |       
+|       +---tests
+|       |       endpoint_scanner.py
+|       |       
+|       \---__pycache__
+|               analisar.cpython-314.pyc
+|               analise_tecnica.cpython-314.pyc
+|               auto_detect.cpython-314.pyc
+|               bancada.cpython-314.pyc
+|               comandos_impressora.cpython-314.pyc
+|               comando_executor.cpython-314.pyc
+|               config_interpreter.cpython-314.pyc
+|               conversor.cpython-314.pyc
+|               debug.cpython-314.pyc
+|               device_info.cpython-314.pyc
+|               diagnostico.cpython-314.pyc
+|               discovery.cpython-314.pyc
+|               endpoint_scanner.cpython-314.pyc
+|               ews.cpython-314.pyc
+|               ews_parser.cpython-314.pyc
+|               executor.cpython-314.pyc
+|               form_extractor.cpython-314.pyc
+|               identify.cpython-314.pyc
+|               lexmark_actions.cpython-314.pyc
+|               lexmark_config.cpython-314.pyc
+|               lexmark_reset.cpython-314.pyc
+|               lexmark_snmp.cpython-314.pyc
+|               manual_indexer.cpython-314.pyc
+|               manual_search.cpython-314.pyc
+|               network.cpython-314.pyc
+|               painel.cpython-314.pyc
+|               parser.cpython-314.pyc
+|               printer.cpython-314.pyc
+|               printer_selector.cpython-314.pyc
+|               routines.cpython-314.pyc
+|               salvar_automatico.cpython-314.pyc
+|               scanner.cpython-314.pyc
+|               selecionar.cpython-314.pyc
+|               send_post.cpython-314.pyc
+|               snmp.cpython-314.pyc
+|               snmp_parser.cpython-314.pyc
+|               ucf_parser.cpython-314.pyc
+|               usb.cpython-314.pyc
+|               __init__.cpython-314.pyc
+|               
++---backup_manual
+|       device.py
+|       discovery.py
+|       main.py
+|       scanner.py
+|       
++---coleta_printer
+|   |   explorer_print.json
+|   |   rede.txt
+|   |   web_probe.txt
+|   |   
+|   \---ews_dump
+|           cgi-bin_direct_printer_prtappauth_admin_appinfoservlet.html
+|           cgi-bin_direct_printer_prtappauth_admin_applicenseservlet.html
+|           cgi-bin_direct_printer_prtappauth_admin_applicenseshellservlet.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=cardCopy&license=license.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=cardCopy.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=ezForms&license=license.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=ezForms.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=multiSend&license=license.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=multiSend.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=myShortcut&license=license.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=myShortcut.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=scanToNet&license=license.html
+|           cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=scanToNet.html
+|           cgi-bin_direct_printer_prtappauth_admin_configureshellservlet.html
+|           cgi-bin_direct_printer_prtappauth_apps_scanToNet.html
+|           cgi-bin_direct_printer_prtappauth_system_systeminfoservlet.html
+|           cgi-bin_direct_printer_prtappauth_system_systemlogservlet.html
+|           cgi-bin_direct_printer_prtappauth_system_systemservlet.html
+|           cgi-bin_direct_printer_prtapp_apps_webappsservlet.html
+|           cgi-bin_direct_printer__prtappauth_apps_liteServlet.html
+|           cgi-bin_dynamicpf_pf_config_net_appletalk.html.html
+|           cgi-bin_dynamicpf_pf_config_net_ip.html.html
+|           cgi-bin_dynamicpf_pf_config_net_ipsettings.html.html
+|           cgi-bin_dynamicpf_pf_config_net_ipv6.html.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp.html.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp1.html.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=1.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=10.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=11.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=12.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=13.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=14.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=15.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=16.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=17.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=18.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=19.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=2.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=20.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=3.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=4.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=5.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=6.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=7.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=8.html
+|           cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=9.html
+|           cgi-bin_dynamicpf_pf_config_secure_8021x.html.html
+|           cgi-bin_dynamicpf_pf_config_secure_resetnet.html.html
+|           cgi-bin_dynamic_config_config.html.html
+|           cgi-bin_dynamic_config_gen_code_update.html.html
+|           cgi-bin_dynamic_config_gen_setuppg.html.html
+|           cgi-bin_dynamic_config_net_airprint.html.html
+|           cgi-bin_dynamic_config_net_appletalk.html.html
+|           cgi-bin_dynamic_config_net_gen_network.html.html
+|           cgi-bin_dynamic_config_net_ip.html.html
+|           cgi-bin_dynamic_config_net_ipv6.html.html
+|           cgi-bin_dynamic_config_net_network.html.html
+|           cgi-bin_dynamic_config_net_snmp.html.html
+|           cgi-bin_dynamic_config_net_snmp1.html.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=1.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=10.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=11.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=12.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=13.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=14.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=15.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=16.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=17.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=18.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=19.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=2.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=20.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=3.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=4.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=5.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=6.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=7.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=8.html
+|           cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=9.html
+|           cgi-bin_dynamic_config_net_web_link.html.html
+|           cgi-bin_dynamic_config_secure_8021x.html.html
+|           cgi-bin_dynamic_config_secure_ipsec.html.html
+|           cgi-bin_dynamic_config_secure_ports.html.html
+|           cgi-bin_dynamic_config_secure_resetnet.html.html
+|           cgi-bin_dynamic_config_secure_security.html.html
+|           cgi-bin_dynamic_config_secure_security.html_rand=.html
+|           cgi-bin_dynamic_left_bar.html.html
+|           cgi-bin_dynamic_linksindex.html.html
+|           cgi-bin_dynamic_printer_applets.html
+|           cgi-bin_dynamic_printer_breadcrumbs.css.html
+|           cgi-bin_dynamic_printer_configStyle.css.html
+|           cgi-bin_dynamic_printer_config_bookmark_bookmarkMain.html.html
+|           cgi-bin_dynamic_printer_config_gen_accessibility.html.html
+|           cgi-bin_dynamic_printer_config_gen_copy.html.html
+|           cgi-bin_dynamic_printer_config_gen_copy_color_drop.html.html
+|           cgi-bin_dynamic_printer_config_gen_copy_hdrftr.html.html
+|           cgi-bin_dynamic_printer_config_gen_copy_printer_settings.html.html
+|           cgi-bin_dynamic_printer_config_gen_email_alert_setup.html.html
+|           cgi-bin_dynamic_printer_config_gen_faxmode.html.html
+|           cgi-bin_dynamic_printer_config_gen_fax_color_balance_fax.html.html
+|           cgi-bin_dynamic_printer_config_gen_fax_faxserver.html.html
+|           cgi-bin_dynamic_printer_config_gen_fax_holdingfax.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_color_balance_email.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_color_balance_ftp.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_emailpdfsettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_emailsettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_email_color_drop.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_ftppdfsettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_ftpsettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_ftpemail_ftp_color_drop.html.html
+|           cgi-bin_dynamic_printer_config_gen_general.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_audio_feed.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_custombackground.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_ecomode.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_error_recovery.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_infosenttolexmark.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_quietmode.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_reset_autoreboot.html.html
+|           cgi-bin_dynamic_printer_config_gen_gen_sleep_button.html.html
+|           cgi-bin_dynamic_printer_config_gen_image_scaling.html.html
+|           cgi-bin_dynamic_printer_config_gen_importexport.html.html
+|           cgi-bin_dynamic_printer_config_gen_interventions.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_finish.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_html.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_image.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_job_accounting.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_latebind.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_pcl.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_pdf.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_PPDS.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_printsetup.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_ps.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_quality.html.html
+|           cgi-bin_dynamic_printer_config_gen_menu_xps.html.html
+|           cgi-bin_dynamic_printer_config_gen_papermenu.html.html
+|           cgi-bin_dynamic_printer_config_gen_pcl_emul.html.html
+|           cgi-bin_dynamic_printer_config_gen_pcl_fontsrc.html.html
+|           cgi-bin_dynamic_printer_config_gen_pcl_tray_renumber.html.html
+|           cgi-bin_dynamic_printer_config_gen_PPDS_lpi.html.html
+|           cgi-bin_dynamic_printer_config_gen_PPDS_lpp.html.html
+|           cgi-bin_dynamic_printer_config_gen_printersettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_printtousbsettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_progsupplies.html.html
+|           cgi-bin_dynamic_printer_config_gen_scan2net.html.html
+|           cgi-bin_dynamic_printer_config_gen_scantousbpdfsettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_scantousbsettings.html.html
+|           cgi-bin_dynamic_printer_config_gen_scan_color_balance.html.html
+|           cgi-bin_dynamic_printer_config_gen_scan_color_drop.html.html
+|           cgi-bin_dynamic_printer_config_gen_setupgen_alarms.html.html
+|           cgi-bin_dynamic_printer_config_gen_setupgen_print_recovery.html.html
+|           cgi-bin_dynamic_printer_config_gen_setupgen_timeouts.html.html
+|           cgi-bin_dynamic_printer_config_gen_setup_resource.html.html
+|           cgi-bin_dynamic_printer_config_gen_sub_add_btns.html.html
+|           cgi-bin_dynamic_printer_config_gen_sub_displayinfo.html.html
+|           cgi-bin_dynamic_printer_config_gen_sub_hours_operation.html.html
+|           cgi-bin_dynamic_printer_config_gen_sub_hours_operation.html_rand=.html
+|           cgi-bin_dynamic_printer_config_gen_sub_keyboard.html.html
+|           cgi-bin_dynamic_printer_config_gen_tray_viewfactory.html.html
+|           cgi-bin_dynamic_printer_config_gen_unifiedSolutions.html.html
+|           cgi-bin_dynamic_printer_config_gen_unifiedSolutions_apps.html.html
+|           cgi-bin_dynamic_printer_config_gen_unifiedSolutions_bundles.html.html
+|           cgi-bin_dynamic_printer_config_gen_unifiedSolutions_install.html.html
+|           cgi-bin_dynamic_printer_config_gen_unifiedSolutions_removeCookies.html.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_bundles.html.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_import_bundle.html.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_install_license.html.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_licenses.html.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_license_details.html_id=6d4ea29b%2D4c6d%2D4e59%2Db86d%2D0bd58b717c32.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_license_details.html_id=6d4ea29b-4c6d-4e59-b86d-0bd58b717c32.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_license_features.html_id=6d4ea29b%2D4c6d%2D4e59%2Db86d%2D0bd58b717c32.html
+|           cgi-bin_dynamic_printer_config_gen_vcc_license_features.html_id=6d4ea29b-4c6d-4e59-b86d-0bd58b717c32.html
+|           cgi-bin_dynamic_printer_config_net_active_nic.html.html
+|           cgi-bin_dynamic_printer_config_net_addressbook.html.html
+|           cgi-bin_dynamic_printer_config_net_address_searchattri.html.html
+|           cgi-bin_dynamic_printer_config_net_address_searchspecific_search.html.html
+|           cgi-bin_dynamic_printer_config_net_email.html.html
+|           cgi-bin_dynamic_printer_config_net_std_network.html.html
+|           cgi-bin_dynamic_printer_config_net_std_usb.html.html
+|           cgi-bin_dynamic_printer_config_paper_customnames.html.html
+|           cgi-bin_dynamic_printer_config_paper_customscansizes.html.html
+|           cgi-bin_dynamic_printer_config_paper_customscan_1.html.html
+|           cgi-bin_dynamic_printer_config_paper_customscan_2.html.html
+|           cgi-bin_dynamic_printer_config_paper_customscan_3.html.html
+|           cgi-bin_dynamic_printer_config_paper_customscan_4.html.html
+|           cgi-bin_dynamic_printer_config_paper_customscan_5.html.html
+|           cgi-bin_dynamic_printer_config_paper_customscan_6.html.html
+|           cgi-bin_dynamic_printer_config_paper_customtypes.html.html
+|           cgi-bin_dynamic_printer_config_paper_paperload.html.html
+|           cgi-bin_dynamic_printer_config_paper_papertexture.html.html
+|           cgi-bin_dynamic_printer_config_paper_paperweight.html.html
+|           cgi-bin_dynamic_printer_config_paper_universal_setup.html.html
+|           cgi-bin_dynamic_printer_config_paper_uni_height.html.html
+|           cgi-bin_dynamic_printer_config_paper_uni_width.html.html
+|           cgi-bin_dynamic_printer_config_remote_oppanel.html.html
+|           cgi-bin_dynamic_printer_config_remote_oppanel_config.html.html
+|           cgi-bin_dynamic_printer_config_reports_copydest.html.html
+|           cgi-bin_dynamic_printer_config_reports_deviceinfo.html.html
+|           cgi-bin_dynamic_printer_config_reports_devicestatistics.html.html
+|           cgi-bin_dynamic_printer_config_reports_emaildest.html.html
+|           cgi-bin_dynamic_printer_config_reports_eventlog.html.html
+|           cgi-bin_dynamic_printer_config_reports_faxdest.html.html
+|           cgi-bin_dynamic_printer_config_reports_ftpdest.html.html
+|           cgi-bin_dynamic_printer_config_reports_printdirectory.html.html
+|           cgi-bin_dynamic_printer_config_reports_printfaxcalllog.html.html
+|           cgi-bin_dynamic_printer_config_reports_printfaxjoblog.html.html
+|           cgi-bin_dynamic_printer_config_reports_printprofile.html.html
+|           cgi-bin_dynamic_printer_config_reports_shortcutreport.html.html
+|           cgi-bin_dynamic_printer_config_scanprofile_createprofile.html.html
+|           cgi-bin_dynamic_printer_config_secure_auditlog.html.html
+|           cgi-bin_dynamic_printer_config_secure_authsetup.html.html
+|           cgi-bin_dynamic_printer_config_secure_authsetup.html_info=normal&rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_addsecutemp.html.html
+|           cgi-bin_dynamic_printer_config_secure_auth_ads_main.html_info=normal&from=authsetup.html
+|           cgi-bin_dynamic_printer_config_secure_auth_applytemp.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_authstatus.html_index=Kerberos_Building_Block&index1=20&info=normal&start=true&rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_backuppwd.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_gssapi.html_index=&index1=&index2=&info=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_gssapi.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_index=&index1=&index2=&info=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=multigroups&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=nogroups&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=nogroups.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=simplegroups&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=multigroups&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=nogroups&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=nogroups&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=normal&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=simplegroups&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=&index=&index1=&index2=&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=multigroups&index=&index1=&index2=&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=nogroups&index=&index1=&index2=&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=nogroups&index=&index1=&index2=&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=normal&index=&index1=&index2=&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=simplegroups&index=&index1=&index2=&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=&index=&index1=&index2=&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=multigroups&index=&index1=&index2=&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=nogroups&index=&index1=&index2=&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=nogroups&index=&index1=&index2=&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=normal&index=&index1=&index2=&forGssapi=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=simplegroups&index=&index1=&index2=&forGssapi=yes.html
+|           cgi-bin_dynamic_printer_config_secure_auth_ldap.html_index=&index1=&index2=&info=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=multigroups.html
+|           cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=nogroups.html
+|           cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=simplegroups.html
+|           cgi-bin_dynamic_printer_config_secure_auth_managegssapi.html_info=normal&rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_managegssapi.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_manageldap.html_info=normal&rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_manageldap.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_managepassword.html_info=normal&rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_managepassword.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_managepin.html_info=normal&rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_managepin.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_manageusers.html.html
+|           cgi-bin_dynamic_printer_config_secure_auth_manageusers.html_info=normal&rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_manageusers.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_ntsetup.html_index=&index1=&index2=&info=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_password.html_index=&index1=&index2=&info=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_password.html_info=nogroups.html
+|           cgi-bin_dynamic_printer_config_secure_auth_password.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_pin.html_index=&index1=&index2=&info=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_pin.html_info=nogroups.html
+|           cgi-bin_dynamic_printer_config_secure_auth_pin.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_security_summary.html_info=normal&amp;referrer=edit_security.html
+|           cgi-bin_dynamic_printer_config_secure_auth_security_summary.html_info=normal&referrer=edit_security.html
+|           cgi-bin_dynamic_printer_config_secure_auth_security_summary.html_info=normal&referrer=main_security.html
+|           cgi-bin_dynamic_printer_config_secure_auth_secutemp.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_secutemp.html_rand=.html
+|           cgi-bin_dynamic_printer_config_secure_auth_usergroups.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_auth_users.html_index1=&index2=&info=&info1=SaveNNew.html
+|           cgi-bin_dynamic_printer_config_secure_auth_users.html_info=normal.html
+|           cgi-bin_dynamic_printer_config_secure_certmg.html.html
+|           cgi-bin_dynamic_printer_config_secure_cert_camonConfig.html.html
+|           cgi-bin_dynamic_printer_config_secure_cert_certAuth.html.html
+|           cgi-bin_dynamic_printer_config_secure_cert_deviceCert.html.html
+|           cgi-bin_dynamic_printer_config_secure_cert_restoreCertDef.html.html
+|           cgi-bin_dynamic_printer_config_secure_cert_setCertDef.html.html
+|           cgi-bin_dynamic_printer_config_secure_cert_viewCert.html_index=default.html
+|           cgi-bin_dynamic_printer_config_secure_confi_print_setup.html.html
+|           cgi-bin_dynamic_printer_config_secure_datetime.html.html
+|           cgi-bin_dynamic_printer_config_secure_disk_encryption.html.html
+|           cgi-bin_dynamic_printer_config_secure_disk_wiping.html.html
+|           cgi-bin_dynamic_printer_config_secure_erase_hard_drive.html.html
+|           cgi-bin_dynamic_printer_config_secure_erase_printer_memory.html.html
+|           cgi-bin_dynamic_printer_config_secure_importauth.html.html
+|           cgi-bin_dynamic_printer_config_secure_importdests.html.html
+|           cgi-bin_dynamic_printer_config_secure_importsettings.html.html
+|           cgi-bin_dynamic_printer_config_secure_import_destinations.html.html
+|           cgi-bin_dynamic_printer_config_secure_memwipe.html.html
+|           cgi-bin_dynamic_printer_config_secure_mfpcredentials.html.html
+|           cgi-bin_dynamic_printer_config_secure_ntpautokeypost.html.html
+|           cgi-bin_dynamic_printer_config_secure_ntpfilepost.html.html
+|           cgi-bin_dynamic_printer_config_secure_printer_reset_options.html.html
+|           cgi-bin_dynamic_printer_config_secure_restore_factory_settings.html.html
+|           cgi-bin_dynamic_printer_config_secure_restrict.html.html
+|           cgi-bin_dynamic_printer_config_secure_schedule_usb.html.html
+|           cgi-bin_dynamic_printer_config_secure_schedule_usb.html_rand=.html
+|           cgi-bin_dynamic_printer_config_secure_secusettings.html.html
+|           cgi-bin_dynamic_printer_config_secure_wizstart.html.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizmethods.html_info=multigroups.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizmethods.html_info=nogroups.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizmethods.html_info=simplegroups.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizpreexist.html.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizsecutemp.html_index=&index1=&index2=&info=.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizusersgen.html_info=multigroups.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizusersgen.html_info=nogroups.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_wizusersgen.html_info=simplegroups.html
+|           cgi-bin_dynamic_printer_config_secure_wiz_yesgroups.html_info=.html
+|           cgi-bin_dynamic_printer_config_shortcuts_copydest.html.html
+|           cgi-bin_dynamic_printer_config_shortcuts_copydest.html_rand=.html
+|           cgi-bin_dynamic_printer_config_shortcuts_destinations.html.html
+|           cgi-bin_dynamic_printer_config_shortcuts_emaildest.html.html
+|           cgi-bin_dynamic_printer_config_shortcuts_emaildest.html_rand=.html
+|           cgi-bin_dynamic_printer_config_shortcuts_faxdest.html.html
+|           cgi-bin_dynamic_printer_config_shortcuts_faxdest.html_rand=.html
+|           cgi-bin_dynamic_printer_config_shortcuts_faxholdsched.html.html
+|           cgi-bin_dynamic_printer_config_shortcuts_faxholdsched.html_rand=.html
+|           cgi-bin_dynamic_printer_config_shortcuts_ftpdest.html.html
+|           cgi-bin_dynamic_printer_config_shortcuts_ftpdest.html_rand=.html
+|           cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html.html
+|           cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_index=Formul%C3%A1rios+e+favoritos.html
+|           cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_index=MeuAtalho.html
+|           cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_index=__thumbChoiceProfile.html
+|           cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_rand=.html
+|           cgi-bin_dynamic_printer_include_bookmark.css.html
+|           cgi-bin_dynamic_printer_include_jquery-1.2.6.min.js.html
+|           cgi-bin_dynamic_printer_include_jquery.tablesorter.min.js.html
+|           cgi-bin_dynamic_printer_include_jshelper.js.html
+|           cgi-bin_dynamic_printer_include_mktree.css.html
+|           cgi-bin_dynamic_printer_include_mktree.js.html
+|           cgi-bin_dynamic_printer_include_wz_tooltip.js.html
+|           cgi-bin_dynamic_printer_langbar.html.html
+|           cgi-bin_dynamic_printer_logout.html.html
+|           cgi-bin_dynamic_printer_netscan_scanpc.html.html
+|           cgi-bin_dynamic_printer_PrinterStatus.html.html
+|           cgi-bin_dynamic_printer_solutions.css.html
+|           cgi-bin_dynamic_reports_and_information.html.html
+|           cgi-bin_dynamic_topbar.html.html
+|           cgi-bin_exportfile_printer_config_secure_authfile.ucf.html
+|           cgi-bin_exportfile_printer_config_secure_settingfile.ucf.html
+|           cgi-bin_exportfile_printer_config_secure_settingfileesf.ucf.html
+|           cgi-bin_exportfile_printer_config_secure_shortcuts.ucf.html
+|           cgi-bin_postpf_cgi-bin_dynamicpf_pf_config_gen_code_update.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_airprint.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_appletalk.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_gen_network.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_ip.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_ipsettings.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_ipv6.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=1.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=10.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=11.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=12.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=13.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=14.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=15.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=16.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=17.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=18.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=19.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=2.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=20.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=3.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=4.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=5.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=6.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=7.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=8.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=9.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_net_web_link.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_secure_8021x.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_secure_ipsec.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_config_secure_ports.html.html
+|           cgi-bin_postpf_cgi-bin_dynamic_reports_and_information.html.html
+|           cgi-bin_postpf_config_secure_resetnet.html.html
+|           cgi-bin_posttest_printer_config_bookmark_bookmarkMain.html.html
+|           cgi-bin_posttest_printer_config_gen_accessibility.html.html
+|           cgi-bin_posttest_printer_config_gen_copy.html.html
+|           cgi-bin_posttest_printer_config_gen_copy_color_drop.html.html
+|           cgi-bin_posttest_printer_config_gen_copy_hdrftr.html.html
+|           cgi-bin_posttest_printer_config_gen_email_alert_setup.html.html
+|           cgi-bin_posttest_printer_config_gen_faxmode.html.html
+|           cgi-bin_posttest_printer_config_gen_fax_color_balance_fax.html.html
+|           cgi-bin_posttest_printer_config_gen_fax_faxserver.html.html
+|           cgi-bin_posttest_printer_config_gen_fax_holdingfax.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_color_balance_email.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_color_balance_ftp.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_emailpdfsettings.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_emailsettings.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_email_color_drop.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_ftppdfsettings.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_ftpsettings.html.html
+|           cgi-bin_posttest_printer_config_gen_ftpemail_ftp_color_drop.html.html
+|           cgi-bin_posttest_printer_config_gen_general.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_audio_feed.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_custombackground.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_ecomode.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_error_recovery.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_infosenttolexmark.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_quietmode.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_reset_autoreboot.html.html
+|           cgi-bin_posttest_printer_config_gen_gen_sleep_button.html.html
+|           cgi-bin_posttest_printer_config_gen_image_scaling.html.html
+|           cgi-bin_posttest_printer_config_gen_interventions.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_finish.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_html.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_image.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_pcl.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_pdf.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_PPDS.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_printsetup.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_ps.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_quality.html.html
+|           cgi-bin_posttest_printer_config_gen_menu_xps.html.html
+|           cgi-bin_posttest_printer_config_gen_papermenu.html.html
+|           cgi-bin_posttest_printer_config_gen_pcl_emul.html.html
+|           cgi-bin_posttest_printer_config_gen_pcl_fontsrc.html.html
+|           cgi-bin_posttest_printer_config_gen_pcl_tray_renumber.html.html
+|           cgi-bin_posttest_printer_config_gen_PPDS_lpi.html.html
+|           cgi-bin_posttest_printer_config_gen_PPDS_lpp.html.html
+|           cgi-bin_posttest_printer_config_gen_printtousbsettings.html.html
+|           cgi-bin_posttest_printer_config_gen_progsupplies.html.html
+|           cgi-bin_posttest_printer_config_gen_scan2net.html.html
+|           cgi-bin_posttest_printer_config_gen_scantousbpdfsettings.html.html
+|           cgi-bin_posttest_printer_config_gen_scantousbsettings.html.html
+|           cgi-bin_posttest_printer_config_gen_scan_color_balance.html.html
+|           cgi-bin_posttest_printer_config_gen_scan_color_drop.html.html
+|           cgi-bin_posttest_printer_config_gen_setupgen_alarms.html.html
+|           cgi-bin_posttest_printer_config_gen_setupgen_print_recovery.html.html
+|           cgi-bin_posttest_printer_config_gen_setupgen_timeouts.html.html
+|           cgi-bin_posttest_printer_config_gen_setup_resource.html.html
+|           cgi-bin_posttest_printer_config_gen_sub_add_btns.html.html
+|           cgi-bin_posttest_printer_config_gen_sub_displayinfo.html.html
+|           cgi-bin_posttest_printer_config_gen_sub_hours_operation.html.html
+|           cgi-bin_posttest_printer_config_gen_sub_keyboard.html.html
+|           cgi-bin_posttest_printer_config_gen_unifiedSolutions.html.html
+|           cgi-bin_posttest_printer_config_gen_unifiedSolutions_removeCookies.html.html
+|           cgi-bin_posttest_printer_config_net_active_nic.html.html
+|           cgi-bin_posttest_printer_config_net_addressbook.html.html
+|           cgi-bin_posttest_printer_config_net_addressbook.html_index=search.html
+|           cgi-bin_posttest_printer_config_net_address_searchattri.html.html
+|           cgi-bin_posttest_printer_config_net_address_searchspecific_search.html.html
+|           cgi-bin_posttest_printer_config_net_email.html.html
+|           cgi-bin_posttest_printer_config_net_std_network.html.html
+|           cgi-bin_posttest_printer_config_net_std_usb.html.html
+|           cgi-bin_posttest_printer_config_paper_customnames.html.html
+|           cgi-bin_posttest_printer_config_paper_customscan_1.html.html
+|           cgi-bin_posttest_printer_config_paper_customscan_2.html.html
+|           cgi-bin_posttest_printer_config_paper_customscan_3.html.html
+|           cgi-bin_posttest_printer_config_paper_customscan_4.html.html
+|           cgi-bin_posttest_printer_config_paper_customscan_5.html.html
+|           cgi-bin_posttest_printer_config_paper_customscan_6.html.html
+|           cgi-bin_posttest_printer_config_paper_customtypes.html.html
+|           cgi-bin_posttest_printer_config_paper_paperload.html.html
+|           cgi-bin_posttest_printer_config_paper_papertexture.html.html
+|           cgi-bin_posttest_printer_config_paper_paperweight.html.html
+|           cgi-bin_posttest_printer_config_paper_universal_setup.html.html
+|           cgi-bin_posttest_printer_config_paper_uni_height.html.html
+|           cgi-bin_posttest_printer_config_paper_uni_width.html.html
+|           cgi-bin_posttest_printer_config_remote_oppanel_config.html.html
+|           cgi-bin_posttest_printer_config_secure_auditlog.html.html
+|           cgi-bin_posttest_printer_config_secure_authsetup.html.html
+|           cgi-bin_posttest_printer_config_secure_auth_addsecutemp.html_index=&index1=.html
+|           cgi-bin_posttest_printer_config_secure_auth_addsecutemp.html_index=.html
+|           cgi-bin_posttest_printer_config_secure_auth_applytemp.html_info=normal.html
+|           cgi-bin_posttest_printer_config_secure_auth_backuppwd.html_info=normal&index=&index1=&index2=&securityTemplateId=.html
+|           cgi-bin_posttest_printer_config_secure_auth_gssapi.html_info=&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_gssapi.html_info=normal&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=multigroups&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=nogroups&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=normal&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=simplegroups&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_managegssapi.html.html
+|           cgi-bin_posttest_printer_config_secure_auth_manageldap.html_info=normal.html
+|           cgi-bin_posttest_printer_config_secure_auth_managepassword.html.html
+|           cgi-bin_posttest_printer_config_secure_auth_managepin.html.html
+|           cgi-bin_posttest_printer_config_secure_auth_manageusers.html_type=deleteAll.html
+|           cgi-bin_posttest_printer_config_secure_auth_manageusers.html_type=settingsPost.html
+|           cgi-bin_posttest_printer_config_secure_auth_ntsetup.html_info=&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_password.html_info=&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_password.html_info=nogroups&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_password.html_info=normal&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_pin.html_info=&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_pin.html_info=nogroups&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_pin.html_info=normal&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_secutemp.html.html
+|           cgi-bin_posttest_printer_config_secure_auth_usergroups.html_info=normal&index=&index1=.html
+|           cgi-bin_posttest_printer_config_secure_auth_users.html_info=&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_auth_users.html_info=normal&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_certmg.html.html
+|           cgi-bin_posttest_printer_config_secure_cert_authCert.html.html
+|           cgi-bin_posttest_printer_config_secure_cert_certmon_config.html.html
+|           cgi-bin_posttest_printer_config_secure_cert_restoreCertDef.html.html
+|           cgi-bin_posttest_printer_config_secure_cert_setCertDef.html.html
+|           cgi-bin_posttest_printer_config_secure_cert_viewCert.html.html
+|           cgi-bin_posttest_printer_config_secure_confi_print_setup.html.html
+|           cgi-bin_posttest_printer_config_secure_datetime.html.html
+|           cgi-bin_posttest_printer_config_secure_disk_encryption.html.html
+|           cgi-bin_posttest_printer_config_secure_disk_wiping.html.html
+|           cgi-bin_posttest_printer_config_secure_memwipe.html.html
+|           cgi-bin_posttest_printer_config_secure_mfpcredentials.html.html
+|           cgi-bin_posttest_printer_config_secure_restrict.html.html
+|           cgi-bin_posttest_printer_config_secure_schedule_usb.html_index1=record.html
+|           cgi-bin_posttest_printer_config_secure_schedule_usb.html_index1=setting.html
+|           cgi-bin_posttest_printer_config_secure_secusettings.html.html
+|           cgi-bin_posttest_printer_config_secure_wiz_wizmethods.html.html
+|           cgi-bin_posttest_printer_config_secure_wiz_wizpreexist.html_index=&index1=&index2=&info=.html
+|           cgi-bin_posttest_printer_config_secure_wiz_wizsecutemp.html_info=&index=&index1=&index2=.html
+|           cgi-bin_posttest_printer_config_secure_wiz_wizusersgen.html_info=multigroups.html
+|           cgi-bin_posttest_printer_config_secure_wiz_wizusersgen.html_info=nogroups.html
+|           cgi-bin_posttest_printer_config_secure_wiz_wizusersgen.html_info=simplegroups.html
+|           cgi-bin_posttest_printer_config_shortcuts_copydest.html.html
+|           cgi-bin_posttest_printer_config_shortcuts_emaildest.html.html
+|           cgi-bin_posttest_printer_config_shortcuts_faxdest.html.html
+|           cgi-bin_posttest_printer_config_shortcuts_faxholdsched.html.html
+|           cgi-bin_posttest_printer_config_shortcuts_ftpdest.html.html
+|           cgi-bin_posttest_printer_config_shortcuts_profilemanage.html.html
+|           cgi-bin_sslciphers.html
+|           index.html
+|           
++---commands
+|       lexmark.py
+|       pagina_config.py
+|       
++---core
+|   |   agente.py
+|   |   app_registry.py
+|   |   asset.py
+|   |   atualizar_printer.py
+|   |   banco.py
+|   |   base_report.py
+|   |   base_tool.py
+|   |   base_workflow.py
+|   |   build_registry.py
+|   |   cache.py
+|   |   comandos.py
+|   |   comandos_db.py
+|   |   commands.py
+|   |   command_executor.py
+|   |   command_manager.py
+|   |   conhecimento.py
+|   |   context.py
+|   |   contexto.py
+|   |   database.py
+|   |   device.py
+|   |   diagnosis.py
+|   |   dispatcher.py
+|   |   driver.py
+|   |   executor.py
+|   |   form_scanner.py
+|   |   hermes.py
+|   |   impressora.py
+|   |   inventory_manager.py
+|   |   lexmark.py
+|   |   listar_banco.py
+|   |   loader.py
+|   |   memoria.py
+|   |   modelos.py
+|   |   ollama_ai.py
+|   |   parser.py
+|   |   pjl.py
+|   |   printer
+|   |   printer.py
+|   |   printer_memory.py
+|   |   printer_profile.py
+|   |   registry.py
+|   |   relatorio.py
+|   |   roteador.py
+|   |   safety.py
+|   |   scanner.py
+|   |   session.py
+|   |   sniffer.py
+|   |   snmp.py
+|   |   state.py
+|   |   status.py
+|   |   tool.py
+|   |   tools_registry.py
+|   |   __init__.py
+|   |   
+|   +---discovery
+|   +---inventory
+|   +---knowledge
+|   |   |   actions.py
+|   |   |   builder.py
+|   |   |   crawler.py
+|   |   |   extractor.py
+|   |   |   report.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           crawler.cpython-314.pyc
+|   |           __init__.cpython-314.pyc
+|   |           
+|   +---tools
+|   |   |   registry.py
+|   |   |   
+|   |   \---__pycache__
+|   |           registry.cpython-314.pyc
+|   |           
+|   \---__pycache__
+|           agente.cpython-314.pyc
+|           app_registry.cpython-314.pyc
+|           asset.cpython-314.pyc
+|           atualizar_printer.cpython-314.pyc
+|           banco.cpython-314.pyc
+|           base_report.cpython-314.pyc
+|           base_tool.cpython-314.pyc
+|           build_registry.cpython-314.pyc
+|           comandos_db.cpython-314.pyc
+|           commands.cpython-314.pyc
+|           command_executor.cpython-314.pyc
+|           command_manager.cpython-314.pyc
+|           context.cpython-314.pyc
+|           contexto.cpython-314.pyc
+|           device.cpython-314.pyc
+|           executor.cpython-314.pyc
+|           form_scanner.cpython-314.pyc
+|           hermes.cpython-314.pyc
+|           impressora.cpython-314.pyc
+|           lexmark.cpython-314.pyc
+|           listar_banco.cpython-314.pyc
+|           memoria.cpython-314.pyc
+|           ollama_ai.cpython-314.pyc
+|           parser.cpython-314.pyc
+|           pjl.cpython-314.pyc
+|           printer.cpython-314.pyc
+|           printer_memory.cpython-314.pyc
+|           printer_profile.cpython-314.pyc
+|           registry.cpython-314.pyc
+|           relatorio.cpython-314.pyc
+|           roteador.cpython-314.pyc
+|           safety.cpython-314.pyc
+|           scanner.cpython-314.pyc
+|           session.cpython-314.pyc
+|           sniffer.cpython-314.pyc
+|           snmp.cpython-314.pyc
+|           status.cpython-314.pyc
+|           tool.cpython-314.pyc
+|           tools_registry.cpython-314.pyc
+|           __init__.cpython-314.pyc
+|           
++---dados
+|       contexto.json
+|       
++---data
+|   |   commands.json
+|   |   config_menu.html
+|   |   deviceinfo.html
+|   |   devicestatistics.html
+|   |   ews_192_168_1_1.html
+|   |   home.html
+|   |   HttpConnectSocket.txt
+|   |   left_bar.html
+|   |   MenusPage.html
+|   |   printdirectory.html
+|   |   printers.json
+|   |   printersettings.html
+|   |   remote_oppanel.html
+|   |   reports_menu.html
+|   |   reports_root.html
+|   |   RfbProto.txt
+|   |   selected_printer.json
+|   |   VncCanvas.txt
+|   |   vncviewer.html
+|   |   vncviewer.jar
+|   |   VncViewer.txt
+|   |   
+|   +---exports
+|   |       export_192_168_14_134.ucf
+|   |       
+|   +---printers
+|   |   \---192.168.14.134
+|   |           config.ucf
+|   |           info.json
+|   |           perfil.json
+|   |           
+|   \---vnc_extract
+|       |   AllowAllX509TrustManager.class
+|       |   AuthPanel.class
+|       |   ButtonPanel.class
+|       |   ClipboardFrame.class
+|       |   DesCipher.class
+|       |   HTTPConnectSocket.class
+|       |   HTTPConnectSocketFactory.class
+|       |   Messages.class
+|       |   messages.properties
+|       |   messages_cs.properties
+|       |   messages_da.properties
+|       |   messages_de.properties
+|       |   messages_el.properties
+|       |   messages_es.properties
+|       |   messages_fi.properties
+|       |   messages_fr.properties
+|       |   messages_hu.properties
+|       |   messages_it.properties
+|       |   messages_ja.properties
+|       |   messages_ko.properties
+|       |   messages_nl.properties
+|       |   messages_no.properties
+|       |   messages_pl.properties
+|       |   messages_pt.properties
+|       |   messages_ro.properties
+|       |   messages_ru.properties
+|       |   messages_sk.properties
+|       |   messages_sl.properties
+|       |   messages_sr.properties
+|       |   messages_sv.properties
+|       |   messages_tr.properties
+|       |   messages_zh.properties
+|       |   messages_zh_TW.properties
+|       |   OptionsFrame.class
+|       |   RecordingFrame.class
+|       |   ReloginPanel.class
+|       |   RfbProto.class
+|       |   SessionRecorder.class
+|       |   SocketFactory.class
+|       |   SSLSocketClient.class
+|       |   VncCanvas.class
+|       |   VncViewer.class
+|       |   
+|       \---META-INF
+|               JARCERT.RSA
+|               JARCERT.SF
+|               MANIFEST.MF
+|               
++---database
+|   |   commands.json
+|   |   forms_detectados.json
+|   |   impressoras.json
+|   |   mx611dhe.json
+|   |   mx611dhe.zip
+|   |   
+|   +---comandos
+|   |       pagina_ativos.json
+|   |       pagina_configuracao.json
+|   |       pagina_demo.json
+|   |       pagina_menus.json
+|   |       papel_normal.json
+|   |       papel_pesado.json
+|   |       reiniciar.json
+|   |       reset_apps.json
+|   |       reset_factory.json
+|   |       reset_rede.json
+|   |       scanner_off.json
+|   |       scanner_on.json
+|   |       textura_aspera.json
+|   |       textura_normal.json
+|   |       
+|   +---families
+|   +---historico
+|   +---knowledge
+|   +---models
+|   |       identificacao.json
+|   |       ms610.json
+|   |       mx511.json
+|   |       mx611.json
+|   |       mx611_ews.json
+|   |       mx711.json
+|   |       x656.json
+|   |       
+|   \---procedimentos
+|           scanner.txt
+|           teste_impressao.txt
+|           teste_rede.txt
+|           teste_usb.txt
+|           troca_iu.txt
+|           troca_toner.txt
+|           
++---ews_dump
+|       cgi-bin_direct_printer_prtappauth_admin_appinfoservlet.html
+|       cgi-bin_direct_printer_prtappauth_admin_applicenseservlet.html
+|       cgi-bin_direct_printer_prtappauth_admin_applicenseshellservlet.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=cardCopy&license=license.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=cardCopy.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=ezForms&license=license.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=ezForms.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=multiSend&license=license.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=multiSend.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=myShortcut&license=license.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=myShortcut.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=scanToNet&license=license.html
+|       cgi-bin_direct_printer_prtappauth_admin_appservlet_SelectedAppsNames=scanToNet.html
+|       cgi-bin_direct_printer_prtappauth_admin_configureshellservlet.html
+|       cgi-bin_direct_printer_prtappauth_apps_scanToNet.html
+|       cgi-bin_direct_printer_prtappauth_system_systeminfoservlet.html
+|       cgi-bin_direct_printer_prtappauth_system_systemlogservlet.html
+|       cgi-bin_direct_printer_prtappauth_system_systemservlet.html
+|       cgi-bin_direct_printer_prtapp_apps_webappsservlet.html
+|       cgi-bin_direct_printer__prtappauth_apps_liteServlet.html
+|       cgi-bin_dynamicpf_pf_config_net_appletalk.html.html
+|       cgi-bin_dynamicpf_pf_config_net_ip.html.html
+|       cgi-bin_dynamicpf_pf_config_net_ipsettings.html.html
+|       cgi-bin_dynamicpf_pf_config_net_ipv6.html.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp.html.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp1.html.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=1.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=10.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=11.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=12.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=13.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=14.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=15.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=16.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=17.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=18.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=19.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=2.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=20.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=3.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=4.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=5.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=6.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=7.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=8.html
+|       cgi-bin_dynamicpf_pf_config_net_snmp_trap_config.html_config_index=9.html
+|       cgi-bin_dynamicpf_pf_config_secure_8021x.html.html
+|       cgi-bin_dynamicpf_pf_config_secure_resetnet.html.html
+|       cgi-bin_dynamic_config_config.html.html
+|       cgi-bin_dynamic_config_gen_code_update.html.html
+|       cgi-bin_dynamic_config_gen_setuppg.html.html
+|       cgi-bin_dynamic_config_net_airprint.html.html
+|       cgi-bin_dynamic_config_net_appletalk.html.html
+|       cgi-bin_dynamic_config_net_gen_network.html.html
+|       cgi-bin_dynamic_config_net_ip.html.html
+|       cgi-bin_dynamic_config_net_ipv6.html.html
+|       cgi-bin_dynamic_config_net_network.html.html
+|       cgi-bin_dynamic_config_net_snmp.html.html
+|       cgi-bin_dynamic_config_net_snmp1.html.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=1.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=10.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=11.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=12.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=13.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=14.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=15.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=16.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=17.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=18.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=19.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=2.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=20.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=3.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=4.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=5.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=6.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=7.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=8.html
+|       cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=9.html
+|       cgi-bin_dynamic_config_net_web_link.html.html
+|       cgi-bin_dynamic_config_secure_8021x.html.html
+|       cgi-bin_dynamic_config_secure_ipsec.html.html
+|       cgi-bin_dynamic_config_secure_ports.html.html
+|       cgi-bin_dynamic_config_secure_resetnet.html.html
+|       cgi-bin_dynamic_config_secure_security.html.html
+|       cgi-bin_dynamic_config_secure_security.html_rand=.html
+|       cgi-bin_dynamic_left_bar.html.html
+|       cgi-bin_dynamic_linksindex.html.html
+|       cgi-bin_dynamic_printer_applets.html
+|       cgi-bin_dynamic_printer_breadcrumbs.css.html
+|       cgi-bin_dynamic_printer_configStyle.css.html
+|       cgi-bin_dynamic_printer_config_bookmark_bookmarkMain.html.html
+|       cgi-bin_dynamic_printer_config_gen_accessibility.html.html
+|       cgi-bin_dynamic_printer_config_gen_copy.html.html
+|       cgi-bin_dynamic_printer_config_gen_copy_color_drop.html.html
+|       cgi-bin_dynamic_printer_config_gen_copy_hdrftr.html.html
+|       cgi-bin_dynamic_printer_config_gen_copy_printer_settings.html.html
+|       cgi-bin_dynamic_printer_config_gen_email_alert_setup.html.html
+|       cgi-bin_dynamic_printer_config_gen_faxmode.html.html
+|       cgi-bin_dynamic_printer_config_gen_fax_color_balance_fax.html.html
+|       cgi-bin_dynamic_printer_config_gen_fax_faxserver.html.html
+|       cgi-bin_dynamic_printer_config_gen_fax_holdingfax.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_color_balance_email.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_color_balance_ftp.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_emailpdfsettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_emailsettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_email_color_drop.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_ftppdfsettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_ftpsettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_ftpemail_ftp_color_drop.html.html
+|       cgi-bin_dynamic_printer_config_gen_general.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_audio_feed.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_custombackground.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_ecomode.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_error_recovery.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_infosenttolexmark.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_quietmode.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_reset_autoreboot.html.html
+|       cgi-bin_dynamic_printer_config_gen_gen_sleep_button.html.html
+|       cgi-bin_dynamic_printer_config_gen_image_scaling.html.html
+|       cgi-bin_dynamic_printer_config_gen_importexport.html.html
+|       cgi-bin_dynamic_printer_config_gen_interventions.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_finish.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_html.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_image.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_job_accounting.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_latebind.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_pcl.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_pdf.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_PPDS.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_printsetup.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_ps.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_quality.html.html
+|       cgi-bin_dynamic_printer_config_gen_menu_xps.html.html
+|       cgi-bin_dynamic_printer_config_gen_papermenu.html.html
+|       cgi-bin_dynamic_printer_config_gen_pcl_emul.html.html
+|       cgi-bin_dynamic_printer_config_gen_pcl_fontsrc.html.html
+|       cgi-bin_dynamic_printer_config_gen_pcl_tray_renumber.html.html
+|       cgi-bin_dynamic_printer_config_gen_PPDS_lpi.html.html
+|       cgi-bin_dynamic_printer_config_gen_PPDS_lpp.html.html
+|       cgi-bin_dynamic_printer_config_gen_printersettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_printtousbsettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_progsupplies.html.html
+|       cgi-bin_dynamic_printer_config_gen_scan2net.html.html
+|       cgi-bin_dynamic_printer_config_gen_scantousbpdfsettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_scantousbsettings.html.html
+|       cgi-bin_dynamic_printer_config_gen_scan_color_balance.html.html
+|       cgi-bin_dynamic_printer_config_gen_scan_color_drop.html.html
+|       cgi-bin_dynamic_printer_config_gen_setupgen_alarms.html.html
+|       cgi-bin_dynamic_printer_config_gen_setupgen_print_recovery.html.html
+|       cgi-bin_dynamic_printer_config_gen_setupgen_timeouts.html.html
+|       cgi-bin_dynamic_printer_config_gen_setup_resource.html.html
+|       cgi-bin_dynamic_printer_config_gen_sub_add_btns.html.html
+|       cgi-bin_dynamic_printer_config_gen_sub_displayinfo.html.html
+|       cgi-bin_dynamic_printer_config_gen_sub_hours_operation.html.html
+|       cgi-bin_dynamic_printer_config_gen_sub_hours_operation.html_rand=.html
+|       cgi-bin_dynamic_printer_config_gen_sub_keyboard.html.html
+|       cgi-bin_dynamic_printer_config_gen_tray_viewfactory.html.html
+|       cgi-bin_dynamic_printer_config_gen_unifiedSolutions.html.html
+|       cgi-bin_dynamic_printer_config_gen_unifiedSolutions_apps.html.html
+|       cgi-bin_dynamic_printer_config_gen_unifiedSolutions_bundles.html.html
+|       cgi-bin_dynamic_printer_config_gen_unifiedSolutions_install.html.html
+|       cgi-bin_dynamic_printer_config_gen_unifiedSolutions_removeCookies.html.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_bundles.html.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_import_bundle.html.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_install_license.html.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_licenses.html.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_license_details.html_id=6d4ea29b%2D4c6d%2D4e59%2Db86d%2D0bd58b717c32.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_license_details.html_id=6d4ea29b-4c6d-4e59-b86d-0bd58b717c32.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_license_features.html_id=6d4ea29b%2D4c6d%2D4e59%2Db86d%2D0bd58b717c32.html
+|       cgi-bin_dynamic_printer_config_gen_vcc_license_features.html_id=6d4ea29b-4c6d-4e59-b86d-0bd58b717c32.html
+|       cgi-bin_dynamic_printer_config_net_active_nic.html.html
+|       cgi-bin_dynamic_printer_config_net_addressbook.html.html
+|       cgi-bin_dynamic_printer_config_net_address_searchattri.html.html
+|       cgi-bin_dynamic_printer_config_net_address_searchspecific_search.html.html
+|       cgi-bin_dynamic_printer_config_net_email.html.html
+|       cgi-bin_dynamic_printer_config_net_std_network.html.html
+|       cgi-bin_dynamic_printer_config_net_std_usb.html.html
+|       cgi-bin_dynamic_printer_config_paper_customnames.html.html
+|       cgi-bin_dynamic_printer_config_paper_customscansizes.html.html
+|       cgi-bin_dynamic_printer_config_paper_customscan_1.html.html
+|       cgi-bin_dynamic_printer_config_paper_customscan_2.html.html
+|       cgi-bin_dynamic_printer_config_paper_customscan_3.html.html
+|       cgi-bin_dynamic_printer_config_paper_customscan_4.html.html
+|       cgi-bin_dynamic_printer_config_paper_customscan_5.html.html
+|       cgi-bin_dynamic_printer_config_paper_customscan_6.html.html
+|       cgi-bin_dynamic_printer_config_paper_customtypes.html.html
+|       cgi-bin_dynamic_printer_config_paper_paperload.html.html
+|       cgi-bin_dynamic_printer_config_paper_papertexture.html.html
+|       cgi-bin_dynamic_printer_config_paper_paperweight.html.html
+|       cgi-bin_dynamic_printer_config_paper_universal_setup.html.html
+|       cgi-bin_dynamic_printer_config_paper_uni_height.html.html
+|       cgi-bin_dynamic_printer_config_paper_uni_width.html.html
+|       cgi-bin_dynamic_printer_config_remote_oppanel.html.html
+|       cgi-bin_dynamic_printer_config_remote_oppanel_config.html.html
+|       cgi-bin_dynamic_printer_config_reports_copydest.html.html
+|       cgi-bin_dynamic_printer_config_reports_deviceinfo.html.html
+|       cgi-bin_dynamic_printer_config_reports_devicestatistics.html.html
+|       cgi-bin_dynamic_printer_config_reports_emaildest.html.html
+|       cgi-bin_dynamic_printer_config_reports_eventlog.html.html
+|       cgi-bin_dynamic_printer_config_reports_faxdest.html.html
+|       cgi-bin_dynamic_printer_config_reports_ftpdest.html.html
+|       cgi-bin_dynamic_printer_config_reports_printdirectory.html.html
+|       cgi-bin_dynamic_printer_config_reports_printfaxcalllog.html.html
+|       cgi-bin_dynamic_printer_config_reports_printfaxjoblog.html.html
+|       cgi-bin_dynamic_printer_config_reports_printprofile.html.html
+|       cgi-bin_dynamic_printer_config_reports_shortcutreport.html.html
+|       cgi-bin_dynamic_printer_config_scanprofile_createprofile.html.html
+|       cgi-bin_dynamic_printer_config_secure_auditlog.html.html
+|       cgi-bin_dynamic_printer_config_secure_authsetup.html.html
+|       cgi-bin_dynamic_printer_config_secure_authsetup.html_info=normal&rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_addsecutemp.html.html
+|       cgi-bin_dynamic_printer_config_secure_auth_ads_main.html_info=normal&from=authsetup.html
+|       cgi-bin_dynamic_printer_config_secure_auth_applytemp.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_authstatus.html_index=Kerberos_Building_Block&index1=20&info=normal&start=true&rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_backuppwd.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_gssapi.html_index=&index1=&index2=&info=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_gssapi.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_index=&index1=&index2=&info=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=multigroups&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=nogroups&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=nogroups.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_info=simplegroups&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=multigroups&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=nogroups&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=nogroups&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=normal&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=filepost&refreshBack=true&info=simplegroups&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=&index=&index1=&index2=&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=multigroups&index=&index1=&index2=&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=nogroups&index=&index1=&index2=&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=nogroups&index=&index1=&index2=&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=normal&index=&index1=&index2=&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&function=encoding&info=simplegroups&index=&index1=&index2=&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=&index=&index1=&index2=&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=multigroups&index=&index1=&index2=&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=nogroups&index=&index1=&index2=&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=nogroups&index=&index1=&index2=&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=normal&index=&index1=&index2=&forGssapi=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_importkerberos.html_type=settingspost&info=simplegroups&index=&index1=&index2=&forGssapi=yes.html
+|       cgi-bin_dynamic_printer_config_secure_auth_ldap.html_index=&index1=&index2=&info=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=multigroups.html
+|       cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=nogroups.html
+|       cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_ldap.html_info=simplegroups.html
+|       cgi-bin_dynamic_printer_config_secure_auth_managegssapi.html_info=normal&rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_managegssapi.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_manageldap.html_info=normal&rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_manageldap.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_managepassword.html_info=normal&rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_managepassword.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_managepin.html_info=normal&rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_managepin.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_manageusers.html.html
+|       cgi-bin_dynamic_printer_config_secure_auth_manageusers.html_info=normal&rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_manageusers.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_ntsetup.html_index=&index1=&index2=&info=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_password.html_index=&index1=&index2=&info=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_password.html_info=nogroups.html
+|       cgi-bin_dynamic_printer_config_secure_auth_password.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_pin.html_index=&index1=&index2=&info=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_pin.html_info=nogroups.html
+|       cgi-bin_dynamic_printer_config_secure_auth_pin.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_security_summary.html_info=normal&amp;referrer=edit_security.html
+|       cgi-bin_dynamic_printer_config_secure_auth_security_summary.html_info=normal&referrer=edit_security.html
+|       cgi-bin_dynamic_printer_config_secure_auth_security_summary.html_info=normal&referrer=main_security.html
+|       cgi-bin_dynamic_printer_config_secure_auth_secutemp.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_secutemp.html_rand=.html
+|       cgi-bin_dynamic_printer_config_secure_auth_usergroups.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_auth_users.html_index1=&index2=&info=&info1=SaveNNew.html
+|       cgi-bin_dynamic_printer_config_secure_auth_users.html_info=normal.html
+|       cgi-bin_dynamic_printer_config_secure_certmg.html.html
+|       cgi-bin_dynamic_printer_config_secure_cert_camonConfig.html.html
+|       cgi-bin_dynamic_printer_config_secure_cert_certAuth.html.html
+|       cgi-bin_dynamic_printer_config_secure_cert_deviceCert.html.html
+|       cgi-bin_dynamic_printer_config_secure_cert_restoreCertDef.html.html
+|       cgi-bin_dynamic_printer_config_secure_cert_setCertDef.html.html
+|       cgi-bin_dynamic_printer_config_secure_cert_viewCert.html_index=default.html
+|       cgi-bin_dynamic_printer_config_secure_confi_print_setup.html.html
+|       cgi-bin_dynamic_printer_config_secure_datetime.html.html
+|       cgi-bin_dynamic_printer_config_secure_disk_encryption.html.html
+|       cgi-bin_dynamic_printer_config_secure_disk_wiping.html.html
+|       cgi-bin_dynamic_printer_config_secure_erase_hard_drive.html.html
+|       cgi-bin_dynamic_printer_config_secure_erase_printer_memory.html.html
+|       cgi-bin_dynamic_printer_config_secure_importauth.html.html
+|       cgi-bin_dynamic_printer_config_secure_importdests.html.html
+|       cgi-bin_dynamic_printer_config_secure_importsettings.html.html
+|       cgi-bin_dynamic_printer_config_secure_import_destinations.html.html
+|       cgi-bin_dynamic_printer_config_secure_memwipe.html.html
+|       cgi-bin_dynamic_printer_config_secure_mfpcredentials.html.html
+|       cgi-bin_dynamic_printer_config_secure_ntpautokeypost.html.html
+|       cgi-bin_dynamic_printer_config_secure_ntpfilepost.html.html
+|       cgi-bin_dynamic_printer_config_secure_printer_reset_options.html.html
+|       cgi-bin_dynamic_printer_config_secure_restore_factory_settings.html.html
+|       cgi-bin_dynamic_printer_config_secure_restrict.html.html
+|       cgi-bin_dynamic_printer_config_secure_schedule_usb.html.html
+|       cgi-bin_dynamic_printer_config_secure_schedule_usb.html_rand=.html
+|       cgi-bin_dynamic_printer_config_secure_secusettings.html.html
+|       cgi-bin_dynamic_printer_config_secure_wizstart.html.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizmethods.html_info=multigroups.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizmethods.html_info=nogroups.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizmethods.html_info=simplegroups.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizpreexist.html.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizsecutemp.html_index=&index1=&index2=&info=.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizusersgen.html_info=multigroups.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizusersgen.html_info=nogroups.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_wizusersgen.html_info=simplegroups.html
+|       cgi-bin_dynamic_printer_config_secure_wiz_yesgroups.html_info=.html
+|       cgi-bin_dynamic_printer_config_shortcuts_copydest.html.html
+|       cgi-bin_dynamic_printer_config_shortcuts_copydest.html_rand=.html
+|       cgi-bin_dynamic_printer_config_shortcuts_destinations.html.html
+|       cgi-bin_dynamic_printer_config_shortcuts_emaildest.html.html
+|       cgi-bin_dynamic_printer_config_shortcuts_emaildest.html_rand=.html
+|       cgi-bin_dynamic_printer_config_shortcuts_faxdest.html.html
+|       cgi-bin_dynamic_printer_config_shortcuts_faxdest.html_rand=.html
+|       cgi-bin_dynamic_printer_config_shortcuts_faxholdsched.html.html
+|       cgi-bin_dynamic_printer_config_shortcuts_faxholdsched.html_rand=.html
+|       cgi-bin_dynamic_printer_config_shortcuts_ftpdest.html.html
+|       cgi-bin_dynamic_printer_config_shortcuts_ftpdest.html_rand=.html
+|       cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html.html
+|       cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_index=Formul%C3%A1rios+e+favoritos.html
+|       cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_index=MeuAtalho.html
+|       cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_index=__thumbChoiceProfile.html
+|       cgi-bin_dynamic_printer_config_shortcuts_profilemanage.html_rand=.html
+|       cgi-bin_dynamic_printer_include_bookmark.css.html
+|       cgi-bin_dynamic_printer_include_jquery-1.2.6.min.js.html
+|       cgi-bin_dynamic_printer_include_jquery.tablesorter.min.js.html
+|       cgi-bin_dynamic_printer_include_jshelper.js.html
+|       cgi-bin_dynamic_printer_include_mktree.css.html
+|       cgi-bin_dynamic_printer_include_mktree.js.html
+|       cgi-bin_dynamic_printer_include_wz_tooltip.js.html
+|       cgi-bin_dynamic_printer_langbar.html.html
+|       cgi-bin_dynamic_printer_logout.html.html
+|       cgi-bin_dynamic_printer_netscan_scanpc.html.html
+|       cgi-bin_dynamic_printer_PrinterStatus.html.html
+|       cgi-bin_dynamic_printer_solutions.css.html
+|       cgi-bin_dynamic_reports_and_information.html.html
+|       cgi-bin_dynamic_topbar.html.html
+|       cgi-bin_exportfile_printer_config_secure_authfile.ucf.html
+|       cgi-bin_exportfile_printer_config_secure_settingfile.ucf.html
+|       cgi-bin_exportfile_printer_config_secure_settingfileesf.ucf.html
+|       cgi-bin_exportfile_printer_config_secure_shortcuts.ucf.html
+|       cgi-bin_postpf_cgi-bin_dynamicpf_pf_config_gen_code_update.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_airprint.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_appletalk.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_gen_network.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_ip.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_ipsettings.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_ipv6.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=1.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=10.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=11.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=12.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=13.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=14.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=15.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=16.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=17.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=18.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=19.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=2.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=20.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=3.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=4.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=5.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=6.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=7.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=8.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_snmp_trap_config.html_config_index=9.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_net_web_link.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_secure_8021x.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_secure_ipsec.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_config_secure_ports.html.html
+|       cgi-bin_postpf_cgi-bin_dynamic_reports_and_information.html.html
+|       cgi-bin_postpf_config_secure_resetnet.html.html
+|       cgi-bin_posttest_printer_config_bookmark_bookmarkMain.html.html
+|       cgi-bin_posttest_printer_config_gen_accessibility.html.html
+|       cgi-bin_posttest_printer_config_gen_copy.html.html
+|       cgi-bin_posttest_printer_config_gen_copy_color_drop.html.html
+|       cgi-bin_posttest_printer_config_gen_copy_hdrftr.html.html
+|       cgi-bin_posttest_printer_config_gen_email_alert_setup.html.html
+|       cgi-bin_posttest_printer_config_gen_faxmode.html.html
+|       cgi-bin_posttest_printer_config_gen_fax_color_balance_fax.html.html
+|       cgi-bin_posttest_printer_config_gen_fax_faxserver.html.html
+|       cgi-bin_posttest_printer_config_gen_fax_holdingfax.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_color_balance_email.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_color_balance_ftp.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_emailpdfsettings.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_emailsettings.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_email_color_drop.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_ftppdfsettings.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_ftpsettings.html.html
+|       cgi-bin_posttest_printer_config_gen_ftpemail_ftp_color_drop.html.html
+|       cgi-bin_posttest_printer_config_gen_general.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_audio_feed.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_custombackground.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_ecomode.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_error_recovery.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_infosenttolexmark.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_quietmode.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_reset_autoreboot.html.html
+|       cgi-bin_posttest_printer_config_gen_gen_sleep_button.html.html
+|       cgi-bin_posttest_printer_config_gen_image_scaling.html.html
+|       cgi-bin_posttest_printer_config_gen_interventions.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_finish.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_html.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_image.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_pcl.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_pdf.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_PPDS.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_printsetup.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_ps.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_quality.html.html
+|       cgi-bin_posttest_printer_config_gen_menu_xps.html.html
+|       cgi-bin_posttest_printer_config_gen_papermenu.html.html
+|       cgi-bin_posttest_printer_config_gen_pcl_emul.html.html
+|       cgi-bin_posttest_printer_config_gen_pcl_fontsrc.html.html
+|       cgi-bin_posttest_printer_config_gen_pcl_tray_renumber.html.html
+|       cgi-bin_posttest_printer_config_gen_PPDS_lpi.html.html
+|       cgi-bin_posttest_printer_config_gen_PPDS_lpp.html.html
+|       cgi-bin_posttest_printer_config_gen_printtousbsettings.html.html
+|       cgi-bin_posttest_printer_config_gen_progsupplies.html.html
+|       cgi-bin_posttest_printer_config_gen_scan2net.html.html
+|       cgi-bin_posttest_printer_config_gen_scantousbpdfsettings.html.html
+|       cgi-bin_posttest_printer_config_gen_scantousbsettings.html.html
+|       cgi-bin_posttest_printer_config_gen_scan_color_balance.html.html
+|       cgi-bin_posttest_printer_config_gen_scan_color_drop.html.html
+|       cgi-bin_posttest_printer_config_gen_setupgen_alarms.html.html
+|       cgi-bin_posttest_printer_config_gen_setupgen_print_recovery.html.html
+|       cgi-bin_posttest_printer_config_gen_setupgen_timeouts.html.html
+|       cgi-bin_posttest_printer_config_gen_setup_resource.html.html
+|       cgi-bin_posttest_printer_config_gen_sub_add_btns.html.html
+|       cgi-bin_posttest_printer_config_gen_sub_displayinfo.html.html
+|       cgi-bin_posttest_printer_config_gen_sub_hours_operation.html.html
+|       cgi-bin_posttest_printer_config_gen_sub_keyboard.html.html
+|       cgi-bin_posttest_printer_config_gen_unifiedSolutions.html.html
+|       cgi-bin_posttest_printer_config_gen_unifiedSolutions_removeCookies.html.html
+|       cgi-bin_posttest_printer_config_net_active_nic.html.html
+|       cgi-bin_posttest_printer_config_net_addressbook.html.html
+|       cgi-bin_posttest_printer_config_net_addressbook.html_index=search.html
+|       cgi-bin_posttest_printer_config_net_address_searchattri.html.html
+|       cgi-bin_posttest_printer_config_net_address_searchspecific_search.html.html
+|       cgi-bin_posttest_printer_config_net_email.html.html
+|       cgi-bin_posttest_printer_config_net_std_network.html.html
+|       cgi-bin_posttest_printer_config_net_std_usb.html.html
+|       cgi-bin_posttest_printer_config_paper_customnames.html.html
+|       cgi-bin_posttest_printer_config_paper_customscan_1.html.html
+|       cgi-bin_posttest_printer_config_paper_customscan_2.html.html
+|       cgi-bin_posttest_printer_config_paper_customscan_3.html.html
+|       cgi-bin_posttest_printer_config_paper_customscan_4.html.html
+|       cgi-bin_posttest_printer_config_paper_customscan_5.html.html
+|       cgi-bin_posttest_printer_config_paper_customscan_6.html.html
+|       cgi-bin_posttest_printer_config_paper_customtypes.html.html
+|       cgi-bin_posttest_printer_config_paper_paperload.html.html
+|       cgi-bin_posttest_printer_config_paper_papertexture.html.html
+|       cgi-bin_posttest_printer_config_paper_paperweight.html.html
+|       cgi-bin_posttest_printer_config_paper_universal_setup.html.html
+|       cgi-bin_posttest_printer_config_paper_uni_height.html.html
+|       cgi-bin_posttest_printer_config_paper_uni_width.html.html
+|       cgi-bin_posttest_printer_config_remote_oppanel_config.html.html
+|       cgi-bin_posttest_printer_config_secure_auditlog.html.html
+|       cgi-bin_posttest_printer_config_secure_authsetup.html.html
+|       cgi-bin_posttest_printer_config_secure_auth_addsecutemp.html_index=&index1=.html
+|       cgi-bin_posttest_printer_config_secure_auth_addsecutemp.html_index=.html
+|       cgi-bin_posttest_printer_config_secure_auth_applytemp.html_info=normal.html
+|       cgi-bin_posttest_printer_config_secure_auth_backuppwd.html_info=normal&index=&index1=&index2=&securityTemplateId=.html
+|       cgi-bin_posttest_printer_config_secure_auth_gssapi.html_info=&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_gssapi.html_info=normal&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=multigroups&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=nogroups&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=normal&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_ldap.html_info=simplegroups&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_managegssapi.html.html
+|       cgi-bin_posttest_printer_config_secure_auth_manageldap.html_info=normal.html
+|       cgi-bin_posttest_printer_config_secure_auth_managepassword.html.html
+|       cgi-bin_posttest_printer_config_secure_auth_managepin.html.html
+|       cgi-bin_posttest_printer_config_secure_auth_manageusers.html_type=deleteAll.html
+|       cgi-bin_posttest_printer_config_secure_auth_manageusers.html_type=settingsPost.html
+|       cgi-bin_posttest_printer_config_secure_auth_ntsetup.html_info=&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_password.html_info=&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_password.html_info=nogroups&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_password.html_info=normal&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_pin.html_info=&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_pin.html_info=nogroups&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_pin.html_info=normal&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_secutemp.html.html
+|       cgi-bin_posttest_printer_config_secure_auth_usergroups.html_info=normal&index=&index1=.html
+|       cgi-bin_posttest_printer_config_secure_auth_users.html_info=&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_auth_users.html_info=normal&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_certmg.html.html
+|       cgi-bin_posttest_printer_config_secure_cert_authCert.html.html
+|       cgi-bin_posttest_printer_config_secure_cert_certmon_config.html.html
+|       cgi-bin_posttest_printer_config_secure_cert_restoreCertDef.html.html
+|       cgi-bin_posttest_printer_config_secure_cert_setCertDef.html.html
+|       cgi-bin_posttest_printer_config_secure_cert_viewCert.html.html
+|       cgi-bin_posttest_printer_config_secure_confi_print_setup.html.html
+|       cgi-bin_posttest_printer_config_secure_datetime.html.html
+|       cgi-bin_posttest_printer_config_secure_disk_encryption.html.html
+|       cgi-bin_posttest_printer_config_secure_disk_wiping.html.html
+|       cgi-bin_posttest_printer_config_secure_memwipe.html.html
+|       cgi-bin_posttest_printer_config_secure_mfpcredentials.html.html
+|       cgi-bin_posttest_printer_config_secure_restrict.html.html
+|       cgi-bin_posttest_printer_config_secure_schedule_usb.html_index1=record.html
+|       cgi-bin_posttest_printer_config_secure_schedule_usb.html_index1=setting.html
+|       cgi-bin_posttest_printer_config_secure_secusettings.html.html
+|       cgi-bin_posttest_printer_config_secure_wiz_wizmethods.html.html
+|       cgi-bin_posttest_printer_config_secure_wiz_wizpreexist.html_index=&index1=&index2=&info=.html
+|       cgi-bin_posttest_printer_config_secure_wiz_wizsecutemp.html_info=&index=&index1=&index2=.html
+|       cgi-bin_posttest_printer_config_secure_wiz_wizusersgen.html_info=multigroups.html
+|       cgi-bin_posttest_printer_config_secure_wiz_wizusersgen.html_info=nogroups.html
+|       cgi-bin_posttest_printer_config_secure_wiz_wizusersgen.html_info=simplegroups.html
+|       cgi-bin_posttest_printer_config_shortcuts_copydest.html.html
+|       cgi-bin_posttest_printer_config_shortcuts_emaildest.html.html
+|       cgi-bin_posttest_printer_config_shortcuts_faxdest.html.html
+|       cgi-bin_posttest_printer_config_shortcuts_faxholdsched.html.html
+|       cgi-bin_posttest_printer_config_shortcuts_ftpdest.html.html
+|       cgi-bin_posttest_printer_config_shortcuts_profilemanage.html.html
+|       cgi-bin_sslciphers.html
+|       index.html
+|       
++---knowledge
+|       banco_manual.txt
+|       manuals.json
+|       
++---labels
+|   |   active_label.py
+|   |   __init__.py
+|   |   
+|   \---__pycache__
+|           active_label.cpython-314.pyc
+|           __init__.cpython-314.pyc
+|           
++---logs
++---menus
+|       menu_banco.py
+|       menu_comandos.py
+|       menu_info.py
+|       menu_principal.py
+|       menu_rotinas.py
+|       
++---modules
+|   |   actions.py
+|   |   commands.py
+|   |   diagnostic.py
+|   |   discovery.py
+|   |   inventory.py
+|   |   pjl.py
+|   |   pjl_actions.py
+|   |   pjl_capabilities.py
+|   |   pjl_parser.py
+|   |   __init__.py
+|   |   
+|   \---__pycache__
+|           commands.cpython-314.pyc
+|           diagnostic.cpython-314.pyc
+|           discovery.cpython-314.pyc
+|           inventory.cpython-314.pyc
+|           pjl.cpython-314.pyc
+|           pjl_actions.cpython-314.pyc
+|           pjl_capabilities.cpython-314.pyc
+|           pjl_parser.cpython-314.pyc
+|           __init__.cpython-314.pyc
+|           
++---pjl
+|   |   client.py
+|   |   commands.py
+|   |   
+|   \---__pycache__
+|           client.cpython-314.pyc
+|           commands.cpython-314.pyc
+|           
++---prompts
+|       hermes_system.txt
+|       
++---relatorios
+|       relatorio_14_07_2026_16_27_21.txt
+|       relatorio_14_07_2026_16_42_00.txt
+|       relatorio_16_07_2026_14_19_23.txt
+|       
++---reports
+|   |   asset_report.py
+|   |   ativo.py
+|   |   ativo_old.py
+|   |   diagnostico_Lexmark_MX611dhe_701644HH03ND3_20260727_110820.json
+|   |   diagnostico_Lexmark_MX611dhe_701644HH03ND3_20260727_111530.json
+|   |   engine.py
+|   |   Lexmark_MX611dhe_701644HH03ND3_20260727_110549.txt
+|   |   printer.py
+|   |   relatorio_bancada.py
+|   |   __init__.py
+|   |   
+|   +---ativos
+|   +---engines
+|   +---templates
+|   +---utils
+|   \---__pycache__
+|           ativo.cpython-314.pyc
+|           engine.cpython-314.pyc
+|           printer.cpython-314.pyc
+|           __init__.cpython-314.pyc
+|           
++---routines
++---testes
+|       teste_parser.py
+|       teste_secoes.py
+|       
++---tools
+|   |   analisar.py
+|   |   analise_tecnica.py
+|   |   asset_report.py
+|   |   auto_detect.py
+|   |   bancada.py
+|   |   build_database.py
+|   |   cgi_scanner.py
+|   |   comandos_impressora.py
+|   |   comando_executor.py
+|   |   config_interpreter.py
+|   |   controle.py
+|   |   conversor.py
+|   |   debug.py
+|   |   device_info.py
+|   |   diagnostico.py
+|   |   endpoint_scanner.py
+|   |   ews.py
+|   |   ews_actions.py
+|   |   ews_explorer.py
+|   |   ews_map.py
+|   |   ews_parser.py
+|   |   executor.py
+|   |   explorer.py
+|   |   firmware.py
+|   |   form_extractor.py
+|   |   identify.py
+|   |   lexmark_actions.py
+|   |   lexmark_config.py
+|   |   lexmark_mapper.py
+|   |   lexmark_reset.py
+|   |   lexmark_snmp.py
+|   |   link_extractor.py
+|   |   manual_indexer.py
+|   |   manual_reader.py
+|   |   manual_search.py
+|   |   menu_extractor.py
+|   |   network.py
+|   |   page_fuzzer.py
+|   |   painel.py
+|   |   parser_old.py
+|   |   pjl.py
+|   |   pjl_pagecount.py
+|   |   pjl_status.py
+|   |   pjl_tool.py
+|   |   post_executor.py
+|   |   printer.py
+|   |   printer_actions.py
+|   |   printer_commands.py
+|   |   printer_selector.py
+|   |   procurar_hidden.py
+|   |   procurar_modelo.py
+|   |   procurar_serial.py
+|   |   report_asset.py
+|   |   report_ativo.py
+|   |   report_scanner.py
+|   |   reset.py
+|   |   routines.py
+|   |   salvar_automatico.py
+|   |   salvar_ews.py
+|   |   scanner.py
+|   |   selecionar.py
+|   |   send_post.py
+|   |   service_mode.py
+|   |   snmp.py
+|   |   snmp_parser.py
+|   |   ucf_parser.py
+|   |   usb.py
+|   |   web_probe.py
+|   |   __init__.py
+|   |   
+|   +---actions
+|   |       impressao.py
+|   |       papel.py
+|   |       reset.py
+|   |       usb.py
+|   |       __init__.py
+|   |       
+|   +---hardware
+|   |       usb.py
+|   |       
+|   +---pages
+|   |       endpoints.py
+|   |       
+|   +---parser
+|   |   |   firmware.py
+|   |   |   identificacao.py
+|   |   |   modelo.py
+|   |   |   parser2.py
+|   |   |   pjl_parser.py
+|   |   |   secoes.py
+|   |   |   snmp_ident.py
+|   |   |   suprimentos.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           identificacao.cpython-314.pyc
+|   |           modelo.cpython-314.pyc
+|   |           snmp_ident.cpython-314.pyc
+|   |           suprimentos.cpython-314.pyc
+|   |           __init__.cpython-314.pyc
+|   |           
+|   +---procedimentos
+|   |       bancada.py
+|   |       
+|   +---reports
+|   |   |   asset_report.py
+|   |   |   
+|   |   \---__pycache__
+|   |           asset_report.cpython-314.pyc
+|   |           
+|   +---reset
+|   |   |   maintenance.py
+|   |   |   
+|   |   \---__pycache__
+|   |           maintenance.cpython-314.pyc
+|   |           
+|   +---tests
+|   |       endpoint_scanner.py
+|   |       
+|   \---__pycache__
+|           analisar.cpython-314.pyc
+|           analise_tecnica.cpython-314.pyc
+|           auto_detect.cpython-314.pyc
+|           bancada.cpython-314.pyc
+|           comandos_impressora.cpython-314.pyc
+|           comando_executor.cpython-314.pyc
+|           config_interpreter.cpython-314.pyc
+|           conversor.cpython-314.pyc
+|           debug.cpython-314.pyc
+|           device_info.cpython-314.pyc
+|           diagnostico.cpython-314.pyc
+|           discovery.cpython-314.pyc
+|           endpoint_scanner.cpython-314.pyc
+|           ews.cpython-314.pyc
+|           ews_parser.cpython-314.pyc
+|           executor.cpython-314.pyc
+|           firmware.cpython-314.pyc
+|           form_extractor.cpython-314.pyc
+|           identify.cpython-314.pyc
+|           lexmark_actions.cpython-314.pyc
+|           lexmark_config.cpython-314.pyc
+|           lexmark_reset.cpython-314.pyc
+|           lexmark_snmp.cpython-314.pyc
+|           manual_indexer.cpython-314.pyc
+|           manual_search.cpython-314.pyc
+|           network.cpython-314.pyc
+|           painel.cpython-314.pyc
+|           parser.cpython-314.pyc
+|           pjl.cpython-314.pyc
+|           pjl_tool.cpython-314.pyc
+|           printer.cpython-314.pyc
+|           printer_selector.cpython-314.pyc
+|           report_ativo.cpython-314.pyc
+|           reset.cpython-314.pyc
+|           routines.cpython-314.pyc
+|           salvar_automatico.cpython-314.pyc
+|           scanner.cpython-314.pyc
+|           selecionar.cpython-314.pyc
+|           send_post.cpython-314.pyc
+|           snmp.cpython-314.pyc
+|           snmp_parser.cpython-314.pyc
+|           ucf_parser.cpython-314.pyc
+|           usb.cpython-314.pyc
+|           __init__.cpython-314.pyc
+|           
++---ui
+|   |   menu.py
+|   |   
+|   \---__pycache__
+|           menu.cpython-314.pyc
+|           
++---workflow
+|   |   engine.py
+|   |   mx511_reset.py
+|   |   routine.py
+|   |   
+|   \---__pycache__
+|           mx511_reset.cpython-314.pyc
+|           routine.cpython-314.pyc
+|           
++---workflows
+|       bancada.py
+|       
+\---__pycache__
+        main.cpython-314.pyc
+        

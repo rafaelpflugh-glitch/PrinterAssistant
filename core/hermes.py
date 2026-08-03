@@ -1,122 +1,53 @@
-from core.printer_profile import PrinterProfile
-from core.command_executor import CommandExecutor
+import requests
+from pathlib import Path
 
 
 class Hermes:
 
-
     def __init__(self):
 
-        self.impressora = None
-        self.ip = None
+        self.url = "http://localhost:11434/api/generate"
 
+        self.model = "hermes3:latest"
 
+        self.system = Path(
+            "prompts/hermes_system.txt"
+        ).read_text(
+            encoding="utf-8"
+        )
 
+    # ---------------------------------------------
 
-    def conectar(self, ip):
+    def ask(self, prompt):
 
+        full_prompt = f"""
 
-        self.ip = ip
+{self.system}
 
-        self.impressora = PrinterProfile(ip)
+----------------------------
 
+{prompt}
 
-        print()
+"""
 
-        print("==============================")
+        body = {
 
-        print("IMPRESSORA CONECTADA")
+            "model": self.model,
 
-        print("==============================")
+            "prompt": full_prompt,
 
-        print(ip)
+            "stream": False
 
+        }
 
+        r = requests.post(
 
+            self.url,
 
+            json=body,
 
-    def informacoes(self):
-
-
-        if not self.impressora:
-
-            print(
-                "Nenhuma impressora conectada"
-            )
-
-            return
-
-
-
-        dados = self.impressora.carregar()
-
-
-        if not dados:
-
-
-            print(
-                "Sem perfil salvo"
-            )
-
-            return
-
-
-
-        print()
-
-        print("==============================")
-
-        print("INFORMAÇÕES")
-
-        print("==============================")
-
-
-
-        for chave, valor in dados.items():
-
-            print(
-                chave,
-                ":",
-                valor
-            )
-
-
-
-
-
-    def executar_comando(
-        self,
-        marca,
-        comando
-    ):
-
-
-        if not self.ip:
-
-            print(
-                "Nenhuma impressora conectada"
-            )
-
-            return
-
-
-
-        executor = CommandExecutor(
-
-            self.ip
+            timeout=180
 
         )
 
-
-        resultado = executor.executar(
-
-            marca,
-
-            comando
-
-        )
-
-
-        print()
-
-        print(resultado)
+        return r.json()["response"]

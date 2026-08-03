@@ -1,8 +1,8 @@
 {
     "sessao": {
         "ativa": true,
-        "criada_em": "28/07/2026 10:01:54",
-        "atualizada_em": "28/07/2026 10:02:17",
+        "criada_em": "31/07/2026 15:56:16",
+        "atualizada_em": "31/07/2026 15:56:16",
         "ip": "192.168.14.134",
         "nome": null,
         "identificacao": {
@@ -11,18 +11,46 @@
             "familia": "MX",
             "tipo": "Multifuncional Laser Mono",
             "serial": "701644HH03ND3",
-            "contador": 137961
+            "contador": 137967
         },
         "conectividade": {
             "ip": "192.168.14.134",
-            "snmp": false,
+            "snmp": true,
             "pjl": true,
             "web": false,
             "raw": true,
             "ipp": false
         },
-        "supplies": [],
-        "estado": "PARCIAL",
-        "total_supplies": 0
+        "supplies": [
+            {
+                "indice": "1",
+                "nome": "Toner preto",
+                "capacidade": 20000,
+                "restante": 15800,
+                "consumido": 4200,
+                "nivel": 79.0,
+                "status": "BOM"
+            },
+            {
+                "indice": "2",
+                "nome": "Unidade de imagem",
+                "capacidade": 60000,
+                "restante": 33600,
+                "consumido": 26400,
+                "nivel": 56.0,
+                "status": "ATENCAO"
+            },
+            {
+                "indice": "3",
+                "nome": "Kit manutenção",
+                "capacidade": 200000,
+                "restante": 62000,
+                "consumido": 138000,
+                "nivel": 31.0,
+                "status": "BAIXO"
+            }
+        ],
+        "estado": "EXCELENTE",
+        "total_supplies": 3
     }
 }

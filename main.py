@@ -3,292 +3,150 @@ import json
 
 from modules.discovery import descobrir
 from modules.inventory import inventariar_lista
+from modules.diagnostic import diagnosticar
+
+from core.session import criar_sessao
+
+from tools.registry import ToolRegistry
 
 
-
-# ============================================================
-# MOSTRAR EQUIPAMENTO
-# ============================================================
+# ==========================================================
+# EQUIPAMENTO
+# ==========================================================
 
 def mostrar_equipamento(device):
 
-
     dados = device.to_dict()
 
-
-    ident = dados["identificacao"]
-
-    conexao = dados["conectividade"]
-
-    supplies = dados["supplies"]
-
-
+    ident = dados.get("identificacao", {})
+    conexao = dados.get("conectividade", {})
+    supplies = dados.get("supplies", [])
 
     print()
-
     print("=" * 70)
-    print("EQUIPAMENTO SELECIONADO")
+    print("IMPRESSORA")
     print("=" * 70)
 
+    print("Fabricante :", ident.get("fabricante"))
+    print("Modelo     :", ident.get("modelo"))
+    print("Família    :", ident.get("familia"))
+    print("Tipo       :", ident.get("tipo"))
+    print("Serial     :", ident.get("serial"))
 
-    print()
+    contador = ident.get("contador")
 
-    print(
-        f"Fabricante : {ident.get('fabricante')}"
-    )
-
-    print(
-        f"Modelo     : {ident.get('modelo')}"
-    )
-
-    print(
-        f"Família    : {ident.get('familia')}"
-    )
-
-    print(
-        f"Tipo       : {ident.get('tipo')}"
-    )
-
-    print(
-        f"Serial     : {ident.get('serial')}"
-    )
-
-
-    contador = ident.get(
-        "contador"
-    )
-
-
-    if contador:
-
-        contador = (
-            f"{contador:,}"
-            .replace(
-                ",",
-                "."
-            )
-        )
-
-
+    if contador is None:
+        contador = "N/A"
     else:
+        contador = f"{contador:,}".replace(",", ".")
 
-        contador = "Desconhecido"
-
-
-    print(
-        f"Contador   : {contador}"
-    )
-
+    print("Contador   :", contador)
 
     print()
-
-    print(
-        "CONECTIVIDADE"
-    )
-
-    print("-"*70)
-
+    print("Conectividade")
 
     for chave, valor in conexao.items():
 
-        if isinstance(valor,bool):
+        if isinstance(valor, bool):
+            valor = "ATIVO" if valor else "INATIVO"
 
-            valor = (
-                "ATIVO"
-                if valor
-                else
-                "INATIVO"
-            )
-
-
-        print(
-            f"{chave.upper():12}: {valor}"
-        )
-
-
+        print(f"  {chave.upper():12}: {valor}")
 
     print()
-
-    print(
-        "SUPRIMENTOS"
-    )
-
-    print("-"*70)
-
-
+    print("Suprimentos")
 
     if not supplies:
 
+        print("Nenhum")
 
-        print(
-            "Nenhum suprimento."
-        )
+    else:
 
+        for s in supplies:
 
-    for s in supplies:
+            print(
+                f"- {s['nome']} | "
+                f"{s['nivel']}% | "
+                f"{s['status']}"
+            )
 
-
-        print()
-
-        print(
-            s["nome"]
-        )
-
-
-        print(
-            "  Capacidade:",
-            s["capacidade"]
-        )
-
-        print(
-            "  Restante:",
-            s["restante"]
-        )
-
-        print(
-            "  Nível:",
-            s["nivel"],
-            "%"
-        )
+    print()
+    print("=" * 70)
 
 
-        print(
-            "  Status:",
-            s["status"]
-        )
+# ==========================================================
+# MENU IMPRESSORAS
+# ==========================================================
 
-
+def menu_impressoras(lista):
 
     print()
 
-    print(
-        "Estado:",
-        dados["estado"]
-    )
+    print("=" * 70)
+    print("IMPRESSORAS")
+    print("=" * 70)
 
-
-    print()
-
-    print("="*70)
-
-
-
-
-# ============================================================
-# MENU
-# ============================================================
-
-def menu(lista):
-
-
-    print()
-
-    print("="*70)
-    print("IMPRESSORAS ENCONTRADAS")
-    print("="*70)
-
-
-
-    for i,device in enumerate(lista,1):
-
+    for i, p in enumerate(lista, 1):
 
         print(
-
-            f"[{i}] "
-            f"{device.modelo()} "
-            f"- {device.ip}"
-
+            f"[{i}] {p.modelo()} - {p.ip}"
         )
 
-
-
     print()
-
-
-    escolha=input(
-        "Escolha: "
-    )
-
 
     try:
 
-        return lista[
-            int(escolha)-1
-        ]
+        escolha = int(
+            input("> ")
+        )
 
+        return lista[escolha - 1]
 
     except:
-
 
         return None
 
 
+# ==========================================================
+# DIAGNÓSTICO
+# ==========================================================
 
-
-# ============================================================
-# MAIN
-# ============================================================
-
-async def main():
-
+def mostrar_diagnostico(resultado):
 
     print()
 
-    print(
-        "PRINTER ASSISTANT"
-    )
+    print("=" * 70)
+    print("DIAGNÓSTICO")
+    print("=" * 70)
+
+    for chave, valor in resultado.items():
+
+        if chave == "alertas":
+            continue
+
+        print(f"{chave.upper():15}: {valor}")
+
+    print()
+
+    print("Alertas")
+
+    if resultado["alertas"]:
+
+        for alerta in resultado["alertas"]:
+
+            print("[!]", alerta)
+
+    else:
+
+        print("Nenhum")
+
+    print("=" * 70)
 
 
+# ==========================================================
+# BACKUP
+# ==========================================================
 
-    impressoras = await descobrir(
-        "192.168.14"
-    )
-
-
-
-    if not impressoras:
-
-
-        print(
-            "Nenhuma impressora encontrada."
-        )
-
-        return
-
-
-
-    await inventariar_lista(
-    impressoras
-)
-
-
-
-    selecionada = menu(
-        impressoras
-    )
-
-
-
-    if not selecionada:
-
-
-        print(
-            "Cancelado."
-        )
-
-        return
-
-
-
-    mostrar_equipamento(
-        selecionada
-    )
-
-
-
-    dados = selecionada.to_dict()
-
-
+def salvar(device):
 
     with open(
 
@@ -296,16 +154,15 @@ async def main():
 
         "w",
 
-        encoding="utf-8"
+        encoding="utf8"
 
-    ) as f:
-
+    ) as arq:
 
         json.dump(
 
-            dados,
+            device.to_dict(),
 
-            f,
+            arq,
 
             indent=4,
 
@@ -314,19 +171,93 @@ async def main():
         )
 
 
+# ==========================================================
+# TOOLS
+# ==========================================================
+
+def menu_tools(registry):
+
+    while True:
+
+        print()
+
+        print("=" * 70)
+        print("FERRAMENTAS")
+        print("=" * 70)
+
+        registry.show()
+
+        print("[0] Sair")
+
+        print()
+
+        op = input("> ").strip()
+
+        if op == "0":
+            break
+
+        registry.execute(op)
+
+
+# ==========================================================
+# MAIN
+# ==========================================================
+
+async def main():
+
     print()
 
-    print(
-        "Salvo selected_printer.json"
-    )
+    print("=" * 70)
+    print("PRINTER ASSISTANT")
+    print("=" * 70)
+
+    impressoras = await descobrir("192.168.14")
+
+    if not impressoras:
+
+        print("Nenhuma impressora encontrada.")
+
+        return
+
+    await inventariar_lista(impressoras)
+
+    selecionada = menu_impressoras(impressoras)
+
+    if selecionada is None:
+
+        print("Cancelado.")
+
+        return
+
+    mostrar_equipamento(selecionada)
+
+    sessao = criar_sessao()
+
+    sessao.ativar(selecionada)
+
+    resultado = diagnosticar(sessao)
+
+    mostrar_diagnostico(resultado)
+
+    salvar(selecionada)
+
+    registry = ToolRegistry(sessao)
+
+    menu_tools(registry)
 
 
+# ==========================================================
+# START
+# ==========================================================
 
+if __name__ == "__main__":
 
+    try:
 
-if __name__=="__main__":
+        asyncio.run(main())
 
+    except KeyboardInterrupt:
 
-    asyncio.run(
-        main()
-    )
+        print()
+
+        print("Encerrado.")

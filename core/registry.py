@@ -1,37 +1,99 @@
-import os
-import importlib
-
-
 class Registry:
 
     def __init__(self):
 
-        self.comandos = {}
+        self.tools = {}
 
+        self.reports = {}
 
-    def carregar(self):
+        self.workflows = {}
 
-        pasta = "commands"
+    # ----------------------------
 
-        for arquivo in os.listdir(pasta):
+    def register_tool(self, tool):
 
-            if not arquivo.endswith(".py"):
-                continue
+        self.tools[tool.name] = tool
 
-            if arquivo.startswith("_"):
-                continue
+    # ----------------------------
 
-            nome = arquivo[:-3]
+    def register_report(self, report):
 
-            modulo = importlib.import_module(
-                f"commands.{nome}"
+        self.reports[report.title] = report
+
+    # ----------------------------
+
+    def register_workflow(self, workflow):
+
+        self.workflows[workflow.name] = workflow
+
+    # ----------------------------
+
+    def tool(self, name):
+
+        return self.tools[name]
+
+    # ----------------------------
+
+    def report(self, title):
+
+        return self.reports[title]
+
+    # ----------------------------
+
+    def workflow(self, name):
+
+        return self.workflows[name]
+
+    # ----------------------------
+
+    def list_everything(self):
+
+        print()
+
+        print("="*60)
+
+        print("TOOLS")
+
+        print("="*60)
+
+        for t in self.tools.values():
+
+            print(
+
+                t.icon,
+
+                t.name
+
             )
 
-            if hasattr(modulo, "INFO"):
+        print()
 
-                self.comandos[
-                    modulo.INFO["id"]
-                ] = modulo
+        print("="*60)
 
+        print("REPORTS")
 
-registry = Registry()
+        print("="*60)
+
+        for r in self.reports.values():
+
+            print(
+
+                r.title
+
+            )
+
+        print()
+
+        print("="*60)
+
+        print("WORKFLOWS")
+
+        print("="*60)
+
+        for w in self.workflows.values():
+
+            print(
+
+                w.name
+
+            )
