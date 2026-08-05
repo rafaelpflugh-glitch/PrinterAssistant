@@ -2,277 +2,163 @@
 Printer Assistant
 PJL Tool
 
-Ferramenta responsável por executar comandos PJL
-e retornar resultados padronizados.
-
+Ferramenta responsável pelos comandos PJL.
 """
 
 from core.base_tool import BaseTool
 from core.result import ToolResult
+from core.action import Action
 
 from modules.pjl import PJL
-
 from parsers.pjl_parser import PJLParser
-
 
 
 class PJLTool(BaseTool):
 
-
     name = "pjl"
-
     description = "Comandos PJL"
-
     category = "Impressora"
-
     icon = "terminal"
 
+    def __init__(self):
 
+        super().__init__()
 
-    actions = {
+        # =====================================================
+        # REGISTRO DAS AÇÕES
+        # =====================================================
 
+        self.register_action(
 
-        "id": {
+            Action(
+                name="id",
+                description="Modelo",
+                executor=lambda pjl: pjl.info_id(),
+                parser=lambda texto: {
+                    "model": PJLParser.info_id(texto)
+                }
+            )
 
-            "description": "Modelo"
+        )
 
-        },
+        self.register_action(
 
+            Action(
+                name="prodinfo",
+                description="Informações do produto",
+                executor=lambda pjl: pjl.prodinfo(),
+                parser=PJLParser.prodinfo
+            )
 
-        "prodinfo": {
+        )
 
-            "description": "Informações"
+        self.register_action(
 
-        },
+            Action(
+                name="pagecount",
+                description="Contador de páginas",
+                executor=lambda pjl: pjl.pagecount(),
+                parser=lambda texto: {
+                    "pagecount": PJLParser.pagecount(texto)
+                }
+            )
 
+        )
 
-        "pagecount": {
+        self.register_action(
 
-            "description": "Contador de páginas"
+            Action(
+                name="status",
+                description="Status",
+                executor=lambda pjl: pjl.status(),
+                parser=PJLParser.status
+            )
 
-        },
+        )
 
+        self.register_action(
 
-        "status": {
+            Action(
+                name="memory",
+                description="Memória",
+                executor=lambda pjl: pjl.memory(),
+                parser=PJLParser.memory
+            )
 
-            "description": "Status"
+        )
 
-        },
+        self.register_action(
 
+            Action(
+                name="config",
+                description="Configuração",
+                executor=lambda pjl: pjl.config(),
+                parser=PJLParser.config
+            )
 
-        "memory": {
+        )
 
-            "description": "Memória"
+        self.register_action(
 
-        },
+            Action(
+                name="variables",
+                description="Variáveis",
+                executor=lambda pjl: pjl.variables(),
+                parser=PJLParser.variables
+            )
 
+        )
 
-        "config": {
-
-            "description": "Configuração"
-
-        },
-
-
-        "variables": {
-
-            "description": "Variáveis"
-
-        }
-
-
-    }
-
-
-
+    # =====================================================
+    # EXECUÇÃO
+    # =====================================================
 
     def execute(
 
         self,
-
         session,
-
         action="status",
-
         **kwargs
 
     ):
 
-
         try:
 
+            acao = self.get_action(action)
 
-            pjl = PJL(session)
-
-
-
-            comandos = {
-
-
-                "id":
-
-                    pjl.info_id,
-
-
-                "prodinfo":
-
-                    pjl.prodinfo,
-
-
-                "pagecount":
-
-                    pjl.pagecount,
-
-
-                "status":
-
-                    pjl.status,
-
-
-                "memory":
-
-                    pjl.memory,
-
-
-                "config":
-
-                    pjl.config,
-
-
-                "variables":
-
-                    pjl.variables
-
-
-            }
-
-
-
-
-            if action not in comandos:
-
+            if acao is None:
 
                 return ToolResult.erro(
 
-                    self.name,
-
-                    action,
-
-                    "Ação PJL inexistente"
+                    tool=self.name,
+                    action=action,
+                    mensagem=f"Ação '{action}' inexistente."
 
                 ).to_dict()
 
+            #
+            # Contexto PJL
+            #
 
+            pjl = PJL(session)
 
-
-            resposta = comandos[action]()
-
-
-
-
-            resultado = {
-
-
-                "raw_size":
-
-                    len(resposta),
-
-
-                "preview":
-
-                    resposta[:300]
-
-            }
-
-
-
-
-            if action == "pagecount":
-
-
-                resultado = {
-
-
-                    "pagecount":
-
-                        PJLParser.pagecount(
-
-                            resposta
-
-                        )
-
-                }
-
-
-
-
-            elif action == "status":
-
-
-                resultado = PJLParser.status(
-
-                    resposta
-
-                )
-
-
-
-
-            elif action == "memory":
-
-
-                resultado = PJLParser.memory(
-
-                    resposta
-
-                )
-
-
-
-
-            elif action == "id":
-
-
-                resultado = {
-
-
-                    "model":
-
-                        PJLParser.info_id(
-
-                            resposta
-
-                        )
-
-                }
-
-
-
+            resultado = acao.run(pjl)
 
             return ToolResult(
 
                 tool=self.name,
-
                 action=action,
-
                 resultado=resultado,
-
                 sucesso=True
 
             ).to_dict()
 
-
-
-
-        except Exception as e:
-
+        except Exception as erro:
 
             return ToolResult.erro(
 
-                self.name,
-
-                action,
-
-                str(e)
+                tool=self.name,
+                action=action,
+                mensagem=str(erro)
 
             ).to_dict()

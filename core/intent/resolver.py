@@ -7,108 +7,52 @@ class IntentResolver:
 
         self.commands = {
 
-            "pagecount":
+            "pagecount": ("pjl", "pagecount"),
+            "contador": ("pjl", "pagecount"),
+            "quantas paginas": ("pjl", "pagecount"),
 
-            Intent(
+            "status": ("pjl", "status"),
+            "estado": ("pjl", "status"),
 
-                tool="pjl",
+            "memoria": ("pjl", "memory"),
 
-                action="pagecount"
+            "serial": ("pjl", "id"),
 
-            ),
+            "modelo": ("pjl", "prodinfo"),
+            "produto": ("pjl", "prodinfo"),
 
-            "contador":
+            "config": ("pjl", "config"),
+            "variaveis": ("pjl", "variables"),
 
-            Intent(
+            "reset": ("reset", "cold"),
+            "cold reset": ("reset", "cold"),
 
-                tool="pjl",
-
-                action="pagecount"
-
-            ),
-
-            "quantas paginas":
-
-            Intent(
-
-                tool="pjl",
-
-                action="pagecount"
-
-            ),
-
-            "status":
-
-            Intent(
-
-                tool="pjl",
-
-                action="status"
-
-            ),
-
-            "estado":
-
-            Intent(
-
-                tool="pjl",
-
-                action="status"
-
-            ),
-
-            "memoria":
-
-            Intent(
-
-                tool="pjl",
-
-                action="memory"
-
-            ),
-
-            "serial":
-
-            Intent(
-
-                tool="pjl",
-
-                action="id"
-
-            ),
-
-            "modelo":
-
-            Intent(
-
-                tool="pjl",
-
-                action="prodinfo"
-
-            ),
-
-            "produto":
-
-            Intent(
-
-                tool="pjl",
-
-                action="prodinfo"
-
-            )
+            "firmware": ("firmware", "version")
 
         }
 
-    # ------------------------------------------
+    # ------------------------------------------------------
 
     def resolve(self, text):
 
-        text = text.lower()
+        texto = text.lower()
 
-        for alias, intent in self.commands.items():
+        for alias, (tool, action) in self.commands.items():
 
-            if alias in text:
+            if alias in texto:
 
-                return intent
+                return Intent(
+
+                    tool=tool,
+
+                    action=action,
+
+                    confidence=1.0,
+
+                    arguments={},
+
+                    text=text
+
+                )
 
         return None

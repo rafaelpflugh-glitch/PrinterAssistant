@@ -1,8 +1,16 @@
+"""
+Printer Assistant
+BaseTool
+
+Classe base para todas as ferramentas.
+"""
+
 from abc import ABC, abstractmethod
+
+from core.action import Action
 
 
 class BaseTool(ABC):
-
 
     name = ""
 
@@ -14,8 +22,6 @@ class BaseTool(ABC):
 
     actions = {}
 
-
-
     def __init__(self):
 
         if not self.name:
@@ -24,7 +30,8 @@ class BaseTool(ABC):
                 "Tool precisa definir atributo 'name'"
             )
 
-
+        # Cada instância possui seu próprio registro
+        self.actions = {}
 
     # =====================================================
     # EXECUÇÃO
@@ -37,13 +44,30 @@ class BaseTool(ABC):
         action=None,
         **kwargs
     ):
-
         pass
 
+    # =====================================================
+    # REGISTRO DE ACTIONS
+    # =====================================================
 
+    def register_action(self, action: Action):
+
+        self.actions[action.name] = action
+
+    def get_action(self, name):
+
+        return self.actions.get(name)
+
+    def has_action(self, action):
+
+        return action in self.actions
+
+    def list_actions(self):
+
+        return list(self.actions.keys())
 
     # =====================================================
-    # INFORMAÇÕES
+    # INFO
     # =====================================================
 
     def info(self):
@@ -58,32 +82,19 @@ class BaseTool(ABC):
 
             "icon": self.icon,
 
-            "actions": self.actions
+            "actions": {
+
+                nome: {
+
+                    "description": acao.description
+
+                }
+
+                for nome, acao in self.actions.items()
+
+            }
 
         }
-
-
-
-    # =====================================================
-    # ACTIONS
-    # =====================================================
-
-    def has_action(
-        self,
-        action
-    ):
-
-        return action in self.actions
-
-
-
-    def list_actions(self):
-
-        return list(
-            self.actions.keys()
-        )
-
-
 
     # =====================================================
     # CAPABILITIES
