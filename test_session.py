@@ -1,155 +1,43 @@
-import asyncio
+from core.session import Session
 
-from core.device import PrinterDevice
-from core.session import PrinterSession
+sessao = Session()
 
+sessao.connect("192.168.0.50")
 
-# ============================================================
-# TESTE SESSION
-# ============================================================
+sessao.update_from_parser({
 
-IP = "192.168.14.134"
+    "model": "Lexmark MX611de",
 
+    "serial": "123ABC",
 
-async def main():
+    "firmware": "LW71.P635",
 
-    print("=" * 60)
+    "memory": 524288,
 
-    print(
-        "PRINTER ASSISTANT - TESTE DE SESSÃO"
-    )
+    "pagecount": 137974,
 
-    print("=" * 60)
+    "vendor": "Lexmark"
 
+})
 
-    print()
+print()
 
-    print(
-        "Criando dispositivo..."
-    )
+print("=" * 60)
 
+print("SESSION")
 
-    device = PrinterDevice(
-        ip=IP
-    )
+print("=" * 60)
 
+print(sessao.info())
 
-    print(
-        "Coletando dados..."
-    )
+print()
 
+print("Duplex:")
 
-    await device.coletar()
+print(sessao.has("duplex"))
 
+print()
 
-    print()
+print("Network:")
 
-    print(
-        "Criando sessão..."
-    )
-
-
-    sessao = PrinterSession()
-
-
-    sessao.ativar(
-        device
-    )
-
-
-    print()
-
-    print("=" * 60)
-
-    print(
-        "IMPRESSORA ATIVA"
-    )
-
-    print("=" * 60)
-
-
-    print()
-
-    resumo = sessao.resumo()
-
-
-    print(
-        "Fabricante:",
-        resumo["fabricante"]
-    )
-
-
-    print(
-        "Modelo:",
-        resumo["modelo"]
-    )
-
-
-    print(
-        "Serial:",
-        resumo["serial"]
-    )
-
-
-    contador = resumo["contador"]
-
-
-    if contador is None:
-
-        print(
-            "Contador: desconhecido"
-        )
-
-    else:
-
-        print(
-
-            "Contador:",
-
-            f"{contador:,}".replace(
-                ",",
-                "."
-            )
-
-        )
-
-
-    print()
-
-    print(
-        "Estado:",
-        resumo["estado"]
-    )
-
-
-    print(
-        "Suprimentos:",
-        resumo["supplies"]
-    )
-
-
-    print()
-
-    print(
-        "Sessão salva em:"
-    )
-
-
-    print(
-        sessao.SESSION_FILE
-        if hasattr(
-            sessao,
-            "SESSION_FILE"
-        )
-        else "C:\\PrinterAssistant\\session.json"
-    )
-
-
-    print()
-
-
-if __name__ == "__main__":
-
-    asyncio.run(
-        main()
-    )
+print(sessao.has("network"))

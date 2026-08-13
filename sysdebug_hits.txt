@@ -1,0 +1,181 @@
+4:Printer Serial Number:                     701644HH03ND3
+48:Serial		: 0000000000000000
+144:usbserial 24698 1 cp2101, Live 0xbf622000
+152:usbcore 126974 11 smsc7500,usbkbd,usb8xxx,snd_usb_audio,snd_usbmidi_lib,ehshet,cp2101,usbserial,usb_storage,ehci_hcd, Live 0xbf597000
+166:fusermech 15242 0 [permanent], Live 0xbf4ab000 (P)
+167:supplies 375010 0 [permanent], Live 0xbf446000 (P)
+168:upc_intf 11363 1 supplies, Live 0xbf440000 (P)
+176:utility 325556 12 engine,motors,fusermech,supplies,upc_intf,options,ep,txp,fan,belt,galvo,hw_driver,[permanent], Live 0xbf315000 (P)
+177:glue 17078 12 engine,motors,fusermech,supplies,options,ep,txp,fan,belt,galvo,hw_driver,utility, Live 0xbf30d000 (P)
+179:engcart 1866 1 supplies,[permanent], Live 0xbf304000 (P)
+217:i2c_core 23526 7 snd_soc_tlv320dac3100,snd_soc_core,supplies,hw_driver,system,linuxi2c,i2c_designware, Live 0xbf0e9000
+236: 32:       9585       9362       GIC  serial
+237: 34:      13751      16652       GIC  serial
+409:  PID   TID THREAD_NAME      PPID  PGID CLS RTPRIO  NI PSR P EUSER    RUSER    SUSER    FUSER    %CPU %MEM    VSZ   RSS TTY      STATE START     TIME FLAGS          BLOCKED           CAUGHT          IGNORED          PENDING WCHAN                    FULL_CO\
+586: 5257  5257 eng_supplies_kt     2     0 FF      19   -   1 * root     root     root     root      0.0  0.0      0     0 ?        S     08:43 00:00:00     1 0000000000000000 0000000000000000 ffffffffffffffff 0000000000000000 SupplyArwenDelayedWork   [eng_su\
+588: 5260  5260 eng_ccf_kthread     2     0 FF      19   -   1 * root     root     root     root      0.0  0.0      0     0 ?        S     08:43 00:00:00     1 0000000000000000 0000000000000000 ffffffffffffffff 0000000000000000 SupplyCCFDelayedWork     [eng_cc\
+590: 5261  5261 supply_cart_mem     2     0 TS       - -20   0 * root     root     root     root      0.0  0.0      0     0 ?        S<    08:43 00:00:00     1 0000000000000000 0000000000000000 ffffffffffffffff 0000000000000000 rescuer_thread           [supply\
+1542:s ax -T -o pid,tid,comm=THREAD_NAME,ppid,pgid,class,rtprio,nice,psr,sgi_p,euser,ruser,suser,fuser,%cpu,%mem,vsz,rss,tty=TTY,stat=STATE,start_time,time,flags=FLAGS,blocked,caught,ignored,pending,wchan:24,args=FULL_COMMAND > /var/tmp/psdump.txt
+1544:T -o pid,tid,comm=THREAD_NAME,ppid,pgid,class,rtprio,nice,psr,sgi_p,euser,ruser,suser,fuser,%cpu,%mem,vsz,rss,tty=TTY,stat=STATE,start_time,time,flags=FLAGS,blocked,caught,ignored,pending,wchan:24,args=FULL_COMMAND
+1633:Fuser tracking info
+1656: CE Fuser Mode: 0
+1669: ProcEntryPrintDataFn() Fuser Without Fic 
+1671:Fuser page count NV =  27432, BUR rev count with sheet NV = 6181, BUR rev count no sheet NV = 8324
+1672:Fuser page count Local =  0, BUR rev count with sheet Local = 0, BUR rev count no sheet Local = 72 
+1678:Genuine Supply; Not Exposed; Quanta Depleted = 0; Quanta Remaining = 0 NSQ Remaining = 0;
+1683:Supplies Security: Enabled; SVCF Major Version = 5; SVCF Minor Version = 6; UPC Driver Status = 0
+1688:Cartridge Door: Closed
+1694:Supplies I/F Supported
+1697:	... Mono Cartridge Toner Bottle  ...	
+1712:	... Mono Cartridge Imaging Unit  ...	
+1716:TonerToCleaner = 46360515; FilteredTnrInDvlpr  = 58066
+1748:	... Imaging Unit-K status  ...	
+1767:Toner Sensing supported: CTLS Circuit Present
+1985:--------------- Fuser Debug - /proc/eng_fuser ---------------
+1987:	... Fuser status  ...
+1989:Fuser Type: Belt 
+1991:Actual Fuser Temp: 20
+1998:--------------- Fuser gains Debug - /proc/eng_fusergains ---------------
+2000:*************** FUSER GAINS *************
+2001:-- Fuser Gain Mode:  Ramping/PhaseCtl --
+2023:--------------- Toner Density Sensor - /proc/eng_tds_summary ---------------
+4161:--------------- Serial UART Status - /proc/tty/driver/serial ---------------
+4168:--------------- Serial Scanner Communication - /proc/Serial1DebugDump ---------------
+5935:	Bins: 00000000, Finishing: 0000, Toners: 00
+5974:	Bins: 00000000, Finishing: 0000, Toners: 00
+8763:EP.FuserStandbySupported 0
+8769:EP.MaintenanceMessage 1
+9168:  example of mask STSupplyNewAlertIrqMask_SUPPLY_EMPTY
+9169:  Supplies (id/sernum/mask):
+9192:  stat 0, N NVTonerAlarmSound=0(Off).
+9194:  stat 0, N NVFUSER_WIPER_NOTIFY=2.
+9202:--------------------- ST Supply Table Data ---------------------
+9204:osikey Black Toner, serial CAY251460171 valid 1, id 0:
+9208:  maxLevel 100, minLevel 0, increments 1%, SUPPLY_STATUS 0.
+9209:  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+9211:                  SUPPLY_EARLYWARN => LevelOn 0, LevelActive 0, TriggerValue 50, LevelMax 255, LevelMin 255, Behaviors 0xff, levid 0x1263, behid 0x125e, behav 0.
+9212:                  SUPPLY_NEARLYLOW => LevelOn 1, LevelActive 0, TriggerValue 30, LevelMax 255, LevelMin 20, Behaviors 0xff, levid 0x1264, behid 0x125f, behav 0.
+9213:                        SUPPLY_LOW => LevelOn 1, LevelActive 0, TriggerValue 10, LevelMax 50, LevelMin 2, Behaviors 0xff, levid 0x1577, behid 0x1260, behav 2.
+9214:                SUPPLY_NEARLYEMPTY => LevelOn 1, LevelActive 0, TriggerValue 1, LevelMax 1, LevelMin 1, Behaviors 0xff, levid 0xffff, behid 0x1261, behav 2.
+9215:                      SUPPLY_EMPTY => LevelOn 1, LevelActive 0, TriggerValue 0, LevelMax 0, LevelMin 0, Behaviors 0x02, levid 0xffff, behid 0x1262, behav 4.
+9217:  installed INST, supported 1, ignoreMsgNotSupported 0, serialNumberIsReal 1
+9221:  supplyHasWarning 0, supplyHasIntervention 0, supplyHasNonContinueIntervention 0
+9222:  supplyGetConditionTextId 75577 (OK).
+9224:osikey Imaging Unit, serial CAB193256741 valid 1, id 1:
+9228:  maxLevel 100, minLevel 0, increments 5%, SUPPLY_STATUS 0.
+9229:  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+9231:                  SUPPLY_EARLYWARN => LevelOn 0, LevelActive 0, TriggerValue 40, LevelMax 255, LevelMin 255, Behaviors 0xff, levid 0x126b, behid 0x1266, behav 0.
+9232:                  SUPPLY_NEARLYLOW => LevelOn 1, LevelActive 0, TriggerValue 10, LevelMax 90, LevelMin 10, Behaviors 0xff, levid 0x126c, behid 0x1267, behav 0.
+9233:                        SUPPLY_LOW => LevelOn 1, LevelActive 0, TriggerValue 5, LevelMax 50, LevelMin 1, Behaviors 0xff, levid 0x1578, behid 0x1268, behav 2.
+9234:                SUPPLY_NEARLYEMPTY => LevelOn 1, LevelActive 0, TriggerValue 1, LevelMax 1, LevelMin 1, Behaviors 0xff, levid 0xffff, behid 0x1269, behav 2.
+9235:                      SUPPLY_EMPTY => LevelOn 1, LevelActive 0, TriggerValue 0, LevelMax 0, LevelMin 0, Behaviors 0x02, levid 0xffff, behid 0x126a, behav 4.
+9237:  installed INST, supported 1, ignoreMsgNotSupported 0, serialNumberIsReal 1
+9241:  supplyHasWarning 0, supplyHasIntervention 0, supplyHasNonContinueIntervention 0
+9242:  supplyGetConditionTextId 75577 (OK).
+9244:osikey Maintenance Kit, serial 000000000000 valid 1, id 2:
+9248:  maxLevel 100, minLevel 0, increments 1%, SUPPLY_STATUS 0.
+9249:  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+9251:                  SUPPLY_EARLYWARN => LevelOn 0, LevelActive 0, TriggerValue 40, LevelMax 255, LevelMin 255, Behaviors 0xff, levid 0x12ab, behid 0x12a6, behav 0.
+9252:                  SUPPLY_NEARLYLOW => LevelOn 1, LevelActive 0, TriggerValue 30, LevelMax 90, LevelMin 5, Behaviors 0xff, levid 0x12ac, behid 0x12a7, behav 0.
+9253:                        SUPPLY_LOW => LevelOn 1, LevelActive 0, TriggerValue 20, LevelMax 50, LevelMin 2, Behaviors 0xff, levid 0xffff, behid 0x12a8, behav 0.
+9254:                SUPPLY_NEARLYEMPTY => LevelOn 1, LevelActive 0, TriggerValue 1, LevelMax 1, LevelMin 1, Behaviors 0xff, levid 0xffff, behid 0x12a9, behav 2.
+9255:                      SUPPLY_EMPTY => LevelOn 1, LevelActive 0, TriggerValue 0, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0x12aa, behav 2.
+9257:  installed INST, supported 1, ignoreMsgNotSupported 0, serialNumberIsReal 1
+9261:  supplyHasWarning 0, supplyHasIntervention 0, supplyHasNonContinueIntervention 0
+9262:  supplyGetConditionTextId 75577 (OK).
+9264:osikey Staples, serial  valid 0, id 3:
+9268:  maxLevel 10, minLevel 0, increments 5%, SUPPLY_STATUS 0.
+9269:  SUPPLY_OSIGAUGE_TYPE 0, SUPPLY_EMAIL_TYPE 1
+9271:                        SUPPLY_LOW => LevelOn 1, LevelActive 0, TriggerValue 1, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0xffff, behav 3.
+9272:                      SUPPLY_EMPTY => LevelOn 1, LevelActive 0, TriggerValue 0, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0xffff, behav 3.
+9274:  installed INST, supported 0, ignoreMsgNotSupported 0, serialNumberIsReal 0
+9278:  supplyHasWarning 0, supplyHasIntervention 0, supplyHasNonContinueIntervention 0
+9279:  supplyGetConditionTextId 75577 (OK).
+9281:osikey Photo Conductor, serial  valid 0, id 4:
+9285:  maxLevel 400, minLevel 0, increments 5%, SUPPLY_STATUS 0.
+9286:  SUPPLY_OSIGAUGE_TYPE 2, SUPPLY_EMAIL_TYPE 0
+9288:                  SUPPLY_EARLYWARN => LevelOn 0, LevelActive 0, TriggerValue 30, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0xffff, behav 3.
+9289:                  SUPPLY_NEARLYLOW => LevelOn 0, LevelActive 0, TriggerValue 20, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0xffff, behav 3.
+9290:                        SUPPLY_LOW => LevelOn 1, LevelActive 0, TriggerValue 10, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0xffff, behav 3.
+9291:                SUPPLY_NEARLYEMPTY => LevelOn 0, LevelActive 0, TriggerValue 1, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0xffff, behav 3.
+9292:                      SUPPLY_EMPTY => LevelOn 1, LevelActive 0, TriggerValue 0, LevelMax 0, LevelMin 0, Behaviors 0xff, levid 0xffff, behid 0xffff, behav 3.
+9294:  installed INST, supported 0, ignoreMsgNotSupported 0, serialNumberIsReal 0
+9298:  supplyHasWarning 0, supplyHasIntervention 0, supplyHasNonContinueIntervention 0
+9299:  supplyGetConditionTextId 75577 (OK).
+9317:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9319:                Message  dmsk 0x00002a81, pub mail, msg1 397 (ST_SUPPLY_CONFIG), msg2 0x011b0001, msg3 1
+9321:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9323:                Message  dmsk 0x00002a81, pub mail, msg1 397 (ST_SUPPLY_CONFIG), msg2 0x011c0001, msg3 50
+9325:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9327:                Message  dmsk 0x00002a81, pub mail, msg1 397 (ST_SUPPLY_CONFIG), msg2 0x015b0001, msg3 1
+9329:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9331:                Message  dmsk 0x00002a81, pub mail, msg1 397 (ST_SUPPLY_CONFIG), msg2 0x015c0001, msg3 1
+9333:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9335:                Message  dmsk 0x00002a81, pub mail, msg1 397 (ST_SUPPLY_CONFIG), msg2 0x01db0001, msg3 0
+9337:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9339:                Message  dmsk 0x00002a81, pub mail, msg1 397 (ST_SUPPLY_CONFIG), msg2 0x01dc0001, msg3 0
+9341:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9343:                Message  dmsk 0x00002a81, pub mail, msg1 228 (ST_SUPPLY_INSTALL_CHANGE), msg2 1, msg3 1
+9345:                Message  dmsk 0x00002a81, pri mail, msg1 229    (ST_SUPPLY_INSTALL), msg2 1, msg3 0
+9347:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9349:                Message  dmsk 0x00002a81, pub mail, msg1 241 (SUPPLY_LEVEL_CHANGE), msg2 1, msg3 55
+9351:                Message  dmsk 0x00002a81, pri mail, msg1 393    (ST_SUPPLY_MEDIUM), msg2 1, msg3 0
+9353:                Message  dmsk 0x00002a81, pri mail, msg1 479    (ST_SUPPLY_TABLE_CHANGED), msg2 1, msg3 0
+9355:                Message  dmsk 0x00002a81, pub mail, msg1 543 (ST_EXIT_SUPPLY_MAINTENANCE), msg2 0, msg3 0
+10215:BIOS Supply Status:
+10216:	SUPPLY				SN		SNVALID	STARTER	CONFIG	MISSING	DEAD UNSUPPORTED isVALID
+10220:	   Black Cartridge	  0	  1	  0	  0	  0	  0	  1089817032
+10222:	             Fuser	  0	  1	  0	  0	  0	  0	  1089817032
+10231:	Black Imaging Unit	  0	  1	  0	  0	  0	  0	  1089817032
+10547:----------- Supplies  ----
+11065:5257:eng_supplies_kt     no MM
+11067:5261:supply_cart_mem     no MM
+23270:	Export-Package: com.lexmark.prtapp.ksoap;specification-version=4.4.4,org.ksoap2;specification-version=4.4.4,org.ksoap2.serialization;specification-version=4.4.4,org.ksoap2.transport;specification-version=4.4.4,org.kxml2.io;specification-version=4.4.4,org.\
+26179: ---------------- Start of Dump (printer.configuration.supplies) -------------------
+26181:  Key=Black Toner, Value=Map
+26201:     Key=cartridgeType, Value="unknown" (String)
+26217:     Key=serialNumber, Value="CAY251460171" (String)
+26218:     Key=supplyID, Value=0:00000000 (Integer)
+26219:     Key=supplyLevel, Value="Intermediate" (String)
+26220:     Key=supplyNpaFixedId, Value=1:00000001 (Integer)
+26221:     Key=supplyOrder, Value=0:00000000 (Integer)
+26222:     Key=supplyStatus, Value="Ready" (String)
+26223:     Key=supplyStatusText, Value=75577:00012739 (Integer) (?)(OK)
+26224:     Key=textEnum, Value=73251:00011e23 (Integer) (?)(Black Cartridge)
+26225:     Key=type, Value="Toner" (String)
+26226:  Key=Imaging Unit, Value=Map
+26257:     Key=serialNumber, Value="CAB193256741" (String)
+26258:     Key=supplyID, Value=1:00000001 (Integer)
+26259:     Key=supplyLevel, Value="Intermediate" (String)
+26260:     Key=supplyNpaFixedId, Value=41:00000029 (Integer)
+26261:     Key=supplyOrder, Value=1:00000001 (Integer)
+26262:     Key=supplyStatus, Value="Ready" (String)
+26263:     Key=supplyStatusText, Value=75577:00012739 (Integer) (?)(OK)
+26264:     Key=textEnum, Value=65569:00010021 (Integer) (?)(Imaging Unit)
+26266:  Key=Maintenance Kit, Value=Map
+26296:     Key=serialNumber, Value="000000000000" (String)
+26297:     Key=supplyID, Value=9:00000009 (Integer)
+26298:     Key=supplyLevel, Value="Intermediate" (String)
+26299:     Key=supplyNpaFixedId, Value=38:00000026 (Integer)
+26300:     Key=supplyOrder, Value=2:00000002 (Integer)
+26301:     Key=supplyStatus, Value="Ready" (String)
+26302:     Key=supplyStatusText, Value=75577:00012739 (Integer) (?)(OK)
+26303:     Key=textEnum, Value=72314:00011a7a (Integer) (?)(Maintenance Kit)
+26305: ----------------- End of Dump (printer.configuration.supplies) --------------------
+26322:                    Key=textEnum, Value=73724:00011ffc (Integer) (?)(Cartridge Low)
+26328:                    Key=textEnum, Value=73191:00011de7 (Integer) (?)(Replace Cartridge)
+26334:                    Key=textEnum, Value=73727:00011fff (Integer) (?)(Invalid Cartridge)
+26340:                    Key=textEnum, Value=73726:00011ffe (Integer) (?)(Defective Cartridge)
+26346:                    Key=textEnum, Value=73529:00011f39 (Integer) (?)(Unsupported Cartridge)
+26347:              Key=textEnum, Value=75915:0001288b (Integer) (?)(Toner Cartridge)
+26362:                    Key=textEnum, Value=73534:00011f3e (Integer) (?)(Scheduled Maintenance)
+26363:              Key=textEnum, Value=72314:00011a7a (Integer) (?)(Maintenance Kit)
+26375:                    Key=textEnum, Value=81370:00013dda (Integer) (?)(Imaging Unit Low)
+26381:                    Key=textEnum, Value=79658:0001372a (Integer) (?)(Replace missing imaging unit)
+26387:                    Key=textEnum, Value=77151:00012d5f (Integer) (?)(Replace imaging unit)
+26393:                    Key=textEnum, Value=79659:0001372b (Integer) (?)(Replace defective imaging unit)
+26399:                    Key=textEnum, Value=79660:0001372c (Integer) (?)(Replace unsupported imaging unit)
+26400:              Key=textEnum, Value=65569:00010021 (Integer) (?)(Imaging Unit)
+26401:        Key=textEnum, Value=75885:0001286d (Integer) (?)(View supplies)
+34181:             custom_display_name : : Black Toner 
+34182:             type : : TONER 

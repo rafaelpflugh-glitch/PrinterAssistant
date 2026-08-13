@@ -1,64 +1,50 @@
-from core.app_registry import criar_registry
+from core.session import Session
 from core.tool_manager import ToolManager
-from core.session import criar_sessao
 
 
+session = Session()
 
-print("="*60)
-
-print("TESTE TOOL MANAGER")
-
-print("="*60)
-
-
-
-registry = criar_registry()
-
-
-
-manager = ToolManager(
-    registry
-)
-
+manager = ToolManager(session)
 
 
 print()
 
-print("FERRAMENTAS:")
-
-
-for ferramenta in manager.listar():
-
-    print(
-        ferramenta
-    )
-
-
+print("=" * 60)
+print("TOOL MANAGER")
+print("=" * 60)
 
 print()
 
-print("EXECUTANDO PJL PAGECOUNT")
+print("TOOLS")
 
+for nome in manager.names():
 
-
-sessao = criar_sessao()
-
-sessao.carregar()
-
-
-
-resultado = manager.executar(
-
-    "pjl",
-
-    sessao,
-
-    "pagecount"
-
-)
-
-
+    print(" -", nome)
 
 print()
 
-print(resultado)
+print("REPORTS")
+
+for relatorio in manager.reports():
+
+    print(" -", relatorio)
+
+print()
+
+print("CATEGORIES")
+
+for categoria, ferramentas in manager.categories().items():
+
+    print(categoria, "->", ferramentas)
+
+print()
+
+print("CAPABILITIES")
+
+for nome, capacidades in manager.capabilities().items():
+
+    print()
+
+    print(nome)
+
+    print(capacidades)

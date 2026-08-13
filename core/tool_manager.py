@@ -1,10 +1,34 @@
+"""
+============================================================
+Printer Assistant
+Tool Manager
+============================================================
+
+Camada central responsável por registrar e executar
+todas as ferramentas do sistema.
+============================================================
+"""
+
+
 from core.registry import Registry
 from core.result import ToolResult
 
 
+# ============================================================
+# TOOLS
+# ============================================================
+
+from tools.scanner_tool import ScannerTool
 from tools.pjl_tool import PJLTool
 from tools.reset import ResetTool
 from tools.firmware import FirmwareTool
+
+
+# ============================================================
+# REPORTS
+# ============================================================
+
+from reports.config_report import ConfigReport
 
 
 
@@ -12,25 +36,26 @@ class ToolManager:
 
 
     """
-    Camada central de gerenciamento das ferramentas.
+    Camada central de gerenciamento.
 
     Responsabilidades:
 
-    - registrar tools
-    - localizar tools
-    - executar tools
-    - expor capacidades
+        • Registrar ferramentas
+        • Registrar relatórios
+        • Localizar ferramentas
+        • Executar ferramentas
+        • Expor capacidades
 
     Não conhece lógica interna das ferramentas.
-
     """
 
 
+    # =====================================================
+    # CONSTRUTOR
+    # =====================================================
 
-    def __init__(
-        self,
-        session
-    ):
+
+    def __init__(self, session):
 
         self.session = session
 
@@ -38,17 +63,21 @@ class ToolManager:
 
         self.load_builtin_tools()
 
+        self.load_builtin_reports()
+
 
 
     # =====================================================
-    # LOAD
+    # LOAD TOOLS
     # =====================================================
 
 
     def load_builtin_tools(self):
 
 
-        tools = [
+        ferramentas = [
+
+            ScannerTool(),
 
             PJLTool(),
 
@@ -59,9 +88,38 @@ class ToolManager:
         ]
 
 
-        for tool in tools:
+        for ferramenta in ferramentas:
 
-            self.register(tool)
+            self.register(
+
+                ferramenta
+
+            )
+
+
+
+    # =====================================================
+    # LOAD REPORTS
+    # =====================================================
+
+
+    def load_builtin_reports(self):
+
+
+        relatorios = [
+
+            ConfigReport()
+
+        ]
+
+
+        for relatorio in relatorios:
+
+            self.registry.register_report(
+
+                relatorio
+
+            )
 
 
 
@@ -70,14 +128,12 @@ class ToolManager:
     # =====================================================
 
 
-    def register(
-        self,
-        tool
-    ):
-
+    def register(self, tool):
 
         self.registry.register(
+
             tool
+
         )
 
 
@@ -88,15 +144,22 @@ class ToolManager:
 
 
     def execute(
+
         self,
+
         tool,
+
         action=None,
+
         **kwargs
+
     ):
 
 
         ferramenta = self.registry.get(
+
             tool
+
         )
 
 
@@ -109,7 +172,7 @@ class ToolManager:
 
                 action,
 
-                f"Ferramenta '{tool}' não encontrada"
+                f"Ferramenta '{tool}' não encontrada."
 
             ).to_dict()
 
@@ -124,7 +187,7 @@ class ToolManager:
 
                 action,
 
-                "Ação não suportada"
+                f"A ferramenta '{tool}' não suporta a ação '{action}'."
 
             ).to_dict()
 
@@ -165,10 +228,15 @@ class ToolManager:
 
 
     def executar(
+
         self,
+
         tool,
+
         action=None,
+
         **kwargs
+
     ):
 
 
@@ -189,24 +257,36 @@ class ToolManager:
     # =====================================================
 
 
-    def exists(
-        self,
-        tool
-    ):
+    def exists(self, tool):
 
         return self.registry.exists(
+
             tool
+
+        )
+
+
+
+    def get(self, tool):
+
+        return self.registry.get(
+
+            tool
+
         )
 
 
 
     def tools(self):
 
+
         return [
 
-            tool.info()
+            ferramenta.info()
 
-            for tool in self.registry.all()
+            for ferramenta
+
+            in self.registry.all()
 
         ]
 
@@ -221,15 +301,15 @@ class ToolManager:
     def categories(self):
 
 
-        resultado = {}
+        categorias = {}
 
 
-        for tool in self.registry.all():
+        for ferramenta in self.registry.all():
 
 
             categoria = (
 
-                tool.category
+                ferramenta.category
 
                 or
 
@@ -238,7 +318,7 @@ class ToolManager:
             )
 
 
-            resultado.setdefault(
+            categorias.setdefault(
 
                 categoria,
 
@@ -246,12 +326,12 @@ class ToolManager:
 
             ).append(
 
-                tool.name
+                ferramenta.name
 
             )
 
 
-        return resultado
+        return categorias
 
 
 
@@ -261,13 +341,78 @@ class ToolManager:
         return {
 
 
-            tool.name:
+            ferramenta.name:
 
-            tool.capabilities()
+            ferramenta.capabilities()
 
-            for tool
+
+            for ferramenta
 
             in self.registry.all()
 
+
+        }
+
+
+
+    # =====================================================
+    # RELATÓRIOS
+    # =====================================================
+
+
+    def report(self, title):
+
+        return self.registry.report(
+
+            title
+
+        )
+
+
+
+    def reports(self):
+
+        return self.registry.reports_all()
+
+
+
+    # =====================================================
+    # DEBUG
+    # =====================================================
+
+
+    def info(self):
+
+
+        return {
+
+
+            "tools":
+
+                self.registry.names(),
+
+
+
+            "reports":
+
+                [
+
+                    r.title
+
+                    for r
+
+                    in self.registry.reports_all()
+
+                ],
+
+
+
+            "workflows":
+
+                list(
+
+                    self.registry.workflows.keys()
+
+                )
 
         }

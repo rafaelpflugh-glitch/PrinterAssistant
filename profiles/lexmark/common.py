@@ -1,57 +1,43 @@
-from pathlib import Path
+"""
+Perfil base Lexmark
+"""
 
 
 class LexmarkProfile:
 
-    fabricante = "Lexmark"
+    model = ""
 
-    protocolo = "PJL"
+    family = ""
 
-    usa_snmp = True
+    capabilities = []
 
-    usa_pjl = True
+    supported_commands = []
 
-    usa_web = True
+    default_port = 9100
 
-    usa_raw = True
+    # ------------------------------------------------
 
-    firmware_dir = Path("firmware") / "lexmark"
+    def match(self, model):
 
-    reset_dir = Path("reset") / "lexmark"
+        if not model:
+            return False
 
-    report_padrao = "ativo"
+        return self.model.lower() in model.lower()
 
-    garantia = True
-
-    historico = True
-
-    workflows = [
-        "diagnostico",
-        "preparar_venda",
-        "rma",
-        "revisao"
-    ]
+    # ------------------------------------------------
 
     def info(self):
 
         return {
 
-            "fabricante": self.fabricante,
+            "model": self.model,
 
-            "protocolo": self.protocolo,
+            "family": self.family,
 
-            "snmp": self.usa_snmp,
+            "capabilities": self.capabilities,
 
-            "pjl": self.usa_pjl,
+            "supported_commands": self.supported_commands,
 
-            "web": self.usa_web,
-
-            "raw": self.usa_raw,
-
-            "firmware_dir": str(self.firmware_dir),
-
-            "reset_dir": str(self.reset_dir),
-
-            "workflow": self.workflows
+            "default_port": self.default_port
 
         }

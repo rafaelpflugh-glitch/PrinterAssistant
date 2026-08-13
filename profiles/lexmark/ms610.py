@@ -3,16 +3,36 @@ from profiles.lexmark.common import LexmarkProfile
 
 class MS610Profile(LexmarkProfile):
 
-    modelo = "Lexmark MS610"
+    model = "MS610"
 
-    familia = "MS"
+    family = "Lexmark MS"
 
-    adf = False
+    capabilities = [
 
-    duplex = True
+        "mono",
 
-    scanner = False
+        "duplex",
 
-    fax = False
+        "network",
 
-    color = False
+        "usb",
+
+        "manual_tray"
+
+    ]
+
+    supported_commands = [
+
+        "pagecount",
+
+        "status",
+
+        "memory",
+
+        "config",
+
+        "variables",
+
+        "prodinfo"
+
+    ]

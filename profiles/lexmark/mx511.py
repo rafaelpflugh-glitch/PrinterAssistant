@@ -3,16 +3,38 @@ from profiles.lexmark.common import LexmarkProfile
 
 class MX511Profile(LexmarkProfile):
 
-    modelo = "Lexmark MX511"
+    model = "MX511"
 
-    familia = "MX"
+    family = "Lexmark MX"
 
-    adf = True
+    capabilities = [
 
-    duplex = True
+        "mono",
 
-    scanner = True
+        "scanner",
 
-    fax = True
+        "duplex",
 
-    color = False
+        "network",
+
+        "fax",
+
+        "adf"
+
+    ]
+
+    supported_commands = [
+
+        "pagecount",
+
+        "status",
+
+        "memory",
+
+        "config",
+
+        "variables",
+
+        "prodinfo"
+
+    ]

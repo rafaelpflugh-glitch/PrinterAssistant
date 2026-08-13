@@ -1,22 +1,129 @@
-from profiles.lexmark.mx611 import MX611Profile
-from profiles.lexmark.mx511 import MX511Profile
+"""
+Printer Assistant
+Profile Loader
+
+Responsável por identificar o profile
+correto da impressora.
+"""
+
 from profiles.lexmark.ms610 import MS610Profile
+from profiles.lexmark.mx511 import MX511Profile
+from profiles.lexmark.mx611 import MX611Profile
 
 
-def carregar_profile(modelo):
+class ProfileLoader:
 
-    modelo = modelo.upper()
 
-    if "MX611" in modelo:
+    def __init__(self):
 
-        return MX611Profile()
+        self.profiles = [
 
-    if "MX511" in modelo:
+            MS610Profile(),
 
-        return MX511Profile()
+            MX511Profile(),
 
-    if "MS610" in modelo:
+            MX611Profile()
 
-        return MS610Profile()
+        ]
 
-    return None
+
+    # =====================================================
+    # DETECÇÃO
+    # =====================================================
+
+    def detect(
+
+        self,
+
+        model
+
+    ):
+
+        if not model:
+
+            return None
+
+
+        model = model.lower()
+
+
+        for profile in self.profiles:
+
+
+            if profile.match(model):
+
+                return profile
+
+
+        return None
+
+
+
+    # =====================================================
+    # COMPATIBILIDADE
+    # =====================================================
+
+    @classmethod
+    def load(
+
+        cls,
+
+        model
+
+    ):
+
+        """
+
+        Atalho utilizado pelo sistema.
+
+        Permite:
+
+        ProfileLoader.load("Lexmark MS610")
+
+        """
+
+        loader = cls()
+
+
+        profile = loader.detect(
+
+            model
+
+        )
+
+
+        if profile is None:
+
+            return {
+
+                "family": "Unknown",
+
+                "capabilities": [],
+
+                "supported_commands": []
+
+            }
+
+
+        return {
+
+            "family":
+
+                profile.family,
+
+
+            "capabilities":
+
+                profile.capabilities,
+
+
+            "supported_commands":
+
+                profile.supported_commands,
+
+
+            "default_port":
+
+                profile.default_port
+
+        }

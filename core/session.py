@@ -1,430 +1,335 @@
-import json
-from pathlib import Path
-from datetime import datetime
+"""
+Printer Assistant
+Session
+
+Representa a impressora atualmente conectada.
+
+Existe apenas UMA sessão ativa.
+"""
 
 
-# ============================================================
-# PRINTER ASSISTANT - SESSION
-# ============================================================
+from fingerprint.fingerprint import Fingerprint
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-SESSION_FILE = BASE_DIR / "session.json"
+from profiles.loader import ProfileLoader
 
 
 
-class PrinterSession:
+class Session:
 
 
     def __init__(self):
 
-        self.ativa = False
+        self.clear()
 
-        self.criada_em = None
 
-        self.atualizada_em = None
+
+    # =====================================================
+    # RESET
+    # =====================================================
+
+
+    def clear(self):
+
+        self.connected = False
+
 
         self.ip = None
 
-        self.nome = None
+        self.port = 9100
 
-
-        self.identificacao = {
-
-            "fabricante": "Desconhecido",
-            "modelo": "Desconhecido",
-            "familia": "",
-            "tipo": "",
-            "serial": "Desconhecido",
-            "contador": None
-
-        }
-
-
-        self.conectividade = {
-
-            "ip": None,
-            "snmp": False,
-            "pjl": False,
-            "web": False,
-            "raw": False,
-            "ipp": False
-
-        }
-
-
-        self.supplies = []
-
-        self.estado = "OFFLINE"
-
-        self.total_supplies = 0
+        self.socket = None
 
 
 
-    # ========================================================
-    # ATIVAR
-    # ========================================================
+        #
+        # Identificação
+        #
 
-    def ativar(self, device):
+        self.model = None
+
+        self.serial = None
+
+        self.firmware = None
+
+        self.memory = None
+
+        self.pagecount = None
+
+        self.vendor = None
 
 
-        agora = datetime.now().strftime(
-            "%d/%m/%Y %H:%M:%S"
+
+        #
+        # Inteligência
+        #
+
+        self.fingerprint = None
+
+        self.profile = None
+
+        self.capabilities = []
+
+        self.supported_commands = []
+
+
+
+    # =====================================================
+    # STATUS
+    # =====================================================
+
+
+    def exists(self):
+
+        return self.connected
+
+
+
+    # =====================================================
+    # CONEXÃO
+    # =====================================================
+
+
+    def connect(
+
+        self,
+
+        ip,
+
+        socket=None,
+
+        port=9100
+
+    ):
+
+        self.connected = True
+
+        self.ip = ip
+
+        self.socket = socket
+
+        self.port = port
+
+
+
+    def disconnect(self):
+
+        self.clear()
+
+
+
+    # =====================================================
+    # FINGERPRINT
+    # =====================================================
+
+
+    def update_from_parser(
+
+        self,
+
+        parsed
+
+    ):
+
+        """
+        Atualiza sessão através do Fingerprint.
+        """
+
+
+        if isinstance(
+
+            parsed,
+
+            Fingerprint
+
+        ):
+
+            parsed = parsed.to_dict()
+
+
+
+        self.model = parsed.get("model")
+
+        self.serial = parsed.get("serial")
+
+        self.firmware = parsed.get("firmware")
+
+        self.memory = parsed.get("memory")
+
+        self.pagecount = parsed.get("pagecount")
+
+        self.vendor = parsed.get("vendor")
+
+
+
+        self.fingerprint = parsed
+
+
+
+        #
+        # Carrega perfil automaticamente
+        #
+
+        self.profile = ProfileLoader.load(
+
+            self.model
+
         )
 
 
-        dados = device.to_dict()
 
+        self.capabilities = self.profile.get(
 
-        if not self.ativa:
+            "capabilities",
 
-            self.criada_em = agora
-
-
-
-        self.ativa = True
-
-        self.atualizada_em = agora
-
-
-        self.ip = dados.get("ip")
-
-        self.nome = dados.get("nome")
-
-
-        self.identificacao = dados.get(
-            "identificacao",
-            {}
-        )
-
-
-        self.conectividade = dados.get(
-            "conectividade",
-            {}
-        )
-
-
-        self.supplies = dados.get(
-            "supplies",
             []
+
         )
 
 
-        self.estado = dados.get(
-            "estado",
-            "DESCONHECIDO"
-        )
+        self.supported_commands = self.profile.get(
 
+            "supported_commands",
 
-        self.total_supplies = len(
-            self.supplies
-        )
-
-
-        self.salvar()
-
-
-        return self
-
-
-
-    # ========================================================
-    # SALVAR
-    # ========================================================
-
-    def salvar(self):
-
-
-        dados = {
-
-            "sessao": self.to_dict()
-
-        }
-
-
-        with open(
-
-            SESSION_FILE,
-
-            "w",
-
-            encoding="utf-8"
-
-        ) as arquivo:
-
-
-            json.dump(
-
-                dados,
-
-                arquivo,
-
-                indent=4,
-
-                ensure_ascii=False
-
-            )
-
-
-
-    # ========================================================
-    # CARREGAR
-    # ========================================================
-
-    def carregar(self):
-
-
-        if not SESSION_FILE.exists():
-
-            return False
-
-
-
-        try:
-
-            with open(
-
-                SESSION_FILE,
-
-                "r",
-
-                encoding="utf-8"
-
-            ) as arquivo:
-
-                dados=json.load(
-                    arquivo
-                )
-
-
-            sessao=dados.get(
-                "sessao",
-                {}
-            )
-
-
-            self.__dict__.update(
-                sessao
-            )
-
-
-            return True
-
-
-
-        except Exception as erro:
-
-
-            print(
-                "[SESSION]",
-                erro
-            )
-
-            return False
-
-
-
-    # ========================================================
-    # EXISTE
-    # ========================================================
-
-    def existe(self):
-
-        return (
-
-            self.ativa
-
-            and
-
-            self.ip is not None
+            []
 
         )
 
 
 
-    # ========================================================
-    # LIMPAR
-    # ========================================================
-
-    def desativar(self):
+    # =====================================================
+    # CAPACIDADES
+    # =====================================================
 
 
-        self.ativa=False
+    def has(
 
-        self.ip=None
+        self,
 
-        self.supplies=[]
+        capability
 
-        self.estado="OFFLINE"
+    ):
 
-        self.total_supplies=0
-
-
-        self.salvar()
+        return capability in self.capabilities
 
 
 
-    # ========================================================
-    # DADOS
-    # ========================================================
+    # =====================================================
+    # COMANDOS
+    # =====================================================
 
-    def to_dict(self):
+
+    def supports(
+
+        self,
+
+        command
+
+    ):
+
+        """
+
+        Verifica se a impressora suporta
+        determinado comando.
+
+        """
+
+        return command in self.supported_commands
+
+
+
+    # =====================================================
+    # PROFILE
+    # =====================================================
+
+
+    def family(self):
+
+        if not self.profile:
+
+            return None
+
+
+        return self.profile.get(
+
+            "family"
+
+        )
+
+
+
+    # =====================================================
+    # DEBUG
+    # =====================================================
+
+
+    def info(self):
 
         return {
 
 
-            "ativa":
-                self.ativa,
+            "connected":
 
-
-            "criada_em":
-                self.criada_em,
-
-
-            "atualizada_em":
-                self.atualizada_em,
+                self.connected,
 
 
             "ip":
+
                 self.ip,
 
 
-            "nome":
-                self.nome,
+            "port":
+
+                self.port,
 
 
-            "identificacao":
-                self.identificacao,
+            "model":
+
+                self.model,
 
 
-            "conectividade":
-                self.conectividade,
+            "serial":
+
+                self.serial,
 
 
-            "supplies":
-                self.supplies,
+            "firmware":
+
+                self.firmware,
 
 
-            "estado":
-                self.estado,
+            "memory":
+
+                self.memory,
 
 
-            "total_supplies":
-                self.total_supplies
+            "pagecount":
+
+                self.pagecount,
+
+
+            "vendor":
+
+                self.vendor,
+
+
+            "family":
+
+                self.family(),
+
+
+            "profile":
+
+                self.profile,
+
+
+            "capabilities":
+
+                self.capabilities,
+
+
+            "supported_commands":
+
+                self.supported_commands
+
 
         }
-
-
-
-    # ========================================================
-    # HELPERS
-    # ========================================================
-
-
-    def fabricante(self):
-
-        return self.identificacao.get(
-            "fabricante"
-        )
-
-
-
-    def modelo(self):
-
-        return self.identificacao.get(
-            "modelo"
-        )
-
-
-
-    def serial(self):
-
-        return self.identificacao.get(
-            "serial"
-        )
-
-
-
-    def contador(self):
-
-        return self.identificacao.get(
-            "contador"
-        )
-
-
-
-    # ========================================================
-    # MOSTRAR
-    # ========================================================
-
-    def mostrar(self):
-
-
-        if not self.existe():
-
-            print(
-                "Nenhuma impressora ativa."
-            )
-
-            return
-
-
-
-        print()
-
-        print("="*70)
-        print("IMPRESSORA ATUAL")
-        print("="*70)
-
-
-        print()
-
-        print(
-            "Fabricante:",
-            self.fabricante()
-        )
-
-
-        print(
-            "Modelo:",
-            self.modelo()
-        )
-
-
-        print(
-            "Serial:",
-            self.serial()
-        )
-
-
-        print(
-            "Contador:",
-            self.contador()
-        )
-
-
-        print(
-            "IP:",
-            self.ip
-        )
-
-
-        print(
-            "Estado:",
-            self.estado
-        )
-
-
-        print(
-            "Suprimentos:",
-            self.total_supplies
-        )
-
-
-        print("="*70)
-
-
-
-def criar_sessao():
-
-    return PrinterSession()

@@ -3,70 +3,40 @@ from profiles.lexmark.common import LexmarkProfile
 
 class MX611Profile(LexmarkProfile):
 
-    modelo = "Lexmark MX611"
+    model = "MX611"
 
-    familia = "MX"
+    family = "Lexmark MX"
 
-    adf = True
+    capabilities = [
 
-    duplex = True
+        "mono",
 
-    display_touch = True
+        "scanner",
 
-    scanner = True
-
-    fax = True
-
-    color = False
-
-    firmware = [
-
-        "LW80.SB2.P433",
-
-        "LW80.SB2.P434",
-
-        "LW80.SB2.P435"
-
-    ]
-
-    resets = [
-
-        "maintenance",
-
-        "adf",
-
-        "printer_settings",
+        "duplex",
 
         "network",
 
-        "apps",
+        "fax",
 
-        "erase_memory",
+        "adf",
 
-        "out_of_service"
+        "touch"
 
     ]
 
-    def info(self):
+    supported_commands = [
 
-        dados = super().info()
+        "pagecount",
 
-        dados.update({
+        "status",
 
-            "modelo": self.modelo,
+        "memory",
 
-            "familia": self.familia,
+        "config",
 
-            "scanner": self.scanner,
+        "variables",
 
-            "fax": self.fax,
+        "prodinfo"
 
-            "touch": self.display_touch,
-
-            "firmwares": self.firmware,
-
-            "resets": self.resets
-
-        })
-
-        return dados
+    ]
