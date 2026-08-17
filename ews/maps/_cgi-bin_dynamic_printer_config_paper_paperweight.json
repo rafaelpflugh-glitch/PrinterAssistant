@@ -1,0 +1,446 @@
+{
+    "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+    "status": 200,
+    "forms": [
+        {
+            "action": "/cgi-bin/posttest/printer/config/paper/paperweight.html",
+            "method": "POST",
+            "fields": [
+                {
+                    "type": "select",
+                    "name": "0.system.1824",
+                    "id": "system.1824",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": false,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": true,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1832",
+                    "id": "system.1832",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1830",
+                    "id": "system.1830",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.4619",
+                    "id": "system.4619",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1834",
+                    "id": "system.1834",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1838",
+                    "id": "system.1838",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1842",
+                    "id": "system.1842",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.4820",
+                    "id": "system.4820",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": false,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": true,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1836",
+                    "id": "system.1836",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1840",
+                    "id": "system.1840",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1828",
+                    "id": "system.1828",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.4595",
+                    "id": "system.4595",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": true,
+                            "text": "Leve"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.4602",
+                    "id": "system.4602",
+                    "options": [
+                        {
+                            "value": "2",
+                            "selected": true,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1826",
+                    "id": "system.1826",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": false,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": true,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1844",
+                    "id": "system.1844",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1848",
+                    "id": "system.1848",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1852",
+                    "id": "system.1852",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1856",
+                    "id": "system.1856",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1860",
+                    "id": "system.1860",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "0.system.1864",
+                    "id": "system.1864",
+                    "options": [
+                        {
+                            "value": "0",
+                            "selected": false,
+                            "text": "Leve"
+                        },
+                        {
+                            "value": "1",
+                            "selected": true,
+                            "text": "Normal"
+                        },
+                        {
+                            "value": "2",
+                            "selected": false,
+                            "text": "Pesado"
+                        }
+                    ]
+                },
+                {
+                    "type": "submit",
+                    "name": null,
+                    "id": null,
+                    "value": "Enviar",
+                    "checked": false
+                },
+                {
+                    "type": "reset",
+                    "name": null,
+                    "id": null,
+                    "value": "Redefinir formulário",
+                    "checked": false
+                }
+            ]
+        }
+    ]
+}

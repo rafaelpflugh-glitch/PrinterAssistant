@@ -1,0 +1,5519 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "status": 200,
+      "bytes": 6448,
+      "title": "Menu papel",
+      "links": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscansizes.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/universal_setup.html"
+      ],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.48",
+              "id": "system.48",
+              "value": "1",
+              "text": "Bandeja 1 Papel manual Envelope manual",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Bandeja 1",
+                  "selected": true
+                },
+                {
+                  "value": "128",
+                  "text": "Papel manual",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Envelope manual",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.49",
+              "id": "system.49",
+              "value": "22",
+              "text": "A4 A5 A6 JIS B5 Carta OfÃ­cio Executivo Oficio (MÃ©xico) Folio Statement (US) Universal",
+              "options": [
+                {
+                  "value": "22",
+                  "text": "A4",
+                  "selected": true
+                },
+                {
+                  "value": "23",
+                  "text": "A5",
+                  "selected": false
+                },
+                {
+                  "value": "24",
+                  "text": "A6",
+                  "selected": false
+                },
+                {
+                  "value": "117",
+                  "text": "JIS B5",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Carta",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "OfÃ­cio",
+                  "selected": false
+                },
+                {
+                  "value": "9",
+                  "text": "Executivo",
+                  "selected": false
+                },
+                {
+                  "value": "232",
+                  "text": "Oficio (MÃ©xico)",
+                  "selected": false
+                },
+                {
+                  "value": "230",
+                  "text": "Folio",
+                  "selected": false
+                },
+                {
+                  "value": "231",
+                  "text": "Statement (US)",
+                  "selected": false
+                },
+                {
+                  "value": "254",
+                  "text": "Universal",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.52",
+              "id": "system.52",
+              "value": "0",
+              "text": "Papel comum TransparÃªncia Reciclado Etiquetas Encorpado Timbrado PrÃ©-impresso Papel colorido Papel leve Comum com gramatura maior Ãspero/AlgodÃ£o Tipo personalizado 1 Tipo personalizado 2 Tipo personalizado 3 Tipo personalizado 4 Tipo personalizado 5 Tipo personalizado 6",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.51",
+              "id": "system.51",
+              "value": "254",
+              "text": "A4 A5 A6 JIS B5 Carta OfÃ­cio Executivo Oficio (MÃ©xico) Folio Statement (US) Universal",
+              "options": [
+                {
+                  "value": "22",
+                  "text": "A4",
+                  "selected": false
+                },
+                {
+                  "value": "23",
+                  "text": "A5",
+                  "selected": false
+                },
+                {
+                  "value": "24",
+                  "text": "A6",
+                  "selected": false
+                },
+                {
+                  "value": "117",
+                  "text": "JIS B5",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Carta",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "OfÃ­cio",
+                  "selected": false
+                },
+                {
+                  "value": "9",
+                  "text": "Executivo",
+                  "selected": false
+                },
+                {
+                  "value": "232",
+                  "text": "Oficio (MÃ©xico)",
+                  "selected": false
+                },
+                {
+                  "value": "230",
+                  "text": "Folio",
+                  "selected": false
+                },
+                {
+                  "value": "231",
+                  "text": "Statement (US)",
+                  "selected": false
+                },
+                {
+                  "value": "254",
+                  "text": "Universal",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.54",
+              "id": "system.54",
+              "value": "3",
+              "text": "Papel comum CartÃµes TransparÃªncia Reciclado Etiquetas Encorpado Timbrado PrÃ©-impresso Papel colorido Papel leve Comum com gramatura maior Ãspero/AlgodÃ£o Tipo personalizado 1 Tipo personalizado 2 Tipo personalizado 3 Tipo personalizado 4 Tipo personalizado 5 Tipo personalizado 6",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "CartÃµes",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.61",
+              "id": "system.61",
+              "value": "88",
+              "text": "Envelope 7 3/4 Envelope 9 Envelope 10 Envelope DL Envelope C5 Envelope B5 Outros envelopes",
+              "options": [
+                {
+                  "value": "128",
+                  "text": "Envelope 7 3/4",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Envelope 9",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Envelope 10",
+                  "selected": false
+                },
+                {
+                  "value": "88",
+                  "text": "Envelope DL",
+                  "selected": true
+                },
+                {
+                  "value": "84",
+                  "text": "Envelope C5",
+                  "selected": false
+                },
+                {
+                  "value": "83",
+                  "text": "Envelope B5",
+                  "selected": false
+                },
+                {
+                  "value": "255",
+                  "text": "Outros envelopes",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1875",
+              "id": "system.1875",
+              "value": "8",
+              "text": "Envelope Envelope Ã¡spero Tipo personalizado 1 Tipo personalizado 2 Tipo personalizado 3 Tipo personalizado 4 Tipo personalizado 5 Tipo personalizado 6",
+              "options": [
+                {
+                  "value": "8",
+                  "text": "Envelope",
+                  "selected": true
+                },
+                {
+                  "value": "20",
+                  "text": "Envelope Ã¡spero",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1088",
+              "id": "system.1088",
+              "value": "2",
+              "text": "Cassete Manual Primeiro",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Cassete",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Manual",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "Primeiro",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.385",
+              "id": "system.385",
+              "value": "3",
+              "text": "Desativar Statement (US)/A5 Carta/A4 Tudo listado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Statement (US)/A5",
+                  "selected": true
+                },
+                {
+                  "value": "1",
+                  "text": "Carta/A4",
+                  "selected": false
+                },
+                {
+                  "value": "99",
+                  "text": "Tudo listado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "status": 200,
+      "bytes": 5775,
+      "title": "Textura do papel",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.1825",
+              "id": "system.1825",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1833",
+              "id": "system.1833",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1831",
+              "id": "system.1831",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4620",
+              "id": "system.4620",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1835",
+              "id": "system.1835",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1839",
+              "id": "system.1839",
+              "value": "2",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1843",
+              "id": "system.1843",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4821",
+              "id": "system.4821",
+              "value": "2",
+              "text": "Ãspero",
+              "options": [
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1837",
+              "id": "system.1837",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1841",
+              "id": "system.1841",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1829",
+              "id": "system.1829",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4596",
+              "id": "system.4596",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4603",
+              "id": "system.4603",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1827",
+              "id": "system.1827",
+              "value": "2",
+              "text": "Ãspero",
+              "options": [
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1845",
+              "id": "system.1845",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1849",
+              "id": "system.1849",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1853",
+              "id": "system.1853",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1857",
+              "id": "system.1857",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1861",
+              "id": "system.1861",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1865",
+              "id": "system.1865",
+              "value": "1",
+              "text": "Suave Normal Ãspero",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Suave",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Ãspero",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "status": 200,
+      "bytes": 5759,
+      "title": "Peso do papel",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.1824",
+              "id": "system.1824",
+              "value": "2",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1832",
+              "id": "system.1832",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1830",
+              "id": "system.1830",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4619",
+              "id": "system.4619",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1834",
+              "id": "system.1834",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1838",
+              "id": "system.1838",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1842",
+              "id": "system.1842",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4820",
+              "id": "system.4820",
+              "value": "2",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1836",
+              "id": "system.1836",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1840",
+              "id": "system.1840",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1828",
+              "id": "system.1828",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4595",
+              "id": "system.4595",
+              "value": "0",
+              "text": "Leve",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4602",
+              "id": "system.4602",
+              "value": "2",
+              "text": "Pesado",
+              "options": [
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1826",
+              "id": "system.1826",
+              "value": "2",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1844",
+              "id": "system.1844",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1848",
+              "id": "system.1848",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1852",
+              "id": "system.1852",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1856",
+              "id": "system.1856",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1860",
+              "id": "system.1860",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1864",
+              "id": "system.1864",
+              "value": "1",
+              "text": "Leve Normal Pesado",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Leve",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Normal",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "Pesado",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "status": 200,
+      "bytes": 3869,
+      "title": "Carregamento de papel",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.4622",
+              "id": "system.4622",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2225",
+              "id": "system.2225",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2202",
+              "id": "system.2202",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2203",
+              "id": "system.2203",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2228",
+              "id": "system.2228",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4598",
+              "id": "system.4598",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4605",
+              "id": "system.4605",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2204",
+              "id": "system.2204",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2205",
+              "id": "system.2205",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2206",
+              "id": "system.2206",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2207",
+              "id": "system.2207",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2208",
+              "id": "system.2208",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.2209",
+              "id": "system.2209",
+              "value": "0",
+              "text": "Frente e verso Desativar",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Frente e verso",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Desativar",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "status": 200,
+      "bytes": 3580,
+      "title": "Tipos personalizados",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.1846",
+              "id": "system.1846",
+              "value": "4",
+              "text": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "CartÃµes",
+                  "selected": true
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Envelope",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1850",
+              "id": "system.1850",
+              "value": "0",
+              "text": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel",
+                  "selected": true
+                },
+                {
+                  "value": "4",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Envelope",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1854",
+              "id": "system.1854",
+              "value": "0",
+              "text": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel",
+                  "selected": true
+                },
+                {
+                  "value": "4",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Envelope",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1858",
+              "id": "system.1858",
+              "value": "0",
+              "text": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel",
+                  "selected": true
+                },
+                {
+                  "value": "4",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Envelope",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1862",
+              "id": "system.1862",
+              "value": "0",
+              "text": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel",
+                  "selected": true
+                },
+                {
+                  "value": "4",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Envelope",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.1866",
+              "id": "system.1866",
+              "value": "0",
+              "text": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel",
+                  "selected": true
+                },
+                {
+                  "value": "4",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Envelope",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.4621",
+              "id": "system.4621",
+              "value": "0",
+              "text": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Papel",
+                  "selected": true
+                },
+                {
+                  "value": "4",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "3",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Envelope",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "status": 200,
+      "bytes": 2272,
+      "title": "Nomes personalizados",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "text",
+              "name": "1.system.1847",
+              "id": "system.1847",
+              "value": "",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "1.system.1851",
+              "id": "system.1851",
+              "value": "",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "1.system.1855",
+              "id": "system.1855",
+              "value": "",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "1.system.1859",
+              "id": "system.1859",
+              "value": "",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "1.system.1863",
+              "id": "system.1863",
+              "value": "",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "1.system.1867",
+              "id": "system.1867",
+              "value": "",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscansizes.html",
+      "status": 200,
+      "bytes": 1171,
+      "title": "Tamanhos de digitalizaÃ§Ã£o personalizados",
+      "links": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html"
+      ],
+      "forms": []
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/universal_setup.html",
+      "status": 200,
+      "bytes": 1183,
+      "title": "ConfiguraÃ§Ã£o universal",
+      "links": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_width.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_height.html"
+      ],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/universal_setup.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.2457",
+              "id": "system.2457",
+              "value": "1",
+              "text": "Polegadas MilÃ­metros",
+              "options": [
+                {
+                  "value": "0",
+                  "text": "Polegadas",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "MilÃ­metros",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "status": 200,
+      "bytes": 3321,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 1",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.17441",
+              "id": "system.17441",
+              "value": "0",
+              "text": "Tipo de mÃ­dia",
+              "options": [
+                {
+                  "value": "134",
+                  "text": "Tipo de mÃ­dia do AAD",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": true
+                },
+                {
+                  "value": "3",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "14",
+                  "text": "Etiquetas de vinil",
+                  "selected": false
+                },
+                {
+                  "value": "8",
+                  "text": "Envelope",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "20",
+                  "text": "Envelope Ã¡spero",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.17202",
+              "id": "system.17202",
+              "value": "0",
+              "text": "OrientaÃ§Ã£o",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Paisagem",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Retrato",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "1.system.17225",
+              "id": "system.17225",
+              "value": "",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17200",
+              "id": "system.17200",
+              "value": "216",
+              "text": "Largura",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17201",
+              "id": "system.17201",
+              "value": "356",
+              "text": "Altura",
+              "options": []
+            },
+            {
+              "type": "hidden",
+              "name": "2.system.17203",
+              "id": null,
+              "value": "0",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "checkbox",
+              "name": "2.system.17203",
+              "id": "system.17203",
+              "value": "1",
+              "text": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "status": 200,
+      "bytes": 3321,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 2",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.17442",
+              "id": "system.17442",
+              "value": "0",
+              "text": "Tipo de mÃ­dia",
+              "options": [
+                {
+                  "value": "134",
+                  "text": "Tipo de mÃ­dia do AAD",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": true
+                },
+                {
+                  "value": "3",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "14",
+                  "text": "Etiquetas de vinil",
+                  "selected": false
+                },
+                {
+                  "value": "8",
+                  "text": "Envelope",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "20",
+                  "text": "Envelope Ã¡spero",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.17206",
+              "id": "system.17206",
+              "value": "0",
+              "text": "OrientaÃ§Ã£o",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Paisagem",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Retrato",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "1.system.17226",
+              "id": "system.17226",
+              "value": "",
+              "text": "Nome do Tamanho Digitalizado",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17204",
+              "id": "system.17204",
+              "value": "216",
+              "text": "Largura",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17205",
+              "id": "system.17205",
+              "value": "356",
+              "text": "Altura",
+              "options": []
+            },
+            {
+              "type": "hidden",
+              "name": "2.system.17207",
+              "id": null,
+              "value": "0",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "checkbox",
+              "name": "2.system.17207",
+              "id": "system.17207",
+              "value": "1",
+              "text": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "status": 200,
+      "bytes": 3326,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 3",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.17443",
+              "id": "system.17443",
+              "value": "0",
+              "text": "Tipo de mÃ­dia",
+              "options": [
+                {
+                  "value": "134",
+                  "text": "Tipo de mÃ­dia do AAD",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": true
+                },
+                {
+                  "value": "3",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "14",
+                  "text": "Etiquetas de vinil",
+                  "selected": false
+                },
+                {
+                  "value": "8",
+                  "text": "Envelope",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "20",
+                  "text": "Envelope Ã¡spero",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.17210",
+              "id": "system.17210",
+              "value": "0",
+              "text": "OrientaÃ§Ã£o",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Paisagem",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Retrato",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "1.system.17227",
+              "id": "system.17227",
+              "value": "",
+              "text": "Nome do Tamanho Digitalizado",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17208",
+              "id": "system.17208",
+              "value": "216",
+              "text": "Largura",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17209",
+              "id": "system.17209",
+              "value": "356",
+              "text": "Altura",
+              "options": []
+            },
+            {
+              "type": "hidden",
+              "name": "2.system.17211",
+              "id": null,
+              "value": "0",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "checkbox",
+              "name": "2.system.17211",
+              "id": "system.17211",
+              "value": "1",
+              "text": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "status": 200,
+      "bytes": 3326,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 4",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.17444",
+              "id": "system.17444",
+              "value": "0",
+              "text": "Tipo de mÃ­dia",
+              "options": [
+                {
+                  "value": "134",
+                  "text": "Tipo de mÃ­dia do AAD",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": true
+                },
+                {
+                  "value": "3",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "14",
+                  "text": "Etiquetas de vinil",
+                  "selected": false
+                },
+                {
+                  "value": "8",
+                  "text": "Envelope",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "20",
+                  "text": "Envelope Ã¡spero",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.17214",
+              "id": "system.17214",
+              "value": "0",
+              "text": "OrientaÃ§Ã£o",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Paisagem",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Retrato",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "1.system.17228",
+              "id": "system.17228",
+              "value": "",
+              "text": "Nome do Tamanho Digitalizado",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17212",
+              "id": "system.17212",
+              "value": "216",
+              "text": "Largura",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17213",
+              "id": "system.17213",
+              "value": "356",
+              "text": "Altura",
+              "options": []
+            },
+            {
+              "type": "hidden",
+              "name": "2.system.17215",
+              "id": null,
+              "value": "0",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "checkbox",
+              "name": "2.system.17215",
+              "id": "system.17215",
+              "value": "1",
+              "text": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "status": 200,
+      "bytes": 3326,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 5",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.17445",
+              "id": "system.17445",
+              "value": "0",
+              "text": "Tipo de mÃ­dia",
+              "options": [
+                {
+                  "value": "134",
+                  "text": "Tipo de mÃ­dia do AAD",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": true
+                },
+                {
+                  "value": "3",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "14",
+                  "text": "Etiquetas de vinil",
+                  "selected": false
+                },
+                {
+                  "value": "8",
+                  "text": "Envelope",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "20",
+                  "text": "Envelope Ã¡spero",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.17218",
+              "id": "system.17218",
+              "value": "0",
+              "text": "OrientaÃ§Ã£o",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Paisagem",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Retrato",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "1.system.17229",
+              "id": "system.17229",
+              "value": "",
+              "text": "Nome do Tamanho Digitalizado",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17216",
+              "id": "system.17216",
+              "value": "216",
+              "text": "Largura",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17217",
+              "id": "system.17217",
+              "value": "356",
+              "text": "Altura",
+              "options": []
+            },
+            {
+              "type": "hidden",
+              "name": "2.system.17219",
+              "id": null,
+              "value": "0",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "checkbox",
+              "name": "2.system.17219",
+              "id": "system.17219",
+              "value": "1",
+              "text": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "status": 200,
+      "bytes": 3321,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 6",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "select",
+              "name": "0.system.17446",
+              "id": "system.17446",
+              "value": "0",
+              "text": "Tipo de mÃ­dia",
+              "options": [
+                {
+                  "value": "134",
+                  "text": "Tipo de mÃ­dia do AAD",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Papel comum",
+                  "selected": true
+                },
+                {
+                  "value": "3",
+                  "text": "CartÃµes",
+                  "selected": false
+                },
+                {
+                  "value": "5",
+                  "text": "Timbrado",
+                  "selected": false
+                },
+                {
+                  "value": "2",
+                  "text": "TransparÃªncia",
+                  "selected": false
+                },
+                {
+                  "value": "17",
+                  "text": "Ãspero/AlgodÃ£o",
+                  "selected": false
+                },
+                {
+                  "value": "4",
+                  "text": "Etiquetas",
+                  "selected": false
+                },
+                {
+                  "value": "7",
+                  "text": "Encorpado",
+                  "selected": false
+                },
+                {
+                  "value": "14",
+                  "text": "Etiquetas de vinil",
+                  "selected": false
+                },
+                {
+                  "value": "8",
+                  "text": "Envelope",
+                  "selected": false
+                },
+                {
+                  "value": "128",
+                  "text": "Tipo personalizado 1",
+                  "selected": false
+                },
+                {
+                  "value": "129",
+                  "text": "Tipo personalizado 2",
+                  "selected": false
+                },
+                {
+                  "value": "130",
+                  "text": "Tipo personalizado 3",
+                  "selected": false
+                },
+                {
+                  "value": "131",
+                  "text": "Tipo personalizado 4",
+                  "selected": false
+                },
+                {
+                  "value": "132",
+                  "text": "Tipo personalizado 5",
+                  "selected": false
+                },
+                {
+                  "value": "133",
+                  "text": "Tipo personalizado 6",
+                  "selected": false
+                },
+                {
+                  "value": "18",
+                  "text": "Reciclado",
+                  "selected": false
+                },
+                {
+                  "value": "20",
+                  "text": "Envelope Ã¡spero",
+                  "selected": false
+                },
+                {
+                  "value": "6",
+                  "text": "PrÃ©-impresso",
+                  "selected": false
+                },
+                {
+                  "value": "1",
+                  "text": "Papel colorido",
+                  "selected": false
+                },
+                {
+                  "value": "15",
+                  "text": "Papel leve",
+                  "selected": false
+                },
+                {
+                  "value": "16",
+                  "text": "Comum com gramatura maior",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "name": "0.system.17222",
+              "id": "system.17222",
+              "value": "0",
+              "text": "OrientaÃ§Ã£o",
+              "options": [
+                {
+                  "value": "1",
+                  "text": "Paisagem",
+                  "selected": false
+                },
+                {
+                  "value": "0",
+                  "text": "Retrato",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "1.system.17230",
+              "id": "system.17230",
+              "value": "",
+              "text": "Nome do Tamanho Digitalizado",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17220",
+              "id": "system.17220",
+              "value": "216",
+              "text": "Largura",
+              "options": []
+            },
+            {
+              "type": "text",
+              "name": "0.system.17221",
+              "id": "system.17221",
+              "value": "356",
+              "text": "Altura",
+              "options": []
+            },
+            {
+              "type": "hidden",
+              "name": "2.system.17223",
+              "id": null,
+              "value": "0",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "checkbox",
+              "name": "2.system.17223",
+              "id": "system.17223",
+              "value": "1",
+              "text": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_width.html",
+      "status": 200,
+      "bytes": 1163,
+      "title": "Largura retrato",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_width.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "text",
+              "name": "0.system.2455",
+              "id": "system.2455",
+              "value": "160",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_height.html",
+      "status": 200,
+      "bytes": 1161,
+      "title": "Altura retrato",
+      "links": [],
+      "forms": [
+        {
+          "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_height.html",
+          "method": "POST",
+          "fields": [
+            {
+              "type": "text",
+              "name": "0.system.2456",
+              "id": "system.2456",
+              "value": "231",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "submit",
+              "name": null,
+              "id": null,
+              "value": "Enviar",
+              "text": "",
+              "options": []
+            },
+            {
+              "type": "reset",
+              "name": null,
+              "id": null,
+              "value": "Redefinir formulÃ¡rio",
+              "text": "",
+              "options": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command_id": "paper.system.48",
+      "category": "paper",
+      "description": "Bandeja 1 Papel manual Envelope manual",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.48",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "1": "Bandeja 1",
+        "128": "Papel manual",
+        "129": "Envelope manual"
+      }
+    },
+    {
+      "command_id": "paper.system.49",
+      "category": "paper",
+      "description": "A4 A5 A6 JIS B5 Carta OfÃ­cio Executivo Oficio (MÃ©xico) Folio Statement (US) Universal",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.49",
+      "field_type": "select",
+      "current_value": "22",
+      "options": {
+        "22": "A4",
+        "23": "A5",
+        "24": "A6",
+        "117": "JIS B5",
+        "1": "Carta",
+        "7": "OfÃ­cio",
+        "9": "Executivo",
+        "232": "Oficio (MÃ©xico)",
+        "230": "Folio",
+        "231": "Statement (US)",
+        "254": "Universal"
+      }
+    },
+    {
+      "command_id": "paper.system.52",
+      "category": "paper",
+      "description": "Papel comum TransparÃªncia Reciclado Etiquetas Encorpado Timbrado PrÃ©-impresso Papel colorido Papel leve Comum com gramatura maior Ãspero/AlgodÃ£o Tipo personalizado 1 Tipo personalizado 2 Tipo personalizado 3 Tipo personalizado 4 Tipo personalizado 5 Tipo personalizado 6",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.52",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Papel comum",
+        "2": "TransparÃªncia",
+        "18": "Reciclado",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "5": "Timbrado",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior",
+        "17": "Ãspero/AlgodÃ£o",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6"
+      }
+    },
+    {
+      "command_id": "paper.system.51",
+      "category": "paper",
+      "description": "A4 A5 A6 JIS B5 Carta OfÃ­cio Executivo Oficio (MÃ©xico) Folio Statement (US) Universal",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.51",
+      "field_type": "select",
+      "current_value": "254",
+      "options": {
+        "22": "A4",
+        "23": "A5",
+        "24": "A6",
+        "117": "JIS B5",
+        "1": "Carta",
+        "7": "OfÃ­cio",
+        "9": "Executivo",
+        "232": "Oficio (MÃ©xico)",
+        "230": "Folio",
+        "231": "Statement (US)",
+        "254": "Universal"
+      }
+    },
+    {
+      "command_id": "paper.system.54",
+      "category": "paper",
+      "description": "Papel comum CartÃµes TransparÃªncia Reciclado Etiquetas Encorpado Timbrado PrÃ©-impresso Papel colorido Papel leve Comum com gramatura maior Ãspero/AlgodÃ£o Tipo personalizado 1 Tipo personalizado 2 Tipo personalizado 3 Tipo personalizado 4 Tipo personalizado 5 Tipo personalizado 6",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.54",
+      "field_type": "select",
+      "current_value": "3",
+      "options": {
+        "0": "Papel comum",
+        "3": "CartÃµes",
+        "2": "TransparÃªncia",
+        "18": "Reciclado",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "5": "Timbrado",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior",
+        "17": "Ãspero/AlgodÃ£o",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6"
+      }
+    },
+    {
+      "command_id": "paper.system.61",
+      "category": "paper",
+      "description": "Envelope 7 3/4 Envelope 9 Envelope 10 Envelope DL Envelope C5 Envelope B5 Outros envelopes",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.61",
+      "field_type": "select",
+      "current_value": "88",
+      "options": {
+        "128": "Envelope 7 3/4",
+        "129": "Envelope 9",
+        "130": "Envelope 10",
+        "88": "Envelope DL",
+        "84": "Envelope C5",
+        "83": "Envelope B5",
+        "255": "Outros envelopes"
+      }
+    },
+    {
+      "command_id": "paper.system.1875",
+      "category": "paper",
+      "description": "Envelope Envelope Ã¡spero Tipo personalizado 1 Tipo personalizado 2 Tipo personalizado 3 Tipo personalizado 4 Tipo personalizado 5 Tipo personalizado 6",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.1875",
+      "field_type": "select",
+      "current_value": "8",
+      "options": {
+        "8": "Envelope",
+        "20": "Envelope Ã¡spero",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6"
+      }
+    },
+    {
+      "command_id": "paper.system.1088",
+      "category": "paper",
+      "description": "Cassete Manual Primeiro",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.1088",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "0": "Cassete",
+        "1": "Manual",
+        "2": "Primeiro"
+      }
+    },
+    {
+      "command_id": "paper.system.385",
+      "category": "paper",
+      "description": "Desativar Statement (US)/A5 Carta/A4 Tudo listado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html",
+      "method": "POST",
+      "field_name": "0.system.385",
+      "field_type": "select",
+      "current_value": "3",
+      "options": {
+        "0": "Desativar",
+        "3": "Statement (US)/A5",
+        "1": "Carta/A4",
+        "99": "Tudo listado"
+      }
+    },
+    {
+      "command_id": "paper.system.1825",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1825",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1833",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1833",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1831",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1831",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.4620",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.4620",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1835",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1835",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1839",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1839",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1843",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1843",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.4821",
+      "category": "paper",
+      "description": "Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.4821",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1837",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1837",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1841",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1841",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1829",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1829",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.4596",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.4596",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.4603",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.4603",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1827",
+      "category": "paper",
+      "description": "Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1827",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1845",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1845",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1849",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1849",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1853",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1853",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1857",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1857",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1861",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1861",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1865",
+      "category": "paper",
+      "description": "Suave Normal Ãspero",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html",
+      "method": "POST",
+      "field_name": "0.system.1865",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Suave",
+        "1": "Normal",
+        "2": "Ãspero"
+      }
+    },
+    {
+      "command_id": "paper.system.1824",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1824",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1832",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1832",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1830",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1830",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.4619",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.4619",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1834",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1834",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1838",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1838",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1842",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1842",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.4820",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.4820",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1836",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1836",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1840",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1840",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1828",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1828",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.4595",
+      "category": "paper",
+      "description": "Leve",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.4595",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Leve"
+      }
+    },
+    {
+      "command_id": "paper.system.4602",
+      "category": "paper",
+      "description": "Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.4602",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1826",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1826",
+      "field_type": "select",
+      "current_value": "2",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1844",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1844",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1848",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1848",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1852",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1852",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1856",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1856",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1860",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1860",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.1864",
+      "category": "paper",
+      "description": "Leve Normal Pesado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html",
+      "method": "POST",
+      "field_name": "0.system.1864",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Leve",
+        "1": "Normal",
+        "2": "Pesado"
+      }
+    },
+    {
+      "command_id": "paper.system.4622",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.4622",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2225",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2225",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2202",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2202",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2203",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2203",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2228",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2228",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.4598",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.4598",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.4605",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.4605",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2204",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2204",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2205",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2205",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2206",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2206",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2207",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2207",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2208",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2208",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.2209",
+      "category": "paper",
+      "description": "Frente e verso Desativar",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html",
+      "method": "POST",
+      "field_name": "0.system.2209",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Frente e verso",
+        "0": "Desativar"
+      }
+    },
+    {
+      "command_id": "paper.system.1846",
+      "category": "paper",
+      "description": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+      "method": "POST",
+      "field_name": "0.system.1846",
+      "field_type": "select",
+      "current_value": "4",
+      "options": {
+        "0": "Papel",
+        "4": "CartÃµes",
+        "2": "TransparÃªncia",
+        "7": "Ãspero/AlgodÃ£o",
+        "3": "Etiquetas",
+        "1": "Envelope"
+      }
+    },
+    {
+      "command_id": "paper.system.1850",
+      "category": "paper",
+      "description": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+      "method": "POST",
+      "field_name": "0.system.1850",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Papel",
+        "4": "CartÃµes",
+        "2": "TransparÃªncia",
+        "7": "Ãspero/AlgodÃ£o",
+        "3": "Etiquetas",
+        "1": "Envelope"
+      }
+    },
+    {
+      "command_id": "paper.system.1854",
+      "category": "paper",
+      "description": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+      "method": "POST",
+      "field_name": "0.system.1854",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Papel",
+        "4": "CartÃµes",
+        "2": "TransparÃªncia",
+        "7": "Ãspero/AlgodÃ£o",
+        "3": "Etiquetas",
+        "1": "Envelope"
+      }
+    },
+    {
+      "command_id": "paper.system.1858",
+      "category": "paper",
+      "description": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+      "method": "POST",
+      "field_name": "0.system.1858",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Papel",
+        "4": "CartÃµes",
+        "2": "TransparÃªncia",
+        "7": "Ãspero/AlgodÃ£o",
+        "3": "Etiquetas",
+        "1": "Envelope"
+      }
+    },
+    {
+      "command_id": "paper.system.1862",
+      "category": "paper",
+      "description": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+      "method": "POST",
+      "field_name": "0.system.1862",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Papel",
+        "4": "CartÃµes",
+        "2": "TransparÃªncia",
+        "7": "Ãspero/AlgodÃ£o",
+        "3": "Etiquetas",
+        "1": "Envelope"
+      }
+    },
+    {
+      "command_id": "paper.system.1866",
+      "category": "paper",
+      "description": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+      "method": "POST",
+      "field_name": "0.system.1866",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Papel",
+        "4": "CartÃµes",
+        "2": "TransparÃªncia",
+        "7": "Ãspero/AlgodÃ£o",
+        "3": "Etiquetas",
+        "1": "Envelope"
+      }
+    },
+    {
+      "command_id": "paper.system.4621",
+      "category": "paper",
+      "description": "Papel CartÃµes TransparÃªncia Ãspero/AlgodÃ£o Etiquetas Envelope",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html",
+      "method": "POST",
+      "field_name": "0.system.4621",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "0": "Papel",
+        "4": "CartÃµes",
+        "2": "TransparÃªncia",
+        "7": "Ãspero/AlgodÃ£o",
+        "3": "Etiquetas",
+        "1": "Envelope"
+      }
+    },
+    {
+      "command_id": "paper.system.1847",
+      "category": "paper",
+      "description": "1.system.1847",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html",
+      "method": "POST",
+      "field_name": "1.system.1847",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.1851",
+      "category": "paper",
+      "description": "1.system.1851",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html",
+      "method": "POST",
+      "field_name": "1.system.1851",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.1855",
+      "category": "paper",
+      "description": "1.system.1855",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html",
+      "method": "POST",
+      "field_name": "1.system.1855",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.1859",
+      "category": "paper",
+      "description": "1.system.1859",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html",
+      "method": "POST",
+      "field_name": "1.system.1859",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.1863",
+      "category": "paper",
+      "description": "1.system.1863",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html",
+      "method": "POST",
+      "field_name": "1.system.1863",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.1867",
+      "category": "paper",
+      "description": "1.system.1867",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html",
+      "method": "POST",
+      "field_name": "1.system.1867",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.2457",
+      "category": "paper",
+      "description": "Polegadas MilÃ­metros",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/universal_setup.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/universal_setup.html",
+      "method": "POST",
+      "field_name": "0.system.2457",
+      "field_type": "select",
+      "current_value": "1",
+      "options": {
+        "0": "Polegadas",
+        "1": "MilÃ­metros"
+      }
+    },
+    {
+      "command_id": "paper.system.17441",
+      "category": "paper",
+      "description": "Tipo de mÃ­dia",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+      "method": "POST",
+      "field_name": "0.system.17441",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "134": "Tipo de mÃ­dia do AAD",
+        "0": "Papel comum",
+        "3": "CartÃµes",
+        "5": "Timbrado",
+        "2": "TransparÃªncia",
+        "17": "Ãspero/AlgodÃ£o",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "14": "Etiquetas de vinil",
+        "8": "Envelope",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6",
+        "18": "Reciclado",
+        "20": "Envelope Ã¡spero",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior"
+      }
+    },
+    {
+      "command_id": "paper.system.17202",
+      "category": "paper",
+      "description": "OrientaÃ§Ã£o",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+      "method": "POST",
+      "field_name": "0.system.17202",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Paisagem",
+        "0": "Retrato"
+      }
+    },
+    {
+      "command_id": "paper.system.17225",
+      "category": "paper",
+      "description": "1.system.17225",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+      "method": "POST",
+      "field_name": "1.system.17225",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17200",
+      "category": "paper",
+      "description": "Largura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+      "method": "POST",
+      "field_name": "0.system.17200",
+      "field_type": "text",
+      "current_value": "216",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17201",
+      "category": "paper",
+      "description": "Altura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+      "method": "POST",
+      "field_name": "0.system.17201",
+      "field_type": "text",
+      "current_value": "356",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17203",
+      "category": "paper",
+      "description": "2.system.17203",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+      "method": "POST",
+      "field_name": "2.system.17203",
+      "field_type": "hidden",
+      "current_value": "0",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17203",
+      "category": "paper",
+      "description": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html",
+      "method": "POST",
+      "field_name": "2.system.17203",
+      "field_type": "checkbox",
+      "current_value": "1",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17442",
+      "category": "paper",
+      "description": "Tipo de mÃ­dia",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+      "method": "POST",
+      "field_name": "0.system.17442",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "134": "Tipo de mÃ­dia do AAD",
+        "0": "Papel comum",
+        "3": "CartÃµes",
+        "5": "Timbrado",
+        "2": "TransparÃªncia",
+        "17": "Ãspero/AlgodÃ£o",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "14": "Etiquetas de vinil",
+        "8": "Envelope",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6",
+        "18": "Reciclado",
+        "20": "Envelope Ã¡spero",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior"
+      }
+    },
+    {
+      "command_id": "paper.system.17206",
+      "category": "paper",
+      "description": "OrientaÃ§Ã£o",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+      "method": "POST",
+      "field_name": "0.system.17206",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Paisagem",
+        "0": "Retrato"
+      }
+    },
+    {
+      "command_id": "paper.system.17226",
+      "category": "paper",
+      "description": "Nome do Tamanho Digitalizado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+      "method": "POST",
+      "field_name": "1.system.17226",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17204",
+      "category": "paper",
+      "description": "Largura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+      "method": "POST",
+      "field_name": "0.system.17204",
+      "field_type": "text",
+      "current_value": "216",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17205",
+      "category": "paper",
+      "description": "Altura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+      "method": "POST",
+      "field_name": "0.system.17205",
+      "field_type": "text",
+      "current_value": "356",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17207",
+      "category": "paper",
+      "description": "2.system.17207",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+      "method": "POST",
+      "field_name": "2.system.17207",
+      "field_type": "hidden",
+      "current_value": "0",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17207",
+      "category": "paper",
+      "description": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html",
+      "method": "POST",
+      "field_name": "2.system.17207",
+      "field_type": "checkbox",
+      "current_value": "1",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17443",
+      "category": "paper",
+      "description": "Tipo de mÃ­dia",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+      "method": "POST",
+      "field_name": "0.system.17443",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "134": "Tipo de mÃ­dia do AAD",
+        "0": "Papel comum",
+        "3": "CartÃµes",
+        "5": "Timbrado",
+        "2": "TransparÃªncia",
+        "17": "Ãspero/AlgodÃ£o",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "14": "Etiquetas de vinil",
+        "8": "Envelope",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6",
+        "18": "Reciclado",
+        "20": "Envelope Ã¡spero",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior"
+      }
+    },
+    {
+      "command_id": "paper.system.17210",
+      "category": "paper",
+      "description": "OrientaÃ§Ã£o",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+      "method": "POST",
+      "field_name": "0.system.17210",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Paisagem",
+        "0": "Retrato"
+      }
+    },
+    {
+      "command_id": "paper.system.17227",
+      "category": "paper",
+      "description": "Nome do Tamanho Digitalizado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+      "method": "POST",
+      "field_name": "1.system.17227",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17208",
+      "category": "paper",
+      "description": "Largura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+      "method": "POST",
+      "field_name": "0.system.17208",
+      "field_type": "text",
+      "current_value": "216",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17209",
+      "category": "paper",
+      "description": "Altura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+      "method": "POST",
+      "field_name": "0.system.17209",
+      "field_type": "text",
+      "current_value": "356",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17211",
+      "category": "paper",
+      "description": "2.system.17211",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+      "method": "POST",
+      "field_name": "2.system.17211",
+      "field_type": "hidden",
+      "current_value": "0",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17211",
+      "category": "paper",
+      "description": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html",
+      "method": "POST",
+      "field_name": "2.system.17211",
+      "field_type": "checkbox",
+      "current_value": "1",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17444",
+      "category": "paper",
+      "description": "Tipo de mÃ­dia",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+      "method": "POST",
+      "field_name": "0.system.17444",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "134": "Tipo de mÃ­dia do AAD",
+        "0": "Papel comum",
+        "3": "CartÃµes",
+        "5": "Timbrado",
+        "2": "TransparÃªncia",
+        "17": "Ãspero/AlgodÃ£o",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "14": "Etiquetas de vinil",
+        "8": "Envelope",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6",
+        "18": "Reciclado",
+        "20": "Envelope Ã¡spero",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior"
+      }
+    },
+    {
+      "command_id": "paper.system.17214",
+      "category": "paper",
+      "description": "OrientaÃ§Ã£o",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+      "method": "POST",
+      "field_name": "0.system.17214",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Paisagem",
+        "0": "Retrato"
+      }
+    },
+    {
+      "command_id": "paper.system.17228",
+      "category": "paper",
+      "description": "Nome do Tamanho Digitalizado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+      "method": "POST",
+      "field_name": "1.system.17228",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17212",
+      "category": "paper",
+      "description": "Largura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+      "method": "POST",
+      "field_name": "0.system.17212",
+      "field_type": "text",
+      "current_value": "216",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17213",
+      "category": "paper",
+      "description": "Altura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+      "method": "POST",
+      "field_name": "0.system.17213",
+      "field_type": "text",
+      "current_value": "356",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17215",
+      "category": "paper",
+      "description": "2.system.17215",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+      "method": "POST",
+      "field_name": "2.system.17215",
+      "field_type": "hidden",
+      "current_value": "0",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17215",
+      "category": "paper",
+      "description": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html",
+      "method": "POST",
+      "field_name": "2.system.17215",
+      "field_type": "checkbox",
+      "current_value": "1",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17445",
+      "category": "paper",
+      "description": "Tipo de mÃ­dia",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+      "method": "POST",
+      "field_name": "0.system.17445",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "134": "Tipo de mÃ­dia do AAD",
+        "0": "Papel comum",
+        "3": "CartÃµes",
+        "5": "Timbrado",
+        "2": "TransparÃªncia",
+        "17": "Ãspero/AlgodÃ£o",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "14": "Etiquetas de vinil",
+        "8": "Envelope",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6",
+        "18": "Reciclado",
+        "20": "Envelope Ã¡spero",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior"
+      }
+    },
+    {
+      "command_id": "paper.system.17218",
+      "category": "paper",
+      "description": "OrientaÃ§Ã£o",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+      "method": "POST",
+      "field_name": "0.system.17218",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Paisagem",
+        "0": "Retrato"
+      }
+    },
+    {
+      "command_id": "paper.system.17229",
+      "category": "paper",
+      "description": "Nome do Tamanho Digitalizado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+      "method": "POST",
+      "field_name": "1.system.17229",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17216",
+      "category": "paper",
+      "description": "Largura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+      "method": "POST",
+      "field_name": "0.system.17216",
+      "field_type": "text",
+      "current_value": "216",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17217",
+      "category": "paper",
+      "description": "Altura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+      "method": "POST",
+      "field_name": "0.system.17217",
+      "field_type": "text",
+      "current_value": "356",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17219",
+      "category": "paper",
+      "description": "2.system.17219",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+      "method": "POST",
+      "field_name": "2.system.17219",
+      "field_type": "hidden",
+      "current_value": "0",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17219",
+      "category": "paper",
+      "description": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html",
+      "method": "POST",
+      "field_name": "2.system.17219",
+      "field_type": "checkbox",
+      "current_value": "1",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17446",
+      "category": "paper",
+      "description": "Tipo de mÃ­dia",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+      "method": "POST",
+      "field_name": "0.system.17446",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "134": "Tipo de mÃ­dia do AAD",
+        "0": "Papel comum",
+        "3": "CartÃµes",
+        "5": "Timbrado",
+        "2": "TransparÃªncia",
+        "17": "Ãspero/AlgodÃ£o",
+        "4": "Etiquetas",
+        "7": "Encorpado",
+        "14": "Etiquetas de vinil",
+        "8": "Envelope",
+        "128": "Tipo personalizado 1",
+        "129": "Tipo personalizado 2",
+        "130": "Tipo personalizado 3",
+        "131": "Tipo personalizado 4",
+        "132": "Tipo personalizado 5",
+        "133": "Tipo personalizado 6",
+        "18": "Reciclado",
+        "20": "Envelope Ã¡spero",
+        "6": "PrÃ©-impresso",
+        "1": "Papel colorido",
+        "15": "Papel leve",
+        "16": "Comum com gramatura maior"
+      }
+    },
+    {
+      "command_id": "paper.system.17222",
+      "category": "paper",
+      "description": "OrientaÃ§Ã£o",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+      "method": "POST",
+      "field_name": "0.system.17222",
+      "field_type": "select",
+      "current_value": "0",
+      "options": {
+        "1": "Paisagem",
+        "0": "Retrato"
+      }
+    },
+    {
+      "command_id": "paper.system.17230",
+      "category": "paper",
+      "description": "Nome do Tamanho Digitalizado",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+      "method": "POST",
+      "field_name": "1.system.17230",
+      "field_type": "text",
+      "current_value": "",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17220",
+      "category": "paper",
+      "description": "Largura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+      "method": "POST",
+      "field_name": "0.system.17220",
+      "field_type": "text",
+      "current_value": "216",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17221",
+      "category": "paper",
+      "description": "Altura",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+      "method": "POST",
+      "field_name": "0.system.17221",
+      "field_type": "text",
+      "current_value": "356",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17223",
+      "category": "paper",
+      "description": "2.system.17223",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+      "method": "POST",
+      "field_name": "2.system.17223",
+      "field_type": "hidden",
+      "current_value": "0",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.17223",
+      "category": "paper",
+      "description": "2 digitalizaÃ§Ãµes por lado da saÃ­da",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html",
+      "method": "POST",
+      "field_name": "2.system.17223",
+      "field_type": "checkbox",
+      "current_value": "1",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.2455",
+      "category": "paper",
+      "description": "0.system.2455",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_width.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_width.html",
+      "method": "POST",
+      "field_name": "0.system.2455",
+      "field_type": "text",
+      "current_value": "160",
+      "options": {}
+    },
+    {
+      "command_id": "paper.system.2456",
+      "category": "paper",
+      "description": "0.system.2456",
+      "page_url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_height.html",
+      "action": "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_height.html",
+      "method": "POST",
+      "field_name": "0.system.2456",
+      "field_type": "text",
+      "current_value": "231",
+      "options": {}
+    }
+  ],
+  "statistics": {
+    "pages": 16,
+    "forms": 15,
+    "fields": 150,
+    "commands": 120,
+    "categories": {
+      "paper": 120
+    }
+  }
+}

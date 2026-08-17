@@ -1,0 +1,765 @@
+{
+  "schema": "printerassistant.ews.capabilities.v1",
+  "printer": {
+    "ip": "192.168.14.134"
+  },
+  "source": {
+    "capability_map": "C:\\PrinterAssistant\\ews\\capabilities\\capabilities_192.168.14.134.json"
+  },
+  "statistics": {
+    "original_records": 32,
+    "normalized_pages": 17,
+    "duplicates_removed": 15,
+    "post_pages": 15,
+    "fields": 120
+  },
+  "pages": [
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "path": "/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "status_code": 200,
+      "bytes": 6445,
+      "title": "Menu papel",
+      "categories": [
+        "paper",
+        "print",
+        "status",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 9,
+      "selects": 9,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 7,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "ativar",
+        "desativar",
+        "print",
+        "set"
+      ],
+      "read_terms": [
+        "estado"
+      ],
+      "discovered_links": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscansizes.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/universal_setup.html"
+      ],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/gen/papermenu.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/gen/papermenu.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "status_code": 200,
+      "bytes": 2291,
+      "title": "Nomes personalizados",
+      "categories": [
+        "paper",
+        "print",
+        "device"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 6,
+      "selects": 0,
+      "text_inputs": 6,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customnames.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customnames.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "status_code": 200,
+      "bytes": 3321,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 1",
+      "categories": [
+        "paper",
+        "print",
+        "scanner",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 7,
+      "selects": 2,
+      "text_inputs": 3,
+      "checkboxes": 1,
+      "radios": 0,
+      "hidden_inputs": 1,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_1.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "status_code": 200,
+      "bytes": 3321,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 2",
+      "categories": [
+        "paper",
+        "print",
+        "scanner",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 7,
+      "selects": 2,
+      "text_inputs": 3,
+      "checkboxes": 1,
+      "radios": 0,
+      "hidden_inputs": 1,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_2.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "status_code": 200,
+      "bytes": 3326,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 3",
+      "categories": [
+        "paper",
+        "print",
+        "scanner",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 7,
+      "selects": 2,
+      "text_inputs": 3,
+      "checkboxes": 1,
+      "radios": 0,
+      "hidden_inputs": 1,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_3.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "status_code": 200,
+      "bytes": 3326,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 4",
+      "categories": [
+        "paper",
+        "print",
+        "scanner",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 7,
+      "selects": 2,
+      "text_inputs": 3,
+      "checkboxes": 1,
+      "radios": 0,
+      "hidden_inputs": 1,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_4.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "status_code": 200,
+      "bytes": 3326,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 5",
+      "categories": [
+        "paper",
+        "print",
+        "scanner",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 7,
+      "selects": 2,
+      "text_inputs": 3,
+      "checkboxes": 1,
+      "radios": 0,
+      "hidden_inputs": 1,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_5.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "status_code": 200,
+      "bytes": 3321,
+      "title": "DigitalizaÃ§Ã£o do tamanho personalizada 6",
+      "categories": [
+        "paper",
+        "print",
+        "scanner",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 7,
+      "selects": 2,
+      "text_inputs": 3,
+      "checkboxes": 1,
+      "radios": 0,
+      "hidden_inputs": 1,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customscan_6.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscansizes.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customscansizes.html",
+      "status_code": 200,
+      "bytes": 1171,
+      "title": "Tamanhos de digitalizaÃ§Ã£o personalizados",
+      "categories": [
+        "paper",
+        "print",
+        "scanner",
+        "device"
+      ],
+      "capability_class": "navigation_or_information",
+      "forms": 0,
+      "fields": 0,
+      "selects": 0,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 6,
+      "get_forms": 0,
+      "post_forms": 0,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_1.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_2.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_3.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_4.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_5.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscan_6.html"
+      ],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscansizes.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customscansizes.html"
+      ],
+      "post_actions": [],
+      "post_action_count": 0,
+      "has_post": false
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "status_code": 200,
+      "bytes": 3569,
+      "title": "Tipos personalizados",
+      "categories": [
+        "paper",
+        "print",
+        "device",
+        "network"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 7,
+      "selects": 7,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/customtypes.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/customtypes.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "status_code": 200,
+      "bytes": 3871,
+      "title": "Carregamento de papel",
+      "categories": [
+        "paper",
+        "print",
+        "device"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 13,
+      "selects": 13,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "ativar",
+        "desativar",
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperload.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperload.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "status_code": 200,
+      "bytes": 5780,
+      "title": "Textura do papel",
+      "categories": [
+        "paper",
+        "print",
+        "device"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 20,
+      "selects": 20,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/papertexture.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/papertexture.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "status_code": 200,
+      "bytes": 5756,
+      "title": "Peso do papel",
+      "categories": [
+        "paper",
+        "print",
+        "device"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 20,
+      "selects": 20,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/paperweight.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/paperweight.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_height.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/uni_height.html",
+      "status_code": 200,
+      "bytes": 1161,
+      "title": "Altura retrato",
+      "categories": [
+        "paper",
+        "print",
+        "device"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 1,
+      "selects": 0,
+      "text_inputs": 1,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_height.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_height.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_height.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_height.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_width.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/uni_width.html",
+      "status_code": 200,
+      "bytes": 1163,
+      "title": "Largura retrato",
+      "categories": [
+        "paper",
+        "print",
+        "device"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 1,
+      "selects": 0,
+      "text_inputs": 1,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print"
+      ],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_width.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_width.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_width.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/uni_width.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/universal_setup.html",
+      "path": "/cgi-bin/dynamic/printer/config/paper/universal_setup.html",
+      "status_code": 200,
+      "bytes": 1183,
+      "title": "ConfiguraÃ§Ã£o universal",
+      "categories": [
+        "paper",
+        "print",
+        "device",
+        "supplies"
+      ],
+      "capability_class": "configuration_or_action",
+      "forms": 1,
+      "fields": 1,
+      "selects": 1,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 2,
+      "get_forms": 0,
+      "post_forms": 1,
+      "action_terms": [
+        "print",
+        "set"
+      ],
+      "read_terms": [],
+      "discovered_links": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_height.html",
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/uni_width.html"
+      ],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/universal_setup.html",
+      "source_urls": [
+        "http://192.168.14.134/cgi-bin/dynamic/printer/config/paper/universal_setup.html",
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/universal_setup.html"
+      ],
+      "post_actions": [
+        "http://192.168.14.134/cgi-bin/posttest/printer/config/paper/universal_setup.html"
+      ],
+      "post_action_count": 1,
+      "has_post": true
+    },
+    {
+      "url": "http://192.168.14.134",
+      "path": "/",
+      "status_code": 200,
+      "bytes": 1305,
+      "title": "Lexmark MX611dhe",
+      "categories": [
+        "other"
+      ],
+      "capability_class": "navigation_or_information",
+      "forms": 0,
+      "fields": 0,
+      "selects": 0,
+      "text_inputs": 0,
+      "checkboxes": 0,
+      "radios": 0,
+      "hidden_inputs": 0,
+      "textareas": 0,
+      "buttons": 0,
+      "links": 0,
+      "get_forms": 0,
+      "post_forms": 0,
+      "action_terms": [],
+      "read_terms": [],
+      "discovered_links": [],
+      "errors": [],
+      "is_posttest": false,
+      "form_page": "http://192.168.14.134",
+      "source_urls": [
+        "http://192.168.14.134"
+      ],
+      "post_actions": [],
+      "post_action_count": 0,
+      "has_post": false
+    }
+  ]
+}
