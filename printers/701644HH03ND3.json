@@ -1,0 +1,28 @@
+{
+  "schema": "printerassistant.printer.identity.v1",
+  "identity": {
+    "serial": "701644HH03ND3"
+  },
+  "device": {
+    "model": "Lexmark MX611dhe"
+  },
+  "network": {
+    "current_ip": "192.168.14.87",
+    "last_seen": "2026-08-17T20:38:59.003418+00:00"
+  },
+  "supplies": {},
+  "capabilities": {},
+  "history": [
+    {
+      "event": "discovered",
+      "timestamp": "2026-08-17T20:38:49.879665+00:00",
+      "ip": "192.168.14.134"
+    },
+    {
+      "event": "ip_changed",
+      "timestamp": "2026-08-17T20:38:59.003418+00:00",
+      "old_ip": "192.168.14.134",
+      "new_ip": "192.168.14.87"
+    }
+  ]
+}

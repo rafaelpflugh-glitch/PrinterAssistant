@@ -14,17 +14,30 @@ from core.device import PrinterDevice
 #
 # Descoberta de equipamentos de impressão.
 #
-# Fluxo:
+# FLUXO:
 #
 #   1. Descobre a rede local
 #   2. Consulta tabela ARP
-#   3. Testa RAW/9100 somente nos IPs conhecidos
-#   4. Identifica os candidatos em paralelo
-#   5. Mostra uma lista amigável ao técnico
-#   6. Técnico seleciona pelo equipamento
+#   3. Se necessário, faz descoberta leve por PING
+#   4. Testa RAW/9100 somente nos hosts conhecidos
+#   5. Identifica os equipamentos em paralelo
+#   6. Executa a coleta completa do PrinterDevice:
 #
-# O IP continua existindo internamente, mas não é
-# a informação principal para o técnico.
+#          PJL
+#           ↓
+#        SYSDEBUG
+#           ↓
+#          SNMP
+#           ↓
+#   associação de seriais dos consumíveis
+#
+#   7. Mostra os equipamentos encontrados
+#   8. Mostra identificação, contador e suprimentos
+#   9. Permite selecionar uma impressora
+#  10. Salva a descoberta em printers_found.json
+#
+# O IP existe internamente, mas não é a informação principal
+# apresentada ao técnico.
 #
 # ============================================================
 
@@ -34,11 +47,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 PRINTERS_FOUND = BASE_DIR / "printers_found.json"
 
 
+# ============================================================
+# CONFIGURAÇÃO
+# ============================================================
+
 PORTA_RAW = 9100
 
 TIMEOUT_RAW = 0.8
 
-TIMEOUT_IDENTIFICACAO = 8
+# O PrinterDevice já possui seus próprios timeouts internos
+# para PJL, SYSDEBUG e SNMP.
+#
+# Portanto NÃO colocamos um timeout curto em volta de
+# device.coletar(), pois isso poderia cancelar o fluxo antes
+# que SNMP terminasse.
+#
+TIMEOUT_COLETA = 75
 
 
 # ============================================================
@@ -124,10 +148,11 @@ def consultar_arp():
         linha = linha.strip()
 
 
+        # ----------------------------------------------------
         # Exemplo Windows:
         #
         # 192.168.14.134    00-11-22-33-44-55    dynamic
-        #
+        # ----------------------------------------------------
 
         partes = linha.split()
 
@@ -150,7 +175,10 @@ def consultar_arp():
             continue
 
 
-        if mac.lower() in (
+        mac_normalizado = mac.lower()
+
+
+        if mac_normalizado in (
             "ff-ff-ff-ff-ff-ff",
             "ff:ff:ff:ff:ff:ff"
         ):
@@ -158,7 +186,7 @@ def consultar_arp():
             continue
 
 
-        if mac.lower() in (
+        if mac_normalizado in (
             "00-00-00-00-00-00",
             "00:00:00:00:00:00"
         ):
@@ -167,6 +195,92 @@ def consultar_arp():
 
 
         encontrados[ip] = mac
+
+
+    return encontrados
+
+
+# ============================================================
+# PING
+# ============================================================
+
+async def ping_host(ip):
+
+    try:
+
+        processo = await asyncio.create_subprocess_exec(
+
+            "ping",
+            "-n",
+            "1",
+            "-w",
+            "250",
+            str(ip),
+
+            stdout=asyncio.subprocess.DEVNULL,
+
+            stderr=asyncio.subprocess.DEVNULL
+
+        )
+
+
+        codigo = await asyncio.wait_for(
+
+            processo.wait(),
+
+            timeout=0.5
+
+        )
+
+
+        if codigo == 0:
+
+            return str(ip)
+
+
+    except Exception:
+
+        pass
+
+
+    return None
+
+
+# ============================================================
+# ATUALIZAR ARP
+# ============================================================
+
+async def atualizar_descoberta_local(
+    rede
+):
+
+    rede_obj = ipaddress.ip_network(
+        rede
+    )
+
+
+    tarefas = [
+
+        ping_host(ip)
+
+        for ip in rede_obj.hosts()
+
+    ]
+
+
+    resultados = await asyncio.gather(
+        *tarefas
+    )
+
+
+    encontrados = []
+
+
+    for ip in resultados:
+
+        if ip:
+
+            encontrados.append(ip)
 
 
     return encontrados
@@ -215,7 +329,7 @@ async def testar_raw(ip):
 
 
 # ============================================================
-# IDENTIFICAÇÃO RÁPIDA
+# IDENTIFICAÇÃO / COLETA COMPLETA
 # ============================================================
 
 async def identificar(ip):
@@ -228,44 +342,73 @@ async def identificar(ip):
     try:
 
         # ----------------------------------------------------
-        # A identificação PJL atual é síncrona.
+        # IMPORTANTE
         #
-        # Não podemos simplesmente executar isso diretamente
-        # dentro do event loop porque um equipamento lento
-        # travaria todo o scanner.
+        # Antes o scanner chamava somente:
         #
-        # Por isso ela roda em uma thread.
+        #     device.coletar_pjl()
+        #
+        # Isso identificava a impressora, mas NÃO executava
+        # SYSDEBUG, SNMP e associação dos seriais.
+        #
+        # Agora usamos o fluxo oficial do PrinterDevice:
+        #
+        #     device.coletar()
+        #
+        # que executa:
+        #
+        #     PJL
+        #     SYSDEBUG
+        #     SNMP
+        #     associação dos seriais dos consumíveis
+        #
         # ----------------------------------------------------
 
         await asyncio.wait_for(
 
-            asyncio.to_thread(
-                device.coletar_pjl
-            ),
+            device.coletar(),
 
-            timeout=TIMEOUT_IDENTIFICACAO
+            timeout=TIMEOUT_COLETA
 
         )
+
+
+        return {
+
+            "device": device,
+
+            "timeout": False,
+
+            "erro": None
+
+        }
+
 
     except asyncio.TimeoutError:
 
         return {
+
             "device": device,
-            "timeout": True
+
+            "timeout": True,
+
+            "erro":
+                "Coleta completa excedeu o tempo limite."
+
         }
 
-    except Exception:
+
+    except Exception as erro:
 
         return {
+
             "device": device,
-            "timeout": False
+
+            "timeout": False,
+
+            "erro": str(erro)
+
         }
-
-
-    return {
-        "device": device,
-        "timeout": False
-    }
 
 
 # ============================================================
@@ -290,6 +433,10 @@ async def descobrir_candidatos():
     )
 
 
+    # ========================================================
+    # ARP
+    # ========================================================
+
     print()
 
     print(
@@ -304,7 +451,8 @@ async def descobrir_candidatos():
     # Se a tabela ARP estiver muito pequena, fazemos um
     # preenchimento leve através de ping.
     #
-    # Isso não significa escanear SNMP/WEB/etc.
+    # Isso NÃO significa escanear SNMP/WEB/etc.
+    #
     # É somente descoberta de hosts ativos.
     # --------------------------------------------------------
 
@@ -319,75 +467,21 @@ async def descobrir_candidatos():
         )
 
 
-        rede_obj = ipaddress.ip_network(
+        hosts_ativos = await atualizar_descoberta_local(
             rede
         )
 
 
-        async def ping(ip):
+        for ip in hosts_ativos:
 
-            try:
-
-                processo = await asyncio.create_subprocess_exec(
-
-                    "ping",
-                    "-n",
-                    "1",
-                    "-w",
-                    "250",
-                    str(ip),
-
-                    stdout=asyncio.subprocess.DEVNULL,
-
-                    stderr=asyncio.subprocess.DEVNULL
-
-                )
-
-
-                codigo = await asyncio.wait_for(
-                    processo.wait(),
-                    timeout=0.5
-                )
-
-
-                return (
-                    str(ip)
-                    if codigo == 0
-                    else None
-                )
-
-
-            except Exception:
-
-                return None
-
-
-        tarefas = [
-
-            ping(ip)
-
-            for ip in rede_obj.hosts()
-
-        ]
-
-
-        resultados = await asyncio.gather(
-            *tarefas
-        )
-
-
-        for ip in resultados:
-
-            if ip:
-
-                arp.setdefault(
-                    ip,
-                    "desconhecido"
-                )
+            arp.setdefault(
+                ip,
+                "desconhecido"
+            )
 
 
     # --------------------------------------------------------
-    # Remove o próprio computador
+    # Remove o próprio computador.
     # --------------------------------------------------------
 
     arp.pop(
@@ -399,7 +493,7 @@ async def descobrir_candidatos():
     print()
 
     print(
-        f"{len(arp)} dispositivos conhecidos pela tabela ARP."
+        f"{len(arp)} dispositivos conhecidos."
     )
 
 
@@ -428,7 +522,7 @@ async def descobrir_candidatos():
     ]
 
 
-    resultados = await asyncio.gather(
+    resultados_raw = await asyncio.gather(
         *tarefas
     )
 
@@ -438,7 +532,7 @@ async def descobrir_candidatos():
 
     for ip, ativo in zip(
         ips,
-        resultados
+        resultados_raw
     ):
 
         if ativo:
@@ -454,7 +548,7 @@ async def descobrir_candidatos():
 
 
 # ============================================================
-# EXIBIR EQUIPAMENTO
+# NOME DO EQUIPAMENTO
 # ============================================================
 
 def nome_equipamento(device):
@@ -493,10 +587,258 @@ def nome_equipamento(device):
 
 
 # ============================================================
+# FORMATAR NÚMERO
+# ============================================================
+
+def formatar_numero(
+    valor
+):
+
+    if valor is None:
+
+        return "desconhecido"
+
+
+    try:
+
+        return f"{int(valor):,}".replace(
+            ",",
+            "."
+        )
+
+    except (
+        ValueError,
+        TypeError
+    ):
+
+        return str(
+            valor
+        )
+
+
+# ============================================================
+# EXIBIR SUPRIMENTOS
+# ============================================================
+
+def exibir_suprimentos(
+    device
+):
+
+    supplies = device.supplies
+
+
+    if not supplies:
+
+        print(
+            "    Suprimentos: nenhum dado disponível."
+        )
+
+        return
+
+
+    print()
+
+    print(
+        "    SUPRIMENTOS:"
+    )
+
+
+    for numero, supply in enumerate(
+        supplies,
+        start=1
+    ):
+
+        if not isinstance(
+            supply,
+            dict
+        ):
+
+            print(
+                f"        [{numero}] {supply}"
+            )
+
+            continue
+
+
+        tipo = (
+            supply.get(
+                "tipo"
+            )
+
+            or
+            ""
+        )
+
+
+        nome = (
+
+            supply.get(
+                "nome"
+            )
+
+            or
+
+            supply.get(
+                "name"
+            )
+
+            or
+
+            supply.get(
+                "descricao"
+            )
+
+            or
+
+            supply.get(
+                "description"
+            )
+
+            or
+
+            tipo
+
+            or
+
+            "Consumível"
+
+        )
+
+
+        nivel = (
+
+            supply.get(
+                "nivel"
+            )
+
+            if supply.get(
+                "nivel"
+            ) is not None
+
+            else
+
+            supply.get(
+                "level"
+            )
+        )
+
+
+        capacidade = (
+
+            supply.get(
+                "capacidade"
+            )
+
+            if supply.get(
+                "capacidade"
+            ) is not None
+
+            else
+
+            supply.get(
+                "maximo"
+            )
+        )
+
+
+        serial = (
+
+            supply.get(
+                "numero_serie"
+            )
+
+            or
+
+            supply.get(
+                "serial"
+            )
+
+            or
+
+            "não informado"
+        )
+
+
+        part_number = (
+
+            supply.get(
+                "part_number"
+            )
+
+            or
+
+            supply.get(
+                "partnumber"
+            )
+
+            or
+
+            supply.get(
+                "part"
+            )
+
+            or
+
+            "não informado"
+        )
+
+
+        print()
+
+        print(
+            f"        [{numero}] {nome}"
+        )
+
+
+        if tipo:
+
+            print(
+                "            Tipo:",
+                tipo
+            )
+
+
+        print(
+            "            Nível:",
+            (
+                formatar_numero(
+                    nivel
+                )
+                if nivel is not None
+                else "não informado"
+            )
+        )
+
+
+        if capacidade is not None:
+
+            print(
+                "            Capacidade:",
+                formatar_numero(
+                    capacidade
+                )
+            )
+
+
+        print(
+            "            Part Number:",
+            part_number
+        )
+
+
+        print(
+            "            Serial:",
+            serial
+        )
+
+
+# ============================================================
 # EXIBIR LISTA
 # ============================================================
 
-def exibir_lista(resultados):
+def exibir_lista(
+    resultados
+):
 
     print()
 
@@ -548,6 +890,12 @@ def exibir_lista(resultados):
         )
 
 
+        modelo = identificacao.get(
+            "modelo",
+            "Desconhecido"
+        )
+
+
         serial = identificacao.get(
             "serial",
             "Desconhecido"
@@ -559,25 +907,15 @@ def exibir_lista(resultados):
         )
 
 
-        if contador is None:
-
-            contador_texto = (
-                "desconhecido"
-            )
-
-        else:
-
-            contador_texto = (
-                f"{contador:,}".replace(
-                    ",",
-                    "."
-                )
-            )
-
-
         print(
             "    Fabricante:",
             fabricante
+        )
+
+
+        print(
+            "    Modelo:",
+            modelo
         )
 
 
@@ -589,7 +927,9 @@ def exibir_lista(resultados):
 
         print(
             "    Contador:",
-            contador_texto
+            formatar_numero(
+                contador
+            )
         )
 
 
@@ -606,19 +946,48 @@ def exibir_lista(resultados):
 
 
         # ----------------------------------------------------
-        # IP fica disponível, mas secundário.
+        # Mostrar suprimentos somente quando existirem.
         # ----------------------------------------------------
 
-        print(
-            "    [rede:",
-            device.ip + "]"
+        exibir_suprimentos(
+            device
         )
 
 
-        if item.get("timeout"):
+        # ----------------------------------------------------
+        # IP continua disponível, mas secundário.
+        # ----------------------------------------------------
+
+        print()
+
+        print(
+            "    [rede:",
+            device.ip,
+            "]"
+        )
+
+
+        if item.get(
+            "timeout"
+        ):
+
+            print()
 
             print(
-                "    Aviso: equipamento respondeu lentamente."
+                "    AVISO: coleta do equipamento "
+                "excedeu o tempo limite."
+            )
+
+
+        if item.get(
+            "erro"
+        ):
+
+            print()
+
+            print(
+                "    AVISO:",
+                item["erro"]
             )
 
 
@@ -626,7 +995,9 @@ def exibir_lista(resultados):
 # SELECIONAR
 # ============================================================
 
-def selecionar(resultados):
+def selecionar(
+    resultados
+):
 
     if not resultados:
 
@@ -674,8 +1045,12 @@ def selecionar(resultados):
         return None
 
 
-    if numero < 1 or numero > len(
-        resultados
+    if (
+        numero < 1
+        or
+        numero > len(
+            resultados
+        )
     ):
 
         print()
@@ -716,11 +1091,16 @@ def salvar_resultados(
             "scanner"
         ] = {
 
-            "timeout_identificacao":
+            "timeout_coleta":
                 bool(
                     item.get(
                         "timeout"
                     )
+                ),
+
+            "erro_coleta":
+                item.get(
+                    "erro"
                 )
 
         }
@@ -745,7 +1125,8 @@ def salvar_resultados(
 
             {
 
-                "rede": rede,
+                "rede":
+                    rede,
 
                 "quantidade":
                     len(dados),
@@ -765,6 +1146,127 @@ def salvar_resultados(
 
 
 # ============================================================
+# EXIBIR EQUIPAMENTO SELECIONADO
+# ============================================================
+
+def exibir_equipamento_selecionado(
+    device
+):
+
+    print()
+
+    print("=" * 70)
+
+    print(
+        "EQUIPAMENTO SELECIONADO"
+    )
+
+    print("=" * 70)
+
+
+    print()
+
+    identificacao = (
+        device.identificacao
+    )
+
+
+    print(
+        "Fabricante:",
+        identificacao.get(
+            "fabricante",
+            "Desconhecido"
+        )
+    )
+
+
+    print(
+        "Modelo:",
+        identificacao.get(
+            "modelo",
+            "Desconhecido"
+        )
+    )
+
+
+    print(
+        "Família:",
+        identificacao.get(
+            "familia",
+            ""
+        )
+    )
+
+
+    print(
+        "Tipo:",
+        identificacao.get(
+            "tipo",
+            ""
+        )
+    )
+
+
+    print(
+        "Serial:",
+        identificacao.get(
+            "serial",
+            "Desconhecido"
+        )
+    )
+
+
+    contador = identificacao.get(
+        "contador"
+    )
+
+
+    print(
+        "Contador:",
+        formatar_numero(
+            contador
+        )
+    )
+
+
+    print()
+
+    print(
+        "Estado:",
+        device.estado()
+    )
+
+
+    print(
+        "Suprimentos:",
+        device.total_supplies()
+    )
+
+
+    exibir_suprimentos(
+        device
+    )
+
+
+    print()
+
+    print(
+        "IP interno:",
+        device.ip
+    )
+
+
+    print()
+
+    print(
+        "IMPRESSORA PRONTA PARA O PRÓXIMO MÓDULO."
+    )
+
+
+    print()
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -775,7 +1277,8 @@ async def main():
     print("=" * 70)
 
     print(
-        "PRINTER ASSISTANT - DESCOBERTA DE IMPRESSORAS"
+        "PRINTER ASSISTANT - "
+        "DESCOBERTA DE IMPRESSORAS"
     )
 
     print("=" * 70)
@@ -842,18 +1345,26 @@ async def main():
 
         print(
             f"[{numero}] equipamento de impressão "
-            f"detectado"
+            f"detectado em {ip}"
         )
 
 
     # ========================================================
-    # IDENTIFICAÇÃO PARALELA
+    # COLETA COMPLETA PARALELA
     # ========================================================
 
     print()
 
     print(
-        "Identificando equipamentos..."
+        "Identificando e coletando dados "
+        "dos equipamentos..."
+    )
+
+    print()
+
+    print(
+        "PJL + SYSDEBUG + SNMP + "
+        "seriais dos consumíveis"
     )
 
 
@@ -871,21 +1382,18 @@ async def main():
     )
 
 
-    resultados = []
-
-
-    for item in identificados:
-
-        resultados.append(
-            item
-        )
+    resultados = list(
+        identificados
+    )
 
 
     # ========================================================
     # ORDENAR
     # ========================================================
-
-    # Equipamentos identificados ficam primeiro.
+    #
+    # Equipamentos com modelo conhecido ficam primeiro.
+    # Depois, equipamentos com serial conhecido.
+    #
 
     resultados.sort(
 
@@ -902,11 +1410,19 @@ async def main():
     )
 
 
+    # ========================================================
+    # SALVAR
+    # ========================================================
+
     salvar_resultados(
         rede,
         resultados
     )
 
+
+    # ========================================================
+    # EXIBIR
+    # ========================================================
 
     exibir_lista(
         resultados
@@ -937,106 +1453,9 @@ async def main():
     # RESULTADO
     # ========================================================
 
-    print()
-
-    print("=" * 70)
-
-    print(
-        "EQUIPAMENTO SELECIONADO"
+    exibir_equipamento_selecionado(
+        device
     )
-
-    print("=" * 70)
-
-
-    print()
-
-    identificacao = (
-        device.identificacao
-    )
-
-
-    print(
-        "Fabricante:",
-        identificacao["fabricante"]
-    )
-
-
-    print(
-        "Modelo:",
-        identificacao["modelo"]
-    )
-
-
-    print(
-        "Família:",
-        identificacao["familia"]
-    )
-
-
-    print(
-        "Tipo:",
-        identificacao["tipo"]
-    )
-
-
-    print(
-        "Serial:",
-        identificacao["serial"]
-    )
-
-
-    contador = identificacao[
-        "contador"
-    ]
-
-
-    if contador is None:
-
-        print(
-            "Contador: desconhecido"
-        )
-
-    else:
-
-        print(
-            "Contador:",
-            f"{contador:,}".replace(
-                ",",
-                "."
-            )
-        )
-
-
-    print()
-
-    print(
-        "Estado:",
-        device.estado()
-    )
-
-
-    print(
-        "Suprimentos:",
-        device.total_supplies()
-    )
-
-
-    print()
-
-    print(
-        "IP interno:",
-        device.ip
-    )
-
-
-    print()
-
-    print(
-        "IMPRESSORA PRONTA PARA O PRÓXIMO MÓDULO."
-    )
-
-
-    print()
 
 
 # ============================================================

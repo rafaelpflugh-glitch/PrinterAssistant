@@ -1,40 +1,34 @@
 """
-Printer Assistant - SNMP
-========================
+============================================================
+PRINTER ASSISTANT
+SNMP MODULE
+============================================================
 
-Coleta informações de impressoras através de SNMP.
+Módulo SNMP principal do Printer Assistant.
 
 Responsabilidades:
-
-- identificar se SNMP está disponível;
-- tentar SNMPv2c e depois SNMPv1;
-- coletar Printer-MIB;
-- identificar consumíveis;
-- calcular nível;
-- calcular condição;
-- identificar toner, unidade de imagem e fusor;
-- preservar part number apenas internamente;
-- preservar dados brutos para diagnóstico.
-
-O SNMP NÃO é responsável por:
-
-- serial da impressora;
-- serial de toner;
-- serial de unidade de imagem;
-- serial de fusor.
-
-Esses dados pertencem ao SYSDEBUG.
+- identificar a impressora via SNMP
+- tentar SNMPv2c e depois SNMPv1
+- coletar Printer-MIB
+- coletar consumíveis
+- calcular nível e condição
+- identificar toner, unidade de imagem e fusor
+- tentar localizar números de série dos consumíveis
+- manter part number apenas nos dados internos
+- aplicar regra de garantia somente à unidade de imagem
+- preservar dados brutos para diagnóstico
 
 Compatível com:
-
 - Python 3.x
 - pysnmp 7.x
 - SNMPv1
 - SNMPv2c
 """
 
+import asyncio
 import re
 from typing import Any
+
 
 from pysnmp.hlapi.v3arch.asyncio import (
     SnmpEngine,
@@ -55,9 +49,11 @@ from pysnmp.hlapi.v3arch.asyncio import (
 COMMUNITY_PADRAO = "public"
 
 TIMEOUT_PADRAO = 2
+
 RETRIES_PADRAO = 1
 
 SNMP_V2C = 1
+
 SNMP_V1 = 0
 
 
@@ -70,10 +66,9 @@ OID_SYS_DESCRICAO = (
 )
 
 
-# ------------------------------------------------------------
-# Printer-MIB
-# prtMarkerSuppliesTable
-# ------------------------------------------------------------
+# ============================================================
+# PRINTER-MIB
+# ============================================================
 
 OID_SUPPLIES_BASE = (
     "1.3.6.1.2.1.43.11.1.1"
@@ -100,19 +95,8 @@ OID_SUPPLY_LEVEL = (
 )
 
 
-# ------------------------------------------------------------
-# Marker table
-#
-# Usado somente para diagnóstico / identificadores internos.
-#
-# IMPORTANTE:
-#
-# O .16 NÃO é serial de consumível.
-# O .17 NÃO é serial de consumível.
-#
-# Não expor esses valores como numero_serie.
-# ------------------------------------------------------------
-
+# Tabela adicional usada somente para tentativa
+# de localizar identificadores.
 OID_MARKER_BASE = (
     "1.3.6.1.2.1.43.5.1.1"
 )
@@ -124,17 +108,13 @@ OID_MARKER_BASE = (
 
 TIPO_TONER = "toner"
 
-TIPO_UNIDADE_IMAGEM = (
-    "unidade_imagem"
-)
+TIPO_UNIDADE_IMAGEM = "unidade_imagem"
 
 TIPO_FUSOR = "fusor"
 
 TIPO_OUTRO = "outro"
 
-TIPO_DESCONHECIDO = (
-    "desconhecido"
-)
+TIPO_DESCONHECIDO = "desconhecido"
 
 
 # ============================================================
@@ -145,7 +125,7 @@ def limpar_valor(
     valor: Any,
 ) -> str | None:
     """
-    Converte retorno do pysnmp para texto limpo.
+    Converte um retorno do pysnmp para texto.
     """
 
     if valor is None:
@@ -160,12 +140,9 @@ def limpar_valor(
     if texto is None:
         return None
 
-    texto = str(texto).strip()
-
-    if not texto:
-        return None
-
-    return texto
+    return str(
+        texto
+    ).strip()
 
 
 def inteiro(
@@ -175,24 +152,15 @@ def inteiro(
     Converte valor para inteiro sem lançar exceção.
     """
 
-    if valor is None:
-        return None
-
     try:
-        return int(valor)
+        return int(
+            valor
+        )
 
-    except (TypeError, ValueError):
-        pass
-
-    texto = limpar_valor(valor)
-
-    if texto is None:
-        return None
-
-    try:
-        return int(texto)
-
-    except (TypeError, ValueError):
+    except (
+        TypeError,
+        ValueError,
+    ):
         return None
 
 
@@ -200,25 +168,28 @@ def decodificar_hexadecimal(
     valor: Any,
 ) -> str | None:
     """
-    Algumas impressoras retornam descrições em hexadecimal.
+    Algumas Lexmark podem retornar descrições
+    em hexadecimal.
 
     Exemplo:
 
         0x546f6e657220707265746f
 
-    vira:
+    Retorno:
 
         Toner preto
-
-    Só converte quando o resultado é texto ASCII legível.
     """
 
     if valor is None:
         return None
 
-    texto = str(valor).strip()
+    texto = str(
+        valor
+    ).strip()
 
-    if not texto.lower().startswith("0x"):
+    if not texto.lower().startswith(
+        "0x"
+    ):
         return texto
 
     bruto = texto[2:]
@@ -235,11 +206,10 @@ def decodificar_hexadecimal(
     if len(bruto) % 2:
         bruto = bruto[:-1]
 
-    if not bruto:
-        return texto
-
     try:
-        dados = bytes.fromhex(bruto)
+        dados = bytes.fromhex(
+            bruto
+        )
 
     except ValueError:
         return texto
@@ -249,12 +219,16 @@ def decodificar_hexadecimal(
     for byte in dados:
 
         if 32 <= byte <= 126:
-            chars.append(chr(byte))
+            chars.append(
+                chr(byte)
+            )
 
         else:
             break
 
-    convertido = "".join(chars).strip()
+    convertido = "".join(
+        chars
+    ).strip()
 
     if len(convertido) >= 3:
         return convertido
@@ -265,25 +239,21 @@ def decodificar_hexadecimal(
 def normalizar_descricao(
     valor: Any,
 ) -> dict:
-    """
-    Normaliza descrição de supply.
 
-    O bruto continua disponível para diagnóstico.
-    """
-
-    bruto = limpar_valor(valor)
+    bruto = limpar_valor(
+        valor
+    )
 
     if bruto is None:
+
         return {
             "valor": None,
             "bruto": None,
             "codificado": False,
         }
 
-    convertido = (
-        decodificar_hexadecimal(
-            bruto
-        )
+    convertido = decodificar_hexadecimal(
+        bruto
     )
 
     return {
@@ -304,18 +274,30 @@ def identificar_tipo(
 ) -> str:
     """
     Classifica o consumível.
+
+    Regras:
+
+        Toner
+            -> toner
+
+        Unidade de imagem
+            -> unidade_imagem
+
+        Fuser / Fusor / Maintenance Kit
+            -> fusor
     """
 
     if not nome:
         return TIPO_DESCONHECIDO
 
-    texto = (
-        str(nome)
-        .strip()
-        .lower()
-    )
+    texto = str(
+        nome
+    ).strip().lower()
 
-    # Toner
+    # --------------------------------------------------------
+    # TONER
+    # --------------------------------------------------------
+
     if any(
         termo in texto
         for termo in (
@@ -326,7 +308,10 @@ def identificar_tipo(
     ):
         return TIPO_TONER
 
-    # Unidade de imagem
+    # --------------------------------------------------------
+    # UNIDADE DE IMAGEM
+    # --------------------------------------------------------
+
     if any(
         termo in texto
         for termo in (
@@ -334,8 +319,6 @@ def identificar_tipo(
             "unidade de imagem",
             "image unit",
             "imaging unit",
-            "imagem",
-            "imaging",
             "photoconductor",
             "fotocondutor",
             "drum",
@@ -343,7 +326,10 @@ def identificar_tipo(
     ):
         return TIPO_UNIDADE_IMAGEM
 
-    # Fusor
+    # --------------------------------------------------------
+    # FUSOR
+    # --------------------------------------------------------
+
     if any(
         termo in texto
         for termo in (
@@ -363,9 +349,6 @@ def nome_exibicao_consumivel(
     nome: str | None,
     tipo: str,
 ) -> str:
-    """
-    Nome simplificado para a interface.
-    """
 
     if tipo == TIPO_TONER:
         return "Toner"
@@ -377,7 +360,9 @@ def nome_exibicao_consumivel(
         return "Fusor"
 
     if nome:
-        return str(nome).strip()
+        return str(
+            nome
+        ).strip()
 
     return "Consumível"
 
@@ -386,12 +371,12 @@ def calcular_condicao_consumivel(
     percentual: float | None,
 ) -> str:
     """
-    Interpreta o nível do consumível.
+    Interpretação do nível:
 
-    > 50%   = OK
-    > 30%   = ATENÇÃO
-    > 15%   = BAIXO
-    <= 15%  = CRÍTICO
+        > 50%  -> OK
+        > 30%  -> ATENÇÃO
+        > 15%  -> BAIXO
+        <= 15% -> CRÍTICO
     """
 
     if percentual is None:
@@ -409,12 +394,10 @@ def calcular_condicao_consumivel(
     return "CRÍTICO"
 
 
+# Compatibilidade com código antigo.
 def calcular_status_supply(
     percentual: float | None,
 ) -> str:
-    """
-    Compatibilidade com versões antigas.
-    """
 
     return calcular_condicao_consumivel(
         percentual
@@ -425,13 +408,13 @@ def calcular_garantia_unidade_imagem(
     percentual: float | None,
 ) -> bool | None:
     """
-    Regra exclusiva da unidade de imagem.
+    Regra específica da unidade de imagem.
 
-    >= 50%:
-        possível garantia.
+    50% ou mais:
+        possível encaminhamento para garantia.
 
-    IMPORTANTE:
-    não aplicar ao toner ou fusor.
+    Esta regra NÃO é aplicada a toner
+    nem a fusor.
     """
 
     if percentual is None:
@@ -447,10 +430,6 @@ def calcular_garantia_unidade_imagem(
 class SNMPPrinter:
     """
     Cliente SNMP de uma impressora.
-
-    Não conhece SYSDEBUG.
-
-    Não atribui serial de consumível.
     """
 
     def __init__(
@@ -460,15 +439,23 @@ class SNMPPrinter:
         timeout: int = TIMEOUT_PADRAO,
         retries: int = RETRIES_PADRAO,
     ):
+
         self.ip = ip
+
         self.community = community
+
         self.timeout = timeout
+
         self.retries = retries
 
         self.versao: str | None = None
+
         self.modelo_snmp: int | None = None
 
-        # Dados brutos.
+        # ----------------------------------------------------
+        # Dados brutos para diagnóstico.
+        # ----------------------------------------------------
+
         self.raw_supplies: dict[
             str,
             str | None,
@@ -479,22 +466,20 @@ class SNMPPrinter:
             str | None,
         ] = {}
 
-
     # ========================================================
     # TARGET
     # ========================================================
 
     async def target(self):
-        """
-        Cria alvo UDP do pysnmp.
-        """
 
         return await UdpTransportTarget.create(
-            (self.ip, 161),
+            (
+                self.ip,
+                161,
+            ),
             timeout=self.timeout,
             retries=self.retries,
         )
-
 
     # ========================================================
     # COMMUNITY
@@ -504,15 +489,11 @@ class SNMPPrinter:
         self,
         modelo: int,
     ):
-        """
-        Cria CommunityData para SNMPv1/v2c.
-        """
 
         return CommunityData(
             self.community,
             mpModel=modelo,
         )
-
 
     # ========================================================
     # VERSÃO
@@ -522,14 +503,16 @@ class SNMPPrinter:
         self,
         modelo: int,
     ):
+
         self.modelo_snmp = modelo
 
-        self.versao = (
-            "SNMPv2c"
-            if modelo == SNMP_V2C
-            else "SNMPv1"
-        )
+        if modelo == SNMP_V2C:
 
+            self.versao = "SNMPv2c"
+
+        else:
+
+            self.versao = "SNMPv1"
 
     # ========================================================
     # GET
@@ -540,10 +523,10 @@ class SNMPPrinter:
         oid: str,
     ):
         """
-        Tenta:
+        Executa GET usando:
 
-        1. SNMPv2c
-        2. SNMPv1
+            1. SNMPv2c
+            2. SNMPv1
         """
 
         for modelo in (
@@ -555,32 +538,22 @@ class SNMPPrinter:
 
                 engine = SnmpEngine()
 
-                target = (
-                    await self.target()
-                )
+                target = await self.target()
 
-                (
-                    erro_snmp,
-                    status,
-                    _,
-                    binds,
-                ) = await get_cmd(
-
-                    engine,
-
-                    self.community_data(
-                        modelo
-                    ),
-
-                    target,
-
-                    ContextData(),
-
-                    ObjectType(
-                        ObjectIdentity(
-                            oid
-                        )
-                    ),
+                erro_snmp, status, _, binds = (
+                    await get_cmd(
+                        engine,
+                        self.community_data(
+                            modelo
+                        ),
+                        target,
+                        ContextData(),
+                        ObjectType(
+                            ObjectIdentity(
+                                oid
+                            )
+                        ),
+                    )
                 )
 
                 if erro_snmp:
@@ -610,10 +583,7 @@ class SNMPPrinter:
                     exc,
                 )
 
-                continue
-
         return None
-
 
     # ========================================================
     # WALK
@@ -624,10 +594,16 @@ class SNMPPrinter:
         oid: str,
     ):
         """
-        Executa WALK usando:
+        Executa WALK usando SNMPv2c e SNMPv1.
 
-        1. SNMPv2c
-        2. SNMPv1
+        Retorna:
+
+            {
+                "OID": "valor",
+                ...
+            }
+
+        O parser das tabelas fica separado do WALK.
         """
 
         for modelo in (
@@ -644,41 +620,29 @@ class SNMPPrinter:
 
                 engine = SnmpEngine()
 
-                target = (
-                    await self.target()
-                )
+                target = await self.target()
 
                 consulta = walk_cmd(
-
                     engine,
-
                     self.community_data(
                         modelo
                     ),
-
                     target,
-
                     ContextData(),
-
                     ObjectType(
                         ObjectIdentity(
                             oid
                         )
                     ),
-
                     lexicographicMode=False,
-
                     lookupMib=False,
                 )
 
                 async for resposta in consulta:
 
-                    (
-                        erro_snmp,
-                        status,
-                        _,
-                        binds,
-                    ) = resposta
+                    erro_snmp, status, _, binds = (
+                        resposta
+                    )
 
                     if erro_snmp:
 
@@ -692,7 +656,7 @@ class SNMPPrinter:
                     if status:
 
                         print(
-                            "[SNMP WALK]",
+                            "[SNMP WALK STATUS]",
                             status,
                         )
 
@@ -707,10 +671,8 @@ class SNMPPrinter:
                             oid_resultado
                         )
 
-                        texto_valor = (
-                            limpar_valor(
-                                valor
-                            )
+                        texto_valor = limpar_valor(
+                            valor
                         )
 
                         dados[
@@ -733,7 +695,6 @@ class SNMPPrinter:
                 )
 
         return {}
-
 
     # ========================================================
     # IDENTIFICAÇÃO
@@ -758,6 +719,68 @@ class SNMPPrinter:
             "descricao": descricao,
         }
 
+    # ========================================================
+    # PARSER DO SUPPLIES TABLE
+    # ========================================================
+
+    @staticmethod
+    def _extrair_coluna_indice(
+        oid: str,
+        base_oid: str,
+    ):
+        """
+        Extrai:
+
+            coluna
+            índice
+
+        de um OID pertencente à tabela.
+
+        Exemplo:
+
+            base:
+                1.3.6.1.2.1.43.11.1.1
+
+            OID:
+                1.3.6.1.2.1.43.11.1.1.6.1
+
+        Resultado:
+
+            coluna = "6"
+            indice = "1"
+
+        Para índices compostos, preservamos todos
+        os componentes após a coluna.
+        """
+
+        prefixo = (
+            base_oid.rstrip(".")
+            + "."
+        )
+
+        if not oid.startswith(
+            prefixo
+        ):
+            return None, None
+
+        resto = oid[
+            len(prefixo):
+        ]
+
+        partes = resto.split(
+            "."
+        )
+
+        if len(partes) < 2:
+            return None, None
+
+        coluna = partes[0]
+
+        indice = ".".join(
+            partes[1:]
+        )
+
+        return coluna, indice
 
     # ========================================================
     # PRINTER-MIB
@@ -767,7 +790,13 @@ class SNMPPrinter:
         self,
     ):
         """
-        Coleta prtMarkerSuppliesTable.
+        Coleta a tabela Printer-MIB de suprimentos.
+
+        Estrutura:
+
+            <base>.<coluna>.<índice>
+
+        Agora o parser usa explicitamente o BASE OID.
         """
 
         dados = await self.walk(
@@ -786,59 +815,47 @@ class SNMPPrinter:
             dict,
         ] = {}
 
-        prefixo = (
-            OID_SUPPLIES_BASE
-            + "."
-        )
-
         for oid, valor in dados.items():
 
-            oid_texto = str(oid)
+            coluna, indice = (
+                self._extrair_coluna_indice(
+                    oid,
+                    OID_SUPPLIES_BASE,
+                )
+            )
 
-            if not oid_texto.startswith(
-                prefixo
+            if (
+                coluna is None
+                or indice is None
             ):
                 continue
-
-            restante_oid = (
-                oid_texto[
-                    len(prefixo):
-                ]
-            )
-
-            partes = (
-                restante_oid.split(".")
-            )
-
-            if len(partes) < 2:
-                continue
-
-            coluna = partes[0]
-
-            indice = ".".join(
-                partes[1:]
-            )
 
             item = tabela.setdefault(
                 indice,
                 {},
             )
 
+            # ------------------------------------------------
+            # DESCRIÇÃO
+            # ------------------------------------------------
+
             if coluna == "6":
 
-                info = (
-                    normalizar_descricao(
-                        valor
-                    )
+                info = normalizar_descricao(
+                    valor
                 )
 
-                item["nome"] = (
-                    info["valor"]
-                )
+                item[
+                    "nome"
+                ] = info[
+                    "valor"
+                ]
 
-                item["nome_bruto"] = (
-                    info["bruto"]
-                )
+                item[
+                    "nome_bruto"
+                ] = info[
+                    "bruto"
+                ]
 
                 item[
                     "nome_codificado"
@@ -846,26 +863,43 @@ class SNMPPrinter:
                     "codificado"
                 ]
 
+            # ------------------------------------------------
+            # UNIDADE
+            # ------------------------------------------------
+
             elif coluna == "7":
 
-                item["unidade"] = (
-                    inteiro(valor)
+                item[
+                    "unidade"
+                ] = inteiro(
+                    valor
                 )
+
+            # ------------------------------------------------
+            # CAPACIDADE MÁXIMA
+            # ------------------------------------------------
 
             elif coluna == "8":
 
-                item["capacidade"] = (
-                    inteiro(valor)
+                item[
+                    "capacidade"
+                ] = inteiro(
+                    valor
                 )
+
+            # ------------------------------------------------
+            # NÍVEL ATUAL
+            # ------------------------------------------------
 
             elif coluna == "9":
 
-                item["restante"] = (
-                    inteiro(valor)
+                item[
+                    "nivel"
+                ] = inteiro(
+                    valor
                 )
 
         return tabela
-
 
     # ========================================================
     # IDENTIFICADORES
@@ -875,9 +909,14 @@ class SNMPPrinter:
         self,
     ):
         """
-        Coleta dados da marker table apenas para diagnóstico.
+        Tenta encontrar número de série e part number
+        em tabelas adicionais.
 
-        NÃO transforma .16/.17 em serial de consumível.
+        O part number permanece somente nos dados internos.
+
+        A estrutura proprietária pode variar entre modelos
+        Lexmark. Portanto os dados brutos continuam sendo
+        preservados para diagnóstico.
         """
 
         dados = await self.walk(
@@ -896,38 +935,20 @@ class SNMPPrinter:
         if not dados:
             return resultado
 
-        prefixo = (
-            OID_MARKER_BASE
-            + "."
-        )
-
         for oid, valor in dados.items():
 
-            oid_texto = str(oid)
+            coluna, indice = (
+                self._extrair_coluna_indice(
+                    oid,
+                    OID_MARKER_BASE,
+                )
+            )
 
-            if not oid_texto.startswith(
-                prefixo
+            if (
+                coluna is None
+                or indice is None
             ):
                 continue
-
-            restante_oid = (
-                oid_texto[
-                    len(prefixo):
-                ]
-            )
-
-            partes = (
-                restante_oid.split(".")
-            )
-
-            if len(partes) < 2:
-                continue
-
-            coluna = partes[0]
-
-            indice = ".".join(
-                partes[1:]
-            )
 
             texto = limpar_valor(
                 valor
@@ -941,12 +962,19 @@ class SNMPPrinter:
                 {},
             )
 
-            # Estes dados são internos.
+            # ------------------------------------------------
+            # Candidata a serial
+            # ------------------------------------------------
+
             if coluna == "16":
 
                 item[
-                    "marker_identifier"
+                    "numero_serie"
                 ] = texto
+
+            # ------------------------------------------------
+            # Candidata a part number
+            # ------------------------------------------------
 
             elif coluna == "17":
 
@@ -956,6 +984,131 @@ class SNMPPrinter:
 
         return resultado
 
+    # ========================================================
+    # RELACIONAMENTO DOS IDENTIFICADORES
+    # ========================================================
+
+    @staticmethod
+    def localizar_identificador(
+        identificadores: dict,
+        indice: str,
+    ) -> dict:
+        """
+        Tenta relacionar o identificador ao supply.
+
+        Primeiro tenta o índice completo.
+
+        Depois tenta somente o último componente.
+        """
+
+        if not identificadores:
+            return {}
+
+        if indice in identificadores:
+
+            return identificadores[
+                indice
+            ]
+
+        ultimo = indice.split(
+            "."
+        )[-1]
+
+        if ultimo in identificadores:
+
+            return identificadores[
+                ultimo
+            ]
+
+        return {}
+
+    # ========================================================
+    # CALCULAR PERCENTUAL
+    # ========================================================
+
+    @staticmethod
+    def calcular_percentual(
+        nivel: int | float | None,
+        capacidade: int | float | None,
+    ) -> float | None:
+        """
+        Converte o valor de prtMarkerSuppliesLevel
+        em percentual usando prtMarkerSuppliesMaxCapacity.
+
+        Printer-MIB:
+
+            level
+                = nível atual na unidade definida
+                  pelo próprio consumível.
+
+            maxCapacity
+                = capacidade máxima na mesma unidade.
+
+        Portanto:
+
+            percentual =
+                (level / maxCapacity) * 100
+
+        Valores negativos de level são tratados como
+        estado especial / desconhecido e NÃO são
+        transformados em 0%.
+
+        Se a capacidade for 100 e o nível for 75:
+
+            75 / 100 * 100 = 75%
+
+        Se a capacidade for 1000 e o nível for 500:
+
+            500 / 1000 * 100 = 50%
+        """
+
+        if nivel is None:
+            return None
+
+        if capacidade is None:
+            return None
+
+        try:
+
+            nivel_num = float(
+                nivel
+            )
+
+            capacidade_num = float(
+                capacidade
+            )
+
+        except (
+            TypeError,
+            ValueError,
+        ):
+
+            return None
+
+        # ----------------------------------------------------
+        # Valores negativos na Printer-MIB podem representar
+        # estados especiais e não um percentual real.
+        # ----------------------------------------------------
+
+        if nivel_num < 0:
+            return None
+
+        if capacidade_num <= 0:
+            return None
+
+        percentual = (
+            nivel_num
+            / capacidade_num
+            * 100.0
+        )
+
+        return max(
+            0.0,
+            min(
+                100.0,
+                percentual,
+            ),
+        )
 
     # ========================================================
     # SUPPLIES
@@ -965,10 +1118,7 @@ class SNMPPrinter:
         self,
     ):
         """
-        Retorna somente dados normalizados
-        de consumíveis.
-
-        Serial não pertence ao SNMP.
+        Retorna consumíveis normalizados.
         """
 
         tabela = (
@@ -997,80 +1147,138 @@ class SNMPPrinter:
                 nome_original
             )
 
-            nome = (
-                nome_exibicao_consumivel(
-                    nome_original,
-                    tipo,
-                )
+            nome = nome_exibicao_consumivel(
+                nome_original,
+                tipo,
             )
 
             capacidade = item.get(
                 "capacidade"
             )
 
-            restante = item.get(
-                "restante"
+            nivel_raw = item.get(
+                "nivel"
             )
 
             unidade = item.get(
                 "unidade"
             )
 
-            nivel = None
+            percentual = None
+
+            restante = None
 
             consumido = None
 
-            if (
-                capacidade is not None
-                and capacidade > 0
-                and restante is not None
-            ):
+            # ------------------------------------------------
+            # NÍVEL
+            # ------------------------------------------------
 
-                nivel = round(
-                    (
-                        restante
-                        / capacidade
-                    ) * 100,
-                    1,
-                )
-
-                nivel = max(
-                    0,
-                    min(
-                        100,
-                        nivel,
-                    ),
-                )
-
-                consumido = (
-                    capacidade
-                    - restante
-                )
-
-            info_id = (
-                identificadores.get(
-                    indice,
-                    {}
-                )
-            )
-
-            part_number = (
-                info_id.get(
-                    "part_number"
+            percentual = (
+                self.calcular_percentual(
+                    nivel_raw,
+                    capacidade,
                 )
             )
 
             # ------------------------------------------------
-            # Modelo público limpo
+            # CAPACIDADE / NÍVEL
+            # ------------------------------------------------
+            #
+            # CORREÇÃO:
+            #
+            # prtMarkerSuppliesLevel NÃO deve ser tratado
+            # diretamente como percentual.
+            #
+            # O percentual é calculado usando:
+            #
+            #       level / maxCapacity * 100
+            #
+            # Isso evita que qualquer valor acima de 100
+            # seja simplesmente convertido para 100%.
+            # ------------------------------------------------
+
+            if (
+                nivel_raw is not None
+                and capacidade is not None
+                and capacidade > 0
+                and nivel_raw >= 0
+            ):
+
+                try:
+
+                    restante = round(
+                        float(
+                            nivel_raw
+                        )
+                    )
+
+                    consumido = max(
+                        0,
+                        round(
+                            float(
+                                capacidade
+                            )
+                            - float(
+                                nivel_raw
+                            )
+                        ),
+                    )
+
+                except (
+                    TypeError,
+                    ValueError,
+                ):
+
+                    restante = None
+
+                    consumido = None
+
+            # ------------------------------------------------
+            # IDENTIFICADORES
+            # ------------------------------------------------
+
+            info_id = (
+                self.localizar_identificador(
+                    identificadores,
+                    indice,
+                )
+            )
+
+            numero_serie = info_id.get(
+                "numero_serie"
+            )
+
+            part_number = info_id.get(
+                "part_number"
+            )
+
+            # ------------------------------------------------
+            # RESULTADO
             # ------------------------------------------------
 
             item_resultado = {
 
+                # Índices internos.
                 "indice": indice,
+
+                "supply_index": (
+                    indice.split(
+                        "."
+                    )[-1]
+                ),
+
+                # ------------------------------------------------
+                # EXIBIÇÃO
+                # ------------------------------------------------
+
+                "nome": nome,
 
                 "tipo": tipo,
 
-                "nome": nome,
+                # ------------------------------------------------
+                # DADOS TÉCNICOS
+                # ------------------------------------------------
 
                 "unidade": unidade,
 
@@ -1080,91 +1288,100 @@ class SNMPPrinter:
 
                 "consumido": consumido,
 
-                "nivel": nivel,
+                "nivel": percentual,
+
+                "percentual": percentual,
+
+                # ------------------------------------------------
+                # INTERPRETAÇÃO
+                # ------------------------------------------------
 
                 "condicao": (
                     calcular_condicao_consumivel(
-                        nivel
+                        percentual
                     )
                 ),
 
+                # ------------------------------------------------
+                # INTERNO
+                # ------------------------------------------------
+
+                "part_number": part_number,
+
+                # ------------------------------------------------
+                # BRUTOS
+                # ------------------------------------------------
+
+                "nivel_raw": nivel_raw,
+
+                "nome_original": (
+                    nome_original
+                ),
+
+                "nome_bruto": (
+                    item.get(
+                        "nome_bruto"
+                    )
+                ),
+
+                "nome_codificado": (
+                    item.get(
+                        "nome_codificado",
+                        False,
+                    )
+                ),
             }
 
             # ------------------------------------------------
-            # Garantia:
-            # SOMENTE unidade de imagem.
+            # SERIAL
             # ------------------------------------------------
 
+            # Regra:
+            #
+            # toner -> pode ter serial
+            # unidade de imagem -> pode ter serial
+            # fusor -> NÃO adicionar serial
+            #
             if (
-                tipo
-                == TIPO_UNIDADE_IMAGEM
+                tipo != TIPO_FUSOR
+                and numero_serie
             ):
+
+                item_resultado[
+                    "numero_serie"
+                ] = numero_serie
+
+            # ------------------------------------------------
+            # GARANTIA
+            # ------------------------------------------------
+
+            # Somente unidade de imagem.
+            if tipo == TIPO_UNIDADE_IMAGEM:
 
                 item_resultado[
                     "garantia"
                 ] = (
                     calcular_garantia_unidade_imagem(
-                        nivel
+                        percentual
                     )
                 )
-
-            # ------------------------------------------------
-            # Dados internos.
-            #
-            # Não entram no modelo público.
-            # ------------------------------------------------
-
-            item_resultado[
-                "_interno"
-            ] = {
-
-                "supply_index":
-                    indice.split(
-                        "."
-                    )[-1],
-
-                "part_number":
-                    part_number,
-
-                "marker_identifier":
-                    info_id.get(
-                        "marker_identifier"
-                    ),
-
-                "nome_original":
-                    nome_original,
-
-                "nome_bruto":
-                    item.get(
-                        "nome_bruto"
-                    ),
-
-                "nome_codificado":
-                    item.get(
-                        "nome_codificado",
-                        False,
-                    ),
-            }
 
             resultado.append(
                 item_resultado
             )
 
         # ----------------------------------------------------
-        # Ordenação
+        # ORDENAÇÃO
         # ----------------------------------------------------
 
         def chave_ordenacao(
-            item
+            item,
         ):
 
             try:
 
                 return int(
                     item.get(
-                        "_interno",
-                        {}
-                    ).get(
                         "supply_index",
                         999999,
                     )
@@ -1183,7 +1400,6 @@ class SNMPPrinter:
 
         return resultado
 
-
     # ========================================================
     # COLETA GERAL
     # ========================================================
@@ -1192,9 +1408,10 @@ class SNMPPrinter:
         self,
     ):
         """
-        Coleta dados SNMP.
+        Executa a coleta completa.
 
-        Retorno público limpo.
+        SNMP é considerado ativo se qualquer operação
+        SNMP tiver respondido.
         """
 
         identificacao = (
@@ -1218,69 +1435,28 @@ class SNMPPrinter:
             )
         )
 
-        # Não expor marker identifiers
-        # nem part numbers.
-        supplies_publicos = []
-
-        for supply in supplies:
-
-            item = {
-                chave: valor
-                for chave, valor
-                in supply.items()
-                if chave != "_interno"
-            }
-
-            supplies_publicos.append(
-                item
-            )
-
         return {
+
+            "ip": self.ip,
 
             "snmp": snmp_ativo,
 
             "versao": self.versao,
 
-            "descricao": (
-                identificacao[
-                    "descricao"
-                ]
+            "descricao": identificacao[
+                "descricao"
+            ],
+
+            "supplies": supplies,
+
+            # Diagnóstico interno.
+            "raw_supplies": (
+                self.raw_supplies
             ),
 
-            "supplies":
-                supplies_publicos,
-        }
-
-    # ========================================================
-    # DIAGNÓSTICO
-    # ========================================================
-
-    def diagnostico(
-        self,
-    ) -> dict:
-        """
-        Retorna dados brutos do SNMP.
-
-        Nunca deve ser usado diretamente pela UI normal.
-        """
-
-        return {
-
-            "versao":
-                self.versao,
-
-            "modelo_snmp":
-                self.modelo_snmp,
-
-            "raw_supplies":
-                dict(
-                    self.raw_supplies
-                ),
-
-            "raw_identificadores":
-                dict(
-                    self.raw_identificadores
-                ),
+            "raw_identificadores": (
+                self.raw_identificadores
+            ),
         }
 
 
@@ -1292,15 +1468,10 @@ async def coletar_supplies(
     ip: str,
     community: str = COMMUNITY_PADRAO,
 ):
-    """
-    API compatível com versões anteriores.
-
-    Retorna somente supplies públicos.
-    """
 
     printer = SNMPPrinter(
-        ip=ip,
-        community=community,
+        ip,
+        community,
     )
 
     return await printer.supplies()
@@ -1312,18 +1483,21 @@ async def coletar_snmp(
 ):
     """
     API principal do módulo.
+
+    Esta função existe no módulo e é utilizada
+    pelo restante do Printer Assistant.
     """
 
     printer = SNMPPrinter(
-        ip=ip,
-        community=community,
+        ip,
+        community,
     )
 
     return await printer.coletar()
 
 
 # ============================================================
-# COMPATIBILIDADE ANTIGA
+# PARSE COMPATÍVEL
 # ============================================================
 
 def parse_supplies(
@@ -1332,8 +1506,19 @@ def parse_supplies(
     """
     Compatibilidade com versões antigas.
 
-    Recebe dump bruto da Printer-MIB e devolve
-    uma lista padronizada sem duplicação.
+    Recebe um dump bruto da Printer-MIB e devolve
+    uma lista padronizada.
+
+    A estrutura esperada é:
+
+        <base>.<coluna>.<índice>
+
+    com:
+
+        .6 = descrição
+        .7 = unidade
+        .8 = capacidade
+        .9 = nível
     """
 
     if not dados:
@@ -1341,38 +1526,20 @@ def parse_supplies(
 
     tabela = {}
 
-    prefixo = (
-        OID_SUPPLIES_BASE
-        + "."
-    )
-
     for oid, valor in dados.items():
 
-        oid_texto = str(oid)
+        coluna, indice = (
+            SNMPPrinter._extrair_coluna_indice(
+                str(oid),
+                OID_SUPPLIES_BASE,
+            )
+        )
 
-        if not oid_texto.startswith(
-            prefixo
+        if (
+            coluna is None
+            or indice is None
         ):
             continue
-
-        restante_oid = (
-            oid_texto[
-                len(prefixo):
-            ]
-        )
-
-        partes = (
-            restante_oid.split(".")
-        )
-
-        if len(partes) < 2:
-            continue
-
-        coluna = partes[0]
-
-        indice = ".".join(
-            partes[1:]
-        )
 
         item = tabela.setdefault(
             indice,
@@ -1381,19 +1548,27 @@ def parse_supplies(
 
         if coluna == "6":
 
-            item["nome"] = valor
+            item[
+                "nome"
+            ] = valor
 
         elif coluna == "7":
 
-            item["unidade"] = valor
+            item[
+                "unidade"
+            ] = valor
 
         elif coluna == "8":
 
-            item["capacidade"] = valor
+            item[
+                "capacidade"
+            ] = valor
 
         elif coluna == "9":
 
-            item["restante"] = valor
+            item[
+                "nivel"
+            ] = valor
 
     resultado = []
 
@@ -1418,11 +1593,9 @@ def parse_supplies(
             nome_original
         )
 
-        nome = (
-            nome_exibicao_consumivel(
-                nome_original,
-                tipo,
-            )
+        nome = nome_exibicao_consumivel(
+            nome_original,
+            tipo,
         )
 
         capacidade = inteiro(
@@ -1431,9 +1604,9 @@ def parse_supplies(
             )
         )
 
-        restante = inteiro(
+        nivel_raw = inteiro(
             item.get(
-                "restante"
+                "nivel"
             )
         )
 
@@ -1443,79 +1616,92 @@ def parse_supplies(
             )
         )
 
-        nivel = None
+        percentual = (
+            SNMPPrinter.calcular_percentual(
+                nivel_raw,
+                capacidade,
+            )
+        )
+
+        restante = None
 
         consumido = None
 
+        # ----------------------------------------------------
+        # CORREÇÃO:
+        #
+        # restante representa o nível bruto na unidade
+        # informada pela Printer-MIB.
+        #
+        # percentual é calculado separadamente:
+        #
+        #     nivel / capacidade * 100
+        # ----------------------------------------------------
+
         if (
-            capacidade is not None
+            nivel_raw is not None
+            and capacidade is not None
             and capacidade > 0
-            and restante is not None
+            and nivel_raw >= 0
         ):
 
-            nivel = round(
-                (
-                    restante
-                    / capacidade
-                ) * 100,
-                1,
-            )
+            restante = nivel_raw
 
-            nivel = max(
+            consumido = max(
                 0,
-                min(
-                    100,
-                    nivel,
-                ),
-            )
-
-            consumido = (
-                capacidade
-                - restante
+                capacidade - nivel_raw,
             )
 
         supply = {
 
-            "indice":
-                indice,
+            "indice": indice,
 
-            "tipo":
-                tipo,
+            "supply_index": (
+                indice.split(
+                    "."
+                )[-1]
+            ),
 
-            "nome":
-                nome,
+            "nome": nome,
 
-            "unidade":
-                unidade,
+            "nome_original": (
+                nome_original
+            ),
 
-            "capacidade":
-                capacidade,
+            "tipo": tipo,
 
-            "restante":
-                restante,
+            "unidade": unidade,
 
-            "consumido":
-                consumido,
+            "capacidade": capacidade,
 
-            "nivel":
-                nivel,
+            "restante": restante,
 
-            "condicao":
+            "consumido": consumido,
+
+            "nivel": percentual,
+
+            "percentual": percentual,
+
+            "condicao": (
                 calcular_condicao_consumivel(
-                    nivel
-                ),
+                    percentual
+                )
+            ),
+
+            "numero_serie": None,
+
+            "part_number": None,
+
+            "nivel_raw": nivel_raw,
         }
 
-        if (
-            tipo
-            == TIPO_UNIDADE_IMAGEM
-        ):
+        if tipo == TIPO_UNIDADE_IMAGEM:
 
             supply[
                 "garantia"
             ] = (
                 calcular_garantia_unidade_imagem(
-                    nivel
+                    percentual
                 )
             )
 
@@ -1530,17 +1716,126 @@ def parse_supplies(
 # TESTE DIRETO
 # ============================================================
 
-async def teste():
+def imprimir_linha():
+
+    print(
+        "=" * 68
+    )
+
+
+def imprimir_consumivel(
+    numero: int,
+    supply: dict,
+):
 
     print()
 
-    print("=" * 68)
+    print(
+        f"[{numero}] "
+        f"{supply.get('nome', 'Consumível')}"
+    )
+
+    percentual = supply.get(
+        "percentual"
+    )
+
+    if percentual is None:
+
+        nivel_texto = "N/D"
+
+    else:
+
+        nivel_texto = (
+            f"{percentual:g} %"
+        )
+
+    print(
+        f"    Nível:       "
+        f"{nivel_texto}"
+    )
+
+    print(
+        f"    Condição:    "
+        f"{supply.get('condicao', 'DESCONHECIDO')}"
+    )
+
+    print(
+        f"    Capacidade:  "
+        f"{supply.get('capacidade', 'N/D')}"
+    )
+
+    print(
+        f"    Restante:    "
+        f"{supply.get('restante', 'N/D')}"
+    )
+
+    print(
+        f"    Consumido:   "
+        f"{supply.get('consumido', 'N/D')}"
+    )
+
+    # --------------------------------------------------------
+    # SERIAL
+    # --------------------------------------------------------
+
+    numero_serie = supply.get(
+        "numero_serie"
+    )
+
+    # Mantemos a saída do teste coerente com a interface:
+    # fusor não apresenta número de série.
+
+    if supply.get("tipo") != TIPO_FUSOR:
+
+        print(
+            f"    Nº série:    "
+            f"{numero_serie if numero_serie else 'N/D'}"
+        )
+
+    # --------------------------------------------------------
+    # GARANTIA
+    # --------------------------------------------------------
+
+    if (
+        supply.get("tipo")
+        == TIPO_UNIDADE_IMAGEM
+    ):
+
+        garantia = supply.get(
+            "garantia"
+        )
+
+        if garantia is True:
+
+            texto_garantia = (
+                "POSSÍVEL"
+            )
+
+        elif garantia is False:
+
+            texto_garantia = (
+                "NÃO ELEGÍVEL"
+            )
+
+        else:
+
+            texto_garantia = "N/D"
+
+        print(
+            f"    Garantia:    "
+            f"{texto_garantia}"
+        )
+
+
+async def teste():
+
+    imprimir_linha()
 
     print(
         "PRINTER ASSISTANT - TESTE SNMP"
     )
 
-    print("=" * 68)
+    imprimir_linha()
 
     print()
 
@@ -1551,6 +1846,7 @@ async def teste():
     if not ip:
 
         print()
+
         print(
             "[ERRO] IP não informado."
         )
@@ -1584,19 +1880,24 @@ async def teste():
 
     print()
 
-    print("=" * 68)
+    imprimir_linha()
 
     print(
         "RESULTADO SNMP"
     )
 
-    print("=" * 68)
+    imprimir_linha()
 
     print()
 
     print(
-        "SNMP:",
-        (
+        f"IP:        "
+        f"{dados.get('ip')}"
+    )
+
+    print(
+        "SNMP:      "
+        + (
             "ATIVO"
             if dados.get("snmp")
             else "INATIVO"
@@ -1604,19 +1905,17 @@ async def teste():
     )
 
     print(
-        "Versão:",
-        dados.get(
-            "versao"
-        )
-        or "N/D"
+        f"Versão:    "
+        f"{dados.get('versao') or 'N/D'}"
+    )
+
+    descricao = dados.get(
+        "descricao"
     )
 
     print(
-        "Descrição:",
-        dados.get(
-            "descricao"
-        )
-        or "N/D"
+        f"Descrição: "
+        f"{descricao or 'N/D'}"
     )
 
     supplies = dados.get(
@@ -1626,111 +1925,50 @@ async def teste():
 
     print()
 
+    imprimir_linha()
+
     print(
-        f"Consumíveis: {len(supplies)}"
+        f"CONSUMÍVEIS ({len(supplies)})"
     )
+
+    imprimir_linha()
+
+    if not supplies:
+
+        print()
+
+        print(
+            "Nenhum consumível encontrado."
+        )
 
     for numero, supply in enumerate(
         supplies,
         start=1,
     ):
 
-        print()
-
-        print(
-            f"[{numero}] "
-            f"{supply.get('nome', 'Consumível')}"
+        imprimir_consumivel(
+            numero,
+            supply,
         )
-
-        print(
-            "    Tipo:",
-            supply.get(
-                "tipo",
-                "N/D"
-            )
-        )
-
-        print(
-            "    Nível:",
-            (
-                f"{supply.get('nivel')}%"
-                if supply.get("nivel")
-                is not None
-                else "N/D"
-            )
-        )
-
-        print(
-            "    Condição:",
-            supply.get(
-                "condicao",
-                "N/D"
-            )
-        )
-
-        print(
-            "    Capacidade:",
-            supply.get(
-                "capacidade",
-                "N/D"
-            )
-        )
-
-        print(
-            "    Restante:",
-            supply.get(
-                "restante",
-                "N/D"
-            )
-        )
-
-        print(
-            "    Consumido:",
-            supply.get(
-                "consumido",
-                "N/D"
-            )
-        )
-
-        if (
-            supply.get("tipo")
-            == TIPO_UNIDADE_IMAGEM
-        ):
-
-            garantia = supply.get(
-                "garantia"
-            )
-
-            if garantia is True:
-                texto = "POSSÍVEL"
-
-            elif garantia is False:
-                texto = "NÃO ELEGÍVEL"
-
-            else:
-                texto = "N/D"
-
-            print(
-                "    Garantia:",
-                texto
-            )
 
     print()
 
-    print("=" * 68)
+    imprimir_linha()
 
     print(
         "TESTE CONCLUÍDO"
     )
 
-    print("=" * 68)
+    imprimir_linha()
 
     print()
 
 
-if __name__ == "__main__":
+# ============================================================
+# START
+# ============================================================
 
-    import asyncio
+if __name__ == "__main__":
 
     try:
 

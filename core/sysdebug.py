@@ -11,20 +11,48 @@ Responsabilidades:
     - identificar serial da máquina
     - identificar firmware
     - identificar contador
-    - extrair consumíveis quando reconhecíveis
-    - extrair seriais de consumíveis quando disponíveis
+    - extrair consumíveis reconhecíveis
+    - extrair seriais reais dos consumíveis
 
-IMPORTANTE:
-    SYSDEBUG é uma fonte complementar.
+REGRAS DE CONSUMÍVEIS - LEXMARK
 
-O parser NÃO deve transformar qualquer número ou texto encontrado
-no relatório em modelo, serial ou consumível.
+UNIDADE DE IMAGEM
+-----------------
 
-Em especial:
+O serial real da unidade de imagem aparece no bloco:
 
-    "Speed: 0"
+    Mono Cartridge Imaging Unit ... S/N: XXXXX
 
-não é modelo.
+Exemplo:
+
+    Mono Cartridge Imaging Unit ... S/N: CAB193256741
+
+TONER
+-----
+
+O serial real do toner aparece em:
+
+    ST Supply Table Data
+
+Exemplo:
+
+    osikey Black Toner, serial CAS171590D5D valid 1,
+    id 0: partNumber 50F0U0G
+
+FUSOR / MAINTENANCE KIT
+-----------------------
+
+O Maintenance Kit pode aparecer no SYSDEBUG como:
+
+    osikey Maintenance Kit, serial 000000000000 valid 1
+
+Esse dado NÃO deve ser utilizado.
+
+O parser:
+    - não retorna serial de fusor;
+    - não retorna part number de fusor;
+    - não cria campo de serial para fusor;
+    - não transforma 000000000000 em serial válido.
 
 O contador oficial possui prioridade:
 
@@ -34,7 +62,16 @@ fallback:
 
     Pg Cnt
 
-O serial da máquina é diferente dos seriais dos consumíveis.
+IMPORTANTE:
+
+O parser NÃO deve transformar qualquer número ou texto
+encontrado no relatório em modelo, serial ou consumível.
+
+Em especial:
+
+    Speed: 0
+
+não é modelo.
 """
 
 import html
@@ -72,7 +109,9 @@ def limpar_html(texto):
     if not texto:
         return ""
 
-    texto = html.unescape(str(texto))
+    texto = html.unescape(
+        str(texto)
+    )
 
     texto = re.sub(
         r"<script\b[^>]*>.*?</script>",
@@ -137,7 +176,9 @@ def normalizar_texto(valor):
     if valor is None:
         return ""
 
-    texto = str(valor).strip().lower()
+    texto = str(
+        valor
+    ).strip().lower()
 
     substituicoes = {
         "á": "a",
@@ -159,9 +200,13 @@ def normalizar_texto(valor):
         "ç": "c",
         "-": " ",
         "_": " ",
+        ".": " ",
     }
 
-    for antigo, novo in substituicoes.items():
+    for antigo, novo in (
+        substituicoes.items()
+    ):
+
         texto = texto.replace(
             antigo,
             novo,
@@ -258,9 +303,11 @@ def coletar_sysdebug(
     """
 
     if not ip:
+
         print(
             "[SYSDEBUG] IP não informado."
         )
+
         return {}
 
     url = (
@@ -411,6 +458,12 @@ def extrair_campo(
 def extrair_serial_maquina(
     texto,
 ):
+    """
+    Extrai o serial da própria impressora.
+
+    Esse serial é diferente dos seriais dos consumíveis.
+    """
+
     return extrair_campo(
         texto,
         (
@@ -549,15 +602,9 @@ def extrair_modelo(
 
     if modelo:
 
-        normalizado = (
-            normalizar_texto(
-                modelo
-            )
+        normalizado = normalizar_texto(
+            modelo
         )
-
-        # ----------------------------------------------------
-        # PROTEÇÃO CONTRA FALSO MODELO
-        # ----------------------------------------------------
 
         if normalizado.startswith(
             "speed"
@@ -566,6 +613,7 @@ def extrair_modelo(
             modelo = None
 
     if modelo:
+
         return modelo.strip()
 
     # --------------------------------------------------------
@@ -627,11 +675,12 @@ def extrair_firmware(
     if not valor:
         return None
 
-    # Evita capturar lixo de layout.
-    if (
-        normalizar_texto(valor)
-        .startswith("speed")
+    if normalizar_texto(
+        valor
+    ).startswith(
+        "speed"
     ):
+
         return None
 
     return valor
@@ -644,10 +693,8 @@ def extrair_firmware(
 def extrair_fabricante(
     texto,
 ):
-    texto_normalizado = (
-        normalizar_texto(
-            texto
-        )
+    texto_normalizado = normalizar_texto(
+        texto
     )
 
     fabricantes = (
@@ -662,6 +709,7 @@ def extrair_fabricante(
     for chave, nome in fabricantes:
 
         if chave in texto_normalizado:
+
             return nome
 
     return None
@@ -683,6 +731,7 @@ def tipo_consumivel(
         or "cartucho" in texto
         or "cartridge" in texto
     ):
+
         return "toner"
 
     if (
@@ -692,6 +741,7 @@ def tipo_consumivel(
         or "fotocondutor" in texto
         or "drum" in texto
     ):
+
         return "unidade_imagem"
 
     if (
@@ -700,158 +750,182 @@ def tipo_consumivel(
         or "maintenance" in texto
         or "manuten" in texto
     ):
+
         return "fusor"
 
     return ""
 
 
 # ============================================================
-# SERIAL DE CONSUMÍVEL
+# CONSUMÍVEIS DO SYSDEBUG
 # ============================================================
 
-def extrair_serial_supply(
-    objeto,
+def extrair_consumiveis_sysdebug(
+    texto,
 ):
-    if not isinstance(
-        objeto,
-        dict,
-    ):
-        return None
+    """
+    Extrai os consumíveis reais dos blocos conhecidos
+    do SYSDEBUG.
 
-    chaves = (
-        "numero_serie",
-        "numero série",
-        "serial",
-        "serial_number",
-        "serial number",
-        "supply_serial",
-        "consumable_serial",
+    UNIDADE DE IMAGEM
+    -----------------
+
+    Pesquisa:
+
+        Mono Cartridge Imaging Unit
+
+    e extrai:
+
+        S/N: XXXXX
+
+    TONER
+    -----
+
+    Pesquisa:
+
+        ST Supply Table Data
+
+    e extrai:
+
+        osikey Black Toner, serial XXXXX valid 1,
+        id 0: partNumber XXXXX
+
+    FUSOR / MAINTENANCE KIT
+    -----------------------
+
+    É deliberadamente ignorado.
+
+    Mesmo que exista:
+
+        serial 000000000000
+
+    nenhum registro de fusor é criado.
+
+    Isso é intencional.
+    """
+
+    consumiveis = []
+
+    if not texto:
+
+        return consumiveis
+
+    texto_limpo = limpar_html(
+        texto
     )
 
-    # Primeiro busca por chave exata.
-    for chave in chaves:
+    # ========================================================
+    # UNIDADE DE IMAGEM
+    # ========================================================
 
-        valor = objeto.get(
-            chave
+    padrao_imaging = re.compile(
+        r"Mono\s+Cartridge\s+Imaging\s+Unit"
+        r".{0,1500}?"
+        r"S/N\s*:\s*"
+        r"([A-Za-z0-9][A-Za-z0-9_-]*)",
+        re.IGNORECASE | re.DOTALL,
+    )
+
+    encontrado = padrao_imaging.search(
+        texto_limpo
+    )
+
+    if encontrado:
+
+        serial = valor_limpo(
+            encontrado.group(1)
         )
 
-        if valor:
+        if serial:
 
-            valor = valor_limpo(
-                valor
+            consumiveis.append(
+                {
+                    "tipo":
+                        "unidade_imagem",
+
+                    "nome":
+                        "Mono Cartridge Imaging Unit",
+
+                    "numero_serie":
+                        serial,
+                }
             )
 
-            if valor:
-                return valor
+    # ========================================================
+    # TONER
+    # ========================================================
 
-    # Depois procura por chave normalizada.
-    for chave, valor in objeto.items():
+    padrao_toner = re.compile(
+        r"osikey\s+"
+        r"([^,\r\n]+)"
+        r",\s*serial\s+"
+        r"([A-Za-z0-9][A-Za-z0-9_-]*)"
+        r"\s+valid\s+1"
+        r".{0,500}?"
+        r"partNumber\s+"
+        r"([A-Za-z0-9][A-Za-z0-9_-]*)",
+        re.IGNORECASE | re.DOTALL,
+    )
 
-        chave_normalizada = (
-            normalizar_texto(
-                chave
-            )
-        )
-
-        if chave_normalizada in (
-            "serial",
-            "numero serie",
-            "serial number",
-            "supply serial",
-            "consumable serial",
-        ):
-
-            if valor:
-
-                valor = valor_limpo(
-                    valor
-                )
-
-                if valor:
-                    return valor
-
-    return None
-
-
-# ============================================================
-# EXTRAÇÃO RECURSIVA DE SUPPLIES
-# ============================================================
-
-def extrair_supplies_sysdebug(
-    dados,
-):
-    """
-    Procura recursivamente objetos que aparentem
-    representar consumíveis.
-
-    O parser não assume um formato único.
-    """
-
-    encontrados = []
-
-    def percorrer(
-        objeto,
+    for encontrado in padrao_toner.finditer(
+        texto_limpo
     ):
 
-        if isinstance(
-            objeto,
-            dict,
+        nome = valor_limpo(
+            encontrado.group(1)
+        )
+
+        serial = valor_limpo(
+            encontrado.group(2)
+        )
+
+        part_number = valor_limpo(
+            encontrado.group(3)
+        )
+
+        if not serial:
+
+            continue
+
+        # ----------------------------------------------------
+        # PROTEÇÃO ABSOLUTA CONTRA MAINTENANCE KIT
+        # ----------------------------------------------------
+
+        if (
+            "maintenance kit"
+            in normalizar_texto(
+                nome
+            )
         ):
 
-            chaves = {
-                normalizar_texto(
-                    chave
-                )
-                for chave in objeto.keys()
+            continue
+
+        if (
+            "fuser"
+            in normalizar_texto(
+                nome
+            )
+        ):
+
+            continue
+
+        consumiveis.append(
+            {
+                "tipo":
+                    "toner",
+
+                "nome":
+                    nome or "Black Toner",
+
+                "numero_serie":
+                    serial,
+
+                "part_number":
+                    part_number,
             }
+        )
 
-            possui_identificacao = bool(
-                {
-                    "nome",
-                    "name",
-                    "descricao",
-                    "description",
-                    "tipo",
-                    "type",
-                }
-                & chaves
-            )
-
-            possui_serial = bool(
-                {
-                    "serial",
-                    "numero serie",
-                    "serial number",
-                    "serial_number",
-                }
-                & chaves
-            )
-
-            if (
-                possui_identificacao
-                or possui_serial
-            ):
-
-                encontrados.append(
-                    objeto.copy()
-                )
-
-            for valor in objeto.values():
-                percorrer(valor)
-
-        elif isinstance(
-            objeto,
-            list,
-        ):
-
-            for item in objeto:
-                percorrer(item)
-
-    percorrer(
-        dados
-    )
-
-    return encontrados
+    return consumiveis
 
 
 # ============================================================
@@ -868,6 +942,7 @@ def parse_sysdebug(
     dados = {}
 
     if not texto:
+
         return dados
 
     texto_limpo = limpar_html(
@@ -883,6 +958,7 @@ def parse_sysdebug(
     )
 
     if fabricante:
+
         dados[
             "fabricante"
         ] = fabricante
@@ -896,6 +972,7 @@ def parse_sysdebug(
     )
 
     if modelo:
+
         dados[
             "modelo"
         ] = modelo
@@ -909,6 +986,7 @@ def parse_sysdebug(
     )
 
     if serial:
+
         dados[
             "serial"
         ] = serial
@@ -922,6 +1000,7 @@ def parse_sysdebug(
     )
 
     if firmware:
+
         dados[
             "firmware"
         ] = firmware
@@ -945,6 +1024,22 @@ def parse_sysdebug(
         dados[
             "origem_contador"
         ] = origem
+
+    # ========================================================
+    # CONSUMÍVEIS
+    # ========================================================
+
+    consumiveis = (
+        extrair_consumiveis_sysdebug(
+            texto
+        )
+    )
+
+    if consumiveis:
+
+        dados[
+            "consumiveis"
+        ] = consumiveis
 
     # ========================================================
     # RETORNO
@@ -1070,6 +1165,67 @@ def teste():
     )
 
     print()
+
+    print(
+        "Consumíveis SYSDEBUG:"
+    )
+
+    consumiveis = dados.get(
+        "consumiveis",
+        [],
+    )
+
+    if not consumiveis:
+
+        print(
+            "    Nenhum consumível reconhecido."
+        )
+
+    else:
+
+        for numero, supply in enumerate(
+            consumiveis,
+            start=1,
+        ):
+
+            print()
+
+            print(
+                f"    [{numero}]",
+                supply.get(
+                    "nome",
+                    "Consumível",
+                ),
+            )
+
+            print(
+                "        Tipo:",
+                supply.get(
+                    "tipo",
+                    "",
+                ),
+            )
+
+            print(
+                "        Nº série:",
+                supply.get(
+                    "numero_serie",
+                    "N/D",
+                ),
+            )
+
+            part_number = supply.get(
+                "part_number"
+            )
+
+            if part_number:
+
+                print(
+                    "        Part Number:",
+                    part_number,
+                )
+
+    print()
     print("=" * 72)
     print(
         "TESTE CONCLUÍDO"
@@ -1079,4 +1235,5 @@ def teste():
 
 
 if __name__ == "__main__":
+
     teste()

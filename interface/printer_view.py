@@ -1,3 +1,6 @@
+# PrinterView corrigido
+
+
 import tkinter as tk
 from tkinter import ttk
 
@@ -6,19 +9,50 @@ class PrinterView(ttk.Frame):
     """
     Ficha visual de uma impressora.
 
-    A interface NÃO coleta dados diretamente.
-    Ela recebe um PrinterDevice e apresenta o resultado
-    de device.to_dict().
+    Esta camada NÃO realiza comunicação com a impressora.
+
+    Recebe um PrinterDevice e apresenta os dados retornados
+    por device.to_dict().
+
+    Regras desta etapa:
+
+        - Não exibir Part Number.
+        - Não processar Part Number.
+        - Exibir serial da impressora.
+        - Exibir serial do toner quando disponível.
+        - Exibir serial da unidade de imagem quando disponível.
+        - Fusor não possui campo de serial.
+        - Garantia somente para unidade de imagem.
+        - Origem do contador não é exibida.
+        - Informações textuais são selecionáveis.
     """
 
-    def __init__(self, master, device=None, on_refresh=None):
-        super().__init__(master, padding=20)
+    def __init__(
+        self,
+        master,
+        device=None,
+        on_refresh=None,
+        on_back=None,
+    ):
+
+        super().__init__(
+            master,
+            padding=15,
+        )
 
         self.device = device
         self.on_refresh = on_refresh
+        self.on_back = on_back
 
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(2, weight=1)
+        self.columnconfigure(
+            0,
+            weight=1,
+        )
+
+        self.rowconfigure(
+            2,
+            weight=1,
+        )
 
         self._criar_estilos()
         self._criar_interface()
@@ -31,6 +65,7 @@ class PrinterView(ttk.Frame):
     # =========================================================
 
     def _criar_estilos(self):
+
         style = ttk.Style()
 
         try:
@@ -38,29 +73,137 @@ class PrinterView(ttk.Frame):
         except tk.TclError:
             pass
 
+        self._cor_fundo = style.lookup(
+            "TFrame",
+            "background",
+        )
+
+        if not self._cor_fundo:
+            self._cor_fundo = "#d9d9d9"
+
         style.configure(
             "Title.TLabel",
-            font=("Segoe UI", 22, "bold"),
+            font=(
+                "Segoe UI",
+                20,
+                "bold",
+            ),
         )
 
         style.configure(
             "Subtitle.TLabel",
-            font=("Segoe UI", 11),
+            font=(
+                "Segoe UI",
+                10,
+            ),
         )
 
         style.configure(
             "Section.TLabel",
-            font=("Segoe UI", 12, "bold"),
+            font=(
+                "Segoe UI",
+                12,
+                "bold",
+            ),
         )
 
         style.configure(
             "Value.TLabel",
-            font=("Segoe UI", 11, "bold"),
+            font=(
+                "Segoe UI",
+                11,
+                "bold",
+            ),
         )
 
         style.configure(
             "Normal.TLabel",
-            font=("Segoe UI", 10),
+            font=(
+                "Segoe UI",
+                10,
+            ),
+        )
+
+        style.configure(
+            "Serial.TLabel",
+            font=(
+                "Segoe UI",
+                12,
+                "bold",
+            ),
+        )
+
+    # =========================================================
+    # TEXTO SELECIONÁVEL
+    # =========================================================
+
+    def _texto_selecionavel(
+        self,
+        parent,
+        texto="—",
+        font=None,
+        altura=1,
+        largura=None,
+    ):
+
+        if font is None:
+            font = (
+                "Segoe UI",
+                10,
+            )
+
+        widget = tk.Text(
+            parent,
+            height=altura,
+            width=largura if largura else 1,
+            font=font,
+            relief="flat",
+            borderwidth=0,
+            highlightthickness=0,
+            background=self._cor_fundo,
+            foreground="#202020",
+            insertbackground="#202020",
+            selectbackground="#4a6984",
+            selectforeground="#ffffff",
+            wrap="none",
+            padx=0,
+            pady=0,
+            exportselection=False,
+        )
+
+        widget.insert(
+            "1.0",
+            str(texto),
+        )
+
+        widget.configure(
+            state="disabled",
+        )
+
+        return widget
+
+    def _definir_texto(
+        self,
+        widget,
+        texto,
+    ):
+
+        widget.configure(
+            state="normal",
+        )
+
+        widget.delete(
+            "1.0",
+            "end",
+        )
+
+        widget.insert(
+            "1.0",
+            str(texto),
+        )
+
+        widget.configure(
+            state="disabled",
         )
 
     # =========================================================
@@ -73,15 +216,21 @@ class PrinterView(ttk.Frame):
         # CABEÇALHO
         # -----------------------------------------------------
 
-        header = ttk.Frame(self)
+        header = ttk.Frame(
+            self
+        )
+
         header.grid(
             row=0,
             column=0,
             sticky="ew",
-            pady=(0, 20),
+            pady=(0, 12),
         )
 
-        header.columnconfigure(0, weight=1)
+        header.columnconfigure(
+            0,
+            weight=1,
+        )
 
         self.lbl_modelo = ttk.Label(
             header,
@@ -105,12 +254,14 @@ class PrinterView(ttk.Frame):
             row=1,
             column=0,
             sticky="w",
+            pady=(2, 0),
         )
 
         self.lbl_estado = ttk.Label(
             header,
-            text="OFFLINE",
+            text="",
             style="Value.TLabel",
+            anchor="e",
         )
 
         self.lbl_estado.grid(
@@ -118,6 +269,7 @@ class PrinterView(ttk.Frame):
             column=1,
             rowspan=2,
             sticky="e",
+            padx=(15, 0),
         )
 
         # -----------------------------------------------------
@@ -127,14 +279,14 @@ class PrinterView(ttk.Frame):
         identificacao = ttk.LabelFrame(
             self,
             text=" Identificação ",
-            padding=15,
+            padding=10,
         )
 
         identificacao.grid(
             row=1,
             column=0,
             sticky="ew",
-            pady=(0, 15),
+            pady=(0, 10),
         )
 
         for coluna in range(4):
@@ -176,6 +328,7 @@ class PrinterView(ttk.Frame):
             "Serial",
             1,
             0,
+            serial=True,
         )
 
         self._campo(
@@ -192,18 +345,13 @@ class PrinterView(ttk.Frame):
             2,
         )
 
-        self._campo(
-            identificacao,
-            "Origem contador",
-            1,
-            3,
-        )
-
         # -----------------------------------------------------
         # ÁREA PRINCIPAL
         # -----------------------------------------------------
 
-        principal = ttk.Frame(self)
+        principal = ttk.Frame(
+            self
+        )
 
         principal.grid(
             row=2,
@@ -228,7 +376,7 @@ class PrinterView(ttk.Frame):
         supplies_frame = ttk.LabelFrame(
             principal,
             text=" Consumíveis ",
-            padding=15,
+            padding=10,
         )
 
         supplies_frame.grid(
@@ -242,27 +390,164 @@ class PrinterView(ttk.Frame):
             weight=1,
         )
 
-        self.supplies_container = ttk.Frame(
-            supplies_frame
+        supplies_frame.rowconfigure(
+            0,
+            weight=1,
         )
 
-        self.supplies_container.grid(
+        # -----------------------------------------------------
+        # CANVAS + SCROLLBAR
+        # -----------------------------------------------------
+
+        canvas = tk.Canvas(
+            supplies_frame,
+            highlightthickness=0,
+            borderwidth=0,
+            background=self._cor_fundo,
+        )
+
+        scrollbar = ttk.Scrollbar(
+            supplies_frame,
+            orient="vertical",
+            command=canvas.yview,
+        )
+
+        canvas.configure(
+            yscrollcommand=scrollbar.set,
+        )
+
+        canvas.grid(
             row=0,
             column=0,
             sticky="nsew",
         )
 
+        scrollbar.grid(
+            row=0,
+            column=1,
+            sticky="ns",
+        )
+
+        self.supplies_container = ttk.Frame(
+            canvas
+        )
+
+        self.supplies_window = canvas.create_window(
+            (0, 0),
+            window=self.supplies_container,
+            anchor="nw",
+        )
+
+        # -----------------------------------------------------
+        # ATUALIZAR ÁREA DE SCROLL
+        # -----------------------------------------------------
+
+        def atualizar_scroll(event=None):
+
+            canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+
+        def ajustar_largura(event):
+
+            canvas.itemconfigure(
+                self.supplies_window,
+                width=event.width,
+            )
+
+        self.supplies_container.bind(
+            "<Configure>",
+            atualizar_scroll,
+        )
+
+        canvas.bind(
+            "<Configure>",
+            ajustar_largura,
+        )
+
+        # -----------------------------------------------------
+        # RODINHA DO MOUSE
+        # -----------------------------------------------------
+
+        def mousewheel(event):
+
+            canvas.yview_scroll(
+                int(
+                    -1 * (event.delta / 120)
+                ),
+                "units",
+            )
+
+        def mousewheel_linux_up(event):
+
+            canvas.yview_scroll(
+                -1,
+                "units",
+            )
+
+        def mousewheel_linux_down(event):
+
+            canvas.yview_scroll(
+                1,
+                "units",
+            )
+
+        def ativar_mousewheel(event):
+
+            canvas.bind_all(
+                "<MouseWheel>",
+                mousewheel,
+            )
+
+            canvas.bind_all(
+                "<Button-4>",
+                mousewheel_linux_up,
+            )
+
+            canvas.bind_all(
+                "<Button-5>",
+                mousewheel_linux_down,
+            )
+
+        def desativar_mousewheel(event):
+
+            canvas.unbind_all(
+                "<MouseWheel>"
+            )
+
+            canvas.unbind_all(
+                "<Button-4>"
+            )
+
+            canvas.unbind_all(
+                "<Button-5>"
+            )
+
+        canvas.bind(
+            "<Enter>",
+            ativar_mousewheel,
+        )
+
+        canvas.bind(
+            "<Leave>",
+            desativar_mousewheel,
+        )
+
+        self.supplies_canvas = canvas
+
         # -----------------------------------------------------
         # RODAPÉ
         # -----------------------------------------------------
 
-        footer = ttk.Frame(self)
+        footer = ttk.Frame(
+            self
+        )
 
         footer.grid(
             row=3,
             column=0,
             sticky="ew",
-            pady=(20, 0),
+            pady=(10, 0),
         )
 
         footer.columnconfigure(
@@ -282,16 +567,35 @@ class PrinterView(ttk.Frame):
             sticky="w",
         )
 
+        botoes = ttk.Frame(
+            footer
+        )
+
+        botoes.grid(
+            row=0,
+            column=1,
+            sticky="e",
+        )
+
+        self.btn_voltar = ttk.Button(
+            botoes,
+            text="Voltar",
+            command=self._clicar_voltar,
+        )
+
+        self.btn_voltar.pack(
+            side="left",
+            padx=(0, 8),
+        )
+
         self.btn_atualizar = ttk.Button(
-            footer,
+            botoes,
             text="Atualizar",
             command=self._clicar_atualizar,
         )
 
-        self.btn_atualizar.grid(
-            row=0,
-            column=1,
-            sticky="e",
+        self.btn_atualizar.pack(
+            side="left",
         )
 
     # =========================================================
@@ -304,16 +608,19 @@ class PrinterView(ttk.Frame):
         titulo,
         row,
         column,
+        serial=False,
     ):
 
-        frame = ttk.Frame(parent)
+        frame = ttk.Frame(
+            parent
+        )
 
         frame.grid(
             row=row,
             column=column,
             sticky="ew",
-            padx=5,
-            pady=5,
+            padx=4,
+            pady=3,
         )
 
         ttk.Label(
@@ -324,19 +631,53 @@ class PrinterView(ttk.Frame):
             anchor="w"
         )
 
-        label = ttk.Label(
-            frame,
-            text="—",
-            style="Value.TLabel",
-        )
+        if serial:
+
+            label = self._texto_selecionavel(
+                frame,
+                "—",
+                font=(
+                    "Segoe UI",
+                    12,
+                    "bold",
+                ),
+            )
+
+        else:
+
+            label = self._texto_selecionavel(
+                frame,
+                "—",
+                font=(
+                    "Segoe UI",
+                    10,
+                    "bold",
+                ),
+            )
 
         label.pack(
-            anchor="w"
+            fill="x",
+            expand=True,
         )
 
-        atributo = (
-            titulo.lower()
-            .replace(" ", "_")
+        # Normaliza o nome do atributo.
+        # Isso evita usar acentos em nomes internos do Python.
+        nomes_atributos = {
+            "Fabricante": "fabricante",
+            "Modelo": "modelo",
+            "Família": "familia",
+            "Tipo": "tipo",
+            "Serial": "serial",
+            "Firmware": "firmware",
+            "Contador": "contador",
+        }
+
+        atributo = nomes_atributos.get(
+            titulo,
+            titulo.lower().replace(
+                " ",
+                "_",
+            ),
         )
 
         setattr(
@@ -344,6 +685,99 @@ class PrinterView(ttk.Frame):
             f"campo_{atributo}",
             label,
         )
+
+    # =========================================================
+    # NORMALIZAR TIPO DE CONSUMÍVEL
+    # =========================================================
+
+    @staticmethod
+    def _tipo_consumivel(
+        supply,
+    ):
+
+        if not isinstance(
+            supply,
+            dict,
+        ):
+            return ""
+
+        tipo = supply.get(
+            "tipo"
+        )
+
+        if tipo:
+
+            texto = str(
+                tipo
+            ).strip().lower()
+
+            if texto in (
+                "toner",
+                "cartucho",
+                "cartridge",
+            ):
+                return "toner"
+
+            if texto in (
+                "unidade_imagem",
+                "unidade imagem",
+                "imaging",
+                "imaging unit",
+                "photoconductor",
+                "fotocondutor",
+                "drum",
+            ):
+                return "unidade_imagem"
+
+            if texto in (
+                "fusor",
+                "fuser",
+                "maintenance",
+                "maintenance kit",
+                "kit manutencao",
+                "kit manutenção",
+            ):
+                return "fusor"
+
+        nome = (
+            supply.get("nome")
+            or supply.get("name")
+            or supply.get("descricao")
+            or supply.get("description")
+            or ""
+        )
+
+        texto = str(
+            nome
+        ).strip().lower()
+
+        if "maintenance kit" in texto:
+            return "fusor"
+
+        if (
+            "fusor" in texto
+            or "fuser" in texto
+        ):
+            return "fusor"
+
+        if (
+            "toner" in texto
+            or "cartucho" in texto
+            or "cartridge" in texto
+        ):
+            return "toner"
+
+        if (
+            "unidade de imagem" in texto
+            or "imaging unit" in texto
+            or "imaging" in texto
+            or "photoconductor" in texto
+            or "drum" in texto
+            or "fotocondutor" in texto
+        ):
+            return "unidade_imagem"
+
+        return ""
 
     # =========================================================
     # ATUALIZAÇÃO
@@ -405,43 +839,46 @@ class PrinterView(ttk.Frame):
         # IDENTIFICAÇÃO
         # -----------------------------------------------------
 
-        self.campo_fabricante.config(
-            text=identificacao.get(
+        self._definir_texto(
+            self.campo_fabricante,
+            identificacao.get(
                 "fabricante",
                 "Desconhecido",
-            )
+            ),
         )
 
-        self.campo_modelo.config(
-            text=identificacao.get(
+        self._definir_texto(
+            self.campo_modelo,
+            identificacao.get(
                 "modelo",
                 "Desconhecido",
-            )
+            ),
         )
 
-        self.campo_família.config(
-            text=identificacao.get(
+        self._definir_texto(
+            self.campo_familia,
+            identificacao.get(
                 "familia",
                 "",
-            )
+            ),
         )
 
-        self.campo_tipo.config(
-            text=identificacao.get(
+        self._definir_texto(
+            self.campo_tipo,
+            identificacao.get(
                 "tipo",
                 "",
-            )
+            ),
         )
 
-        self.campo_serial.config(
-            text=identificacao.get(
+        self._definir_texto(
+            self.campo_serial,
+            identificacao.get(
                 "serial",
                 "Desconhecido",
-            )
+            ),
         )
 
-        # Firmware pode estar no identificacao
-        # ou diretamente no Device futuramente.
         firmware = identificacao.get(
             "firmware",
             dados.get(
@@ -450,8 +887,9 @@ class PrinterView(ttk.Frame):
             ),
         )
 
-        self.campo_firmware.config(
-            text=firmware
+        self._definir_texto(
+            self.campo_firmware,
+            firmware,
         )
 
         contador = identificacao.get(
@@ -459,22 +897,33 @@ class PrinterView(ttk.Frame):
         )
 
         if contador is None:
+
             contador_texto = "Desconhecido"
+
         else:
-            contador_texto = (
-                f"{contador:,}"
-                .replace(",", ".")
-            )
 
-        self.campo_contador.config(
-            text=contador_texto
-        )
+            try:
 
-        self.campo_origem_contador.config(
-            text=dados.get(
-                "origem_contador",
-                "Desconhecida",
-            )
+                contador_texto = (
+                    f"{int(contador):,}"
+                    .replace(
+                        ",",
+                        ".",
+                    )
+                )
+
+            except (
+                TypeError,
+                ValueError,
+            ):
+
+                contador_texto = str(
+                    contador
+                )
+
+        self._definir_texto(
+            self.campo_contador,
+            contador_texto,
         )
 
         # -----------------------------------------------------
@@ -508,18 +957,24 @@ class PrinterView(ttk.Frame):
                 False,
             )
 
-            simbolo = "●" if ativo else "○"
+            simbolo = (
+                "●"
+                if ativo
+                else "○"
+            )
 
             fontes.append(
                 f"{nome.upper()} {simbolo}"
             )
 
         self.lbl_fontes.config(
-            text="    ".join(fontes)
+            text="    ".join(
+                fontes
+            )
         )
 
     # =========================================================
-    # SUPPLIES
+    # CONSUMÍVEIS
     # =========================================================
 
     def _atualizar_supplies(
@@ -537,6 +992,7 @@ class PrinterView(ttk.Frame):
             ttk.Label(
                 self.supplies_container,
                 text="Nenhum consumível encontrado.",
+                style="Normal.TLabel",
             ).pack(
                 anchor="w",
                 pady=10,
@@ -554,8 +1010,18 @@ class PrinterView(ttk.Frame):
                 supply,
             )
 
+        self.supplies_container.update_idletasks()
+
+        self.supplies_canvas.configure(
+            scrollregion=(
+                self.supplies_canvas.bbox(
+                    "all"
+                )
+            )
+        )
+
     # =========================================================
-    # CARD DE SUPPLY
+    # CARD DE CONSUMÍVEL
     # =========================================================
 
     def _criar_supply_card(
@@ -564,10 +1030,15 @@ class PrinterView(ttk.Frame):
         supply,
     ):
 
-        card = ttk.Frame(
+        if not isinstance(
+            supply,
+            dict,
+        ):
+            return
+
+        card = ttk.LabelFrame(
             self.supplies_container,
             padding=10,
-            relief="groove",
         )
 
         card.pack(
@@ -580,15 +1051,27 @@ class PrinterView(ttk.Frame):
             weight=1,
         )
 
-        nome = supply.get(
-            "nome",
-            f"Consumível {numero}",
+        # -----------------------------------------------------
+        # IDENTIFICAÇÃO
+        # -----------------------------------------------------
+
+        nome = (
+            supply.get("nome")
+            or supply.get("name")
+            or f"Consumível {numero}"
         )
 
-        tipo = supply.get(
-            "tipo",
-            "",
+        tipo = self._tipo_consumivel(
+            supply
         )
+
+        tipo_texto = self._texto_tipo(
+            tipo
+        )
+
+        # -----------------------------------------------------
+        # NÍVEL
+        # -----------------------------------------------------
 
         nivel = supply.get(
             "nivel"
@@ -603,11 +1086,16 @@ class PrinterView(ttk.Frame):
             nivel = 0
 
         try:
-            nivel = float(nivel)
+
+            nivel = float(
+                nivel
+            )
+
         except (
             TypeError,
             ValueError,
         ):
+
             nivel = 0
 
         nivel = max(
@@ -615,28 +1103,67 @@ class PrinterView(ttk.Frame):
             min(
                 100,
                 nivel,
-            )
+            ),
         )
 
-        ttk.Label(
+        # -----------------------------------------------------
+        # CABEÇALHO
+        # -----------------------------------------------------
+
+        titulo = str(
+            nome
+        )
+
+        if tipo_texto and (
+            tipo_texto.lower()
+            not in titulo.lower()
+        ):
+
+            titulo = (
+                f"{titulo} — {tipo_texto}"
+            )
+
+        titulo_widget = self._texto_selecionavel(
             card,
-            text=nome,
-            style="Section.TLabel",
-        ).grid(
+            titulo,
+            font=(
+                "Segoe UI",
+                12,
+                "bold",
+            ),
+        )
+
+        titulo_widget.grid(
             row=0,
             column=0,
-            sticky="w",
+            sticky="ew",
         )
 
-        ttk.Label(
+        # -----------------------------------------------------
+        # PORCENTAGEM
+        # -----------------------------------------------------
+
+        percentual = self._texto_selecionavel(
             card,
-            text=f"{nivel:.0f}%",
-            style="Value.TLabel",
-        ).grid(
+            f"{nivel:.0f} %",
+            font=(
+                "Segoe UI",
+                16,
+                "bold",
+            ),
+            largura=7,
+        )
+
+        percentual.grid(
             row=0,
             column=1,
             sticky="e",
+            padx=(10, 0),
         )
+
+        # -----------------------------------------------------
+        # BARRA
+        # -----------------------------------------------------
 
         barra = ttk.Progressbar(
             card,
@@ -649,109 +1176,229 @@ class PrinterView(ttk.Frame):
             column=0,
             columnspan=2,
             sticky="ew",
-            pady=5,
+            pady=(5, 7),
+        )
+
+        # -----------------------------------------------------
+        # CAPACIDADE
+        # -----------------------------------------------------
+
+        capacidade = supply.get(
+            "capacidade"
         )
 
         restante = supply.get(
             "restante"
         )
 
-        condicao = supply.get(
-            "condicao",
-            "N/D",
-        )
-
-        serial = (
-            supply.get(
-                "numero_serie"
-            )
-            or
-            "N/D"
+        consumido = supply.get(
+            "consumido"
         )
 
         detalhes = []
 
-        if tipo:
+        if capacidade is not None:
+
             detalhes.append(
-                str(tipo)
+                f"Capacidade: {self._numero(capacidade)}"
             )
 
         if restante is not None:
-            try:
-                restante_texto = (
-                    f"{int(restante):,}"
-                    .replace(",", ".")
-                )
-            except (
-                TypeError,
-                ValueError,
-            ):
-                restante_texto = str(
-                    restante
-                )
 
             detalhes.append(
-                f"{restante_texto} restantes"
+                f"Restante: {self._numero(restante)}"
             )
 
-        detalhes.append(
-            str(condicao)
+        if consumido is not None:
+
+            detalhes.append(
+                f"Consumido: {self._numero(consumido)}"
+            )
+
+        condicao = supply.get(
+            "condicao"
         )
 
-        ttk.Label(
-            card,
-            text=" • ".join(
-                detalhes
-            ),
-        ).grid(
-            row=2,
-            column=0,
-            columnspan=2,
-            sticky="w",
-        )
+        if condicao:
 
-        ttk.Label(
-            card,
-            text=f"Nº série: {serial}",
-        ).grid(
-            row=3,
-            column=0,
-            columnspan=2,
-            sticky="w",
-        )
+            detalhes.append(
+                f"Condição: {condicao}"
+            )
 
-        garantia = supply.get(
-            "garantia"
-        )
+        if detalhes:
+
+            detalhes_widget = self._texto_selecionavel(
+                card,
+                "   •   ".join(detalhes),
+                font=(
+                    "Segoe UI",
+                    10,
+                ),
+            )
+
+            detalhes_widget.grid(
+                row=2,
+                column=0,
+                columnspan=2,
+                sticky="ew",
+                pady=(0, 4),
+            )
+
+        # -----------------------------------------------------
+        # SERIAL
+        # -----------------------------------------------------
+
+        if tipo != "fusor":
+
+            serial = (
+                supply.get("numero_serie")
+                or supply.get("serial")
+            )
+
+            if serial:
+
+                serial_widget = self._texto_selecionavel(
+                    card,
+                    f"Nº série: {serial}",
+                    font=(
+                        "Segoe UI",
+                        11,
+                        "bold",
+                    ),
+                )
+
+                serial_widget.grid(
+                    row=3,
+                    column=0,
+                    columnspan=2,
+                    sticky="ew",
+                    pady=(2, 0),
+                )
+
+        # -----------------------------------------------------
+        # GARANTIA
+        # -----------------------------------------------------
 
         if tipo == "unidade_imagem":
 
+            garantia = supply.get(
+                "garantia"
+            )
+
             if garantia is True:
-                texto = "Garantia: POSSÍVEL"
+
+                texto = (
+                    "Garantia: POSSÍVEL"
+                )
 
             elif garantia is False:
-                texto = "Garantia: NÃO ELEGÍVEL"
+
+                texto = (
+                    "Garantia: NÃO ELEGÍVEL"
+                )
 
             else:
-                texto = "Garantia: N/D"
 
-            ttk.Label(
+                texto = (
+                    "Garantia: N/D"
+                )
+
+            garantia_widget = self._texto_selecionavel(
                 card,
-                text=texto,
-            ).grid(
+                texto,
+                font=(
+                    "Segoe UI",
+                    10,
+                    "bold",
+                ),
+            )
+
+            garantia_widget.grid(
                 row=4,
                 column=0,
                 columnspan=2,
-                sticky="w",
+                sticky="ew",
+                pady=(2, 0),
             )
+
+    # =========================================================
+    # FORMATAÇÃO NUMÉRICA
+    # =========================================================
+
+    @staticmethod
+    def _numero(
+        valor,
+    ):
+
+        try:
+
+            return (
+                f"{int(valor):,}"
+                .replace(
+                    ",",
+                    ".",
+                )
+            )
+
+        except (
+            TypeError,
+            ValueError,
+        ):
+
+            return str(
+                valor
+            )
+
+    # =========================================================
+    # TEXTO DO TIPO
+    # =========================================================
+
+    @staticmethod
+    def _texto_tipo(
+        tipo,
+    ):
+
+        textos = {
+            "toner":
+                "Toner",
+
+            "unidade_imagem":
+                "Unidade de imagem",
+
+            "fusor":
+                "Fusor",
+        }
+
+        return textos.get(
+            tipo,
+            str(tipo),
+        )
 
     # =========================================================
     # ATUALIZAR
     # =========================================================
 
-    def _clicar_atualizar(self):
+    def _clicar_atualizar(
+        self
+    ):
 
         if self.on_refresh:
+
             self.on_refresh()
+
         else:
+
             self.atualizar()
+
+    # =========================================================
+    # VOLTAR
+    # =========================================================
+
+    def _clicar_voltar(
+        self
+    ):
+
+        if self.on_back:
+
+            self.on_back()
+
