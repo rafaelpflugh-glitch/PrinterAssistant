@@ -16,7 +16,6 @@ ENTER_PJL = "\x1B%-12345X"
 EXIT_PJL = "\x1B%-12345X"
 
 
-
 # ==========================================================
 # IDENTIFICAÇÃO
 # ==========================================================
@@ -25,11 +24,9 @@ INFO_ID = (
     "@PJL INFO ID"
 )
 
-
 INFO_PRODINFO = (
     "@PJL INFO PRODINFO"
 )
-
 
 
 # ==========================================================
@@ -40,30 +37,21 @@ INFO_STATUS = (
     "@PJL INFO STATUS"
 )
 
-
-
 INFO_PAGECOUNT = (
     "@PJL INFO PAGECOUNT"
 )
-
-
 
 INFO_MEMORY = (
     "@PJL INFO MEMORY"
 )
 
-
-
 INFO_CONFIG = (
     "@PJL INFO CONFIG"
 )
 
-
-
 INFO_VARIABLES = (
     "@PJL INFO VARIABLES"
 )
-
 
 
 # ==========================================================
@@ -74,24 +62,17 @@ INFO_FILESYS = (
     "@PJL INFO FILESYS"
 )
 
-
-
 FSDIRLIST = (
     '@PJL FSDIRLIST NAME="0:\\"'
 )
-
-
 
 FSQUERY = (
     "@PJL FSQUERY"
 )
 
-
-
 FSINIT = (
     "@PJL FSINIT"
 )
-
 
 
 # ==========================================================
@@ -102,24 +83,17 @@ USTATUS_DEVICE = (
     "@PJL USTATUS DEVICE = ON"
 )
 
-
-
 USTATUS_PAGE = (
     "@PJL USTATUS PAGE = ON"
 )
-
-
 
 USTATUS_JOB = (
     "@PJL USTATUS JOB = ON"
 )
 
-
-
 USTATUS_OFF = (
     "@PJL USTATUSOFF"
 )
-
 
 
 # ==========================================================
@@ -130,12 +104,9 @@ JOB = (
     "@PJL JOB"
 )
 
-
-
 EOJ = (
     "@PJL EOJ"
 )
-
 
 
 # ==========================================================
@@ -146,18 +117,13 @@ RESET = (
     "@PJL RESET"
 )
 
-
-
 INITIALIZE = (
     "@PJL INITIALIZE"
 )
 
-
-
 DEFAULTS = (
     "@PJL DEFAULT"
 )
-
 
 
 # ==========================================================
@@ -168,24 +134,17 @@ TESTPAGE = (
     "@PJL DEFAULT TESTPAGE=ON"
 )
 
-
-
 CONFIG_PAGE = (
     "@PJL INFO CONFIG"
 )
-
-
 
 SUPPLIES_PAGE = (
     "@PJL INFO SUPPLIES"
 )
 
-
-
 DIAGNOSTIC_PAGE = (
     "@PJL INFO DIAGNOSTICS"
 )
-
 
 
 # ==========================================================
@@ -199,13 +158,11 @@ def READY_MESSAGE(text):
     )
 
 
-
 def CLEAR_DISPLAY():
 
     return (
         '@PJL RDYMSG DISPLAY=""'
     )
-
 
 
 # ==========================================================

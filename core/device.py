@@ -87,7 +87,7 @@ from core.sysdebug import coletar_sysdebug
 # ============================================================
 
 TIMEOUT_PJL = 15
-TIMEOUT_SYSDEBUG = 15
+TIMEOUT_SYSDEBUG = 60
 TIMEOUT_SNMP = 45
 
 

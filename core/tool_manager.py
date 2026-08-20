@@ -9,7 +9,6 @@ todas as ferramentas do sistema.
 ============================================================
 """
 
-
 from core.registry import Registry
 from core.result import ToolResult
 
@@ -22,6 +21,7 @@ from tools.scanner_tool import ScannerTool
 from tools.pjl_tool import PJLTool
 from tools.reset import ResetTool
 from tools.firmware import FirmwareTool
+from tools.http_tool import HTTPTool
 
 
 # ============================================================
@@ -31,9 +31,7 @@ from tools.firmware import FirmwareTool
 from reports.config_report import ConfigReport
 
 
-
 class ToolManager:
-
 
     """
     Camada central de gerenciamento.
@@ -49,13 +47,14 @@ class ToolManager:
     Não conhece lógica interna das ferramentas.
     """
 
-
     # =====================================================
     # CONSTRUTOR
     # =====================================================
 
-
-    def __init__(self, session):
+    def __init__(
+        self,
+        session
+    ):
 
         self.session = session
 
@@ -65,15 +64,11 @@ class ToolManager:
 
         self.load_builtin_reports()
 
-
-
     # =====================================================
     # LOAD TOOLS
     # =====================================================
 
-
     def load_builtin_tools(self):
-
 
         ferramentas = [
 
@@ -83,28 +78,23 @@ class ToolManager:
 
             ResetTool(),
 
-            FirmwareTool()
+            FirmwareTool(),
+
+            HTTPTool()
 
         ]
-
 
         for ferramenta in ferramentas:
 
             self.register(
-
                 ferramenta
-
             )
-
-
 
     # =====================================================
     # LOAD REPORTS
     # =====================================================
 
-
     def load_builtin_reports(self):
-
 
         relatorios = [
 
@@ -112,59 +102,60 @@ class ToolManager:
 
         ]
 
-
         for relatorio in relatorios:
 
             self.registry.register_report(
-
                 relatorio
-
             )
-
-
 
     # =====================================================
     # REGISTRO
     # =====================================================
 
-
-    def register(self, tool):
+    def register(
+        self,
+        tool
+    ):
 
         self.registry.register(
-
             tool
-
         )
-
-
 
     # =====================================================
     # EXECUÇÃO
     # =====================================================
 
-
     def execute(
-
         self,
-
         tool,
-
         action=None,
-
         **kwargs
-
     ):
 
-
         ferramenta = self.registry.get(
-
             tool
-
         )
-
 
         if ferramenta is None:
 
+            return ToolResult.erro(
+
+                tool,
+
+                action,
+
+                f"Ferramenta '{tool}' "
+                "não encontrada."
+
+            ).to_dict()
+
+        if (
+            action
+            and
+            not ferramenta.has_action(
+                action
+            )
+        ):
 
             return ToolResult.erro(
 
@@ -172,29 +163,12 @@ class ToolManager:
 
                 action,
 
-                f"Ferramenta '{tool}' não encontrada."
+                f"A ferramenta '{tool}' "
+                f"não suporta a ação '{action}'."
 
             ).to_dict()
-
-
-
-        if action and not ferramenta.has_action(action):
-
-
-            return ToolResult.erro(
-
-                tool,
-
-                action,
-
-                f"A ferramenta '{tool}' não suporta a ação '{action}'."
-
-            ).to_dict()
-
-
 
         try:
-
 
             return ferramenta.execute(
 
@@ -206,9 +180,7 @@ class ToolManager:
 
             )
 
-
         except Exception as erro:
-
 
             return ToolResult.erro(
 
@@ -220,25 +192,16 @@ class ToolManager:
 
             ).to_dict()
 
-
-
     # =====================================================
     # COMPATIBILIDADE
     # =====================================================
 
-
     def executar(
-
         self,
-
         tool,
-
         action=None,
-
         **kwargs
-
     ):
-
 
         return self.execute(
 
@@ -250,35 +213,29 @@ class ToolManager:
 
         )
 
-
-
     # =====================================================
     # CONSULTAS
     # =====================================================
 
-
-    def exists(self, tool):
+    def exists(
+        self,
+        tool
+    ):
 
         return self.registry.exists(
-
             tool
-
         )
 
-
-
-    def get(self, tool):
+    def get(
+        self,
+        tool
+    ):
 
         return self.registry.get(
-
             tool
-
         )
 
-
-
     def tools(self):
-
 
         return [
 
@@ -290,33 +247,29 @@ class ToolManager:
 
         ]
 
-
-
     def names(self):
 
         return self.registry.names()
 
-
-
     def categories(self):
-
 
         categorias = {}
 
-
         for ferramenta in self.registry.all():
-
 
             categoria = (
 
-                ferramenta.category
+                getattr(
+                    ferramenta,
+                    "category",
+                    None
+                )
 
                 or
 
                 "Geral"
 
             )
-
 
             categorias.setdefault(
 
@@ -330,68 +283,50 @@ class ToolManager:
 
             )
 
-
         return categorias
-
-
 
     def capabilities(self):
 
-
         return {
-
 
             ferramenta.name:
 
             ferramenta.capabilities()
 
-
             for ferramenta
 
             in self.registry.all()
 
-
         }
-
-
 
     # =====================================================
     # RELATÓRIOS
     # =====================================================
 
-
-    def report(self, title):
+    def report(
+        self,
+        title
+    ):
 
         return self.registry.report(
-
             title
-
         )
-
-
 
     def reports(self):
 
         return self.registry.reports_all()
 
-
-
     # =====================================================
     # DEBUG
     # =====================================================
 
-
     def info(self):
 
-
         return {
-
 
             "tools":
 
                 self.registry.names(),
-
-
 
             "reports":
 
@@ -405,14 +340,10 @@ class ToolManager:
 
                 ],
 
-
-
             "workflows":
 
                 list(
-
                     self.registry.workflows.keys()
-
                 )
 
         }

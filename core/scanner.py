@@ -36,9 +36,6 @@ from core.device import PrinterDevice
 #   9. Permite selecionar uma impressora
 #  10. Salva a descoberta em printers_found.json
 #
-# O IP existe internamente, mas não é a informação principal
-# apresentada ao técnico.
-#
 # ============================================================
 
 
@@ -55,13 +52,6 @@ PORTA_RAW = 9100
 
 TIMEOUT_RAW = 0.8
 
-# O PrinterDevice já possui seus próprios timeouts internos
-# para PJL, SYSDEBUG e SNMP.
-#
-# Portanto NÃO colocamos um timeout curto em volta de
-# device.coletar(), pois isso poderia cancelar o fluxo antes
-# que SNMP terminasse.
-#
 TIMEOUT_COLETA = 75
 
 
@@ -92,7 +82,6 @@ def descobrir_rede():
             socket.gethostname()
         )
 
-
     partes = ip.split(".")
 
     if len(partes) != 4:
@@ -101,13 +90,11 @@ def descobrir_rede():
             "Não foi possível descobrir a rede local."
         )
 
-
     rede = (
         f"{partes[0]}."
         f"{partes[1]}."
         f"{partes[2]}.0/24"
     )
-
 
     return ip, rede
 
@@ -142,17 +129,9 @@ def consultar_arp():
 
         return encontrados
 
-
     for linha in resultado.stdout.splitlines():
 
         linha = linha.strip()
-
-
-        # ----------------------------------------------------
-        # Exemplo Windows:
-        #
-        # 192.168.14.134    00-11-22-33-44-55    dynamic
-        # ----------------------------------------------------
 
         partes = linha.split()
 
@@ -160,11 +139,9 @@ def consultar_arp():
 
             continue
 
-
         ip = partes[0]
 
         mac = partes[1]
-
 
         try:
 
@@ -174,9 +151,7 @@ def consultar_arp():
 
             continue
 
-
         mac_normalizado = mac.lower()
-
 
         if mac_normalizado in (
             "ff-ff-ff-ff-ff-ff",
@@ -185,7 +160,6 @@ def consultar_arp():
 
             continue
 
-
         if mac_normalizado in (
             "00-00-00-00-00-00",
             "00:00:00:00:00:00"
@@ -193,9 +167,7 @@ def consultar_arp():
 
             continue
 
-
         encontrados[ip] = mac
-
 
     return encontrados
 
@@ -223,7 +195,6 @@ async def ping_host(ip):
 
         )
 
-
         codigo = await asyncio.wait_for(
 
             processo.wait(),
@@ -232,16 +203,13 @@ async def ping_host(ip):
 
         )
 
-
         if codigo == 0:
 
             return str(ip)
 
-
     except Exception:
 
         pass
-
 
     return None
 
@@ -258,7 +226,6 @@ async def atualizar_descoberta_local(
         rede
     )
 
-
     tarefas = [
 
         ping_host(ip)
@@ -267,21 +234,17 @@ async def atualizar_descoberta_local(
 
     ]
 
-
     resultados = await asyncio.gather(
         *tarefas
     )
 
-
     encontrados = []
-
 
     for ip in resultados:
 
         if ip:
 
             encontrados.append(ip)
-
 
     return encontrados
 
@@ -299,7 +262,6 @@ async def testar_raw(ip):
             asyncio.open_connection(
 
                 ip,
-
                 PORTA_RAW
 
             ),
@@ -308,6 +270,8 @@ async def testar_raw(ip):
 
         )
 
+        # O leitor não será utilizado.
+        # Fechamos a conexão imediatamente.
 
         escritor.close()
 
@@ -319,9 +283,7 @@ async def testar_raw(ip):
 
             pass
 
-
         return True
-
 
     except Exception:
 
@@ -338,31 +300,7 @@ async def identificar(ip):
         ip=ip
     )
 
-
     try:
-
-        # ----------------------------------------------------
-        # IMPORTANTE
-        #
-        # Antes o scanner chamava somente:
-        #
-        #     device.coletar_pjl()
-        #
-        # Isso identificava a impressora, mas NÃO executava
-        # SYSDEBUG, SNMP e associação dos seriais.
-        #
-        # Agora usamos o fluxo oficial do PrinterDevice:
-        #
-        #     device.coletar()
-        #
-        # que executa:
-        #
-        #     PJL
-        #     SYSDEBUG
-        #     SNMP
-        #     associação dos seriais dos consumíveis
-        #
-        # ----------------------------------------------------
 
         await asyncio.wait_for(
 
@@ -371,7 +309,6 @@ async def identificar(ip):
             timeout=TIMEOUT_COLETA
 
         )
-
 
         return {
 
@@ -382,7 +319,6 @@ async def identificar(ip):
             "erro": None
 
         }
-
 
     except asyncio.TimeoutError:
 
@@ -396,7 +332,6 @@ async def identificar(ip):
                 "Coleta completa excedeu o tempo limite."
 
         }
-
 
     except Exception as erro:
 
@@ -419,7 +354,6 @@ async def descobrir_candidatos():
 
     ip_local, rede = descobrir_rede()
 
-
     print()
 
     print(
@@ -432,7 +366,6 @@ async def descobrir_candidatos():
         rede
     )
 
-
     # ========================================================
     # ARP
     # ========================================================
@@ -443,18 +376,11 @@ async def descobrir_candidatos():
         "Consultando tabela ARP..."
     )
 
-
     arp = consultar_arp()
 
-
-    # --------------------------------------------------------
-    # Se a tabela ARP estiver muito pequena, fazemos um
-    # preenchimento leve através de ping.
-    #
-    # Isso NÃO significa escanear SNMP/WEB/etc.
-    #
-    # É somente descoberta de hosts ativos.
-    # --------------------------------------------------------
+    # ========================================================
+    # PREENCHER DESCOBERTA
+    # ========================================================
 
     if len(arp) < 2:
 
@@ -466,11 +392,9 @@ async def descobrir_candidatos():
             "Atualizando descoberta local..."
         )
 
-
         hosts_ativos = await atualizar_descoberta_local(
             rede
         )
-
 
         for ip in hosts_ativos:
 
@@ -479,16 +403,14 @@ async def descobrir_candidatos():
                 "desconhecido"
             )
 
-
-    # --------------------------------------------------------
-    # Remove o próprio computador.
-    # --------------------------------------------------------
+    # ========================================================
+    # REMOVER ESTE COMPUTADOR
+    # ========================================================
 
     arp.pop(
         ip_local,
         None
     )
-
 
     print()
 
@@ -496,9 +418,8 @@ async def descobrir_candidatos():
         f"{len(arp)} dispositivos conhecidos."
     )
 
-
     # ========================================================
-    # TESTAR 9100
+    # TESTAR RAW 9100
     # ========================================================
 
     print()
@@ -507,11 +428,9 @@ async def descobrir_candidatos():
         "Testando porta RAW 9100..."
     )
 
-
     ips = list(
         arp.keys()
     )
-
 
     tarefas = [
 
@@ -521,14 +440,11 @@ async def descobrir_candidatos():
 
     ]
 
-
     resultados_raw = await asyncio.gather(
         *tarefas
     )
 
-
     candidatos = []
-
 
     for ip, ativo in zip(
         ips,
@@ -538,7 +454,6 @@ async def descobrir_candidatos():
         if ativo:
 
             candidatos.append(ip)
-
 
     return (
         ip_local,
@@ -557,28 +472,23 @@ def nome_equipamento(device):
         device.identificacao
     )
 
-
     fabricante = identificacao.get(
         "fabricante",
         "Desconhecido"
     )
-
 
     modelo = identificacao.get(
         "modelo",
         "Desconhecido"
     )
 
-
     if modelo != "Desconhecido":
 
         return modelo
 
-
     if fabricante != "Desconhecido":
 
         return fabricante
-
 
     return (
         "Equipamento de impressão "
@@ -597,7 +507,6 @@ def formatar_numero(
     if valor is None:
 
         return "desconhecido"
-
 
     try:
 
@@ -626,7 +535,6 @@ def exibir_suprimentos(
 
     supplies = device.supplies
 
-
     if not supplies:
 
         print(
@@ -635,13 +543,11 @@ def exibir_suprimentos(
 
         return
 
-
     print()
 
     print(
         "    SUPRIMENTOS:"
     )
-
 
     for numero, supply in enumerate(
         supplies,
@@ -659,16 +565,13 @@ def exibir_suprimentos(
 
             continue
 
-
         tipo = (
             supply.get(
                 "tipo"
             )
-
             or
             ""
         )
-
 
         nome = (
 
@@ -704,7 +607,6 @@ def exibir_suprimentos(
 
         )
 
-
         nivel = (
 
             supply.get(
@@ -721,7 +623,6 @@ def exibir_suprimentos(
                 "level"
             )
         )
-
 
         capacidade = (
 
@@ -740,7 +641,6 @@ def exibir_suprimentos(
             )
         )
 
-
         serial = (
 
             supply.get(
@@ -757,7 +657,6 @@ def exibir_suprimentos(
 
             "não informado"
         )
-
 
         part_number = (
 
@@ -782,13 +681,11 @@ def exibir_suprimentos(
             "não informado"
         )
 
-
         print()
 
         print(
             f"        [{numero}] {nome}"
         )
-
 
         if tipo:
 
@@ -796,7 +693,6 @@ def exibir_suprimentos(
                 "            Tipo:",
                 tipo
             )
-
 
         print(
             "            Nível:",
@@ -809,7 +705,6 @@ def exibir_suprimentos(
             )
         )
 
-
         if capacidade is not None:
 
             print(
@@ -819,12 +714,10 @@ def exibir_suprimentos(
                 )
             )
 
-
         print(
             "            Part Number:",
             part_number
         )
-
 
         print(
             "            Serial:",
@@ -850,7 +743,6 @@ def exibir_lista(
 
     print("=" * 70)
 
-
     if not resultados:
 
         print()
@@ -860,7 +752,6 @@ def exibir_lista(
         )
 
         return
-
 
     for numero, item in enumerate(
         resultados,
@@ -873,7 +764,6 @@ def exibir_lista(
             device.identificacao
         )
 
-
         print()
 
         print(
@@ -883,47 +773,39 @@ def exibir_lista(
             )
         )
 
-
         fabricante = identificacao.get(
             "fabricante",
             "Desconhecido"
         )
-
 
         modelo = identificacao.get(
             "modelo",
             "Desconhecido"
         )
 
-
         serial = identificacao.get(
             "serial",
             "Desconhecido"
         )
 
-
         contador = identificacao.get(
             "contador"
         )
-
 
         print(
             "    Fabricante:",
             fabricante
         )
 
-
         print(
             "    Modelo:",
             modelo
         )
 
-
         print(
             "    Serial:",
             serial
         )
-
 
         print(
             "    Contador:",
@@ -932,31 +814,19 @@ def exibir_lista(
             )
         )
 
-
         print(
             "    Estado:",
             device.estado()
         )
-
 
         print(
             "    Suprimentos:",
             device.total_supplies()
         )
 
-
-        # ----------------------------------------------------
-        # Mostrar suprimentos somente quando existirem.
-        # ----------------------------------------------------
-
         exibir_suprimentos(
             device
         )
-
-
-        # ----------------------------------------------------
-        # IP continua disponível, mas secundário.
-        # ----------------------------------------------------
 
         print()
 
@@ -965,7 +835,6 @@ def exibir_lista(
             device.ip,
             "]"
         )
-
 
         if item.get(
             "timeout"
@@ -977,7 +846,6 @@ def exibir_lista(
                 "    AVISO: coleta do equipamento "
                 "excedeu o tempo limite."
             )
-
 
         if item.get(
             "erro"
@@ -1003,7 +871,6 @@ def selecionar(
 
         return None
 
-
     print()
 
     print("=" * 70)
@@ -1014,7 +881,6 @@ def selecionar(
 
     print("=" * 70)
 
-
     print()
 
     escolha = input(
@@ -1022,11 +888,9 @@ def selecionar(
         "(ou ENTER para cancelar): "
     ).strip()
 
-
     if not escolha:
 
         return None
-
 
     try:
 
@@ -1044,7 +908,6 @@ def selecionar(
 
         return None
 
-
     if (
         numero < 1
         or
@@ -1060,7 +923,6 @@ def selecionar(
         )
 
         return None
-
 
     return resultados[
         numero - 1
@@ -1078,14 +940,11 @@ def salvar_resultados(
 
     dados = []
 
-
     for item in resultados:
 
         device = item["device"]
 
-
         registro = device.to_dict()
-
 
         registro[
             "scanner"
@@ -1105,11 +964,9 @@ def salvar_resultados(
 
         }
 
-
         dados.append(
             registro
         )
-
 
     with open(
 
@@ -1163,13 +1020,11 @@ def exibir_equipamento_selecionado(
 
     print("=" * 70)
 
-
     print()
 
     identificacao = (
         device.identificacao
     )
-
 
     print(
         "Fabricante:",
@@ -1179,7 +1034,6 @@ def exibir_equipamento_selecionado(
         )
     )
 
-
     print(
         "Modelo:",
         identificacao.get(
@@ -1187,7 +1041,6 @@ def exibir_equipamento_selecionado(
             "Desconhecido"
         )
     )
-
 
     print(
         "Família:",
@@ -1197,7 +1050,6 @@ def exibir_equipamento_selecionado(
         )
     )
 
-
     print(
         "Tipo:",
         identificacao.get(
@@ -1205,7 +1057,6 @@ def exibir_equipamento_selecionado(
             ""
         )
     )
-
 
     print(
         "Serial:",
@@ -1215,11 +1066,9 @@ def exibir_equipamento_selecionado(
         )
     )
 
-
     contador = identificacao.get(
         "contador"
     )
-
 
     print(
         "Contador:",
@@ -1228,7 +1077,6 @@ def exibir_equipamento_selecionado(
         )
     )
 
-
     print()
 
     print(
@@ -1236,17 +1084,14 @@ def exibir_equipamento_selecionado(
         device.estado()
     )
 
-
     print(
         "Suprimentos:",
         device.total_supplies()
     )
 
-
     exibir_suprimentos(
         device
     )
-
 
     print()
 
@@ -1255,19 +1100,164 @@ def exibir_equipamento_selecionado(
         device.ip
     )
 
-
     print()
 
     print(
         "IMPRESSORA PRONTA PARA O PRÓXIMO MÓDULO."
     )
 
-
     print()
 
 
 # ============================================================
-# MAIN
+# API PRINCIPAL DO SCANNER
+# ============================================================
+#
+# ESTA É A PARTE QUE ESTAVA FALTANDO.
+#
+# O ScannerTool faz:
+#
+#     from core.scanner import scan
+#
+# Portanto o módulo precisa disponibilizar uma função
+# chamada scan().
+#
+# Ela executa somente a descoberta/identificação e retorna
+# os dados encontrados para a camada superior.
+#
+# Não pede input.
+# Não seleciona impressora.
+# Não imprime relatório.
+#
+# Isso deixa o ScannerTool responsável pela interface.
+#
+# ============================================================
+
+async def scan():
+
+    try:
+
+        (
+            ip_local,
+            rede,
+            candidatos
+
+        ) = await descobrir_candidatos()
+
+    except Exception as erro:
+
+        return {
+
+            "sucesso": False,
+
+            "erro": str(erro),
+
+            "ip_local": None,
+
+            "rede": None,
+
+            "equipamentos": []
+
+        }
+
+    if not candidatos:
+
+        salvar_resultados(
+            rede,
+            []
+        )
+
+        return {
+
+            "sucesso": True,
+
+            "erro": None,
+
+            "ip_local": ip_local,
+
+            "rede": rede,
+
+            "equipamentos": []
+
+        }
+
+    tarefas = [
+
+        identificar(ip)
+
+        for ip in candidatos
+
+    ]
+
+    identificados = await asyncio.gather(
+        *tarefas
+    )
+
+    resultados = list(
+        identificados
+    )
+
+    resultados.sort(
+
+        key=lambda item: (
+
+            item["device"].modelo()
+            == "Desconhecido",
+
+            item["device"].serial()
+            == "Desconhecido"
+
+        )
+
+    )
+
+    salvar_resultados(
+        rede,
+        resultados
+    )
+
+    equipamentos = []
+
+    for item in resultados:
+
+        device = item["device"]
+
+        equipamentos.append(
+            device.to_dict()
+        )
+
+    return {
+
+        "sucesso": True,
+
+        "erro": None,
+
+        "ip_local": ip_local,
+
+        "rede": rede,
+
+        "equipamentos": equipamentos
+
+    }
+
+
+# ============================================================
+# VERSÃO SÍNCRONA DA API
+# ============================================================
+#
+# Útil para chamadas simples fora de código async.
+#
+# ============================================================
+
+def scan_sync():
+
+    return asyncio.run(
+        scan()
+    )
+
+
+# ============================================================
+# MAIN INTERATIVO
 # ============================================================
 
 async def main():
@@ -1283,13 +1273,11 @@ async def main():
 
     print("=" * 70)
 
-
     print()
 
     print(
         "Descobrindo equipamentos de impressão..."
     )
-
 
     try:
 
@@ -1299,7 +1287,6 @@ async def main():
             candidatos
 
         ) = await descobrir_candidatos()
-
 
     except Exception as erro:
 
@@ -1312,7 +1299,6 @@ async def main():
 
         return
 
-
     print()
 
     print("=" * 70)
@@ -1322,7 +1308,6 @@ async def main():
     )
 
     print("=" * 70)
-
 
     if not candidatos:
 
@@ -1334,9 +1319,7 @@ async def main():
 
         return
 
-
     print()
-
 
     for numero, ip in enumerate(
         candidatos,
@@ -1347,7 +1330,6 @@ async def main():
             f"[{numero}] equipamento de impressão "
             f"detectado em {ip}"
         )
-
 
     # ========================================================
     # COLETA COMPLETA PARALELA
@@ -1367,7 +1349,6 @@ async def main():
         "seriais dos consumíveis"
     )
 
-
     tarefas = [
 
         identificar(ip)
@@ -1376,24 +1357,17 @@ async def main():
 
     ]
 
-
     identificados = await asyncio.gather(
         *tarefas
     )
-
 
     resultados = list(
         identificados
     )
 
-
     # ========================================================
     # ORDENAR
     # ========================================================
-    #
-    # Equipamentos com modelo conhecido ficam primeiro.
-    # Depois, equipamentos com serial conhecido.
-    #
 
     resultados.sort(
 
@@ -1409,7 +1383,6 @@ async def main():
 
     )
 
-
     # ========================================================
     # SALVAR
     # ========================================================
@@ -1419,7 +1392,6 @@ async def main():
         resultados
     )
 
-
     # ========================================================
     # EXIBIR
     # ========================================================
@@ -1428,7 +1400,6 @@ async def main():
         resultados
     )
 
-
     # ========================================================
     # SELEÇÃO
     # ========================================================
@@ -1436,7 +1407,6 @@ async def main():
     device = selecionar(
         resultados
     )
-
 
     if device is None:
 
@@ -1447,7 +1417,6 @@ async def main():
         )
 
         return
-
 
     # ========================================================
     # RESULTADO

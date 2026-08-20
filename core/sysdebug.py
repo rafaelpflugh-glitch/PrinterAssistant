@@ -86,7 +86,7 @@ import requests
 # CONFIGURAÇÃO
 # ============================================================
 
-TIMEOUT_SYSDEBUG = 10
+TIMEOUT_SYSDEBUG = 60
 
 SYSDEBUG_ENDPOINT = "/cgi-bin/sysdebugdata"
 

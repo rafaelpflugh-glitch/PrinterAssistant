@@ -1,24 +1,222 @@
 """
-Printer Assistant - Terminal de Comandos
+============================================================
+PRINTER ASSISTANT
+TERMINAL DE COMANDOS
+============================================================
 
-Interface temporária para executar ações
-sobre a impressora selecionada.
+Interface temporária para executar comandos definidos em:
+
+    database/commands.json
+
+Fluxo:
+
+    CLI
+      ↓
+    Commands
+      ↓
+    Executor
+      ↓
+    HTTPTool
+      ↓
+    Impressora
+
+A CLI não conhece endpoints HTTP.
+Os endpoints ficam exclusivamente no database/commands.json.
+============================================================
 """
 
 from __future__ import annotations
 
-from core.commands.printer_commands import PrinterCommands
+from core.session import Session
+from core.commands import Commands
 
+
+# ============================================================
+# UTILITÁRIOS
+# ============================================================
 
 def linha():
     print("=" * 72)
 
 
-def executar_menu(ip: str):
+def mostrar_resultado(
+    nome,
+    resultado,
+):
+    """
+    Exibe o resultado retornado pelo Commands.
 
-    comandos = PrinterCommands(
+    O método aceita o formato atual do HTTPTool:
+        success
+        status_code
+        url
+        text
+
+    e também trata erros.
+    """
+
+    print()
+    linha()
+
+    print(
+        f"RESULTADO: {nome}"
+    )
+
+    linha()
+    print()
+
+    if not resultado:
+
+        print(
+            "[ERRO] Nenhum resultado retornado."
+        )
+
+        return
+
+    if not isinstance(
+        resultado,
+        dict
+    ):
+
+        print(
+            resultado
+        )
+
+        return
+
+    sucesso = resultado.get(
+        "success",
+        False
+    )
+
+    if sucesso:
+
+        print(
+            "[OK] Comando executado."
+        )
+
+    else:
+
+        print(
+            "[ERRO] Comando não executado."
+        )
+
+    print()
+
+    if "status_code" in resultado:
+
+        print(
+            f"HTTP........: "
+            f"{resultado.get('status_code')}"
+        )
+
+    if "method" in resultado:
+
+        print(
+            f"Método......: "
+            f"{resultado.get('method')}"
+        )
+
+    if "url" in resultado:
+
+        print(
+            f"URL.........: "
+            f"{resultado.get('url')}"
+        )
+
+    if "content_type" in resultado:
+
+        print(
+            f"Content-Type: "
+            f"{resultado.get('content_type')}"
+        )
+
+    texto = resultado.get(
+        "text"
+    )
+
+    if texto:
+
+        print()
+        linha()
+
+        print(
+            "RESPOSTA"
+        )
+
+        linha()
+
+        print(
+            texto
+        )
+
+        linha()
+
+    erro = resultado.get(
+        "error"
+    )
+
+    if erro:
+
+        print()
+
+        print(
+            f"Erro: {erro}"
+        )
+
+
+# ============================================================
+# MENU
+# ============================================================
+
+def executar_menu(
+    ip: str
+):
+
+    # --------------------------------------------------------
+    # SESSION
+    # --------------------------------------------------------
+
+    session = Session()
+
+    session.connect(
         ip
     )
+
+    # --------------------------------------------------------
+    # COMMANDS
+    # --------------------------------------------------------
+
+    comandos = Commands(
+        session
+    )
+
+    # --------------------------------------------------------
+    # MAPEAMENTO DO MENU
+    # --------------------------------------------------------
+
+    menu = {
+
+        "1": (
+            "printer_status",
+            "Status da impressora"
+        ),
+
+        "2": (
+            "print_configuration",
+            "Relatório de configuração"
+        ),
+
+        "3": (
+            "print_statistics",
+            "Relatório de estatísticas"
+        ),
+
+    }
+
+    # ========================================================
+    # LOOP
+    # ========================================================
 
     while True:
 
@@ -32,17 +230,34 @@ def executar_menu(ip: str):
 
         linha()
 
+        print()
+
         print(
-            f"Impressora selecionada: {ip}"
+            f"Impressora selecionada: "
+            f"{session.ip}"
         )
 
         print()
 
-        for item in comandos.listar_comandos():
+        print(
+            "COMANDOS DISPONÍVEIS"
+        )
+
+        print()
+
+        for numero, (
+            nome,
+            descricao
+        ) in menu.items():
 
             print(
-                f"{item['id']} - {item['nome']}"
+                f"[{numero}] "
+                f"{descricao}"
             )
+
+        print(
+            "[0] Sair"
+        )
 
         print()
 
@@ -50,51 +265,74 @@ def executar_menu(ip: str):
             "Comando: "
         ).strip()
 
+        # ----------------------------------------------------
+        # SAIR
+        # ----------------------------------------------------
+
         if opcao == "0":
 
             print()
+
             print(
                 "Saindo do menu de comandos."
             )
 
+            session.disconnect()
+
             return
 
-        resultado = comandos.executar(
-            opcao
-        )
+        # ----------------------------------------------------
+        # OPÇÃO INVÁLIDA
+        # ----------------------------------------------------
 
-        print()
-
-        if resultado.sucesso:
-
-            print(
-                "[OK]",
-                resultado.mensagem,
-            )
-
-        else:
-
-            print(
-                "[ERRO]",
-                resultado.mensagem,
-            )
-
-        if resultado.resposta:
+        if opcao not in menu:
 
             print()
 
             print(
-                "-" * 72
+                "[ERRO] Opção inválida."
             )
 
-            print(
-                resultado.resposta
-            )
+            continue
 
-            print(
-                "-" * 72
-            )
+        # ----------------------------------------------------
+        # COMANDO
+        # ----------------------------------------------------
 
+        nome,
+        descricao = menu[opcao]
+
+        print()
+
+        print(
+            f"[EXEC] {descricao}"
+        )
+
+        print(
+            f"[EXEC] Comando: {nome}"
+        )
+
+        # ----------------------------------------------------
+        # EXECUÇÃO
+        # ----------------------------------------------------
+
+        resultado = comandos.executar(
+            nome
+        )
+
+        # ----------------------------------------------------
+        # RESULTADO
+        # ----------------------------------------------------
+
+        mostrar_resultado(
+            nome,
+            resultado
+        )
+
+
+# ============================================================
+# MAIN
+# ============================================================
 
 def main():
 
@@ -120,6 +358,8 @@ def main():
 
     if not ip:
 
+        print()
+
         print(
             "IP não informado."
         )
@@ -130,6 +370,10 @@ def main():
         ip
     )
 
+
+# ============================================================
+# EXECUÇÃO DIRETA
+# ============================================================
 
 if __name__ == "__main__":
 
