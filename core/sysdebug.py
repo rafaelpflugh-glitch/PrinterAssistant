@@ -1,11 +1,13 @@
-"""
+﻿"""
 Printer Assistant - SYSDEBUG
 
-Camada de coleta e interpretação do relatório SYSDEBUG.
+Camada de coleta e interpretação dos relatórios SYSDEBUG.
 
 Responsabilidades:
+
     - acessar /cgi-bin/sysdebugdata
-    - preservar o HTML bruto
+    - acessar /cgi-bin/enginedebugdata quando necessário
+    - preservar o relatório bruto
     - identificar fabricante
     - identificar modelo
     - identificar serial da máquina
@@ -14,64 +16,34 @@ Responsabilidades:
     - extrair consumíveis reconhecíveis
     - extrair seriais reais dos consumíveis
 
-REGRAS DE CONSUMÍVEIS - LEXMARK
+MS622:
 
-UNIDADE DE IMAGEM
------------------
+    A Lexmark MS622 pode não disponibilizar /cgi-bin/sysdebugdata.
 
-O serial real da unidade de imagem aparece no bloco:
+    Nesse caso, utiliza /cgi-bin/enginedebugdata.
 
-    Mono Cartridge Imaging Unit ... S/N: XXXXX
+    Supply Table:
 
-Exemplo:
+        Type 2 -> toner
+        Type 4 -> unidade_imagem
+        Type 5 -> fusor
 
-    Mono Cartridge Imaging Unit ... S/N: CAB193256741
+    Para a MS622:
 
-TONER
------
+        stored serial XXXXX
 
-O serial real do toner aparece em:
+    possui prioridade sobre:
 
-    ST Supply Table Data
+        serial XXXXX valid Y
 
-Exemplo:
+    O campo "valid" não é utilizado como condição para aceitar
+    o stored serial.
 
-    osikey Black Toner, serial CAS171590D5D valid 1,
-    id 0: partNumber 50F0U0G
+    Placeholder conhecido:
 
-FUSOR / MAINTENANCE KIT
------------------------
+        000000000000
 
-O Maintenance Kit pode aparecer no SYSDEBUG como:
-
-    osikey Maintenance Kit, serial 000000000000 valid 1
-
-Esse dado NÃO deve ser utilizado.
-
-O parser:
-    - não retorna serial de fusor;
-    - não retorna part number de fusor;
-    - não cria campo de serial para fusor;
-    - não transforma 000000000000 em serial válido.
-
-O contador oficial possui prioridade:
-
-    Page Counter
-
-fallback:
-
-    Pg Cnt
-
-IMPORTANTE:
-
-O parser NÃO deve transformar qualquer número ou texto
-encontrado no relatório em modelo, serial ou consumível.
-
-Em especial:
-
-    Speed: 0
-
-não é modelo.
+    é rejeitado.
 """
 
 import html
@@ -89,6 +61,9 @@ import requests
 TIMEOUT_SYSDEBUG = 60
 
 SYSDEBUG_ENDPOINT = "/cgi-bin/sysdebugdata"
+
+# Endpoint específico utilizado pela MS622
+ENGINE_DEBUG_ENDPOINT = "/cgi-bin/enginedebugdata"
 
 LOG_DIR = (
     Path(__file__).resolve().parent.parent
@@ -109,9 +84,7 @@ def limpar_html(texto):
     if not texto:
         return ""
 
-    texto = html.unescape(
-        str(texto)
-    )
+    texto = html.unescape(str(texto))
 
     texto = re.sub(
         r"<script\b[^>]*>.*?</script>",
@@ -176,9 +149,7 @@ def normalizar_texto(valor):
     if valor is None:
         return ""
 
-    texto = str(
-        valor
-    ).strip().lower()
+    texto = str(valor).strip().lower()
 
     substituicoes = {
         "á": "a",
@@ -203,18 +174,10 @@ def normalizar_texto(valor):
         ".": " ",
     }
 
-    for antigo, novo in (
-        substituicoes.items()
-    ):
+    for antigo, novo in substituicoes.items():
+        texto = texto.replace(antigo, novo)
 
-        texto = texto.replace(
-            antigo,
-            novo,
-        )
-
-    return " ".join(
-        texto.split()
-    )
+    return " ".join(texto.split())
 
 
 def valor_limpo(valor):
@@ -225,9 +188,7 @@ def valor_limpo(valor):
     if valor is None:
         return None
 
-    valor = html.unescape(
-        str(valor)
-    )
+    valor = html.unescape(str(valor))
 
     valor = re.sub(
         r"<[^>]+>",
@@ -248,12 +209,14 @@ def valor_limpo(valor):
 # LOG DO RELATÓRIO BRUTO
 # ============================================================
 
-def salvar_relatorio_bruto(
-    ip,
-    texto,
-):
+def salvar_relatorio_bruto(ip, texto, sufixo=""):
     """
-    Salva o SYSDEBUG bruto para diagnóstico futuro.
+    Salva o relatório bruto para diagnóstico futuro.
+
+    O sufixo permite diferenciar:
+
+        sysdebug_...
+        sysdebug_..._engine
     """
 
     agora = datetime.now()
@@ -273,14 +236,14 @@ def salvar_relatorio_bruto(
         exist_ok=True,
     )
 
-    arquivo = (
-        pasta
-        / (
-            "sysdebug_"
-            + agora.strftime("%H%M%S")
-            + ".html"
-        )
+    nome = (
+        "sysdebug_"
+        + agora.strftime("%H%M%S_%f")
+        + sufixo
+        + ".html"
     )
+
+    arquivo = pasta / nome
 
     arquivo.write_text(
         texto,
@@ -295,125 +258,349 @@ def salvar_relatorio_bruto(
 # COLETA
 # ============================================================
 
-def coletar_sysdebug(
-    ip,
-):
+def coletar_sysdebug(ip):
     """
-    Acessa o relatório SYSDEBUG da impressora.
+    Coleta informações da impressora.
+
+    Fluxo normal:
+
+        /cgi-bin/sysdebugdata
+
+    Caso o endpoint tradicional retorne HTTP 404:
+
+        /cgi-bin/enginedebugdata
+
+    O segundo caminho é utilizado para impressoras como a MS622.
+
+    IMPORTANTE:
+
+    A lógica tradicional não é substituída.
     """
 
     if not ip:
-
-        print(
-            "[SYSDEBUG] IP não informado."
-        )
-
+        print("[SYSDEBUG] IP não informado.")
         return {}
 
-    url = (
-        f"http://{ip}"
-        f"{SYSDEBUG_ENDPOINT}"
-    )
+    # --------------------------------------------------------
+    # 1. TENTA SYSDEBUG TRADICIONAL
+    # --------------------------------------------------------
 
-    print(
-        f"[SYSDEBUG] Consultando {url}"
-    )
+    url = f"http://{ip}{SYSDEBUG_ENDPOINT}"
+
+    print(f"[SYSDEBUG] Consultando {url}")
 
     try:
-
         resposta = requests.get(
             url,
             timeout=TIMEOUT_SYSDEBUG,
         )
 
     except requests.RequestException as erro:
-
         print(
             "[SYSDEBUG] Erro de comunicação:",
             erro,
         )
-
         return {}
 
     except Exception as erro:
-
         print(
             "[SYSDEBUG] Erro inesperado:",
             erro,
         )
-
         return {}
 
-    if resposta.status_code != 200:
+    # --------------------------------------------------------
+    # 2. SYSDEBUG TRADICIONAL FUNCIONOU
+    # --------------------------------------------------------
+
+    if resposta.status_code == 200:
+
+        texto = resposta.text
+
+        if not texto:
+            print("[SYSDEBUG] Relatório vazio.")
+            return {}
 
         print(
-            "[SYSDEBUG] HTTP",
-            resposta.status_code,
-            "em",
-            url,
+            "[SYSDEBUG] Relatório recebido:",
+            len(texto),
+            "bytes",
         )
 
-        return {}
+        try:
+            arquivo = salvar_relatorio_bruto(
+                ip,
+                texto,
+            )
 
-    texto = resposta.text
+            print(
+                "[SYSDEBUG] Relatório bruto salvo em:"
+            )
 
-    if not texto:
+            print(arquivo)
+
+        except Exception as erro:
+            print(
+                "[SYSDEBUG] Não foi possível salvar "
+                "relatório bruto:",
+                erro,
+            )
+
+        # ----------------------------------------------------
+        # PARSE TRADICIONAL
+        # ----------------------------------------------------
+
+        dados = parse_sysdebug(texto)
+
+        dados["ip"] = ip
+        dados["origem"] = "SYSDEBUG"
 
         print(
-            "[SYSDEBUG] Relatório vazio."
+            "[SYSDEBUG] Campos encontrados:",
+            ", ".join(dados.keys())
+            if dados
+            else "nenhum",
         )
 
-        return {}
+        # ----------------------------------------------------
+        # SE FOR MS622, CONSULTA TAMBÉM ENGINE DEBUG
+        # ----------------------------------------------------
+
+        modelo = str(
+            dados.get("modelo", "") or ""
+        ).strip()
+
+        eh_ms622 = bool(
+            re.search(
+                r"\bMS\s*622\b",
+                modelo,
+                re.IGNORECASE,
+            )
+        )
+
+        if not eh_ms622:
+            eh_ms622 = bool(
+                re.search(
+                    r"\bMS\s*622\b",
+                    texto,
+                    re.IGNORECASE,
+                )
+            )
+
+        if eh_ms622:
+            return coletar_engine_debug_ms622(
+                ip,
+                dados,
+            )
+
+        return dados
+
+    # --------------------------------------------------------
+    # 3. ENDPOINT TRADICIONAL NÃO EXISTE
+    #
+    # MS622 conhecida neste projeto:
+    # /cgi-bin/sysdebugdata -> HTTP 404
+    # /cgi-bin/enginedebugdata -> HTTP 200
+    # --------------------------------------------------------
+
+    if resposta.status_code == 404:
+
+        print(
+            "[SYSDEBUG] HTTP 404 no SYSDEBUG tradicional."
+        )
+
+        print(
+            "[SYSDEBUG] Tentando Engine Debug Data."
+        )
+
+        return coletar_engine_debug_ms622(
+            ip,
+            {},
+        )
+
+    # --------------------------------------------------------
+    # 4. OUTRO ERRO HTTP
+    # --------------------------------------------------------
 
     print(
-        "[SYSDEBUG] Relatório recebido:",
-        len(texto),
-        "bytes",
+        "[SYSDEBUG] HTTP",
+        resposta.status_code,
+        "em",
+        url,
+    )
+
+    return {}
+
+
+# ============================================================
+# ENGINE DEBUG - MS622
+# ============================================================
+
+def coletar_engine_debug_ms622(ip, dados_base=None):
+    """
+    Coleta o Engine Debug Data.
+
+    Utilizado principalmente pela Lexmark MS622.
+
+    O parser só aceita a estrutura conhecida da Supply Table,
+    evitando transformar qualquer número do relatório em
+    consumível.
+    """
+
+    if dados_base is None:
+        dados_base = {}
+
+    url_engine = (
+        f"http://{ip}"
+        f"{ENGINE_DEBUG_ENDPOINT}"
+    )
+
+    print(
+        "[SYSDEBUG] Consultando Engine Debug Data:",
+        url_engine,
     )
 
     try:
-
-        arquivo = salvar_relatorio_bruto(
-            ip,
-            texto,
+        resposta_engine = requests.get(
+            url_engine,
+            timeout=TIMEOUT_SYSDEBUG,
         )
 
+    except requests.RequestException as erro:
         print(
-            "[SYSDEBUG] Relatório bruto salvo em:"
+            "[SYSDEBUG] Erro ao consultar "
+            "Engine Debug Data:",
+            erro,
         )
-
-        print(
-            arquivo
-        )
+        return dados_base
 
     except Exception as erro:
+        print(
+            "[SYSDEBUG] Erro inesperado no "
+            "Engine Debug Data:",
+            erro,
+        )
+        return dados_base
+
+    if resposta_engine.status_code != 200:
+        print(
+            "[SYSDEBUG] Engine Debug Data HTTP",
+            resposta_engine.status_code,
+            "em",
+            url_engine,
+        )
+        return dados_base
+
+    texto_engine = resposta_engine.text
+
+    if not texto_engine:
+        print(
+            "[SYSDEBUG] Engine Debug Data vazio."
+        )
+        return dados_base
+
+    print(
+        "[SYSDEBUG] Engine Debug Data recebido:",
+        len(texto_engine),
+        "bytes",
+    )
+
+    # --------------------------------------------------------
+    # SALVA RELATÓRIO ENGINE
+    # --------------------------------------------------------
+
+    try:
+        arquivo_engine = salvar_relatorio_bruto(
+            ip,
+            texto_engine,
+            "_engine",
+        )
 
         print(
+            "[SYSDEBUG] Engine Debug Data bruto salvo em:"
+        )
+
+        print(arquivo_engine)
+
+    except Exception as erro:
+        print(
             "[SYSDEBUG] Não foi possível salvar "
-            "relatório bruto:",
+            "Engine Debug Data bruto:",
             erro,
         )
 
-    dados = parse_sysdebug(
-        texto
+    # --------------------------------------------------------
+    # VERIFICA SE É UMA SUPPLY TABLE RECONHECÍVEL
+    # --------------------------------------------------------
+
+    consumiveis_engine = (
+        extrair_consumiveis_engine_debug(
+            texto_engine
+        )
     )
 
-    dados[
-        "ip"
-    ] = ip
+    if not consumiveis_engine:
 
-    dados[
-        "origem"
-    ] = "SYSDEBUG"
+        print(
+            "[SYSDEBUG] Engine Debug Data recebido, "
+            "mas nenhuma Supply Table reconhecível foi encontrada."
+        )
+
+        return dados_base
+
+    # --------------------------------------------------------
+    # MS622 RECONHECIDA
+    # --------------------------------------------------------
+
+    dados = dict(dados_base)
+
+    dados["ip"] = ip
+    dados["origem"] = "SYSDEBUG"
+
+    # --------------------------------------------------------
+    # FIRMWARE
+    #
+    # MS622 / Engine Debug:
+    #
+    # RIP Release: MSTGM.076.294, Date: 17-Nov-21 03:04
+    #
+    # O valor de RIP Release é utilizado como firmware.
+    # --------------------------------------------------------
+
+    firmware = extrair_firmware(
+        limpar_html(texto_engine)
+    )
+
+    if firmware:
+        dados["firmware"] = firmware
+
+    # Quando chegamos aqui por HTTP 404, o SYSDEBUG não forneceu
+    # o modelo. O modelo normalmente será preenchido pelo PJL
+    # posteriormente no PrinterDevice.
+    #
+    # Não inventamos "MS622" a partir de Speed, Index etc.
+
+    dados["consumiveis"] = consumiveis_engine
 
     print(
-        "[SYSDEBUG] Campos encontrados:",
-        ", ".join(
-            dados.keys()
-        )
-        if dados
-        else "nenhum",
+        "[SYSDEBUG] Supply Table Engine reconhecida."
     )
+
+    print(
+        "[SYSDEBUG] Consumíveis MS622 encontrados:",
+        len(consumiveis_engine),
+    )
+
+    for supply in consumiveis_engine:
+
+        print(
+            "    ",
+            supply.get("tipo"),
+            "->",
+            supply.get("nome"),
+            "->",
+            supply.get("numero_serie"),
+        )
 
     return dados
 
@@ -422,10 +609,7 @@ def coletar_sysdebug(
 # EXTRAÇÃO DE CAMPO
 # ============================================================
 
-def extrair_campo(
-    texto,
-    padroes,
-):
+def extrair_campo(texto, padroes):
     """
     Tenta vários padrões de campo.
     """
@@ -455,9 +639,7 @@ def extrair_campo(
 # SERIAL DA MÁQUINA
 # ============================================================
 
-def extrair_serial_maquina(
-    texto,
-):
+def extrair_serial_maquina(texto):
     """
     Extrai o serial da própria impressora.
 
@@ -479,26 +661,18 @@ def extrair_serial_maquina(
 # CONTADOR
 # ============================================================
 
-def extrair_contador(
-    texto,
-):
+def extrair_contador(texto):
     """
-    Page Counter possui prioridade absoluta.
+    Page Counter possui prioridade.
 
-    Depois:
+    Fallback:
 
         Pg Cnt
     """
 
     padroes = (
-        (
-            r"\bPage\s+Counter\s*(?:;|:|=)\s*"
-            r"([0-9][0-9,.\s]*)"
-        ),
-        (
-            r"\bPage\s+Counter\s+"
-            r"([0-9][0-9,.\s]*)"
-        ),
+        r"\bPage\s+Counter\s*(?:;|:|=)\s*([0-9][0-9,.\s]*)",
+        r"\bPage\s+Counter\s+([0-9][0-9,.\s]*)",
     )
 
     for padrao in padroes:
@@ -511,10 +685,7 @@ def extrair_contador(
 
         if encontrado:
 
-            bruto = (
-                encontrado.group(1)
-                .strip()
-            )
+            bruto = encontrado.group(1).strip()
 
             numero = re.sub(
                 r"[^\d]",
@@ -530,14 +701,8 @@ def extrair_contador(
                 )
 
     padroes_fallback = (
-        (
-            r"\bPg\s+Cnt\s*(?:;|:|=)\s*"
-            r"([0-9][0-9,.\s]*)"
-        ),
-        (
-            r"\bPg\s+Cnt\s+"
-            r"([0-9][0-9,.\s]*)"
-        ),
+        r"\bPg\s+Cnt\s*(?:;|:|=)\s*([0-9][0-9,.\s]*)",
+        r"\bPg\s+Cnt\s+([0-9][0-9,.\s]*)",
     )
 
     for padrao in padroes_fallback:
@@ -550,10 +715,7 @@ def extrair_contador(
 
         if encontrado:
 
-            bruto = (
-                encontrado.group(1)
-                .strip()
-            )
+            bruto = encontrado.group(1).strip()
 
             numero = re.sub(
                 r"[^\d]",
@@ -578,13 +740,11 @@ def extrair_contador(
 # MODELO
 # ============================================================
 
-def extrair_modelo(
-    texto,
-):
+def extrair_modelo(texto):
     """
     Extrai modelo somente de campos conhecidos.
 
-    NÃO usa "Speed" como fallback.
+    NÃO utiliza Speed, Index ou valores genéricos como modelo.
     """
 
     padroes = (
@@ -606,26 +766,19 @@ def extrair_modelo(
             modelo
         )
 
-        if normalizado.startswith(
-            "speed"
-        ):
-
+        if normalizado.startswith("speed"):
             modelo = None
 
     if modelo:
-
         return modelo.strip()
 
     # --------------------------------------------------------
-    # Fallback específico para Lexmark.
+    # FALLBACK ESPECÍFICO LEXMARK
     # --------------------------------------------------------
 
     padrao_lexmark = (
-        r"\b"
-        r"(?:MX|MS|CX|CS|XM)"
-        r"\s*\d{3}"
-        r"(?:[A-Z]{0,3})?"
-        r"\b"
+        r"\b(?:MX|MS|CX|CS|XM)\s*\d{3}"
+        r"(?:[A-Z]{0,3})?\b"
     )
 
     encontrado = re.search(
@@ -649,9 +802,33 @@ def extrair_modelo(
 # FIRMWARE
 # ============================================================
 
-def extrair_firmware(
-    texto,
-):
+def extrair_firmware(texto):
+
+    # --------------------------------------------------------
+    # MS622 / Engine Debug
+    #
+    # Exemplo:
+    #
+    # RIP Release: MSTGM.076.294, Date: 17-Nov-21 03:04
+    # --------------------------------------------------------
+
+    match_rip = re.search(
+        r"RIP\s+Release\s*:\s*([^,\r\n<]+)",
+        texto,
+        re.IGNORECASE,
+    )
+
+    if match_rip:
+
+        valor = match_rip.group(1).strip()
+
+        if valor:
+            return valor
+
+    # --------------------------------------------------------
+    # Formatos tradicionais
+    # --------------------------------------------------------
+
     padroes = (
         (
             r"RIP\s+Firmware\s+Version"
@@ -677,22 +854,18 @@ def extrair_firmware(
 
     if normalizar_texto(
         valor
-    ).startswith(
-        "speed"
-    ):
-
+    ).startswith("speed"):
         return None
 
-    return valor
+    return valor.strip()
 
 
 # ============================================================
 # FABRICANTE
 # ============================================================
 
-def extrair_fabricante(
-    texto,
-):
+def extrair_fabricante(texto):
+
     texto_normalizado = normalizar_texto(
         texto
     )
@@ -709,7 +882,6 @@ def extrair_fabricante(
     for chave, nome in fabricantes:
 
         if chave in texto_normalizado:
-
             return nome
 
     return None
@@ -719,9 +891,8 @@ def extrair_fabricante(
 # TIPO DE CONSUMÍVEL
 # ============================================================
 
-def tipo_consumivel(
-    nome,
-):
+def tipo_consumivel(nome):
+
     texto = normalizar_texto(
         nome
     )
@@ -731,7 +902,6 @@ def tipo_consumivel(
         or "cartucho" in texto
         or "cartridge" in texto
     ):
-
         return "toner"
 
     if (
@@ -741,7 +911,6 @@ def tipo_consumivel(
         or "fotocondutor" in texto
         or "drum" in texto
     ):
-
         return "unidade_imagem"
 
     if (
@@ -750,69 +919,446 @@ def tipo_consumivel(
         or "maintenance" in texto
         or "manuten" in texto
     ):
-
         return "fusor"
 
     return ""
 
 
 # ============================================================
-# CONSUMÍVEIS DO SYSDEBUG
+# CONSUMÍVEIS - ENGINE DEBUG MS622
 # ============================================================
 
-def extrair_consumiveis_sysdebug(
-    texto,
-):
+def extrair_consumiveis_engine_debug(texto):
     """
-    Extrai os consumíveis reais dos blocos conhecidos
-    do SYSDEBUG.
+    Parser específico do Engine Debug Data da Lexmark MS622.
 
-    UNIDADE DE IMAGEM
-    -----------------
-
-    Pesquisa:
-
-        Mono Cartridge Imaging Unit
-
-    e extrai:
-
-        S/N: XXXXX
-
-    TONER
-    -----
-
-    Pesquisa:
-
-        ST Supply Table Data
-
-    e extrai:
-
-        osikey Black Toner, serial XXXXX valid 1,
-        id 0: partNumber XXXXX
-
-    FUSOR / MAINTENANCE KIT
-    -----------------------
-
-    É deliberadamente ignorado.
-
-    Mesmo que exista:
-
-        serial 000000000000
-
-    nenhum registro de fusor é criado.
-
-    Isso é intencional.
+    Mantém a Supply Table como fonte de identidade e nível,
+    usando as seções detalhadas para métricas adicionais.
     """
 
     consumiveis = []
 
     if not texto:
-
         return consumiveis
 
-    texto_limpo = limpar_html(
-        texto
+    texto_limpo = limpar_html(texto)
+
+    if not texto_limpo:
+        return consumiveis
+
+    # --------------------------------------------------------
+    # SUPPLY TABLE
+    # --------------------------------------------------------
+
+    padrao_supply = re.compile(
+        r"supply\s*=\s*\d+\s*,\s*"
+        r"\(([^)]+)\)\s*,"
+        r"(.*?)"
+        r"(?=\n\s*supply\s*=\s*\d+\s*,\s*\(|\Z)",
+        re.IGNORECASE | re.DOTALL,
     )
+
+    for encontrado in padrao_supply.finditer(
+        texto_limpo
+    ):
+
+        nome = valor_limpo(
+            encontrado.group(1)
+        )
+
+        bloco = encontrado.group(2)
+
+        if not nome:
+            continue
+
+        # ----------------------------------------------------
+        # TIPO
+        # ----------------------------------------------------
+
+        tipo = None
+
+        encontrado_type = re.search(
+            r"\bType\s+(\d+)\b",
+            bloco,
+            re.IGNORECASE,
+        )
+
+        if encontrado_type:
+
+            codigo_tipo = encontrado_type.group(1)
+
+            if codigo_tipo == "2":
+                tipo = "toner"
+
+            elif codigo_tipo == "4":
+                tipo = "unidade_imagem"
+
+            elif codigo_tipo == "5":
+                tipo = "fusor"
+
+        if tipo is None:
+
+            tipo_nome = tipo_consumivel(
+                nome
+            )
+
+            if tipo_nome:
+                tipo = tipo_nome
+
+        if tipo is None:
+            continue
+
+        # ----------------------------------------------------
+        # SERIAL REAL DA SUPPLY TABLE
+        # ----------------------------------------------------
+
+        numero_serie = None
+
+        encontrado_stored = re.search(
+            r"\bstored\s+serial\s+"
+            r"([A-Za-z0-9][A-Za-z0-9_-]*)",
+            bloco,
+            re.IGNORECASE,
+        )
+
+        if encontrado_stored:
+
+            numero_serie = valor_limpo(
+                encontrado_stored.group(1)
+            )
+
+        if not numero_serie:
+
+            encontrado_serial = re.search(
+                r"\bserial\s+"
+                r"([A-Za-z0-9][A-Za-z0-9_-]*)"
+                r"\s+valid\s+\d+",
+                bloco,
+                re.IGNORECASE,
+            )
+
+            if encontrado_serial:
+
+                numero_serie = valor_limpo(
+                    encontrado_serial.group(1)
+                )
+
+        if numero_serie and re.fullmatch(
+            r"0+",
+            numero_serie,
+        ):
+            numero_serie = None
+
+        # ----------------------------------------------------
+        # PART NUMBER
+        # ----------------------------------------------------
+
+        part_number = None
+
+        encontrado_part = re.search(
+            r"\bpart\s+number\s+"
+            r"([^,\r\n]*)",
+            bloco,
+            re.IGNORECASE,
+        )
+
+        if encontrado_part:
+
+            part_number = valor_limpo(
+                encontrado_part.group(1)
+            )
+
+            if not part_number:
+                part_number = None
+
+        # ----------------------------------------------------
+        # NÍVEL + CONDIÇÃO
+        # ----------------------------------------------------
+
+        nivel = None
+        condicao = None
+
+        encontrado_nivel = re.search(
+            r"\bLevel\s+(\d+)\s*,\s*"
+            r"Current\s+Status\s+([A-Za-z]+)",
+            bloco,
+            re.IGNORECASE,
+        )
+
+        if encontrado_nivel:
+
+            nivel = int(
+                encontrado_nivel.group(1)
+            )
+
+            condicao = valor_limpo(
+                encontrado_nivel.group(2)
+            )
+
+        # ----------------------------------------------------
+        # SEÇÃO DETALHADA
+        # ----------------------------------------------------
+
+        detalhe = ""
+
+        if tipo == "toner":
+
+            encontrado_detalhe = re.search(
+                r"/proc/supplies/bottle"
+                r"(.*?)(?=/proc/supplies/fuser)",
+                texto_limpo,
+                re.IGNORECASE | re.DOTALL,
+            )
+
+        elif tipo == "fusor":
+
+            encontrado_detalhe = re.search(
+                r"/proc/supplies/fuser"
+                r"(.*?)(?=/proc/supplies/iu)",
+                texto_limpo,
+                re.IGNORECASE | re.DOTALL,
+            )
+
+        elif tipo == "unidade_imagem":
+
+            encontrado_detalhe = re.search(
+                r"/proc/supplies/iu"
+                r"(.*?)(?=/proc/supplies/nlrp)",
+                texto_limpo,
+                re.IGNORECASE | re.DOTALL,
+            )
+
+        else:
+
+            encontrado_detalhe = None
+
+        if encontrado_detalhe:
+            detalhe = encontrado_detalhe.group(1)
+
+        # ----------------------------------------------------
+        # CAPACIDADE
+        # ----------------------------------------------------
+
+        capacidade = None
+
+        encontrado_capacidade = re.search(
+            r"\bmaxCapacityPages\s+(\d+)",
+            bloco,
+            re.IGNORECASE,
+        )
+
+        if encontrado_capacidade:
+
+            capacidade = int(
+                encontrado_capacidade.group(1)
+            )
+
+        # ----------------------------------------------------
+        # RESTANTE
+        # ----------------------------------------------------
+
+        restante = None
+
+        encontrado_restante = re.search(
+            r"\bReportedPgsRemaining\s*[:=]\s*(\d+)",
+            detalhe,
+            re.IGNORECASE,
+        )
+
+        if encontrado_restante:
+
+            restante = int(
+                encontrado_restante.group(1)
+            )
+
+        if restante is None:
+
+            encontrado_restante = re.search(
+                r"\bReportPgsRem\s*:\s*(\d+)",
+                detalhe,
+                re.IGNORECASE,
+            )
+
+            if encontrado_restante:
+
+                restante = int(
+                    encontrado_restante.group(1)
+                )
+
+        # --------------------------------------------------------
+        # FALLBACK DO FUSOR
+        #
+        # O Engine Debug coloca o valor do fusor no resumo
+        # identificado explicitamente por:
+        #
+        #     PrinterSerNo in fuser:
+        #     ReportedPgsRemaining=123200
+        #
+        # Procuramos essa identificação para não capturar
+        # valores de toner ou unidade de imagem.
+        # --------------------------------------------------------
+
+        if restante is None and tipo == "fusor":
+
+            encontrado_restante = re.search(
+                r"PrinterSerNo\s+in\s+fuser\s*:.*?"
+                r"\bReportedPgsRemaining\s*=\s*(\d+)",
+                texto_limpo,
+                re.IGNORECASE | re.DOTALL,
+            )
+
+            if encontrado_restante:
+
+                restante = int(
+                    encontrado_restante.group(1)
+                )
+
+        # ----------------------------------------------------
+        # SIDE COUNT
+        # ----------------------------------------------------
+
+        side_count = None
+
+        encontrado_side = re.search(
+            r"\bSideCount\s*(?:=|:)\s*(\d+)",
+            detalhe,
+            re.IGNORECASE,
+        )
+
+        if encontrado_side:
+
+            side_count = int(
+                encontrado_side.group(1)
+            )
+
+        # ----------------------------------------------------
+        # DIAS RESTANTES
+        # ----------------------------------------------------
+
+        dias_restantes = None
+
+        encontrado_dias = re.search(
+            r"\bReportedDaysRemaining\s*=?\s*(\d+)",
+            detalhe,
+            re.IGNORECASE,
+        )
+
+        if encontrado_dias:
+
+            dias_restantes = int(
+                encontrado_dias.group(1)
+            )
+
+        if dias_restantes is None:
+
+            encontrado_dias = re.search(
+                r"\bDaysRem\s*:\s*(\d+)",
+                detalhe,
+                re.IGNORECASE,
+            )
+
+            if encontrado_dias:
+
+                dias_restantes = int(
+                    encontrado_dias.group(1)
+                )
+
+        # ----------------------------------------------------
+        # NÍVEL ESPECÍFICO
+        # ----------------------------------------------------
+
+        if tipo in ("toner", "fusor"):
+
+            encontrado_nivel_detalhe = re.search(
+                r"\bCurrentReportedLevel\s*=\s*(\d+)",
+                detalhe,
+                re.IGNORECASE,
+            )
+
+        elif tipo == "unidade_imagem":
+
+            encontrado_nivel_detalhe = re.search(
+                r"\bPercent\s+Remaining\s*=\s*(\d+)",
+                detalhe,
+                re.IGNORECASE,
+            )
+
+        else:
+
+            encontrado_nivel_detalhe = None
+
+        if encontrado_nivel_detalhe:
+
+            nivel = int(
+                encontrado_nivel_detalhe.group(1)
+            )
+
+        # ----------------------------------------------------
+        # CONSUMIDO
+        # ----------------------------------------------------
+
+        consumido = None
+
+        # Para o fusor, SideCount é o contador real de lados
+        # consumidos.
+
+        if tipo == "fusor" and side_count is not None:
+
+            consumido = side_count
+
+        # Para os demais, se não houver contador explícito,
+        # usamos capacidade - restante.
+
+        elif (
+            capacidade is not None
+            and restante is not None
+            and restante <= capacidade
+        ):
+
+            consumido = capacidade - restante
+
+        # ----------------------------------------------------
+        # REGISTRO NORMALIZADO
+        # ----------------------------------------------------
+
+        consumiveis.append(
+            {
+                "tipo": tipo,
+                "nome": nome,
+                "numero_serie": numero_serie,
+                "part_number": part_number,
+                "percentual": nivel,
+                "nivel": nivel,
+                "condicao": condicao or "N/D",
+                "capacidade": capacidade,
+                "restante": restante,
+                "consumido": consumido,
+                "side_count": side_count,
+                "dias_restantes": dias_restantes,
+            }
+        )
+
+    return consumiveis
+
+
+# ============================================================
+# CONSUMÍVEIS - SYSDEBUG TRADICIONAL
+# ============================================================
+
+def extrair_consumiveis_sysdebug(texto):
+    """
+    Extrai consumíveis reais dos blocos conhecidos
+    do SYSDEBUG tradicional.
+
+    A lógica tradicional permanece separada da MS622.
+    """
+
+    consumiveis = []
+
+    if not texto:
+        return consumiveis
+
+    texto_limpo = limpar_html(texto)
 
     # ========================================================
     # UNIDADE DE IMAGEM
@@ -840,14 +1386,9 @@ def extrair_consumiveis_sysdebug(
 
             consumiveis.append(
                 {
-                    "tipo":
-                        "unidade_imagem",
-
-                    "nome":
-                        "Mono Cartridge Imaging Unit",
-
-                    "numero_serie":
-                        serial,
+                    "tipo": "unidade_imagem",
+                    "nome": "Mono Cartridge Imaging Unit",
+                    "numero_serie": serial,
                 }
             )
 
@@ -855,19 +1396,95 @@ def extrair_consumiveis_sysdebug(
     # TONER
     # ========================================================
 
-    padrao_toner = re.compile(
-        r"osikey\s+"
-        r"([^,\r\n]+)"
-        r",\s*serial\s+"
-        r"([A-Za-z0-9][A-Za-z0-9_-]*)"
-        r"\s+valid\s+1"
-        r".{0,500}?"
-        r"partNumber\s+"
-        r"([A-Za-z0-9][A-Za-z0-9_-]*)",
+    padrao_black_toner = re.compile(
+        r"Key=Black\s+Toner,\s*Value=Map"
+        r"(.*?)"
+        r"(?=Key=Imaging\s+Unit,\s*Value=Map|"
+        r"Key=Maintenance\s+Kit,\s*Value=Map|"
+        r"Key=Fuser,\s*Value=Map|\Z)",
         re.IGNORECASE | re.DOTALL,
     )
 
-    for encontrado in padrao_toner.finditer(
+    encontrado_toner = (
+        padrao_black_toner.search(
+            texto_limpo
+        )
+    )
+
+    if encontrado_toner:
+
+        bloco_toner = (
+            encontrado_toner.group(1)
+        )
+
+        encontrado_serial = re.search(
+            r'Key=serialNumber,\s*Value="([^"]*)"',
+            bloco_toner,
+            re.IGNORECASE,
+        )
+
+        encontrado_part_number = re.search(
+            r'Key=partNumber,\s*Value="([^"]*)"',
+            bloco_toner,
+            re.IGNORECASE,
+        )
+
+        serial = (
+            valor_limpo(
+                encontrado_serial.group(1)
+            )
+            if encontrado_serial
+            else None
+        )
+
+        part_number = (
+            valor_limpo(
+                encontrado_part_number.group(1)
+            )
+            if encontrado_part_number
+            else None
+        )
+
+        if (
+            serial
+            and not re.fullmatch(
+                r"0+",
+                serial,
+            )
+        ):
+
+            consumiveis.append(
+                {
+                    "tipo": "toner",
+                    "nome": "Black Toner",
+                    "numero_serie": serial,
+                    "part_number": part_number,
+                }
+            )
+
+    # ========================================================
+    # FUSOR / MAINTENANCE KIT
+    # ========================================================
+
+    # Regra tradicional preservada:
+    #
+    # valid 1
+    # serialNumberIsReal 1
+    #
+    # A MS622 NÃO passa por esta regra.
+
+    padrao_maintenance = re.compile(
+        r"osikey\s+"
+        r"(Maintenance\s+Kit|Fuser|Kit\s+Maintenance)"
+        r"\s*,\s*serial\s+"
+        r"([A-Za-z0-9][A-Za-z0-9_-]*)"
+        r"\s+valid\s+1"
+        r".{0,2500}?"
+        r"serialNumberIsReal\s+1",
+        re.IGNORECASE | re.DOTALL,
+    )
+
+    for encontrado in padrao_maintenance.finditer(
         texto_limpo
     ):
 
@@ -879,49 +1496,21 @@ def extrair_consumiveis_sysdebug(
             encontrado.group(2)
         )
 
-        part_number = valor_limpo(
-            encontrado.group(3)
-        )
-
         if not serial:
-
             continue
 
-        # ----------------------------------------------------
-        # PROTEÇÃO ABSOLUTA CONTRA MAINTENANCE KIT
-        # ----------------------------------------------------
-
-        if (
-            "maintenance kit"
-            in normalizar_texto(
-                nome
-            )
+        if re.fullmatch(
+            r"0+",
+            serial,
         ):
-
-            continue
-
-        if (
-            "fuser"
-            in normalizar_texto(
-                nome
-            )
-        ):
-
             continue
 
         consumiveis.append(
             {
-                "tipo":
-                    "toner",
-
-                "nome":
-                    nome or "Black Toner",
-
-                "numero_serie":
-                    serial,
-
-                "part_number":
-                    part_number,
+                "tipo": "fusor",
+                "nome": nome or "Maintenance Kit",
+                "numero_serie": serial,
+                "part_number": None,
             }
         )
 
@@ -932,17 +1521,16 @@ def extrair_consumiveis_sysdebug(
 # PARSER PRINCIPAL
 # ============================================================
 
-def parse_sysdebug(
-    texto,
-):
+def parse_sysdebug(texto):
     """
-    Analisa o relatório SYSDEBUG.
+    Analisa o relatório SYSDEBUG tradicional.
+
+    A MS622 utiliza o parser de Engine Debug separado.
     """
 
     dados = {}
 
     if not texto:
-
         return dados
 
     texto_limpo = limpar_html(
@@ -958,10 +1546,7 @@ def parse_sysdebug(
     )
 
     if fabricante:
-
-        dados[
-            "fabricante"
-        ] = fabricante
+        dados["fabricante"] = fabricante
 
     # ========================================================
     # MODELO
@@ -972,13 +1557,10 @@ def parse_sysdebug(
     )
 
     if modelo:
-
-        dados[
-            "modelo"
-        ] = modelo
+        dados["modelo"] = modelo
 
     # ========================================================
-    # SERIAL DA MÁQUINA
+    # SERIAL
     # ========================================================
 
     serial = extrair_serial_maquina(
@@ -986,10 +1568,7 @@ def parse_sysdebug(
     )
 
     if serial:
-
-        dados[
-            "serial"
-        ] = serial
+        dados["serial"] = serial
 
     # ========================================================
     # FIRMWARE
@@ -1000,30 +1579,20 @@ def parse_sysdebug(
     )
 
     if firmware:
-
-        dados[
-            "firmware"
-        ] = firmware
+        dados["firmware"] = firmware
 
     # ========================================================
     # CONTADOR
     # ========================================================
 
-    contador, origem = (
-        extrair_contador(
-            texto_limpo
-        )
+    contador, origem = extrair_contador(
+        texto_limpo
     )
 
     if contador is not None:
 
-        dados[
-            "contador"
-        ] = contador
-
-        dados[
-            "origem_contador"
-        ] = origem
+        dados["contador"] = contador
+        dados["origem_contador"] = origem
 
     # ========================================================
     # CONSUMÍVEIS
@@ -1036,14 +1605,7 @@ def parse_sysdebug(
     )
 
     if consumiveis:
-
-        dados[
-            "consumiveis"
-        ] = consumiveis
-
-    # ========================================================
-    # RETORNO
-    # ========================================================
+        dados["consumiveis"] = consumiveis
 
     return dados
 
@@ -1052,9 +1614,8 @@ def parse_sysdebug(
 # CONTADOR
 # ============================================================
 
-def coletar_contador(
-    ip,
-):
+def coletar_contador(ip):
+
     dados = coletar_sysdebug(
         ip
     )
@@ -1226,14 +1787,17 @@ def teste():
                 )
 
     print()
+
     print("=" * 72)
+
     print(
         "TESTE CONCLUÍDO"
     )
+
     print("=" * 72)
+
     print()
 
 
 if __name__ == "__main__":
-
     teste()

@@ -12,6 +12,7 @@ from core.scanner import (
     identificar,
 )
 from interface.printer_view import PrinterView
+from interface.theme import aplicar_tema
 
 
 class MainWindow(tk.Tk):
@@ -34,6 +35,12 @@ class MainWindow(tk.Tk):
     ):
 
         super().__init__()
+
+        # -----------------------------------------------------
+        # TEMA GLOBAL
+        # -----------------------------------------------------
+
+        aplicar_tema(self)
 
         self.title(
             "Printer Assistant"
@@ -1093,4 +1100,3 @@ def iniciar():
     app = MainWindow()
 
     app.mainloop()
-

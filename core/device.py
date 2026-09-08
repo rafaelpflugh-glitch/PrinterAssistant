@@ -1,7 +1,4 @@
-# core/device.py
-
-
-"""
+﻿"""
 ============================================================
 PRINTER ASSISTANT
 DEVICE
@@ -64,17 +61,45 @@ REGRAS
 
 9. A MX611dhe é apenas o equipamento de laboratório atual.
 
-10. O Device NÃO interpreta prtMarkerSuppliesLevel.
-    Essa interpretação pertence ao módulo SNMP.
+10. O Device não deve interpretar diretamente
+    prtMarkerSuppliesLevel quando o SNMP moderno já tiver
+    fornecido os valores normalizados.
 
 11. O Device preserva os valores quantitativos recebidos
-    pelo SNMP e não deve transformar um nível bruto em
-    percentual novamente.
+    pelo SNMP.
 
+12. Compatibilidade com retornos antigos do SNMP é mantida,
+    sem interferir quando o módulo SNMP moderno já fornece
+    percentual normalizado.
+
+13. Nenhuma fonte posterior deve apagar uma informação válida
+    simplesmente por ter retornado valor vazio, desconhecido
+    ou inválido.
+
+14. O Device coordena as fontes; não implementa protocolos.
+
+15. A interface trabalha somente com três categorias padrão
+    de consumíveis:
+
+        toner
+        unidade de imagem
+        fusor
+
+    Outros itens retornados pelo SNMP, como ADF Kit, Roller Kit,
+    grampos ou perfurador, não fazem parte da lista padrão.
+
+16. A ordem padrão dos consumíveis é:
+
+        1. toner
+        2. unidade de imagem
+        3. fusor
 """
 
+
 import asyncio
+import inspect
 import threading
+import unicodedata
 
 
 from core.pjl import coletar_identificacao
@@ -134,34 +159,217 @@ class PrinterDevice:
 
 
     # ========================================================
-    # FABRICANTE
+    # UTILITÁRIOS DE NORMALIZAÇÃO
     # ========================================================
 
     @staticmethod
+    def normalizar_texto(
+        valor,
+    ):
+        """
+        Normaliza texto para comparações internas.
+
+        Exemplos:
+
+            "Número de Série"
+            "numero_serie"
+            "numero-série"
+            "NÚMERO SÉRIE"
+
+        tornam-se equivalentes para comparação.
+
+        A normalização é usada apenas internamente.
+        O valor original não é alterado.
+        """
+
+        if valor is None:
+
+            return ""
+
+        texto = str(
+            valor
+        ).strip().lower()
+
+        texto = unicodedata.normalize(
+            "NFKD",
+            texto,
+        )
+
+        texto = "".join(
+            caractere
+            for caractere in texto
+            if not unicodedata.combining(
+                caractere
+            )
+        )
+
+        substituicoes = {
+            ".": " ",
+            "-": " ",
+            "_": " ",
+            "/": " ",
+            "\\": " ",
+            ":": " ",
+        }
+
+        for antigo, novo in substituicoes.items():
+
+            texto = texto.replace(
+                antigo,
+                novo,
+            )
+
+        return " ".join(
+            texto.split()
+        )
+
+
+    @classmethod
+    def valor_valido(
+        cls,
+        valor,
+    ):
+        """
+        Determina se um valor textual é realmente utilizável.
+
+        Evita que respostas como:
+
+            N/D
+            Unknown
+            None
+            Null
+            Desconhecido
+            Speed: 0
+
+        sobrescrevam uma informação válida já obtida.
+        """
+
+        if valor is None:
+
+            return False
+
+        texto = str(
+            valor
+        ).strip()
+
+        if not texto:
+
+            return False
+
+        normalizado = cls.normalizar_texto(
+            texto
+        )
+
+        invalidos = {
+            "",
+            "n d",
+            "nd",
+            "na",
+            "n a",
+            "nao informado",
+            "nao disponivel",
+            "desconhecido",
+            "unknown",
+            "none",
+            "null",
+            "nil",
+            "undefined",
+            "speed",
+            "speed 0",
+        }
+
+        if normalizado in invalidos:
+
+            return False
+
+        if normalizado.startswith(
+            "speed "
+        ):
+
+            restante = normalizado[6:].strip()
+
+            if restante in (
+                "",
+                "0",
+            ):
+
+                return False
+
+        return True
+
+
+    @staticmethod
+    def converter_numero(
+        valor,
+    ):
+        """
+        Conversão segura para número.
+
+        Mantém None quando a conversão não é possível.
+        """
+
+        if valor is None:
+
+            return None
+
+        if isinstance(
+            valor,
+            bool,
+        ):
+
+            return float(
+                int(valor)
+            )
+
+        try:
+
+            return float(
+                valor
+            )
+
+        except (
+            TypeError,
+            ValueError,
+        ):
+
+            return None
+
+
+    # ========================================================
+    # FABRICANTE
+    # ========================================================
+
+    @classmethod
     def detectar_fabricante(
+        cls,
         modelo,
     ):
 
-        texto = str(
-            modelo or ""
-        ).lower()
+        texto = cls.normalizar_texto(
+            modelo
+        )
 
         if "lexmark" in texto:
+
             return "Lexmark"
 
         if "epson" in texto:
+
             return "Epson"
 
         if "brother" in texto:
+
             return "Brother"
 
         if "canon" in texto:
+
             return "Canon"
 
         if (
             "hp" in texto
             or "hewlett" in texto
         ):
+
             return "HP"
 
         return "Desconhecido"
@@ -171,12 +379,14 @@ class PrinterDevice:
     # VALIDAR MODELO
     # ========================================================
 
-    @staticmethod
+    @classmethod
     def modelo_valido(
+        cls,
         modelo,
     ):
 
         if modelo is None:
+
             return False
 
         texto = str(
@@ -184,35 +394,36 @@ class PrinterDevice:
         ).strip()
 
         if not texto:
+
             return False
 
-        normalizado = texto.lower()
+        normalizado = cls.normalizar_texto(
+            texto
+        )
 
-        valores_invalidos = (
+        valores_invalidos = {
             "",
             "speed",
-            "speed: 0",
             "speed 0",
             "0",
-            "n/d",
+            "n d",
             "nd",
             "desconhecido",
             "unknown",
             "none",
             "null",
-        )
+            "nil",
+            "undefined",
+        }
 
         if normalizado in valores_invalidos:
-            return False
 
-        if normalizado.startswith(
-            "speed:"
-        ):
             return False
 
         if normalizado.startswith(
             "speed "
         ):
+
             return False
 
         return True
@@ -222,12 +433,14 @@ class PrinterDevice:
     # FAMÍLIA
     # ========================================================
 
-    @staticmethod
+    @classmethod
     def detectar_familia(
+        cls,
         modelo,
     ):
 
         if not modelo:
+
             return ""
 
         texto = str(
@@ -237,10 +450,13 @@ class PrinterDevice:
         partes = texto.split()
 
         if not partes:
+
             return ""
 
         if (
-            partes[0].lower()
+            cls.normalizar_texto(
+                partes[0]
+            )
             == "lexmark"
             and len(partes) > 1
         ):
@@ -280,50 +496,65 @@ class PrinterDevice:
     # TIPO
     # ========================================================
 
-    @staticmethod
+    @classmethod
     def detectar_tipo(
+        cls,
         fabricante,
         modelo,
     ):
 
-        texto = str(
-            modelo or ""
-        ).lower()
+        texto = cls.normalizar_texto(
+            modelo
+        )
 
-        if fabricante == "Lexmark":
+        fabricante_normalizado = (
+            cls.normalizar_texto(
+                fabricante
+            )
+        )
+
+        if fabricante_normalizado == "lexmark":
 
             if "mx" in texto:
+
                 return (
                     "Multifuncional Laser Mono"
                 )
 
             if "ms" in texto:
+
                 return (
                     "Impressora Laser Mono"
                 )
 
             if "cx" in texto:
+
                 return (
                     "Multifuncional Laser Color"
                 )
 
             if "cs" in texto:
+
                 return (
                     "Impressora Laser Color"
                 )
 
             return "Impressora Lexmark"
 
-        if fabricante == "Epson":
+        if fabricante_normalizado == "epson":
+
             return "Impressora Epson"
 
-        if fabricante == "Brother":
+        if fabricante_normalizado == "brother":
+
             return "Impressora Brother"
 
-        if fabricante == "Canon":
+        if fabricante_normalizado == "canon":
+
             return "Impressora Canon"
 
-        if fabricante == "HP":
+        if fabricante_normalizado == "hp":
+
             return "Impressora HP"
 
         return "Equipamento de impressão"
@@ -343,6 +574,7 @@ class PrinterDevice:
             dados,
             dict,
         ):
+
             return
 
         if origem is None:
@@ -350,7 +582,6 @@ class PrinterDevice:
             origem = dados.get(
                 "origem"
             )
-
 
         # ----------------------------------------------------
         # MODELO
@@ -372,41 +603,29 @@ class PrinterDevice:
 
             modelo_novo = None
 
-        if modelo_novo:
+        if self.modelo_valido(
+            modelo_atual
+        ):
 
-            if not self.modelo_valido(
-                modelo_atual
-            ):
-
-                modelo_atual = None
-
-            if modelo_atual:
-
-                modelo_final = (
+            modelo_final = (
+                str(
                     modelo_atual
-                )
+                ).strip()
+            )
 
-            else:
+        elif modelo_novo:
 
-                modelo_final = str(
+            modelo_final = (
+                str(
                     modelo_novo
                 ).strip()
+            )
 
         else:
 
-            if self.modelo_valido(
-                modelo_atual
-            ):
-
-                modelo_final = (
-                    modelo_atual
-                )
-
-            else:
-
-                modelo_final = (
-                    "Desconhecido"
-                )
+            modelo_final = (
+                "Desconhecido"
+            )
 
 
         # ----------------------------------------------------
@@ -423,25 +642,35 @@ class PrinterDevice:
             )
         )
 
-        if serial_novo:
+        if not self.valor_valido(
+            serial_novo
+        ):
+
+            serial_novo = None
+
+        else:
 
             serial_novo = str(
                 serial_novo
             ).strip()
 
-        if (
-            not serial_novo
-            and serial_atual
-            and serial_atual != "Desconhecido"
-        ):
+        if serial_novo:
 
-            serial_novo = (
-                serial_atual
+            serial_final = (
+                serial_novo
             )
 
-        if not serial_novo:
+        elif self.valor_valido(
+            serial_atual
+        ):
 
-            serial_novo = (
+            serial_final = str(
+                serial_atual
+            ).strip()
+
+        else:
+
+            serial_final = (
                 "Desconhecido"
             )
 
@@ -460,24 +689,25 @@ class PrinterDevice:
             )
         )
 
-        if firmware_novo:
+        if self.valor_valido(
+            firmware_novo
+        ):
 
-            firmware_novo = str(
+            firmware_final = str(
                 firmware_novo
             ).strip()
 
-        elif (
+        elif self.valor_valido(
             firmware_atual
-            and firmware_atual != "Desconhecido"
         ):
 
-            firmware_novo = (
+            firmware_final = str(
                 firmware_atual
-            )
+            ).strip()
 
         else:
 
-            firmware_novo = (
+            firmware_final = (
                 "Desconhecido"
             )
 
@@ -496,20 +726,32 @@ class PrinterDevice:
             )
         )
 
-        if (
+        contador_novo_valido = (
             contador_novo is not None
-            and origem == "SYSDEBUG"
-        ):
+        )
 
-            self.origem_contador = (
-                "SYSDEBUG"
-            )
+        if contador_novo_valido:
 
-        elif (
-            contador_novo is not None
-        ):
+            if isinstance(
+                contador_novo,
+                str,
+            ):
 
-            if (
+                contador_novo_valido = (
+                    self.valor_valido(
+                        contador_novo
+                    )
+                )
+
+        if contador_novo_valido:
+
+            if origem == "SYSDEBUG":
+
+                self.origem_contador = (
+                    "SYSDEBUG"
+                )
+
+            elif (
                 self.origem_contador
                 != "SYSDEBUG"
             ):
@@ -518,9 +760,13 @@ class PrinterDevice:
                     origem
                 )
 
+            contador_final = (
+                contador_novo
+            )
+
         else:
 
-            contador_novo = (
+            contador_final = (
                 contador_atual
             )
 
@@ -529,22 +775,38 @@ class PrinterDevice:
         # FABRICANTE
         # ----------------------------------------------------
 
-        fabricante = dados.get(
+        fabricante_novo = dados.get(
             "fabricante"
         )
 
-        if not fabricante:
+        if self.valor_valido(
+            fabricante_novo
+        ):
+
+            fabricante = str(
+                fabricante_novo
+            ).strip()
+
+        else:
 
             fabricante = (
-                self.detectar_fabricante(
-                    modelo_final
+                self.identificacao.get(
+                    "fabricante"
                 )
             )
 
-        if (
-            not fabricante
-            or
-            fabricante == "Desconhecido"
+            if not self.valor_valido(
+                fabricante
+            ):
+
+                fabricante = (
+                    self.detectar_fabricante(
+                        modelo_final
+                    )
+                )
+
+        if not self.valor_valido(
+            fabricante
         ):
 
             fabricante = (
@@ -596,13 +858,13 @@ class PrinterDevice:
                 tipo,
 
             "serial":
-                serial_novo,
+                serial_final,
 
             "firmware":
-                firmware_novo,
+                firmware_final,
 
             "contador":
-                contador_novo,
+                contador_final,
         }
 
 
@@ -617,13 +879,18 @@ class PrinterDevice:
         nome,
     ):
         """
-        Executa uma função bloqueante em uma thread daemon.
+        Executa uma função potencialmente bloqueante em uma
+        thread daemon.
 
-        NÃO utiliza asyncio.to_thread() para a operação
-        bloqueante diretamente.
+        A thread não pode ser interrompida à força pelo Python.
+        Porém, o Device abandona a espera após o timeout e
+        continua a coleta das demais fontes.
 
-        Isso permite abandonar a espera quando uma operação
-        externa ficar travada.
+        Isso impede que PJL/SYSDEBUG bloqueados parem todo o
+        diagnóstico.
+
+        A função também suporta retorno awaitable, caso alguma
+        implementação futura seja assíncrona.
         """
 
         loop = asyncio.get_running_loop()
@@ -642,8 +909,40 @@ class PrinterDevice:
 
             try:
 
+                valor = funcao()
+
+                if inspect.isawaitable(
+                    valor
+                ):
+
+                    try:
+
+                        novo_loop = (
+                            asyncio.new_event_loop()
+                        )
+
+                        try:
+
+                            asyncio.set_event_loop(
+                                novo_loop
+                            )
+
+                            valor = (
+                                novo_loop.run_until_complete(
+                                    valor
+                                )
+                            )
+
+                        finally:
+
+                            novo_loop.close()
+
+                    except Exception:
+
+                        raise
+
                 resultado["valor"] = (
-                    funcao()
+                    valor
                 )
 
             except Exception as erro:
@@ -654,14 +953,22 @@ class PrinterDevice:
 
                 resultado["terminou"] = True
 
-                loop.call_soon_threadsafe(
-                    concluido.set
-                )
+                try:
+
+                    loop.call_soon_threadsafe(
+                        concluido.set
+                    )
+
+                except Exception:
+
+                    concluido.set()
 
         thread = threading.Thread(
             target=executar,
             daemon=True,
-            name=f"PrinterAssistant-{nome}",
+            name=(
+                f"PrinterAssistant-{nome}"
+            ),
         )
 
         thread.start()
@@ -727,6 +1034,8 @@ class PrinterDevice:
                 dict,
             ):
 
+                # Preserva o retorno bruto completo.
+
                 self.raw_sysdebug = (
                     dados.copy()
                 )
@@ -739,6 +1048,9 @@ class PrinterDevice:
                 self.conectividade[
                     "sysdebug"
                 ] = True
+
+                # SYSDEBUG normalmente é obtido pela
+                # interface web/debug da impressora.
 
                 self.conectividade[
                     "web"
@@ -786,14 +1098,18 @@ class PrinterDevice:
 
                 respondeu = bool(
 
-                    dados.get(
-                        "modelo"
+                    self.modelo_valido(
+                        dados.get(
+                            "modelo"
+                        )
                     )
 
                     or
 
-                    dados.get(
-                        "serial"
+                    self.valor_valido(
+                        dados.get(
+                            "serial"
+                        )
                     )
 
                     or
@@ -801,6 +1117,7 @@ class PrinterDevice:
                     dados.get(
                         "contador"
                     )
+                    is not None
                 )
 
             else:
@@ -833,8 +1150,9 @@ class PrinterDevice:
     # TIPO CONSUMÍVEL
     # ========================================================
 
-    @staticmethod
+    @classmethod
     def tipo_consumivel(
+        cls,
         supply,
     ):
 
@@ -851,9 +1169,9 @@ class PrinterDevice:
 
         if tipo:
 
-            texto = str(
+            texto = cls.normalizar_texto(
                 tipo
-            ).strip().lower()
+            )
 
             if texto in (
                 "toner",
@@ -864,8 +1182,8 @@ class PrinterDevice:
                 return "toner"
 
             if texto in (
-                "unidade_imagem",
                 "unidade imagem",
+                "unidade de imagem",
                 "imaging",
                 "imaging unit",
                 "photoconductor",
@@ -881,10 +1199,10 @@ class PrinterDevice:
                 "maintenance",
                 "maintenance kit",
                 "kit manutencao",
-                "kit manutenção",
             ):
 
                 return "fusor"
+
 
         nome = (
 
@@ -915,16 +1233,21 @@ class PrinterDevice:
             ""
         )
 
-        texto = str(
+        texto = cls.normalizar_texto(
             nome
-        ).strip().lower()
+        )
+
 
         if (
             "maintenance kit"
             in texto
+            or
+            "kit manutencao"
+            in texto
         ):
 
             return "fusor"
+
 
         if (
             "fusor" in texto
@@ -938,6 +1261,7 @@ class PrinterDevice:
 
             return "fusor"
 
+
         if (
             "toner" in texto
             or
@@ -948,8 +1272,12 @@ class PrinterDevice:
 
             return "toner"
 
+
         if (
             "unidade de imagem"
+            in texto
+            or
+            "unidade imagem"
             in texto
             or
             "imaging unit"
@@ -970,58 +1298,39 @@ class PrinterDevice:
 
 
     # ========================================================
-    # NORMALIZAR TEXTO
+    # ORDENAR SUPRIMENTOS PADRÃO
     # ========================================================
 
-    @staticmethod
-    def normalizar_texto(
-        valor,
+    @classmethod
+    def ordenar_supplies(
+        cls,
+        supplies,
     ):
+        """
+        Mantém a ordem padrão da interface:
 
-        if valor is None:
+            1. Toner
+            2. Unidade de imagem
+            3. Fusor
 
-            return ""
+        A função não altera os dados individuais dos
+        suprimentos.
+        """
 
-        texto = str(
-            valor
-        ).strip().lower()
-
-        substituicoes = {
-
-            "á": "a",
-            "à": "a",
-            "ã": "a",
-            "â": "a",
-
-            "é": "e",
-            "ê": "e",
-
-            "í": "i",
-
-            "ó": "o",
-            "ô": "o",
-            "õ": "o",
-
-            "ú": "u",
-
-            "ç": "c",
-
-            ".": " ",
-            "-": " ",
-            "_": " ",
+        ordem = {
+            "toner": 0,
+            "unidade_imagem": 1,
+            "fusor": 2,
         }
 
-        for antigo, novo in (
-            substituicoes.items()
-        ):
-
-            texto = texto.replace(
-                antigo,
-                novo,
-            )
-
-        return " ".join(
-            texto.split()
+        return sorted(
+            supplies,
+            key=lambda supply: ordem.get(
+                cls.tipo_consumivel(
+                    supply
+                ),
+                99,
+            ),
         )
 
 
@@ -1046,7 +1355,7 @@ class PrinterDevice:
                 dict,
             ):
 
-                chaves = {
+                chaves_normalizadas = {
 
                     cls.normalizar_texto(
                         chave
@@ -1055,6 +1364,7 @@ class PrinterDevice:
                     for chave
                     in objeto.keys()
                 }
+
 
                 possui_identificacao = bool(
 
@@ -1069,8 +1379,9 @@ class PrinterDevice:
 
                     &
 
-                    chaves
+                    chaves_normalizadas
                 )
+
 
                 possui_serial = bool(
 
@@ -1078,13 +1389,15 @@ class PrinterDevice:
                         "serial",
                         "numero serie",
                         "serial number",
-                        "serial_number",
+                        "supply serial",
+                        "consumable serial",
                     }
 
                     &
 
-                    chaves
+                    chaves_normalizadas
                 )
+
 
                 if (
                     possui_identificacao
@@ -1096,6 +1409,7 @@ class PrinterDevice:
                         objeto
                     )
 
+
                 for valor in (
                     objeto.values()
                 ):
@@ -1103,6 +1417,7 @@ class PrinterDevice:
                     percorrer(
                         valor
                     )
+
 
             elif isinstance(
                 objeto,
@@ -1115,6 +1430,7 @@ class PrinterDevice:
                         item
                     )
 
+
         percorrer(
             dados
         )
@@ -1126,8 +1442,9 @@ class PrinterDevice:
     # EXTRAIR SERIAL SUPPLY
     # ========================================================
 
-    @staticmethod
+    @classmethod
     def extrair_serial_supply(
+        cls,
         supply,
     ):
 
@@ -1138,6 +1455,10 @@ class PrinterDevice:
 
             return None
 
+
+        # Primeiro tenta as chaves conhecidas
+        # diretamente.
+
         possiveis = (
 
             "numero_serie",
@@ -1147,7 +1468,10 @@ class PrinterDevice:
             "serial number",
             "supply_serial",
             "consumable_serial",
+            "supply serial",
+            "consumable serial",
         )
+
 
         for chave in possiveis:
 
@@ -1155,17 +1479,118 @@ class PrinterDevice:
                 chave
             )
 
-            if valor:
+            if cls.valor_valido(
+                valor
+            ):
 
-                texto = str(
+                return str(
                     valor
                 ).strip()
 
-                if texto:
 
-                    return texto
+        # ----------------------------------------------------
+        # Segunda tentativa:
+        # procura pela chave normalizada.
+        # ----------------------------------------------------
+
+        for chave, valor in supply.items():
+
+            chave_normalizada = (
+                cls.normalizar_texto(
+                    chave
+                )
+            )
+
+            if chave_normalizada in (
+                "numero serie",
+                "serial",
+                "serial number",
+                "supply serial",
+                "consumable serial",
+            ):
+
+                if cls.valor_valido(
+                    valor
+                ):
+
+                    return str(
+                        valor
+                    ).strip()
+
 
         return None
+
+
+    # ========================================================
+    # EXTRAIR NOME SUPPLY
+    # ========================================================
+
+    @classmethod
+    def extrair_nome_supply(
+        cls,
+        supply,
+    ):
+
+        if not isinstance(
+            supply,
+            dict,
+        ):
+
+            return ""
+
+
+        possiveis = (
+
+            "nome",
+            "name",
+            "descricao",
+            "description",
+        )
+
+
+        for chave in possiveis:
+
+            valor = supply.get(
+                chave
+            )
+
+            if cls.valor_valido(
+                valor
+            ):
+
+                return str(
+                    valor
+                ).strip()
+
+
+        # Compatibilidade com chaves
+        # com acentos / underscore / espaços.
+
+        for chave, valor in supply.items():
+
+            chave_normalizada = (
+                cls.normalizar_texto(
+                    chave
+                )
+            )
+
+            if chave_normalizada in (
+                "nome",
+                "name",
+                "descricao",
+                "description",
+            ):
+
+                if cls.valor_valido(
+                    valor
+                ):
+
+                    return str(
+                        valor
+                    ).strip()
+
+
+        return ""
 
 
     # ========================================================
@@ -1181,17 +1606,21 @@ class PrinterDevice:
 
             return
 
+
         candidatos_brutos = (
             self.extrair_supplies_sysdebug(
                 dados_sysdebug
             )
         )
 
+
         if not candidatos_brutos:
 
             return
 
+
         candidatos = []
+
 
         for item in candidatos_brutos:
 
@@ -1201,9 +1630,11 @@ class PrinterDevice:
                 )
             )
 
+
             if not serial:
 
                 continue
+
 
             tipo = (
                 self.tipo_consumivel(
@@ -1211,46 +1642,22 @@ class PrinterDevice:
                 )
             )
 
-            nome = ""
 
-            if isinstance(
-                item,
-                dict,
-            ):
-
-                nome = (
-
-                    item.get(
-                        "nome"
-                    )
-
-                    or
-
-                    item.get(
-                        "name"
-                    )
-
-                    or
-
-                    item.get(
-                        "descricao"
-                    )
-
-                    or
-
-                    item.get(
-                        "description"
-                    )
-
-                    or
-
-                    ""
+            nome = (
+                self.extrair_nome_supply(
+                    item
                 )
+            )
+
 
             candidatos.append(
                 {
-                    "serial": serial,
-                    "tipo": tipo,
+                    "serial":
+                        serial,
+
+                    "tipo":
+                        tipo,
+
                     "nome":
                         self.normalizar_texto(
                             nome
@@ -1258,13 +1665,24 @@ class PrinterDevice:
                 }
             )
 
+
         if not candidatos:
 
             return
 
+
         usados = set()
 
+
         for supply in self.supplies:
+
+            if not isinstance(
+                supply,
+                dict,
+            ):
+
+                continue
+
 
             tipo_supply = (
                 self.tipo_consumivel(
@@ -1272,26 +1690,30 @@ class PrinterDevice:
                 )
             )
 
-            if tipo_supply == "fusor":
 
-                supply[
-                    "numero_serie"
-                ] = None
+            # ------------------------------------------------
+            # FUSOR
+            # ------------------------------------------------
+            #
+            # Regra da interface:
+            # fusor não recebe número de série.
+            #
 
-                continue
 
             nome_supply = (
                 self.normalizar_texto(
-                    supply.get(
-                        "nome"
+                    self.extrair_nome_supply(
+                        supply
                     )
                 )
             )
 
+
             escolhido = None
 
+
             # ------------------------------------------------
-            # 1. TIPO
+            # 1. CORRESPONDÊNCIA EXATA POR TIPO
             # ------------------------------------------------
 
             for numero, candidato in enumerate(
@@ -1302,18 +1724,14 @@ class PrinterDevice:
 
                     continue
 
+
                 if (
-
                     tipo_supply
-
                     and
-
                     candidato[
                         "tipo"
                     ]
-
                     and
-
                     tipo_supply
                     ==
                     candidato[
@@ -1328,8 +1746,9 @@ class PrinterDevice:
 
                     break
 
+
             # ------------------------------------------------
-            # 2. NOME
+            # 2. CORRESPONDÊNCIA POR NOME
             # ------------------------------------------------
 
             if escolhido is None:
@@ -1342,23 +1761,28 @@ class PrinterDevice:
 
                         continue
 
+
                     nome_candidato = (
                         candidato[
                             "nome"
                         ]
                     )
 
+
                     if not nome_candidato:
 
                         continue
 
-                    if (
 
+                    if not nome_supply:
+
+                        continue
+
+
+                    if (
                         nome_candidato
                         in nome_supply
-
                         or
-
                         nome_supply
                         in nome_candidato
                     ):
@@ -1370,13 +1794,21 @@ class PrinterDevice:
 
                         break
 
+
+            # ------------------------------------------------
+            # 3. SE NÃO HOUVER TIPO NEM NOME,
+            #    NÃO FORÇA ASSOCIAÇÃO.
+            # ------------------------------------------------
+
             if escolhido is None:
 
                 continue
 
+
             numero, candidato = (
                 escolhido
             )
+
 
             supply[
                 "numero_serie"
@@ -1384,53 +1816,53 @@ class PrinterDevice:
                 "serial"
             ]
 
+
             usados.add(
                 numero
             )
 
 
     # ========================================================
-    # NORMALIZAR SUPPLIES RECEBIDOS DO SNMP
+    # NORMALIZAR SUPPLY RECEBIDO DO SNMP
     # ========================================================
 
-    @staticmethod
+    @classmethod
     def normalizar_supply_snmp(
+        cls,
         supply,
     ):
         """
         Normalização de segurança do objeto recebido do SNMP.
 
-        IMPORTANTE:
-
-        O cálculo correto do percentual pertence ao SNMP.
-
-        O Device não recalcula um valor normal válido.
-
-        Esta função apenas impede que uma implementação antiga
-        que ainda esteja entregando o valor bruto de
-        prtMarkerSuppliesLevel seja exibida diretamente como
-        percentual quando:
-
-            nivel > 100
-            capacidade > 0
-
-        Exemplo de retorno antigo:
-
-            capacidade = 10000
-            nivel = 7300
-
-        Nesse caso:
-
-            7300 / 10000 * 100 = 73%
+        O SNMP moderno é responsável pelo significado dos
+        valores quantitativos.
 
         Se o SNMP moderno já entregar:
 
             percentual = 73
 
-        o valor é preservado.
+        esse valor é preservado.
 
-        Valores especiais negativos do Printer-MIB não são
-        convertidos silenciosamente.
+        Se existir:
+
+            nivel = 73
+
+        também é preservado.
+
+        Compatibilidade antiga:
+
+        Se uma implementação anterior ainda entregar:
+
+            capacidade = 10000
+            nivel = 7300
+
+        o Device mantém a compatibilidade e pode calcular
+        percentual = 73.
+
+        Isso não interfere no SNMP moderno.
+
+        Valores negativos especiais do Printer-MIB não são
+        convertidos silenciosamente em percentuais.
         """
 
         if not isinstance(
@@ -1440,7 +1872,9 @@ class PrinterDevice:
 
             return None
 
+
         resultado = supply.copy()
+
 
         capacidade = resultado.get(
             "capacidade"
@@ -1454,92 +1888,102 @@ class PrinterDevice:
             "percentual"
         )
 
-        try:
 
-            capacidade_num = (
-                float(capacidade)
-                if capacidade is not None
-                else None
+        capacidade_num = (
+            cls.converter_numero(
+                capacidade
             )
+        )
 
-        except (
-            TypeError,
-            ValueError,
-        ):
-
-            capacidade_num = None
-
-        try:
-
-            nivel_num = (
-                float(nivel)
-                if nivel is not None
-                else None
+        nivel_num = (
+            cls.converter_numero(
+                nivel
             )
+        )
 
-        except (
-            TypeError,
-            ValueError,
-        ):
-
-            nivel_num = None
-
-        try:
-
-            percentual_num = (
-                float(percentual)
-                if percentual is not None
-                else None
+        percentual_num = (
+            cls.converter_numero(
+                percentual
             )
+        )
 
-        except (
-            TypeError,
-            ValueError,
-        ):
-
-            percentual_num = None
 
         # ----------------------------------------------------
-        # SNMP moderno
+        # SNMP MODERNO
         # ----------------------------------------------------
-        #
-        # Se o módulo SNMP já calculou o percentual, não
-        # mexemos nele.
-        #
 
         if (
             percentual_num is not None
-            and 0 <= percentual_num <= 100
+            and
+            0 <= percentual_num <= 100
         ):
 
             resultado[
                 "percentual"
             ] = percentual_num
 
-            resultado[
-                "nivel"
-            ] = percentual_num
+            if (
+                nivel_num is None
+                or
+                0 <= nivel_num <= 100
+            ):
+
+                resultado[
+                    "nivel"
+                ] = percentual_num
 
             return resultado
 
+
         # ----------------------------------------------------
-        # Compatibilidade com retorno antigo
+        # SNMP MODERNO COM NIVEL JÁ NORMALIZADO
+        # ----------------------------------------------------
+
+        if (
+            percentual_num is None
+            and
+            nivel_num is not None
+            and
+            0 <= nivel_num <= 100
+        ):
+
+            resultado[
+                "percentual"
+            ] = nivel_num
+
+            resultado[
+                "nivel"
+            ] = nivel_num
+
+            return resultado
+
+
+        # ----------------------------------------------------
+        # COMPATIBILIDADE COM RETORNO ANTIGO
         # ----------------------------------------------------
 
         if (
             nivel_num is not None
-            and capacidade_num is not None
-            and capacidade_num > 0
-            and nivel_num >= 0
-            and nivel_num > 100
-            and nivel_num <= capacidade_num
+            and
+            capacidade_num is not None
+            and
+            capacidade_num > 0
+            and
+            nivel_num >= 0
+            and
+            nivel_num > 100
+            and
+            nivel_num <= capacidade_num
         ):
 
             percentual_calculado = (
                 nivel_num
-                / capacidade_num
-                * 100
+                /
+                capacidade_num
+                *
+                100
             )
+
 
             percentual_calculado = max(
                 0,
@@ -1549,16 +1993,33 @@ class PrinterDevice:
                 ),
             )
 
-            resultado[
-                "percentual"
-            ] = percentual_calculado
+
+            if (
+                percentual_num is None
+                or
+                not (
+                    0
+                    <= percentual_num
+                    <= 100
+                )
+            ):
+
+                resultado[
+                    "percentual"
+                ] = percentual_calculado
+
 
             resultado[
                 "nivel"
-            ] = percentual_calculado
+            ] = resultado.get(
+                "percentual",
+                percentual_calculado,
+            )
 
-            # Se o SNMP antigo não tinha esses campos,
-            # calculamos apenas para compatibilidade.
+
+            # ------------------------------------------------
+            # RESTANTE
+            # ------------------------------------------------
 
             if (
                 resultado.get(
@@ -1571,9 +2032,16 @@ class PrinterDevice:
                     "restante"
                 ] = round(
                     capacidade_num
-                    * percentual_calculado
-                    / 100
+                    *
+                    percentual_calculado
+                    /
+                    100
                 )
+
+
+            # ------------------------------------------------
+            # CONSUMIDO
+            # ------------------------------------------------
 
             if (
                 resultado.get(
@@ -1586,28 +2054,39 @@ class PrinterDevice:
                     "consumido"
                 ] = (
                     capacidade_num
-                    - resultado[
+                    -
+                    resultado[
                         "restante"
                     ]
                 )
 
+
             return resultado
 
+
         # ----------------------------------------------------
-        # Valor desconhecido / especial
+        # VALOR ESPECIAL / DESCONHECIDO
         # ----------------------------------------------------
 
         if nivel_num is not None:
 
             if nivel_num < 0:
 
+                if (
+                    resultado.get(
+                        "percentual"
+                    )
+                    is None
+                ):
+
+                    resultado[
+                        "percentual"
+                    ] = None
+
                 resultado[
                     "nivel"
                 ] = None
 
-                resultado[
-                    "percentual"
-                ] = None
 
         return resultado
 
@@ -1624,16 +2103,41 @@ class PrinterDevice:
             "[DEVICE] Consultando suprimentos via SNMP..."
         )
 
+
         try:
 
-            dados = await asyncio.wait_for(
+            # ------------------------------------------------
+            # Primeiro tenta preservar o comportamento atual.
+            #
+            # coletar_supplies() é tratado como coroutine
+            # quando o módulo SNMP atual assim define.
+            # ------------------------------------------------
 
-                coletar_supplies(
-                    self.ip
-                ),
-
-                timeout=TIMEOUT_SNMP,
+            resultado = coletar_supplies(
+                self.ip
             )
+
+
+            if inspect.isawaitable(
+                resultado
+            ):
+
+                dados = await asyncio.wait_for(
+                    resultado,
+                    timeout=TIMEOUT_SNMP,
+                )
+
+            else:
+
+                # Compatibilidade caso coletar_supplies()
+                # seja alterado para função síncrona no futuro.
+
+                dados = await self.executar_com_timeout(
+                    lambda: resultado,
+                    TIMEOUT_SNMP,
+                    "SNMP",
+                )
+
 
         except asyncio.TimeoutError:
 
@@ -1642,6 +2146,7 @@ class PrinterDevice:
             )
 
             return self.supplies
+
 
         except Exception as erro:
 
@@ -1652,6 +2157,7 @@ class PrinterDevice:
 
             return self.supplies
 
+
         if not dados:
 
             print(
@@ -1661,7 +2167,22 @@ class PrinterDevice:
 
             return self.supplies
 
-        self.supplies = []
+
+        if not isinstance(
+            dados,
+            (list, tuple),
+        ):
+
+            print(
+                "[DEVICE] SNMP retornou formato "
+                "de suprimentos inválido."
+            )
+
+            return self.supplies
+
+
+        novos_supplies = []
+
 
         for supply in dados:
 
@@ -1672,54 +2193,129 @@ class PrinterDevice:
 
                 continue
 
-            supply = (
+
+            supply_normalizado = (
                 self.normalizar_supply_snmp(
                     supply
                 )
             )
 
-            if supply is None:
+
+            if supply_normalizado is None:
 
                 continue
+
+
+            supply = (
+                supply_normalizado
+            )
+
+
+            # ------------------------------------------------
+            # FILTRO DOS CONSUMÍVEIS PADRÃO
+            # ------------------------------------------------
+            #
+            # A interface trabalha somente com:
+            #
+            #   toner
+            #   unidade de imagem
+            #   fusor
+            #
+            # Itens auxiliares retornados pelo SNMP, como:
+            #
+            #   ADF Kit
+            #   Roller Kit
+            #   Staples
+            #   Hole Punch
+            #
+            # não fazem parte da lista de consumíveis
+            # apresentada pelo Printer Assistant.
+            #
+            # Valores quantitativos dos itens aceitos não são
+            # modificados aqui.
+            #
+
+            tipo_supply = (
+                self.tipo_consumivel(
+                    supply
+                )
+            )
+
+            if tipo_supply not in (
+                "toner",
+                "unidade_imagem",
+                "fusor",
+            ):
+
+                continue
+
 
             # ------------------------------------------------
             # SERIAL
             # ------------------------------------------------
             #
             # SNMP não define aqui o serial de consumível.
+            #
             # O serial será associado posteriormente a partir
             # do SYSDEBUG.
+            #
+            # Se o SNMP eventualmente devolver um serial,
+            # ele é preservado temporariamente somente se já
+            # existir. A associação oficial continua sendo
+            # feita pelo SYSDEBUG.
             #
 
             supply[
                 "numero_serie"
             ] = None
 
-            # Fusor nunca apresenta serial.
+
+            # ------------------------------------------------
+            # FUSOR
+            # ------------------------------------------------
 
             if (
-                self.tipo_consumivel(
-                    supply
-                )
-                == "fusor"
+                tipo_supply
+                ==
+                "fusor"
             ):
 
                 supply[
                     "numero_serie"
                 ] = None
 
-            self.supplies.append(
+
+            novos_supplies.append(
                 supply
             )
+
+
+        # ----------------------------------------------------
+        # ORDEM PADRÃO
+        # ----------------------------------------------------
+        #
+        # Toner
+        # Unidade de imagem
+        # Fusor
+        #
+
+        self.supplies = (
+            self.ordenar_supplies(
+                novos_supplies
+            )
+        )
+
 
         self.conectividade[
             "snmp"
         ] = True
 
+
         print(
             "[DEVICE] SNMP encontrou "
             f"{len(self.supplies)} suprimentos."
         )
+
 
         return self.supplies
 
@@ -1738,6 +2334,7 @@ class PrinterDevice:
         )
         print()
 
+
         # ----------------------------------------------------
         # PJL
         # ----------------------------------------------------
@@ -1747,6 +2344,7 @@ class PrinterDevice:
             TIMEOUT_PJL,
             "PJL",
         )
+
 
         # ----------------------------------------------------
         # SYSDEBUG
@@ -1759,6 +2357,7 @@ class PrinterDevice:
                 "SYSDEBUG",
             )
         )
+
 
         if not isinstance(
             dados_sysdebug,
@@ -1802,6 +2401,21 @@ class PrinterDevice:
             )
 
 
+        # ----------------------------------------------------
+        # ORDEM FINAL DOS CONSUMÍVEIS
+        # ----------------------------------------------------
+        #
+        # Garante a ordem padrão mesmo depois da associação
+        # dos seriais vindos do SYSDEBUG.
+        #
+
+        self.supplies = (
+            self.ordenar_supplies(
+                self.supplies
+            )
+        )
+
+
         return self.to_dict()
 
 
@@ -1825,13 +2439,16 @@ class PrinterDevice:
             ],
         )
 
+
         if all(fontes):
 
             return "EXCELENTE"
 
+
         if any(fontes):
 
             return "PARCIAL"
+
 
         return "OFFLINE"
 
@@ -1975,9 +2592,11 @@ async def teste():
     print("=" * 72)
     print()
 
+
     ip = input(
         "Digite o IP da impressora: "
     ).strip()
+
 
     if not ip:
 
@@ -1987,13 +2606,17 @@ async def teste():
 
         return
 
+
     device = PrinterDevice(
         ip
     )
 
+
     await device.coletar()
 
+
     dados = device.to_dict()
+
 
     identificacao = (
         dados[
@@ -2001,11 +2624,13 @@ async def teste():
         ]
     )
 
+
     conectividade = (
         dados[
             "conectividade"
         ]
     )
+
 
     print()
     print("=" * 72)
@@ -2013,10 +2638,12 @@ async def teste():
     print("=" * 72)
     print()
 
+
     print(
         "IP:",
         device.ip
     )
+
 
     print(
         "Fabricante:",
@@ -2025,12 +2652,14 @@ async def teste():
         ]
     )
 
+
     print(
         "Modelo:",
         identificacao[
             "modelo"
         ]
     )
+
 
     print(
         "Família:",
@@ -2039,12 +2668,14 @@ async def teste():
         ]
     )
 
+
     print(
         "Tipo:",
         identificacao[
             "tipo"
         ]
     )
+
 
     print(
         "Serial:",
@@ -2053,6 +2684,7 @@ async def teste():
         ]
     )
 
+
     print(
         "Firmware:",
         identificacao[
@@ -2060,9 +2692,11 @@ async def teste():
         ]
     )
 
+
     contador = identificacao[
         "contador"
     ]
+
 
     if contador is None:
 
@@ -2072,13 +2706,32 @@ async def teste():
 
     else:
 
-        print(
-            "Contador:",
-            f"{contador:,}".replace(
-                ",",
-                ".",
+        try:
+
+            contador_num = int(
+                float(
+                    contador
+                )
             )
-        )
+
+            print(
+                "Contador:",
+                f"{contador_num:,}".replace(
+                    ",",
+                    ".",
+                )
+            )
+
+        except (
+            TypeError,
+            ValueError,
+        ):
+
+            print(
+                "Contador:",
+                contador
+            )
+
 
     print()
     print(
@@ -2090,6 +2743,7 @@ async def teste():
         else "INATIVO"
     )
 
+
     print(
         "SYSDEBUG:",
         "ATIVO"
@@ -2098,6 +2752,7 @@ async def teste():
         ]
         else "INATIVO"
     )
+
 
     print(
         "SNMP:",
@@ -2108,6 +2763,7 @@ async def teste():
         else "INATIVO"
     )
 
+
     print()
     print(
         "Estado:",
@@ -2115,6 +2771,7 @@ async def teste():
             "estado"
         ]
     )
+
 
     print(
         "Suprimentos:",
@@ -2125,10 +2782,12 @@ async def teste():
         )
     )
 
+
     print()
     print("=" * 72)
     print("CONSUMÍVEIS")
     print("=" * 72)
+
 
     for numero, supply in enumerate(
         dados[
@@ -2139,13 +2798,27 @@ async def teste():
 
         print()
 
+
         nome_supply = (
             supply.get(
                 "nome"
             )
             or
+            supply.get(
+                "name"
+            )
+            or
+            supply.get(
+                "descricao"
+            )
+            or
+            supply.get(
+                "description"
+            )
+            or
             "Consumível"
         )
+
 
         tipo_supply = (
             device.tipo_consumivel(
@@ -2153,20 +2826,28 @@ async def teste():
             )
         )
 
+
         print(
             f"[{numero}] "
             f"{nome_supply}"
         )
 
+
+        # ----------------------------------------------------
+        # NÍVEL
+        # ----------------------------------------------------
+
         nivel = supply.get(
             "percentual"
         )
+
 
         if nivel is None:
 
             nivel = supply.get(
                 "nivel"
             )
+
 
         if nivel is None:
 
@@ -2179,7 +2860,8 @@ async def teste():
             try:
 
                 print(
-                    f"    Nível: {float(nivel):g} %"
+                    f"    Nível: "
+                    f"{float(nivel):g} %"
                 )
 
             except (
@@ -2188,8 +2870,14 @@ async def teste():
             ):
 
                 print(
-                    f"    Nível: {nivel} %"
+                    f"    Nível: "
+                    f"{nivel} %"
                 )
+
+
+        # ----------------------------------------------------
+        # CONDIÇÃO
+        # ----------------------------------------------------
 
         print(
             "    Condição:",
@@ -2199,6 +2887,11 @@ async def teste():
             )
         )
 
+
+        # ----------------------------------------------------
+        # CAPACIDADE
+        # ----------------------------------------------------
+
         print(
             "    Capacidade:",
             supply.get(
@@ -2206,6 +2899,11 @@ async def teste():
                 "N/D",
             )
         )
+
+
+        # ----------------------------------------------------
+        # RESTANTE
+        # ----------------------------------------------------
 
         print(
             "    Restante:",
@@ -2215,6 +2913,11 @@ async def teste():
             )
         )
 
+
+        # ----------------------------------------------------
+        # CONSUMIDO
+        # ----------------------------------------------------
+
         print(
             "    Consumido:",
             supply.get(
@@ -2222,6 +2925,11 @@ async def teste():
                 "N/D",
             )
         )
+
+
+        # ----------------------------------------------------
+        # SERIAL
+        # ----------------------------------------------------
 
         if tipo_supply == "fusor":
 
@@ -2240,14 +2948,21 @@ async def teste():
                 "N/D"
             )
 
+
+        # ----------------------------------------------------
+        # GARANTIA
+        # ----------------------------------------------------
+
         if (
             tipo_supply
-            == "unidade_imagem"
+            ==
+            "unidade_imagem"
         ):
 
             garantia = supply.get(
                 "garantia"
             )
+
 
             if garantia is True:
 
@@ -2267,10 +2982,12 @@ async def teste():
                     "N/D"
                 )
 
+
             print(
                 "    Garantia:",
                 texto_garantia
             )
+
 
     print()
     print("=" * 72)

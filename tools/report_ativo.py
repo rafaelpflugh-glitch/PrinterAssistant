@@ -1,3 +1,4 @@
+
 from core.tool import Tool
 
 from reports.ativo import imprimir_relatorio_ativo
@@ -11,6 +12,27 @@ class ReportAtivoTool(Tool):
 
     category = "Relatórios"
 
-    def run(self, **kwargs):
+    def run(
+        self,
+        **kwargs,
+    ):
 
-        return imprimir_relatorio_ativo()
+        # ----------------------------------------------------
+        # O PrinterDevice deve ser fornecido pelo chamador.
+        # ----------------------------------------------------
+
+        device = kwargs.get(
+            "device"
+        )
+
+        if device is None:
+
+            raise ValueError(
+                "ReportAtivoTool: nenhum PrinterDevice "
+                "foi fornecido."
+            )
+
+        return imprimir_relatorio_ativo(
+            device
+        )
+
