@@ -289,33 +289,53 @@ def coletar_sysdebug(ip):
 
     print(f"[SYSDEBUG] Consultando {url}")
 
-    try:
-        resposta = requests.get(
-            url,
-            timeout=TIMEOUT_SYSDEBUG,
-        )
+    texto = ""
+    status_code = None
+    chunks = []
 
+    try:
+        # Usa stream=True com timeout de conexão (6s) e timeout entre blocos (4s).
+        # Evita travar caso o micro-servidor HTTP da impressora congele no final do dump de ~2.6 MB
+        with requests.get(url, stream=True, timeout=(6, 4)) as resp:
+            status_code = resp.status_code
+            if status_code == 200:
+                for chunk in resp.iter_content(chunk_size=32768):
+                    chunks.append(chunk)
+                texto = b"".join(chunks).decode("utf-8", errors="ignore")
     except requests.RequestException as erro:
-        print(
-            "[SYSDEBUG] Erro de comunicação:",
-            erro,
-        )
-        return {}
+        if chunks:
+            texto = b"".join(chunks).decode("utf-8", errors="ignore")
+            if len(texto) >= 50000:
+                print(f"[SYSDEBUG] Stream finalizado com dados capturados ({len(texto)} bytes).")
+                status_code = 200
+        if not texto:
+            print(
+                "[SYSDEBUG] Erro de comunicação:",
+                erro,
+            )
+            if hasattr(erro, "response") and erro.response is not None:
+                status_code = erro.response.status_code
+            else:
+                return {}
 
     except Exception as erro:
-        print(
-            "[SYSDEBUG] Erro inesperado:",
-            erro,
-        )
-        return {}
+        if chunks:
+            texto = b"".join(chunks).decode("utf-8", errors="ignore")
+            if len(texto) >= 50000:
+                print(f"[SYSDEBUG] Stream finalizado com dados capturados ({len(texto)} bytes).")
+                status_code = 200
+        if not texto:
+            print(
+                "[SYSDEBUG] Erro inesperado:",
+                erro,
+            )
+            return {}
 
     # --------------------------------------------------------
     # 2. SYSDEBUG TRADICIONAL FUNCIONOU
     # --------------------------------------------------------
 
-    if resposta.status_code == 200:
-
-        texto = resposta.text
+    if status_code == 200:
 
         if not texto:
             print("[SYSDEBUG] Relatório vazio.")
@@ -403,7 +423,7 @@ def coletar_sysdebug(ip):
     # /cgi-bin/enginedebugdata -> HTTP 200
     # --------------------------------------------------------
 
-    if resposta.status_code == 404:
+    if status_code == 404:
 
         print(
             "[SYSDEBUG] HTTP 404 no SYSDEBUG tradicional."
@@ -424,7 +444,7 @@ def coletar_sysdebug(ip):
 
     print(
         "[SYSDEBUG] HTTP",
-        resposta.status_code,
+        status_code,
         "em",
         url,
     )
