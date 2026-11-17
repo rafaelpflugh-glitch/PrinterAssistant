@@ -1,0 +1,18 @@
+{
+    "producao_ip_padrao": "192.168.14.111",
+    "producao_ip_excecao": "192.168.14.151",
+    "producao_usar_excecao": false,
+    "rma_ip_padrao": "192.168.14.151",
+    "rma_ip_excecao": "192.168.14.111",
+    "rma_usar_excecao": false,
+    "ativo_ip_padrao": "192.168.14.151",
+    "ativo_ip_excecao": "192.168.14.111",
+    "ativo_usar_excecao": false,
+    "etiquetadora_producao_ip": "192.168.14.151",
+    "etiquetadora_producao_porta": 9100,
+    "etiquetadora_relatorios_ip": "192.168.14.111",
+    "etiquetadora_relatorios_porta": 9100,
+    "redirecionamentos": {
+        "192.168.14.111": "192.168.14.151"
+    }
+}

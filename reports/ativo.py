@@ -1,4 +1,3 @@
-
 """
 ============================================================
 PRINTER ASSISTANT
@@ -47,6 +46,12 @@ Formato atual da etiqueta:
 import socket
 
 from core.base_report import BaseReport
+
+try:
+    from core.config import resolver_ip
+except ImportError:
+    def resolver_ip(ip, tipo="relatorio"):
+        return ip
 
 
 # ============================================================
@@ -429,6 +434,8 @@ def enviar_tsc(
             "A etiqueta gerada está vazia."
         )
 
+    ip = resolver_ip(ip, tipo="relatorio")
+
     if not ip:
 
         raise AtivoReportError(
@@ -512,6 +519,8 @@ class ReportAtivo(BaseReport):
             dados_tspl
         )
 
+        dest_ip = resolver_ip(IMPRESSORA_TSC, tipo="relatorio")
+
         return {
             "sucesso": True,
 
@@ -519,7 +528,7 @@ class ReportAtivo(BaseReport):
 
             "tipo": "etiqueta_patrimonial",
 
-            "impressora": IMPRESSORA_TSC,
+            "impressora": dest_ip,
 
             "porta": PORTA_TSC,
 
@@ -600,4 +609,3 @@ def teste():
 if __name__ == "__main__":
 
     teste()
-

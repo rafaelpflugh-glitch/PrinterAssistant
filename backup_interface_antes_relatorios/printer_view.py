@@ -1,4 +1,4 @@
-# PrinterView corrigido
+﻿# PrinterView corrigido
 
 
 import tkinter as tk

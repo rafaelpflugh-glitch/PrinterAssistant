@@ -1,0 +1,21 @@
+# ============================================================
+# PRINTER ASSISTANT - REQUIREMENTS (v1.0.0-beta)
+# ============================================================
+
+# SNMP & Coleta de Equipamentos
+pysnmp>=7.1.0
+pysmi-lextudio>=1.4.0
+pycryptodomex>=3.18.0
+
+# HTTP & EWS (Lexmark / Outras)
+requests>=2.28.0
+urllib3>=1.26.0
+
+# Imagens e Interface Gráfica
+Pillow>=10.0.0
+
+# Empacotador para Distribuição (.exe)
+pyinstaller>=6.0.0
+
+# Opcional (o sistema conta com gerador PDF nativo puro Python caso ausente):
+# PyMuPDF>=1.23.0

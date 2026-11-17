@@ -1,0 +1,432 @@
+{
+    "unidade_imagem": [
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "50F0Z00",
+            "descricao": "Unidade de imagem",
+            "part_number": "2114-MX611",
+            "modelos": [
+                "MX310",
+                "MX410",
+                "MX510",
+                "MX610",
+                "MX611"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "56F0Z00",
+            "descricao": "Unidade de imagem",
+            "part_number": "2402-MX622",
+            "modelos": [
+                "MS321",
+                "MX321",
+                "MS421",
+                "MX421",
+                "MS522",
+                "MX522",
+                "MS622",
+                "MX622"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "52D0Z00",
+            "descricao": "Unidade de imagem",
+            "part_number": "2380-MX711",
+            "modelos": [
+                "MX710",
+                "MX711",
+                "MX810",
+                "MX811"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "E260X22G",
+            "descricao": "Unidade de imagem PREMIUM CARTRIDGE",
+            "part_number": "625-E460-15K",
+            "modelos": [
+                "E260",
+                "DRE260",
+                "DRE360",
+                "DRE460"
+            ]
+        },
+        {
+            "fabricante": "3i",
+            "referencia_base": "50F0Z00",
+            "descricao": "Unidade de imagem",
+            "part_number": "227808",
+            "modelos": [
+                "MX511",
+                "MX611"
+            ]
+        },
+        {
+            "fabricante": "3i",
+            "referencia_base": "52D0Z00",
+            "descricao": "Unidade de imagem",
+            "part_number": "228237",
+            "modelos": [
+                "MX711"
+            ]
+        },
+        {
+            "fabricante": "3i",
+            "referencia_base": "E260X22G",
+            "descricao": "Unidade de imagem DR E260 30K",
+            "part_number": "227452-INOVA",
+            "modelos": [
+                "E460"
+            ]
+        },
+        {
+            "fabricante": "VRI",
+            "referencia_base": "52D0Z00",
+            "descricao": "Unidade de imagem DR-MS810",
+            "part_number": "DRMS810-VRI",
+            "modelos": [
+                "MS810",
+                "MS811",
+                "MS812",
+                "MX710",
+                "MX711"
+            ]
+        },
+        {
+            "fabricante": "LEXMARK",
+            "referencia_base": "58D0Z00",
+            "descricao": "Unidade de imagem",
+            "part_number": "58D0Z00",
+            "modelos": [
+                "MS725",
+                "MS821",
+                "MS822",
+                "MS823",
+                "MS824",
+                "MS825",
+                "MS826",
+                "MX721",
+                "MX722",
+                "MX725",
+                "MX824",
+                "MX826"
+            ]
+        },
+        {
+            "fabricante": "REM",
+            "referencia_base": "50F0Z00",
+            "descricao": "Unidade de imagem remanufaturada internamente",
+            "part_number": "REM 50F0Z00",
+            "modelos": [
+                "MX310",
+                "MX410",
+                "MX510",
+                "MX610",
+                "MX611"
+            ]
+        }
+    ],
+    "toner": [
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "60FBX0E/60FBX00/227192/50FBU00/50FBU0E",
+            "descricao": "Toner preto",
+            "part_number": "1041-504U",
+            "modelos": [
+                "MS511",
+                "MX511",
+                "MS610",
+                "MX610",
+                "MS611",
+                "MX611"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "50FBX00/50FBX0E",
+            "descricao": "Toner preto para Multilab",
+            "part_number": "1053-504X",
+            "modelos": [
+                "MS310",
+                "MX310",
+                "MS410",
+                "MX410",
+                "MS511",
+                "MX511",
+                "MS610",
+                "MX610",
+                "MS611",
+                "MX611"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "56FBU0E",
+            "descricao": "Toner",
+            "part_number": "2571-MS621",
+            "modelos": [
+                "MS621",
+                "MX511",
+                "MX522",
+                "MX622"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "58DBU00",
+            "descricao": "Toner",
+            "part_number": "2608-MX722",
+            "modelos": [
+                "MX722",
+                "MX822"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "52DBX00/62DBX00/52DBH00",
+            "descricao": "Toner",
+            "part_number": "1054-524-624X",
+            "modelos": [
+                "MS711",
+                "MX711",
+                "MS811",
+                "MX811",
+                "MS812",
+                "MX812"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "T654X11B/T650U1E",
+            "descricao": "Toner",
+            "part_number": "623-T654X11B",
+            "modelos": [
+                "652",
+                "654",
+                "656",
+                "658"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "7634-E460X11B/X463U11G/E460X11B",
+            "descricao": "Toner",
+            "part_number": "625-E460-15K",
+            "modelos": [
+                "X463",
+                "E460"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "708XK/708HK/80C8XK0",
+            "descricao": "Toner preto",
+            "part_number": "2463-CX510BK",
+            "modelos": [
+                "CS310",
+                "CX310",
+                "CS410",
+                "CX410",
+                "CS510",
+                "CX510"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "708XC/708HC/80C8XC0",
+            "descricao": "Toner cyan",
+            "part_number": "2464-CX510C",
+            "modelos": [
+                "CS310",
+                "CX310",
+                "CS410",
+                "CX410",
+                "CS510",
+                "CX510"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "708XM/708HM/80C8XM0",
+            "descricao": "Toner magenta",
+            "part_number": "2465-CX510M",
+            "modelos": [
+                "CS310",
+                "CX310",
+                "CS410",
+                "CX410",
+                "CS510",
+                "CX510"
+            ]
+        },
+        {
+            "fabricante": "GLOBAL",
+            "referencia_base": "708XY/708HY/80C8XY0",
+            "descricao": "Toner yellow",
+            "part_number": "2466-CX510Y",
+            "modelos": [
+                "CS310",
+                "CX310",
+                "CS410",
+                "CX410",
+                "CS510",
+                "CX510"
+            ]
+        },
+        {
+            "fabricante": "3i",
+            "referencia_base": "60FBX0E/60FBX00/227192/50FBU00/50FBU0E",
+            "descricao": "Toner",
+            "part_number": "227192",
+            "modelos": [
+                "MX511",
+                "MX611"
+            ]
+        },
+        {
+            "fabricante": "3i",
+            "referencia_base": "7634-E460X11B/X463U11G/E460X11B",
+            "descricao": "Toner E460",
+            "part_number": "227281-INOVA",
+            "modelos": [
+                "X463",
+                "E460"
+            ]
+        },
+        {
+            "fabricante": "3i",
+            "referencia_base": "52DBX00/62DBX00/52DBH00",
+            "descricao": "Toner",
+            "part_number": "52D4X00-INOVA",
+            "modelos": [
+                "MX711",
+                "MX812"
+            ]
+        },
+        {
+            "fabricante": "3i",
+            "referencia_base": "50FBX00/50FBX0E",
+            "descricao": "Toner para Multilab",
+            "part_number": "50F4X00-INOVA",
+            "modelos": [
+                "MS410",
+                "MS510",
+                "MS610"
+            ]
+        },
+        {
+            "fabricante": "VRI",
+            "referencia_base": "60FBX0E/60FBX00/227192/50FBU00/50FBU0E",
+            "descricao": "Toner",
+            "part_number": "60F4X00-VRI",
+            "modelos": [
+                "MX511",
+                "MX610",
+                "MX611"
+            ]
+        },
+        {
+            "fabricante": "VRI",
+            "referencia_base": "50FBX00/50FBX0E",
+            "descricao": "Toner para Multilab",
+            "part_number": "9253-50FBX00",
+            "modelos": [
+                "MS410",
+                "MS510",
+                "MS610"
+            ]
+        },
+        {
+            "fabricante": "VRI",
+            "referencia_base": "56FBU0E/56F4U00",
+            "descricao": "Toner",
+            "part_number": "56F4U00-25K-VRI",
+            "modelos": [
+                "MS622",
+                "MX622"
+            ]
+        },
+        {
+            "fabricante": "VRI",
+            "referencia_base": "52DBX00/62DBX00/52DBH00",
+            "descricao": "Toner",
+            "part_number": "52DBX00-524X-VRI",
+            "modelos": [
+                "MS811",
+                "MS812",
+                "MX711"
+            ]
+        },
+        {
+            "fabricante": "VRI",
+            "referencia_base": "7634-E460X11B",
+            "descricao": "Toner",
+            "part_number": "7634-E460X11B",
+            "modelos": [
+                "E460"
+            ]
+        },
+        {
+            "fabricante": "LEXMARK",
+            "referencia_base": "56FBU00/56FBU0E",
+            "descricao": "Toner",
+            "part_number": "56FBU00",
+            "modelos": [
+                "MS622",
+                "MX421",
+                "MX521",
+                "MX522",
+                "MX622"
+            ]
+        },
+        {
+            "fabricante": "LEXMARK",
+            "referencia_base": "60FBX0E/60FBX00/227192/50FBU00/50FBU0E",
+            "descricao": "Toner",
+            "part_number": "50FBU0E",
+            "modelos": [
+                "MS510",
+                "MS610",
+                "MX510",
+                "MX511",
+                "MX610",
+                "MX611"
+            ]
+        },
+        {
+            "fabricante": "LEXMARK",
+            "referencia_base": "52DBH00/58DBU00",
+            "descricao": "Toner",
+            "part_number": "58DBU0E",
+            "modelos": [
+                "MS725",
+                "MS821",
+                "MS822",
+                "MS823",
+                "MS824",
+                "MS825",
+                "MS826",
+                "MX721",
+                "MX722",
+                "MX725",
+                "MX824",
+                "MX826"
+            ]
+        },
+        {
+            "fabricante": "LEXMARK",
+            "referencia_base": "76C0HK0/76C00K0/86C0HK0",
+            "descricao": "Toner preto",
+            "part_number": "86C0HK0/76C00K0",
+            "modelos": [
+                "CS923",
+                "CX921",
+                "CX922",
+                "CX923",
+                "CX924"
+            ]
+        }
+    ]
+}

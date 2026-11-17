@@ -48,7 +48,7 @@ MS622:
 
 import html
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import requests
@@ -115,7 +115,7 @@ def limpar_html(texto):
     )
 
     texto = re.sub(
-        r"<[^>]+>",
+        r"</?[a-zA-Z!][^>\r\n]*>",
         " ",
         texto,
     )
@@ -191,7 +191,7 @@ def valor_limpo(valor):
     valor = html.unescape(str(valor))
 
     valor = re.sub(
-        r"<[^>]+>",
+        r"</?[a-zA-Z!][^>\r\n]*>",
         " ",
         valor,
     )
@@ -581,6 +581,10 @@ def coletar_engine_debug_ms622(ip, dados_base=None):
     # Não inventamos "MS622" a partir de Speed, Index etc.
 
     dados["consumiveis"] = consumiveis_engine
+    dados["sysdebug_filtered"] = extrair_sysdebug_filtered(
+        limpar_html(texto_engine),
+        consumiveis_engine,
+    )
 
     print(
         "[SYSDEBUG] Supply Table Engine reconhecida."
@@ -1364,6 +1368,9 @@ def extrair_consumiveis_sysdebug(texto):
     # UNIDADE DE IMAGEM
     # ========================================================
 
+    serial_imaging = None
+    part_imaging = None
+
     padrao_imaging = re.compile(
         r"Mono\s+Cartridge\s+Imaging\s+Unit"
         r".{0,1500}?"
@@ -1378,23 +1385,89 @@ def extrair_consumiveis_sysdebug(texto):
 
     if encontrado:
 
-        serial = valor_limpo(
+        serial_candidato = valor_limpo(
             encontrado.group(1)
         )
 
-        if serial:
+        if (
+            serial_candidato
+            and not re.fullmatch(r"0+", serial_candidato)
+        ):
+            serial_imaging = serial_candidato
 
-            consumiveis.append(
-                {
-                    "tipo": "unidade_imagem",
-                    "nome": "Mono Cartridge Imaging Unit",
-                    "numero_serie": serial,
-                }
+    # Fallback 1: ST Supply Table Data (osikey Imaging Unit)
+    padrao_osikey_imaging = re.compile(
+        r"osikey\s+(?:Black\s+)?Imaging\s+Unit\s*,\s*serial\s+"
+        r"([A-Za-z0-9][A-Za-z0-9_-]*)"
+        r"\s+valid\s+\d+"
+        r"(.*?)"
+        r"(?=osikey\s+|\Z)",
+        re.IGNORECASE | re.DOTALL,
+    )
+
+    encontrado_osikey_iu = padrao_osikey_imaging.search(
+        texto_limpo
+    )
+
+    if encontrado_osikey_iu:
+        serial_iu_osikey = valor_limpo(encontrado_osikey_iu.group(1))
+        bloco_iu_osikey = encontrado_osikey_iu.group(2)
+        match_pn_iu = re.search(
+            r"\bpartNumber\s+([A-Za-z0-9_-]+)",
+            bloco_iu_osikey,
+            re.IGNORECASE,
+        )
+        if match_pn_iu:
+            part_imaging = valor_limpo(match_pn_iu.group(1))
+
+        if (
+            not serial_imaging
+            and serial_iu_osikey
+            and not re.fullmatch(r"0+", serial_iu_osikey)
+        ):
+            serial_imaging = serial_iu_osikey
+
+    # Fallback 2: Key=Imaging Unit, Value=Map
+    if not serial_imaging:
+        padrao_map_imaging = re.compile(
+            r"Key=Imaging\s+Unit,\s*Value=Map"
+            r"(.*?)"
+            r"(?=Key=Maintenance\s+Kit,\s*Value=Map|"
+            r"Key=Fuser,\s*Value=Map|"
+            r"End\s+of\s+Dump|\Z)",
+            re.IGNORECASE | re.DOTALL,
+        )
+        encontrado_map_iu = padrao_map_imaging.search(texto_limpo)
+        if encontrado_map_iu:
+            bloco_map_iu = encontrado_map_iu.group(1)
+            match_sn_iu = re.search(
+                r'Key=serialNumber,\s*Value="([^"]*)"',
+                bloco_map_iu,
+                re.IGNORECASE,
             )
+            if match_sn_iu:
+                cand_iu = valor_limpo(match_sn_iu.group(1))
+                if cand_iu and not re.fullmatch(r"0+", cand_iu):
+                    serial_imaging = cand_iu
+
+    if serial_imaging:
+
+        item_imaging = {
+            "tipo": "unidade_imagem",
+            "nome": "Mono Cartridge Imaging Unit",
+            "numero_serie": serial_imaging,
+        }
+        if part_imaging:
+            item_imaging["part_number"] = part_imaging
+
+        consumiveis.append(item_imaging)
 
     # ========================================================
     # TONER
     # ========================================================
+
+    serial_toner = None
+    part_toner = None
 
     padrao_black_toner = re.compile(
         r"Key=Black\s+Toner,\s*Value=Map"
@@ -1445,6 +1518,9 @@ def extrair_consumiveis_sysdebug(texto):
             else None
         )
 
+        if part_number:
+            part_toner = part_number
+
         if (
             serial
             and not re.fullmatch(
@@ -1452,15 +1528,74 @@ def extrair_consumiveis_sysdebug(texto):
                 serial,
             )
         ):
+            serial_toner = serial
 
-            consumiveis.append(
-                {
-                    "tipo": "toner",
-                    "nome": "Black Toner",
-                    "numero_serie": serial,
-                    "part_number": part_number,
-                }
+    # Fallback 1: ST Supply Table Data (osikey Black Toner / Cartridge)
+    padrao_osikey_toner = re.compile(
+        r"osikey\s+(?:Black\s+)?(?:Toner|Cartridge)\s*,\s*serial\s+"
+        r"([A-Za-z0-9][A-Za-z0-9_-]*)"
+        r"\s+valid\s+\d+"
+        r"(.*?)"
+        r"(?=osikey\s+|\Z)",
+        re.IGNORECASE | re.DOTALL,
+    )
+
+    encontrado_osikey_toner = padrao_osikey_toner.search(
+        texto_limpo
+    )
+
+    if encontrado_osikey_toner:
+        serial_osikey = valor_limpo(encontrado_osikey_toner.group(1))
+        bloco_osikey = encontrado_osikey_toner.group(2)
+        match_pn_osikey = re.search(
+            r"\bpartNumber\s+([A-Za-z0-9_-]+)",
+            bloco_osikey,
+            re.IGNORECASE,
+        )
+        if not part_toner and match_pn_osikey:
+            part_toner = valor_limpo(match_pn_osikey.group(1))
+
+        if (
+            not serial_toner
+            and serial_osikey
+            and not re.fullmatch(r"0+", serial_osikey)
+        ):
+            serial_toner = serial_osikey
+
+    # Fallback 2: Mono Cartridge Toner Bottle ... S/N:
+    if not serial_toner:
+        padrao_mono_toner = re.compile(
+            r"Mono\s+Cartridge\s+Toner\s+Bottle"
+            r"(.*?)"
+            r"(?=Mono\s+Cartridge\s+Imaging\s+Unit|\Z)",
+            re.IGNORECASE | re.DOTALL,
+        )
+        encontrado_mono_toner = padrao_mono_toner.search(texto_limpo)
+        if encontrado_mono_toner:
+            match_sn_mono = re.search(
+                r"S/N\s*:\s*([A-Za-z0-9][A-Za-z0-9_-]*)",
+                encontrado_mono_toner.group(1),
+                re.IGNORECASE,
             )
+            if match_sn_mono:
+                cand_mono = valor_limpo(match_sn_mono.group(1))
+                if (
+                    cand_mono
+                    and len(cand_mono) >= 5
+                    and not re.fullmatch(r"0+", cand_mono)
+                ):
+                    serial_toner = cand_mono
+
+    if serial_toner:
+
+        consumiveis.append(
+            {
+                "tipo": "toner",
+                "nome": "Black Toner",
+                "numero_serie": serial_toner,
+                "part_number": part_toner,
+            }
+        )
 
     # ========================================================
     # FUSOR / MAINTENANCE KIT
@@ -1515,6 +1650,205 @@ def extrair_consumiveis_sysdebug(texto):
         )
 
     return consumiveis
+
+
+# ============================================================
+# SYSDEBUG FILTERED (MÉTRICAS DA UNIDADE DE IMAGEM / DRUM)
+# ============================================================
+
+def _decodificar_data_serial_lexmark(serial):
+    """
+    Decodifica a data gravada no chip de suprimento Lexmark (formato CAxYYDDDxxxx):
+    - YY: Ano (20YY)
+    - DDD: Dia juliano do ano (001 a 366)
+    Retorna string DD/MM/YYYY quando reconhecido.
+    """
+    if not serial:
+        return None
+    s = str(serial).strip().upper()
+    m = re.match(r"^[A-Z]{3}(\d{2})(\d{3})", s)
+    if not m:
+        return None
+    try:
+        yy = int(m.group(1))
+        ddd = int(m.group(2))
+        ano = 2000 + yy
+        if 2000 <= ano <= 2099 and 1 <= ddd <= 366:
+            dt = datetime(ano, 1, 1) + timedelta(days=ddd - 1)
+            return dt.strftime("%d/%m/%Y")
+    except Exception:
+        pass
+    return None
+
+
+def extrair_sysdebug_filtered(texto_limpo, consumiveis=None):
+    """
+    Extrai as métricas exclusivas do chip da Unidade de Imagem (Fotocondutor / Drum)
+    diretamente do relatório SYSDEBUG / Engine Debug, sem misturar com o contador
+    geral da impressora.
+    """
+    filtrado = {}
+    if not texto_limpo:
+        return filtrado
+
+    # 1. Bloco Mono Cartridge Imaging Unit
+    match_mono_iu = re.search(
+        r"Mono\s+Cartridge\s+Imaging\s+Unit(.*?)(?=Bottle-K\s+status|Imaging\s+Unit-K\s+status|ST\s+Supply\s+Table|Key=Black\s+Toner|\Z)",
+        texto_limpo,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if match_mono_iu:
+        bloco_iu = match_mono_iu.group(1)
+
+        m_sn = re.search(r"S/N\s*:\s*([A-Za-z0-9][A-Za-z0-9_-]*)", bloco_iu, re.IGNORECASE)
+        if m_sn:
+            sn = valor_limpo(m_sn.group(1))
+            if sn and not re.fullmatch(r"0+", sn):
+                filtrado["drum_serial"] = sn
+
+        m_chip = re.search(r"Chip\s+ID\s*:\s*([0-9a-fA-F]+)", bloco_iu, re.IGNORECASE)
+        if m_chip:
+            filtrado["drum_chip_id"] = valor_limpo(m_chip.group(1))
+
+        m_ec = re.search(r"Chip\s+EC\s+Lvl\s*:\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_ec:
+            filtrado["drum_chip_ec_level"] = int(m_ec.group(1))
+
+        m_ttc = re.search(r"TonerToCleaner\s*=\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_ttc:
+            filtrado["drum_toner_to_cleaner"] = int(m_ttc.group(1))
+
+        m_ftd = re.search(r"FilteredTnrInDvlpr\s*=\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_ftd:
+            filtrado["drum_filtered_toner_dvlpr"] = int(m_ftd.group(1))
+
+        m_pg = re.search(r"IU\s+Page\s+Count\s*[;:=]\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_pg:
+            filtrado["drum_page_count"] = int(m_pg.group(1))
+
+        m_rev = re.search(r"IU\s+PC\s+Drum\s+Rev\s+Count\s*[;:=]\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_rev:
+            filtrado["drum_rotations"] = int(m_rev.group(1))
+
+        m_urev = re.search(r"IU\s+Unscaled\s+PC\s+Drum\s+Rev\s+Count\s*[;:=]\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_urev:
+            filtrado["pc_unscaled_rotations"] = int(m_urev.group(1))
+
+        m_por_sides = re.search(r"SidesPrintedSincePor\s*=\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_por_sides:
+            filtrado["pc_sides_since_por"] = int(m_por_sides.group(1))
+
+        m_por_revs = re.search(r"PcDrumRevsSincePor\s*=\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_por_revs:
+            filtrado["pc_rotations_since_por"] = int(m_por_revs.group(1))
+
+        m_lvl = re.search(r"Current\s+Level\s*=\s*(\d+)", bloco_iu, re.IGNORECASE)
+        if m_lvl:
+            filtrado["drum_life_remaining"] = int(m_lvl.group(1))
+
+    # 2. Bloco ST Supply Table Data (osikey Imaging Unit)
+    match_osikey_iu = re.search(
+        r"osikey\s+(?:Black\s+)?Imaging\s+Unit\s*,\s*serial\s*([A-Za-z0-9_-]*)\s+valid\s+\d+(.*?)(?=osikey\s+|\Z)",
+        texto_limpo,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if match_osikey_iu:
+        sn_osi = valor_limpo(match_osikey_iu.group(1))
+        bloco_osi = match_osikey_iu.group(2)
+        if sn_osi and not re.fullmatch(r"0+", sn_osi) and "drum_serial" not in filtrado:
+            filtrado["drum_serial"] = sn_osi
+
+        m_pn = re.search(r"\bpartNumber\s+([A-Za-z0-9_-]+)", bloco_osi, re.IGNORECASE)
+        if m_pn:
+            filtrado["drum_part_number"] = valor_limpo(m_pn.group(1))
+
+        m_pg_osi = re.search(r"\bpageCount\s+(\d+)", bloco_osi, re.IGNORECASE)
+        if m_pg_osi and "drum_page_count" not in filtrado:
+            filtrado["drum_page_count"] = int(m_pg_osi.group(1))
+
+        m_rem_osi = re.search(r"\bpageRemain\s+(\d+)", bloco_osi, re.IGNORECASE)
+        if m_rem_osi:
+            filtrado["drum_pages_remaining"] = int(m_rem_osi.group(1))
+
+        m_max_osi = re.search(r"\bmaxCapacityPages\s+(\d+)", bloco_osi, re.IGNORECASE)
+        if m_max_osi:
+            filtrado["drum_max_capacity"] = int(m_max_osi.group(1))
+
+        m_lvl_osi = re.search(r"\blevel\s+(\d+)", bloco_osi, re.IGNORECASE)
+        if m_lvl_osi and "drum_life_remaining" not in filtrado:
+            filtrado["drum_life_remaining"] = int(m_lvl_osi.group(1))
+
+    # 3. Bloco Key=Imaging Unit, Value=Map
+    match_map_iu = re.search(
+        r"Key=Imaging\s+Unit,\s*Value=Map(.*?)(?=Key=Maintenance\s+Kit,\s*Value=Map|Key=Fuser,\s*Value=Map|End\s+of\s+Dump|\Z)",
+        texto_limpo,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if match_map_iu:
+        bloco_map = match_map_iu.group(1)
+        m_sn_map = re.search(r'Key=serialNumber,\s*Value="([^"]*)"', bloco_map, re.IGNORECASE)
+        if m_sn_map and "drum_serial" not in filtrado:
+            sn_m = valor_limpo(m_sn_map.group(1))
+            if sn_m and not re.fullmatch(r"0+", sn_m):
+                filtrado["drum_serial"] = sn_m
+
+        m_pn_map = re.search(r'Key=partNumber,\s*Value="([^"]*)"', bloco_map, re.IGNORECASE)
+        if m_pn_map and "drum_part_number" not in filtrado:
+            pn_m = valor_limpo(m_pn_map.group(1))
+            if pn_m:
+                filtrado["drum_part_number"] = pn_m
+
+        m_pg_map = re.search(r"Key=pageCount,\s*Value=(\d+)", bloco_map, re.IGNORECASE)
+        if m_pg_map and "drum_page_count" not in filtrado:
+            filtrado["drum_page_count"] = int(m_pg_map.group(1))
+
+        m_rem_map = re.search(r"Key=pagesRemaining,\s*Value=(\d+)", bloco_map, re.IGNORECASE)
+        if m_rem_map and "drum_pages_remaining" not in filtrado:
+            filtrado["drum_pages_remaining"] = int(m_rem_map.group(1))
+
+        m_max_map = re.search(r"Key=maxCapacityPages,\s*Value=(\d+)", bloco_map, re.IGNORECASE)
+        if m_max_map and "drum_max_capacity" not in filtrado:
+            filtrado["drum_max_capacity"] = int(m_max_map.group(1))
+
+        m_lvl_map = re.search(r"Key=percentFull(?:ADS|-INTERNAL-ONLY)?,\s*Value=(\d+)", bloco_map, re.IGNORECASE)
+        if m_lvl_map and "drum_life_remaining" not in filtrado:
+            filtrado["drum_life_remaining"] = int(m_lvl_map.group(1))
+
+    # 4. Complemento com itens de unidade_imagem extraídos (ex: MS622 Engine Debug)
+    if isinstance(consumiveis, list):
+        for item in consumiveis:
+            if isinstance(item, dict) and item.get("tipo") == "unidade_imagem":
+                if item.get("numero_serie") and "drum_serial" not in filtrado:
+                    filtrado["drum_serial"] = item["numero_serie"]
+                if item.get("part_number") and "drum_part_number" not in filtrado:
+                    filtrado["drum_part_number"] = item["part_number"]
+                if item.get("side_count") is not None and "drum_page_count" not in filtrado:
+                    filtrado["drum_page_count"] = item["side_count"]
+                elif item.get("consumido") is not None and "drum_page_count" not in filtrado:
+                    filtrado["drum_page_count"] = item["consumido"]
+                if item.get("nivel") is not None and "drum_life_remaining" not in filtrado:
+                    filtrado["drum_life_remaining"] = item["nivel"]
+                if item.get("restante") is not None and "drum_pages_remaining" not in filtrado:
+                    filtrado["drum_pages_remaining"] = item["restante"]
+                if item.get("capacidade") is not None and "drum_max_capacity" not in filtrado:
+                    filtrado["drum_max_capacity"] = item["capacidade"]
+                if item.get("dias_restantes") is not None:
+                    filtrado["drum_days_remaining"] = item["dias_restantes"]
+
+    # 5. Data de instalação / data do chip do cilindro
+    m_inst = re.search(
+        r"(?:IU|Drum|Imaging\s+Unit|Photoconductor)?\s*(?:First\s+)?Install(?:ation)?\s*Date\s*[:=]\s*([0-9]{2,4}[-/][0-9]{2}[-/][0-9]{2,4})",
+        texto_limpo,
+        re.IGNORECASE,
+    )
+    if m_inst:
+        filtrado["drum_install_date"] = valor_limpo(m_inst.group(1))
+    elif filtrado.get("drum_serial"):
+        data_serial = _decodificar_data_serial_lexmark(filtrado["drum_serial"])
+        if data_serial:
+            filtrado["drum_install_date"] = data_serial
+
+    return filtrado
 
 
 # ============================================================
@@ -1606,6 +1940,13 @@ def parse_sysdebug(texto):
 
     if consumiveis:
         dados["consumiveis"] = consumiveis
+
+    sysdebug_filtered = extrair_sysdebug_filtered(
+        texto_limpo,
+        consumiveis,
+    )
+    if sysdebug_filtered:
+        dados["sysdebug_filtered"] = sysdebug_filtered
 
     return dados
 

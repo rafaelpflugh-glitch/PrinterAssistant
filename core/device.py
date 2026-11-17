@@ -157,6 +157,8 @@ class PrinterDevice:
 
         self.raw_sysdebug = {}
 
+        self.sysdebug_filtered = {}
+
 
     # ========================================================
     # UTILITÁRIOS DE NORMALIZAÇÃO
@@ -1040,6 +1042,14 @@ class PrinterDevice:
                     dados.copy()
                 )
 
+                if isinstance(
+                    dados.get("sysdebug_filtered"),
+                    dict,
+                ):
+                    self.sysdebug_filtered = (
+                        dados["sysdebug_filtered"].copy()
+                    )
+
                 self.normalizar_identificacao(
                     dados,
                     "SYSDEBUG",
@@ -1399,10 +1409,26 @@ class PrinterDevice:
                 )
 
 
+                eh_container_raiz = bool(
+                    {
+                        "consumiveis",
+                        "supplies",
+                        "identificacao",
+                        "conectividade",
+                    }
+                    &
+                    chaves_normalizadas
+                )
+
+
                 if (
-                    possui_identificacao
-                    or
-                    possui_serial
+                    not eh_container_raiz
+                    and
+                    (
+                        possui_identificacao
+                        or
+                        possui_serial
+                    )
                 ):
 
                     encontrados.append(
@@ -1410,9 +1436,11 @@ class PrinterDevice:
                     )
 
 
-                for valor in (
-                    objeto.values()
+                for chave_filha, valor in (
+                    objeto.items()
                 ):
+                    if cls.normalizar_texto(chave_filha) == "sysdebug filtered":
+                        continue
 
                     percorrer(
                         valor
@@ -1606,6 +1634,17 @@ class PrinterDevice:
 
             return
 
+        if isinstance(
+            dados_sysdebug,
+            dict,
+        ) and isinstance(
+            dados_sysdebug.get("sysdebug_filtered"),
+            dict,
+        ):
+            self.sysdebug_filtered = (
+                dados_sysdebug["sysdebug_filtered"].copy()
+            )
+
 
         candidatos_brutos = (
             self.extrair_supplies_sysdebug(
@@ -1618,6 +1657,10 @@ class PrinterDevice:
 
             return
 
+
+        serial_maquina = str(
+            self.identificacao.get("serial") or ""
+        ).strip()
 
         candidatos = []
 
@@ -1633,6 +1676,13 @@ class PrinterDevice:
 
             if not serial:
 
+                continue
+
+            if (
+                serial_maquina
+                and serial_maquina.lower() not in ("desconhecido", "none", "")
+                and serial.strip().upper() == serial_maquina.upper()
+            ):
                 continue
 
 
@@ -1662,6 +1712,11 @@ class PrinterDevice:
                         self.normalizar_texto(
                             nome
                         ),
+
+                    "part_number":
+                        item.get("part_number")
+                        if isinstance(item, dict)
+                        else None,
                 }
             )
 
@@ -1698,6 +1753,9 @@ class PrinterDevice:
             # Regra da interface:
             # fusor não recebe número de série.
             #
+            if tipo_supply == "fusor":
+                supply["numero_serie"] = None
+                continue
 
 
             nome_supply = (
@@ -1815,6 +1873,9 @@ class PrinterDevice:
             ] = candidato[
                 "serial"
             ]
+
+            if candidato.get("part_number") and not supply.get("part_number"):
+                supply["part_number"] = candidato["part_number"]
 
 
             usados.add(
@@ -2548,6 +2609,18 @@ class PrinterDevice:
                     )
 
                     else self.raw_sysdebug
+                ),
+
+            "sysdebug_filtered":
+                (
+                    self.sysdebug_filtered.copy()
+
+                    if isinstance(
+                        self.sysdebug_filtered,
+                        dict,
+                    )
+
+                    else {}
                 ),
         }
 

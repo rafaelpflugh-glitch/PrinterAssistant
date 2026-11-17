@@ -1,4 +1,3 @@
-
 """
 ============================================================
 PRINTER ASSISTANT
@@ -51,7 +50,7 @@ ARQUIVO DA IMAGEM
 IMPRESSÃO
 ============================================================
 
-    Protocolo: PCL
+    Protocolo: PCL encapsulado com UEL/PJL
     Transporte: RAW TCP
     Porta: 9100
 
@@ -188,6 +187,9 @@ def localizar_imagem():
         / "print"
         / "_too_dark"
         / "check_1.jpg",
+        
+        # Teste de caminho absoluto hardcoded
+        Path(r"C:\PrinterAssistant\assets\print\too_dark\check_1.jpg")
     )
 
     for caminho in candidatos:
@@ -477,38 +479,55 @@ def _gerar_raster_pcl(
         imagem.size
     )
 
-    bytes_por_linha = (
-        (largura + 7)
-        // 8
-    )
-
     raster = bytearray()
 
     # --------------------------------------------------------
     # Para centralizar verticalmente na página.
+    # Estas medidas estão em DOTS @ 300 DPI.
     # --------------------------------------------------------
 
-    topo = (
+    topo_dots = (
         PAPER_HEIGHT_DOTS
         - altura
     ) // 2
 
-    # --------------------------------------------------------
-    # Margem lateral.
-    # --------------------------------------------------------
-
-    esquerda = (
+    esquerda_dots = (
         PAPER_WIDTH_DOTS
         - largura
     ) // 2
 
-    if esquerda < MARGEM_DOTS:
+    if esquerda_dots < MARGEM_DOTS:
+        esquerda_dots = MARGEM_DOTS
 
-        esquerda = MARGEM_DOTS
+    if topo_dots < MARGEM_DOTS:
+        topo_dots = MARGEM_DOTS
 
-    if topo < MARGEM_DOTS:
+    # --------------------------------------------------------
+    # CONVERSÃO PARA DECIPOINTS (1/720 de polegada)
+    #
+    # Os comandos \x1b&a#H e \x1b&a#V do PCL operam em 
+    # decipoints, e não em dots. Se usarmos dots diretos
+    # a impressora fará um posicionamento totalmente errado.
+    # --------------------------------------------------------
 
-        topo = MARGEM_DOTS
+    esquerda_decipoints = int((esquerda_dots / DPI) * 720)
+    topo_decipoints = int((topo_dots / DPI) * 720)
+
+    # --------------------------------------------------------
+    # UEL (Universal Exit Language) E CABEÇALHO PJL
+    #
+    # Isso é EXTREMAMENTE NECESSÁRIO para impressoras Lexmark.
+    # Se enviarmos PCL puro sem este cabeçalho, a Lexmark
+    # na porta 9100 pode ignorar o Job completamente.
+    # --------------------------------------------------------
+
+    raster.extend(
+        b"\x1b%-12345X@PJL\r\n"
+    )
+    
+    raster.extend(
+        b"@PJL ENTER LANGUAGE=PCL\r\n"
+    )
 
     # --------------------------------------------------------
     # Inicialização PCL.
@@ -523,7 +542,7 @@ def _gerar_raster_pcl(
     #
     # PCL:
     #
-    # Esc P = 2
+    # Esc & l 2 A
     # --------------------------------------------------------
 
     raster.extend(
@@ -549,25 +568,25 @@ def _gerar_raster_pcl(
     )
 
     # --------------------------------------------------------
-    # Posicionamento absoluto vertical.
+    # Posicionamento absoluto vertical (em decipoints).
     #
     # Esc & a # V
     # --------------------------------------------------------
 
     raster.extend(
-        f"\x1b&a{topo}V".encode(
+        f"\x1b&a{topo_decipoints}V".encode(
             "ascii"
         )
     )
 
     # --------------------------------------------------------
-    # Posicionamento horizontal.
+    # Posicionamento horizontal (em decipoints).
     #
     # Esc & a # H
     # --------------------------------------------------------
 
     raster.extend(
-        f"\x1b&a{esquerda}H".encode(
+        f"\x1b&a{esquerda_decipoints}H".encode(
             "ascii"
         )
     )
@@ -575,11 +594,12 @@ def _gerar_raster_pcl(
     # --------------------------------------------------------
     # Inicia raster gráfico.
     #
-    # Esc * r 1 A
+    # IMPORTANTE: Esc * r 0 A  (Usa o X atual)
+    # Se for 1 A, ele ignora o decipoint e joga pra margem zero.
     # --------------------------------------------------------
 
     raster.extend(
-        b"\x1b*r1A"
+        b"\x1b*r0A"
     )
 
     # --------------------------------------------------------
@@ -609,22 +629,17 @@ def _gerar_raster_pcl(
     # --------------------------------------------------------
     # Dados raster.
     #
-    # Cada linha:
-    #
-    # Esc * b # W + bytes
+    # Otimizado com carregamento em bloco (pix) para performance.
     # --------------------------------------------------------
+
+    pix = imagem.load()
 
     for y in range(
         altura
     ):
 
         pixels = [
-            imagem.getpixel(
-                (
-                    x,
-                    y,
-                )
-            )
+            pix[x, y]
             for x in range(
                 largura
             )
@@ -656,7 +671,7 @@ def _gerar_raster_pcl(
     )
 
     # --------------------------------------------------------
-    # Avança para próxima página / termina job.
+    # Avança para próxima página / termina job PCL.
     # --------------------------------------------------------
 
     raster.extend(
@@ -664,18 +679,26 @@ def _gerar_raster_pcl(
     )
 
     # Form feed.
-    #
     # Garante a saída da página.
     raster.extend(
         b"\x0c"
+    )
+
+    # --------------------------------------------------------
+    # UEL de Fechamento.
+    # Encerra a sessão PCL adequadamente.
+    # --------------------------------------------------------
+    
+    raster.extend(
+        b"\x1b%-12345X"
     )
 
     return (
         bytes(raster),
         largura,
         altura,
-        esquerda,
-        topo,
+        esquerda_dots,
+        topo_dots,
     )
 
 
@@ -787,6 +810,10 @@ def _obter_ip(
         return str(
             ip
         ).strip()
+
+    if isinstance(device, str) and device.strip():
+
+        return device.strip()
 
     if device is None:
 
@@ -950,7 +977,7 @@ def imprimir_relatorio_demonstracao(
     Parâmetros:
 
         device:
-            PrinterDevice já coletado.
+            PrinterDevice já coletado ou IP string.
 
         imagem:
             Caminho opcional para a imagem oficial.
@@ -1193,4 +1220,3 @@ if __name__ == "__main__":
         print(
             erro
         )
-

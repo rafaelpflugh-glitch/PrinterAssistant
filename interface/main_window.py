@@ -1,10 +1,7 @@
-# interface/main_window.py
-
-
 import asyncio
 import threading
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, simpledialog
 
 from core.device import PrinterDevice
 from core.scanner import (
@@ -12,7 +9,9 @@ from core.scanner import (
     identificar,
 )
 from interface.printer_view import PrinterView
+from interface.settings_window import SettingsWindow
 from interface.theme import aplicar_tema
+from core.version import __version__, APP_TITLE
 
 
 class MainWindow(tk.Tk):
@@ -25,7 +24,7 @@ class MainWindow(tk.Tk):
         1. Descobrir rede local
         2. Descobrir equipamentos
         3. Identificar candidatos
-        4. Técnico seleciona a impressora
+        4. Técnico seleciona a impressora (ou adiciona IP manualmente)
         5. Coletar PJL + SYSDEBUG + SNMP
         6. Exibir ficha da impressora
     """
@@ -43,7 +42,7 @@ class MainWindow(tk.Tk):
         aplicar_tema(self)
 
         self.title(
-            "Printer Assistant"
+            APP_TITLE
         )
 
         self.geometry(
@@ -102,7 +101,7 @@ class MainWindow(tk.Tk):
 
         ttk.Label(
             topo,
-            text="Printer Assistant",
+            text=f"Printer Assistant  {__version__}",
             font=(
                 "Segoe UI",
                 20,
@@ -126,17 +125,47 @@ class MainWindow(tk.Tk):
             pady=(4, 0),
         )
 
-        self.btn_redescobrir = ttk.Button(
+        botoes_topo = ttk.Frame(
             topo,
-            text="Redescobrir",
-            command=self.iniciar_descoberta,
         )
 
-        self.btn_redescobrir.grid(
+        botoes_topo.grid(
             row=0,
             column=1,
             rowspan=2,
             sticky="e",
+        )
+
+        self.btn_config = ttk.Button(
+            botoes_topo,
+            text="⚙ Configurações",
+            command=self.abrir_configuracoes,
+        )
+
+        self.btn_config.pack(
+            side="left",
+            padx=(0, 6),
+        )
+
+        self.btn_manual = ttk.Button(
+            botoes_topo,
+            text="Adicionar IP Manual",
+            command=self.adicionar_ip_manual,
+        )
+
+        self.btn_manual.pack(
+            side="left",
+            padx=(0, 6),
+        )
+
+        self.btn_redescobrir = ttk.Button(
+            botoes_topo,
+            text="Redescobrir",
+            command=self.iniciar_descoberta,
+        )
+
+        self.btn_redescobrir.pack(
+            side="left",
         )
 
 
@@ -188,6 +217,178 @@ class MainWindow(tk.Tk):
         )
 
         self._mostrar_tela_descoberta()
+
+
+    # =========================================================
+    # CONFIGURAÇÕES
+    # =========================================================
+
+    def abrir_configuracoes(
+        self,
+    ):
+
+        SettingsWindow(
+            self
+        )
+
+
+    # =========================================================
+    # ADICIONAR IP MANUAL
+    # =========================================================
+
+    def adicionar_ip_manual(
+        self,
+    ):
+
+        ip_digitado = simpledialog.askstring(
+            "Adicionar IP Manual",
+            "Digite o endereço IP da impressora (ex: 192.168.14.152):",
+            parent=self,
+        )
+
+        if not ip_digitado:
+            return
+
+        ip_limpo = ip_digitado.strip()
+
+        partes = ip_limpo.split(".")
+
+        if len(partes) != 4:
+            messagebox.showerror(
+                "Erro",
+                "Formato de IP inválido.",
+                parent=self,
+            )
+            return
+
+        self.lbl_status.config(
+            text=f"Testando IP manual {ip_limpo}..."
+        )
+
+        self.btn_redescobrir.config(
+            state="disabled"
+        )
+
+        self.btn_manual.config(
+            state="disabled"
+        )
+
+        threading.Thread(
+            target=self._identificar_ip_manual_thread,
+            args=(ip_limpo,),
+            daemon=True,
+        ).start()
+
+
+    def _identificar_ip_manual_thread(
+        self,
+        ip,
+    ):
+
+        try:
+            resultado = asyncio.run(identificar(ip))
+            self.after(
+                0,
+                lambda: self._ip_manual_concluido(resultado),
+            )
+        except Exception as e:
+            self.after(
+                0,
+                lambda: self._ip_manual_erro(str(e)),
+            )
+
+
+    def _ip_manual_concluido(
+        self,
+        resultado,
+    ):
+
+        self.btn_redescobrir.config(
+            state="normal"
+        )
+
+        self.btn_manual.config(
+            state="normal"
+        )
+
+        if not resultado or not resultado.get("device"):
+            messagebox.showerror(
+                "Erro",
+                "Não foi possível identificar o equipamento neste IP.",
+                parent=self,
+            )
+            self.lbl_status.config(
+                text="Falha na identificação manual."
+            )
+            return
+
+        self.resultados_descoberta.append(resultado)
+
+        novo_indice = len(self.resultados_descoberta) - 1
+
+        device = resultado["device"]
+
+        identificacao = device.identificacao
+
+        modelo = identificacao.get("modelo", "Desconhecido")
+        fabricante = identificacao.get("fabricante", "Desconhecido")
+        serial = identificacao.get("serial", "Desconhecido")
+        contador = identificacao.get("contador")
+
+        if contador is None:
+            contador_texto = "Desconhecido"
+        else:
+            try:
+                contador_texto = f"{int(contador):,}".replace(",", ".")
+            except (TypeError, ValueError):
+                contador_texto = str(contador)
+
+        self.tree.insert(
+            "",
+            "end",
+            iid=str(novo_indice),
+            values=(
+                modelo,
+                fabricante,
+                serial,
+                contador_texto,
+                device.estado(),
+            ),
+        )
+
+        self.lbl_status.config(
+            text=f"Equipamento {device.ip} adicionado com sucesso!"
+        )
+
+        messagebox.showinfo(
+            "Sucesso",
+            f"Impressora {modelo} ({device.ip}) adicionada à lista!",
+            parent=self,
+        )
+
+
+    def _ip_manual_erro(
+        self,
+        erro,
+    ):
+
+        self.btn_redescobrir.config(
+            state="normal"
+        )
+
+        self.btn_manual.config(
+            state="normal"
+        )
+
+        self.lbl_status.config(
+            text="Erro ao testar IP manual."
+        )
+
+        messagebox.showerror(
+            "Erro",
+            f"Erro de conexão com o IP:\n{erro}",
+            parent=self,
+        )
 
 
     # =========================================================
@@ -245,7 +446,7 @@ class MainWindow(tk.Tk):
         ttk.Label(
             frame,
             text=(
-                "Selecione a impressora que deseja diagnosticar."
+                "Selecione a impressora que deseja diagnosticar ou adicione um IP manualmente."
             ),
         ).grid(
             row=1,

@@ -1,45 +1,17 @@
-# ============================================================
-# PRINTER ASSISTANT
-# INTERFACE - PRINTER VIEW
-# ============================================================
-#
-# Ficha visual da impressora.
-#
-# Responsabilidades:
-#
-# - apresentar os dados já coletados pelo PrinterDevice;
-# - apresentar consumíveis;
-# - apresentar conectividade;
-# - disponibilizar os relatórios;
-# - disponibilizar o RELATÓRIO RMA;
-# - solicitar atualização através do callback recebido;
-# - permitir visualizar ou imprimir relatórios.
-#
-# Esta classe NÃO realiza comunicação de rede diretamente.
-#
-# Relatórios:
-#
-#     services.report_service.ReportService
-#     reports.rma
-#
-# IMPORTANTE:
-#
-# Esta interface NÃO é específica de nenhum modelo de
-# impressora.
-#
-# O modelo, fabricante, serial, consumíveis etc. vêm
-# exclusivamente do PrinterDevice recebido.
-#
-# ============================================================
-
-import tkinter as tk
+﻿import tkinter as tk
 from tkinter import ttk, messagebox
 import time
+import inspect
+import threading
+from datetime import datetime
+import re
+import os
 
 from services.report_service import (
     ReportError,
     ReportService,
 )
+from core.version import __version__
 
 
 # ============================================================
@@ -62,7 +34,7 @@ class PrinterView(ttk.Frame):
         - Exibir serial do toner quando disponível.
         - Exibir serial da unidade de imagem quando disponível.
         - Fusor não possui campo de serial.
-        - Garantia somente para unidade de imagem.
+        - Garantia para unidade de imagem exige idade de até 2 anos E nível acima de 50%.
         - Origem do contador não é exibida.
         - Informações textuais são selecionáveis.
         - Relatórios são acionados pelo ReportService.
@@ -154,14 +126,14 @@ class PrinterView(ttk.Frame):
             "PrinterView.Title.TLabel",
             background=self.COR_FUNDO,
             foreground=self.COR_TEXTO,
-            font=("Segoe UI", 17, "bold"),
+            font=("Segoe UI", 18, "bold"),
         )
 
         style.configure(
             "PrinterView.Model.TLabel",
             background=self.COR_FUNDO,
             foreground=self.COR_TEXTO,
-            font=("Segoe UI", 11, "bold"),
+            font=("Segoe UI", 12, "bold"),
         )
 
         style.configure(
@@ -175,7 +147,7 @@ class PrinterView(ttk.Frame):
             "PrinterView.FieldTitle.TLabel",
             background=self.COR_PAINEL_2,
             foreground=self.COR_TEXTO_SECUNDARIO,
-            font=("Segoe UI", 8),
+            font=("Segoe UI", 8, "bold"),
         )
 
         style.configure(
@@ -205,7 +177,7 @@ class PrinterView(ttk.Frame):
             "PrinterView.TLabelframe.Label",
             background=self.COR_PAINEL,
             foreground=self.COR_TEXTO_SECUNDARIO,
-            font=("Segoe UI", 9, "bold"),
+            font=("Segoe UI", 10, "bold"),
         )
 
         style.configure(
@@ -238,7 +210,7 @@ class PrinterView(ttk.Frame):
             bordercolor="#3a434a",
             lightcolor="#20262b",
             darkcolor="#20262b",
-            padding=10,
+            padding=7,
             font=("Segoe UI", 9, "bold"),
         )
 
@@ -251,10 +223,6 @@ class PrinterView(ttk.Frame):
             ],
         )
 
-        # ----------------------------------------------------
-        # BOTÃO RMA
-        # ----------------------------------------------------
-
         style.configure(
             "PrinterView.RMA.TButton",
             background="#26333a",
@@ -262,7 +230,7 @@ class PrinterView(ttk.Frame):
             bordercolor="#4a6875",
             lightcolor="#26333a",
             darkcolor="#26333a",
-            padding=10,
+            padding=7,
             font=("Segoe UI", 9, "bold"),
         )
 
@@ -271,6 +239,29 @@ class PrinterView(ttk.Frame):
             background=[
                 ("active", "#31505d"),
                 ("pressed", "#1d292f"),
+                ("disabled", "#191c1f"),
+            ],
+            foreground=[
+                ("disabled", "#5f666d"),
+            ],
+        )
+
+        style.configure(
+            "PrinterView.Producao.TButton",
+            background="#315b73",
+            foreground="#ffffff",
+            bordercolor="#4fc3f7",
+            lightcolor="#315b73",
+            darkcolor="#315b73",
+            padding=7,
+            font=("Segoe UI", 9, "bold"),
+        )
+
+        style.map(
+            "PrinterView.Producao.TButton",
+            background=[
+                ("active", "#4fc3f7"),
+                ("pressed", "#244356"),
                 ("disabled", "#191c1f"),
             ],
             foreground=[
@@ -314,13 +305,56 @@ class PrinterView(ttk.Frame):
         )
 
         style.configure(
+            "PrinterView.Supply.TEntry",
+            fieldbackground=self.COR_PAINEL_2,
+            foreground=self.COR_TEXTO,
+            insertcolor=self.COR_TEXTO,
+            bordercolor=self.COR_BORDA,
+            lightcolor=self.COR_PAINEL_2,
+            darkcolor=self.COR_PAINEL_2,
+            padding=7,
+            font=("Segoe UI", 10),
+        )
+
+        style.map(
+            "PrinterView.Supply.TEntry",
+            fieldbackground=[
+                ("focus", self.COR_PAINEL_2),
+                ("active", self.COR_PAINEL_2),
+            ],
+            bordercolor=[
+                ("focus", self.COR_DESTAQUE),
+            ],
+        )
+
+        style.configure(
+            "PrinterView.Supply.TButton",
+            background="#26333a",
+            foreground=self.COR_TEXTO,
+            bordercolor="#4a6875",
+            lightcolor="#26333a",
+            darkcolor="#26333a",
+            padding=8,
+            font=("Segoe UI", 9, "bold"),
+        )
+
+        style.map(
+            "PrinterView.Supply.TButton",
+            background=[
+                ("active", "#31505d"),
+                ("pressed", "#1d292f"),
+                ("disabled", "#191c1f"),
+            ],
+        )
+
+        style.configure(
             "PrinterView.Horizontal.TProgressbar",
             troughcolor="#292e33",
             background=self.COR_DESTAQUE,
             bordercolor="#292e33",
             lightcolor=self.COR_DESTAQUE,
             darkcolor=self.COR_DESTAQUE,
-            thickness=8,
+            thickness=10,
         )
 
         style.configure(
@@ -453,7 +487,7 @@ class PrinterView(ttk.Frame):
 
         self.lbl_titulo = ttk.Label(
             header,
-            text="PRINTER ASSISTANT",
+            text=f"PRINTER ASSISTANT  {__version__}",
             style="PrinterView.Title.TLabel",
         )
 
@@ -767,13 +801,13 @@ class PrinterView(ttk.Frame):
         self.supplies_canvas = canvas
 
         # ====================================================
-        # RELATÓRIOS
+        # RELATÓRIOS E AÇÕES
         # ====================================================
 
         self.reports_frame = ttk.LabelFrame(
             principal,
-            text=" RELATÓRIOS ",
-            padding=10,
+            text=" RELATÓRIOS E AÇÕES ",
+            padding=8,
             style="PrinterView.TLabelframe",
         )
 
@@ -789,18 +823,13 @@ class PrinterView(ttk.Frame):
             weight=1,
         )
 
-        self.reports_frame.rowconfigure(
-            6,
-            weight=1,
-        )
-
         # ----------------------------------------------------
         # RELATÓRIO DE ATIVO
         # ----------------------------------------------------
 
         self.btn_relatorio_ativo = ttk.Button(
             self.reports_frame,
-            text="RELATÓRIO\nDE ATIVO",
+            text="RELATÓRIO DE ATIVO",
             command=self._clicar_relatorio_ativo,
             style="PrinterView.Report.TButton",
         )
@@ -809,25 +838,43 @@ class PrinterView(ttk.Frame):
             row=0,
             column=0,
             sticky="ew",
-            pady=(4, 8),
+            pady=3,
         )
 
         # ----------------------------------------------------
-        # CONFIGURAÇÃO
+        # CONFIGURAÇÃO E SUPRIMENTOS
         # ----------------------------------------------------
 
-        self.btn_configuracao = ttk.Button(
+        self.btn_config_suprimentos = ttk.Button(
             self.reports_frame,
-            text="CONFIGURAÇÃO\nE SUPRIMENTOS",
-            command=self._clicar_configuracao,
+            text="CONFIG. E SUPRIMENTOS",
+            command=self._clicar_configuracao_suprimentos,
             style="PrinterView.Report.TButton",
         )
 
-        self.btn_configuracao.grid(
+        self.btn_config_suprimentos.grid(
             row=1,
             column=0,
             sticky="ew",
-            pady=8,
+            pady=3,
+        )
+
+        # ----------------------------------------------------
+        # ANÁLISE DE UNIDADE DE IMAGEM
+        # ----------------------------------------------------
+
+        self.btn_analise_imagem = ttk.Button(
+            self.reports_frame,
+            text="ANÁLISE UNIDADE IMAGEM",
+            command=self._clicar_analise_unidade_imagem,
+            style="PrinterView.Report.TButton",
+        )
+
+        self.btn_analise_imagem.grid(
+            row=2,
+            column=0,
+            sticky="ew",
+            pady=3,
         )
 
         # ----------------------------------------------------
@@ -842,28 +889,46 @@ class PrinterView(ttk.Frame):
         )
 
         self.btn_demonstracao.grid(
-            row=2,
+            row=3,
             column=0,
             sticky="ew",
-            pady=8,
+            pady=3,
         )
 
         # ====================================================
-        # NOVO: RELATÓRIO RMA
+        # RELATÓRIO RMA
         # ====================================================
 
         self.btn_relatorio_rma = ttk.Button(
             self.reports_frame,
-            text="RELATÓRIO\nRMA",
+            text="RELATÓRIO RMA",
             command=self._clicar_relatorio_rma,
             style="PrinterView.RMA.TButton",
         )
 
         self.btn_relatorio_rma.grid(
-            row=3,
+            row=4,
             column=0,
             sticky="ew",
-            pady=8,
+            pady=3,
+        )
+
+        # ====================================================
+        # PRODUÇÃO DE ETIQUETAS
+        # ====================================================
+
+        self.btn_producao_etiqueta = ttk.Button(
+            self.reports_frame,
+            text="PRODUÇÃO ETIQUETAS",
+            command=self._abrir_producao_etiqueta,
+            style="PrinterView.Producao.TButton",
+        )
+
+        self.btn_producao_etiqueta.grid(
+            row=5,
+            column=0,
+            sticky="ew",
+            pady=3,
         )
 
         # ----------------------------------------------------
@@ -874,49 +939,23 @@ class PrinterView(ttk.Frame):
             self.reports_frame,
             orient="horizontal",
         ).grid(
-            row=4,
+            row=6,
             column=0,
             sticky="ew",
-            pady=(10, 8),
+            pady=6,
         )
 
         ttk.Label(
             self.reports_frame,
-            text=(
-                "Relatórios podem ser "
-                "visualizados antes da impressão."
-            ),
+            text="Preview disponível antes de imprimir.",
             style="PrinterView.Secondary.TLabel",
             justify="left",
-            wraplength=180,
+            wraplength=170,
         ).grid(
-            row=5,
+            row=7,
             column=0,
             sticky="nw",
-            pady=(4, 0),
-        )
-
-        # ----------------------------------------------------
-        # INFORMAÇÃO RMA
-        # ----------------------------------------------------
-
-        tk.Label(
-            self.reports_frame,
-            text=(
-                "RMA:\n"
-                "Etiqueta da unidade de imagem.\n"
-                "TSC 192.168.14.151:9100"
-            ),
-            background=self.COR_PAINEL,
-            foreground=self.COR_TEXTO_FRACO,
-            font=("Segoe UI", 8),
-            justify="left",
-            anchor="w",
-        ).grid(
-            row=6,
-            column=0,
-            sticky="sw",
-            pady=(10, 0),
+            pady=(0, 2),
         )
 
         # ----------------------------------------------------
@@ -1036,7 +1075,7 @@ class PrinterView(ttk.Frame):
             "—",
             font=(
                 "Segoe UI",
-                11 if serial else 10,
+                12 if serial else 11,
                 "bold",
             ),
             background=self.COR_PAINEL_2,
@@ -1162,6 +1201,51 @@ class PrinterView(ttk.Frame):
             return "unidade_imagem"
 
         return ""
+
+    # ========================================================
+    # VALIDAÇÃO DE GARANTIA (NÍVEL > 50% E IDADE MÁXIMA DE 2 ANOS)
+    # ========================================================
+
+    @staticmethod
+    def _verificar_garantia(serial, nivel):
+        """
+        Valida a garantia da unidade de imagem com base em duas regras:
+        1. O nível deve estar estritamente acima de 50%.
+        2. A idade baseada no ano de fabricação extraído do serial deve ser de no máximo 2 anos.
+        """
+        if nivel is not None:
+            try:
+                if float(nivel) <= 50:
+                    return False
+            except (ValueError, TypeError):
+                pass
+
+        if not serial:
+            return None
+
+        serial_limpo = str(serial).strip().upper()
+        if len(serial_limpo) < 5:
+            return None
+
+        match = re.search(r'[A-Z]{3}(\d{2})', serial_limpo)
+        if not match:
+            match = re.search(r'^[A-Z]*(\d{2})', serial_limpo)
+
+        if match:
+            try:
+                digitos_ano = match.group(1)
+                ano_fab = 2000 + int(digitos_ano)
+                ano_atual = datetime.now().year
+                idade = ano_atual - ano_fab
+
+                if 0 <= idade <= 2:
+                    return True
+                else:
+                    return False
+            except (ValueError, TypeError):
+                pass
+
+        return None
 
     # ========================================================
     # ATUALIZAÇÃO DA TELA
@@ -1673,7 +1757,7 @@ class PrinterView(ttk.Frame):
             detalhes_widget = (
                 self._texto_selecionavel(
                     card,
-                    "   •   ".join(
+                    "    •    ".join(
                         detalhes
                     ),
                     font=(
@@ -1745,9 +1829,22 @@ class PrinterView(ttk.Frame):
 
         if tipo == "unidade_imagem":
 
+            serial_unidade = (
+                supply.get("numero_serie")
+                or supply.get("serial")
+                or ""
+            )
+
             garantia = supply.get(
                 "garantia"
             )
+
+            res_garantia = self._verificar_garantia(
+                serial_unidade, nivel
+            )
+
+            if res_garantia is not None:
+                garantia = res_garantia
 
             if garantia is True:
 
@@ -1885,6 +1982,470 @@ class PrinterView(ttk.Frame):
         )
 
     # ========================================================
+    # CONFIGURAÇÃO E SUPRIMENTOS (DIRETO VIA reports.configuracao_suprimentos)
+    # ========================================================
+
+    def _clicar_configuracao_suprimentos(self):
+        if self.device is None:
+            messagebox.showerror(
+                "Configuração e Suprimentos",
+                "Nenhuma impressora está selecionada.",
+                parent=self,
+            )
+            return
+
+        try:
+            from reports.configuracao_suprimentos import (
+                preparar_relatorio_configuracao,
+                imprimir_relatorio_configuracao,
+                digitalizar_relatorio_configuracao,
+            )
+        except ImportError as erro:
+            messagebox.showerror(
+                "Configuração e Suprimentos",
+                f"Módulo reports.configuracao_suprimentos não encontrado:\n{erro}",
+                parent=self,
+            )
+            return
+
+        marcas_selecionadas = {"cartucho": "GLOBAL", "unidade_imagem": "LEXMARK"}
+
+        class _MarcasReceiver:
+            def definir_marcas_suprimentos(self, m_cart, m_unid):
+                marcas_selecionadas["cartucho"] = m_cart
+                marcas_selecionadas["unidade_imagem"] = m_unid
+
+        def continuar_geracao():
+            try:
+                m_cart = marcas_selecionadas["cartucho"]
+                m_unid = marcas_selecionadas["unidade_imagem"]
+
+                resultado = preparar_relatorio_configuracao(
+                    self.device,
+                    marca_cartucho=m_cart,
+                    marca_unidade_imagem=m_unid,
+                )
+                texto = resultado.get("texto", "") if isinstance(resultado, dict) else str(resultado)
+
+                def imprimir():
+                    imprimir_relatorio_configuracao(
+                        self.device,
+                        marca_cartucho=m_cart,
+                        marca_unidade_imagem=m_unid,
+                    )
+
+                def digitalizar():
+                    retorno = digitalizar_relatorio_configuracao(
+                        self.device,
+                        marca_cartucho=m_cart,
+                        marca_unidade_imagem=m_unid,
+                    )
+                    caminho = retorno.get("arquivo") if isinstance(retorno, dict) else str(retorno)
+                    if caminho:
+                        messagebox.showinfo(
+                            "Configuração e Suprimentos",
+                            f"Relatório digital gerado com sucesso.\n\nArquivo:\n{caminho}",
+                            parent=self,
+                        )
+
+                self._escolher_acao_relatorio(
+                    "CONFIGURAÇÃO E SUPRIMENTOS",
+                    texto=texto,
+                    imprimir_callback=imprimir,
+                    digitalizar_callback=digitalizar,
+                )
+            except Exception as erro:
+                messagebox.showerror("Configuração e Suprimentos", f"Erro ao gerar:\n{erro}", parent=self)
+
+        self._solicitar_marcas_suprimentos(_MarcasReceiver(), continuar_geracao)
+
+    _clicar_relatorio_configuracao = _clicar_configuracao_suprimentos
+
+    def _solicitar_marcas_suprimentos(
+        self,
+        service,
+        continuar_callback,
+    ):
+        """
+        Solicita os fabricantes utilizados no relatório
+        de Configuração e Suprimentos.
+        """
+
+        dialogo = tk.Toplevel(
+            self.winfo_toplevel()
+        )
+
+        dialogo.title(
+            "CONFIGURAÇÃO E SUPRIMENTOS"
+        )
+
+        dialogo.geometry(
+            "560x330"
+        )
+
+        dialogo.minsize(
+            520,
+            300,
+        )
+
+        dialogo.resizable(
+            False,
+            False,
+        )
+
+        dialogo.transient(
+            self.winfo_toplevel()
+        )
+
+        dialogo.grab_set()
+
+        dialogo.configure(
+            background=self.COR_FUNDO
+        )
+
+        dialogo.columnconfigure(
+            0,
+            weight=1,
+        )
+
+        frame = tk.Frame(
+            dialogo,
+            background=self.COR_FUNDO,
+            padx=28,
+            pady=24,
+        )
+
+        frame.grid(
+            row=0,
+            column=0,
+            sticky="nsew",
+        )
+
+        frame.columnconfigure(
+            0,
+            weight=1,
+        )
+
+        tk.Label(
+            frame,
+            text="CONFIGURAÇÃO E SUPRIMENTOS",
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO,
+            font=("Segoe UI", 15, "bold"),
+            anchor="w",
+        ).grid(
+            row=0,
+            column=0,
+            sticky="w",
+            pady=(0, 5),
+        )
+
+        tk.Label(
+            frame,
+            text=(
+                "Selecione o fabricante dos consumíveis "
+                "que constará no relatório."
+            ),
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO_SECUNDARIO,
+            font=("Segoe UI", 9),
+            justify="left",
+            anchor="w",
+        ).grid(
+            row=1,
+            column=0,
+            sticky="w",
+            pady=(0, 20),
+        )
+
+        tk.Label(
+            frame,
+            text="FABRICANTE DO CARTUCHO DE TONER",
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO_SECUNDARIO,
+            font=("Segoe UI", 8, "bold"),
+            anchor="w",
+        ).grid(
+            row=2,
+            column=0,
+            sticky="w",
+            pady=(0, 5),
+        )
+
+        marca_cartucho_var = tk.StringVar(
+            value="GLOBAL"
+        )
+
+        fabricante_cartucho_combo = ttk.Combobox(
+            frame,
+            textvariable=marca_cartucho_var,
+            values=(
+                "LEXMARK",
+                "3I",
+                "VRI",
+                "GLOBAL",
+            ),
+            state="readonly",
+            font=("Segoe UI", 10),
+            style="PrinterView.RMA.TCombobox",
+        )
+
+        fabricante_cartucho_combo.grid(
+            row=3,
+            column=0,
+            sticky="ew",
+            pady=(0, 15),
+        )
+
+        tk.Label(
+            frame,
+            text="FABRICANTE DA UNIDADE DE IMAGEM",
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO_SECUNDARIO,
+            font=("Segoe UI", 8, "bold"),
+            anchor="w",
+        ).grid(
+            row=4,
+            column=0,
+            sticky="w",
+            pady=(0, 5),
+        )
+
+        marca_unidade_var = tk.StringVar(
+            value="LEXMARK"
+        )
+
+        fabricante_unidade_combo = ttk.Combobox(
+            frame,
+            textvariable=marca_unidade_var,
+            values=(
+                "LEXMARK",
+                "3I",
+                "VRI",
+                "GLOBAL",
+                "REM",
+            ),
+            state="readonly",
+            font=("Segoe UI", 10),
+            style="PrinterView.RMA.TCombobox",
+        )
+
+        fabricante_unidade_combo.grid(
+            row=5,
+            column=0,
+            sticky="ew",
+            pady=(0, 20),
+        )
+
+        tk.Label(
+            frame,
+            text=(
+                "Essas informações serão utilizadas "
+                "em Visualizar, Digitalizar e Imprimir."
+            ),
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO_FRACO,
+            font=("Segoe UI", 8),
+            justify="left",
+            anchor="w",
+        ).grid(
+            row=6,
+            column=0,
+            sticky="w",
+            pady=(0, 18),
+        )
+
+        botoes = tk.Frame(
+            frame,
+            background=self.COR_FUNDO,
+        )
+
+        botoes.grid(
+            row=7,
+            column=0,
+            sticky="ew",
+        )
+
+        botoes.columnconfigure(
+            0,
+            weight=1,
+        )
+
+        resultado = {
+            "confirmado": False,
+        }
+
+        def cancelar():
+
+            resultado["confirmado"] = False
+
+            dialogo.destroy()
+
+        def continuar():
+
+            marca_cartucho = (
+                marca_cartucho_var.get().strip()
+            )
+
+            marca_unidade_imagem = (
+                marca_unidade_var.get().strip()
+            )
+
+            if not marca_cartucho:
+
+                messagebox.showwarning(
+                    "Configuração e Suprimentos",
+                    (
+                        "Selecione o fabricante "
+                        "do cartucho de toner."
+                    ),
+                    parent=dialogo,
+                )
+
+                fabricante_cartucho_combo.focus_set()
+
+                return
+
+            if not marca_unidade_imagem:
+
+                messagebox.showwarning(
+                    "Configuração e Suprimentos",
+                    (
+                        "Selecione o fabricante "
+                        "da unidade de imagem."
+                    ),
+                    parent=dialogo,
+                )
+
+                fabricante_unidade_combo.focus_set()
+
+                return
+
+            try:
+
+                service.definir_marcas_suprimentos(
+                    marca_cartucho,
+                    marca_unidade_imagem,
+                )
+
+            except ReportError as erro:
+
+                messagebox.showerror(
+                    "Configuração e Suprimentos",
+                    str(erro),
+                    parent=dialogo,
+                )
+
+                return
+
+            except Exception as erro:
+
+                messagebox.showerror(
+                    "Configuração e Suprimentos",
+                    (
+                        "Não foi possível definir "
+                        "os fabricantes.\n\n"
+                        f"{erro}"
+                    ),
+                    parent=dialogo,
+                )
+
+                return
+
+            resultado["confirmado"] = True
+
+            dialogo.destroy()
+
+        ttk.Button(
+            botoes,
+            text="CANCELAR",
+            command=cancelar,
+            style="PrinterView.TButton",
+        ).grid(
+            row=0,
+            column=0,
+            sticky="w",
+        )
+
+        ttk.Button(
+            botoes,
+            text="CONTINUAR",
+            command=continuar,
+            style="PrinterView.Supply.TButton",
+        ).grid(
+            row=0,
+            column=1,
+            sticky="e",
+        )
+
+        dialogo.bind(
+            "<Escape>",
+            lambda event: cancelar(),
+        )
+
+        dialogo.bind(
+            "<Return>",
+            lambda event: continuar(),
+        )
+
+        fabricante_cartucho_combo.focus_set()
+
+        self.wait_window(
+            dialogo
+        )
+
+        if resultado["confirmado"]:
+
+            continuar_callback()
+
+    # ========================================================
+    # ANÁLISE DE UNIDADE DE IMAGEM (DIRETO VIA reports.analise_unidade_imagem)
+    # ========================================================
+
+    def _clicar_analise_unidade_imagem(self):
+        if self.device is None:
+            messagebox.showerror(
+                "Análise de Unidade de Imagem",
+                "Nenhuma impressora está selecionada.",
+                parent=self,
+            )
+            return
+
+        try:
+            from reports.analise_unidade_imagem import (
+                preparar_analise_unidade,
+                imprimir_analise_unidade,
+                digitalizar_analise_unidade,
+            )
+
+            resultado = preparar_analise_unidade(self.device)
+            texto = resultado.get("texto", "") if isinstance(resultado, dict) else str(resultado)
+
+            def imprimir():
+                imprimir_analise_unidade(self.device)
+
+            def digitalizar():
+                retorno = digitalizar_analise_unidade(self.device)
+                caminho = retorno.get("arquivo") if isinstance(retorno, dict) else str(retorno)
+                if caminho:
+                    messagebox.showinfo(
+                        "Análise de Unidade de Imagem",
+                        f"Relatório digital gerado com sucesso.\n\nArquivo:\n{caminho}",
+                        parent=self,
+                    )
+
+            self._escolher_acao_relatorio(
+                "ANÁLISE DE UNIDADE DE IMAGEM",
+                texto=texto,
+                imprimir_callback=imprimir,
+                digitalizar_callback=digitalizar,
+            )
+        except Exception as erro:
+            messagebox.showerror("Análise de Unidade de Imagem", f"Erro ao processar:\n{erro}", parent=self)
+
+    _clicar_analise_unidade = _clicar_analise_unidade_imagem
+
+    # ========================================================
     # ESCOLHA DA AÇÃO DO RELATÓRIO
     # ========================================================
 
@@ -1893,24 +2454,47 @@ class PrinterView(ttk.Frame):
         titulo,
         texto=None,
         imprimir_callback=None,
+        digitalizar_callback=None,
     ):
+        """
+        Abre a janela de ações do relatório.
+
+        A opção DIGITALIZAR é opcional.
+
+        Quando fornecida, ela NÃO faz nova coleta.
+        O callback recebido é responsável por gerar o
+        documento digital a partir dos dados já preparados.
+        """
 
         dialogo = tk.Toplevel(
-            self
+            self.winfo_toplevel()
         )
 
         dialogo.title(
             titulo
         )
 
-        dialogo.geometry(
-            "420x210"
-        )
+        if digitalizar_callback:
 
-        dialogo.minsize(
-            380,
-            190,
-        )
+            dialogo.geometry(
+                "520x210"
+            )
+
+            dialogo.minsize(
+                480,
+                190,
+            )
+
+        else:
+
+            dialogo.geometry(
+                "420x210"
+            )
+
+            dialogo.minsize(
+                380,
+                190,
+            )
 
         dialogo.resizable(
             False,
@@ -1984,6 +2568,7 @@ class PrinterView(ttk.Frame):
         ):
 
             resultado["acao"] = acao
+
             dialogo.destroy()
 
         ttk.Button(
@@ -1997,28 +2582,46 @@ class PrinterView(ttk.Frame):
             side="left",
         )
 
-        ttk.Button(
-            botoes,
-            text="VISUALIZAR",
-            command=lambda: escolher(
-                "visualizar"
-            ),
-            style="PrinterView.Report.TButton",
-        ).pack(
-            side="right",
-            padx=(8, 0),
-        )
+        if imprimir_callback:
 
-        ttk.Button(
-            botoes,
-            text="IMPRIMIR",
-            command=lambda: escolher(
-                "imprimir"
-            ),
-            style="PrinterView.Report.TButton",
-        ).pack(
-            side="right",
-        )
+            ttk.Button(
+                botoes,
+                text="IMPRIMIR",
+                command=lambda: escolher(
+                    "imprimir"
+                ),
+                style="PrinterView.Report.TButton",
+            ).pack(
+                side="right",
+            )
+
+        if digitalizar_callback:
+
+            ttk.Button(
+                botoes,
+                text="DIGITALIZAR",
+                command=lambda: escolher(
+                    "digitalizar"
+                ),
+                style="PrinterView.Report.TButton",
+            ).pack(
+                side="right",
+                padx=(8, 0),
+            )
+
+        if texto is not None:
+
+            ttk.Button(
+                botoes,
+                text="VISUALIZAR",
+                command=lambda: escolher(
+                    "visualizar"
+                ),
+                style="PrinterView.Report.TButton",
+            ).pack(
+                side="right",
+                padx=(8, 0),
+            )
 
         self.wait_window(
             dialogo
@@ -2038,10 +2641,61 @@ class PrinterView(ttk.Frame):
                     imprimir_callback,
                 )
 
+        elif acao == "digitalizar":
+
+            if digitalizar_callback:
+
+                try:
+
+                    digitalizar_callback()
+
+                except ReportError as erro:
+
+                    messagebox.showerror(
+                        "Digitalização",
+                        str(erro),
+                        parent=self,
+                    )
+
+                except Exception as erro:
+
+                    messagebox.showerror(
+                        "Digitalização",
+                        (
+                            "Não foi possível gerar "
+                            "o relatório digital.\n\n"
+                            f"{erro}"
+                        ),
+                        parent=self,
+                    )
+
         elif acao == "imprimir":
 
             if imprimir_callback:
-                imprimir_callback()
+
+                try:
+
+                    imprimir_callback()
+
+                except ReportError as erro:
+
+                    messagebox.showerror(
+                        "Impressão",
+                        str(erro),
+                        parent=self,
+                    )
+
+                except Exception as erro:
+
+                    messagebox.showerror(
+                        "Impressão",
+                        (
+                            "Não foi possível imprimir "
+                            "o relatório.\n\n"
+                            f"{erro}"
+                        ),
+                        parent=self,
+                    )
 
         return acao
 
@@ -2057,7 +2711,7 @@ class PrinterView(ttk.Frame):
     ):
 
         preview = tk.Toplevel(
-            self
+            self.winfo_toplevel()
         )
 
         preview.title(
@@ -2425,206 +3079,48 @@ class PrinterView(ttk.Frame):
             )
 
     # ========================================================
-    # CONFIGURAÇÃO E SUPRIMENTOS
+    # DEMONSTRAÇÃO (VIA RAW 9100 E PCL)
     # ========================================================
 
-    def _clicar_configuracao(
-        self,
-    ):
+    def _clicar_demonstracao(self):
+        self.btn_demonstracao.config(text="Enviando...", state="disabled")
+        self.update_idletasks()
 
-        try:
+        def tarefa_demo():
+            try:
+                from reports.demonstracao import imprimir_relatorio_demonstracao
+                
+                CAMINHO_IMAGEM_DEMO = r"C:\PrinterAssistant\assets\print\too_dark\check_1.jpg"
 
-            service = (
-                self._criar_report_service()
-            )
-
-            if hasattr(
-                service,
-                "preparar_configuracao",
-            ):
-
-                resultado = (
-                    service.preparar_configuracao()
+                imprimir_relatorio_demonstracao(
+                    device=self.device, 
+                    imagem=CAMINHO_IMAGEM_DEMO
                 )
-
-                if not isinstance(
-                    resultado,
-                    dict,
-                ):
-
-                    raise ReportError(
-                        "O ReportService retornou "
-                        "um resultado inválido para "
-                        "Configuração e Suprimentos."
+                
+                def sucesso():
+                    messagebox.showinfo(
+                        "Demonstração", 
+                        "Página de demonstração enviada para a impressora com sucesso!", 
+                        parent=self
                     )
+                    self.btn_demonstracao.config(text="DEMONSTRAÇÃO", state="normal")
+                
+                if self.winfo_exists():
+                    self.after(0, sucesso)
 
-                texto = resultado.get(
-                    "texto",
-                    "",
-                )
-
-                def imprimir():
-
-                    retorno = (
-                        service.imprimir_configuracao()
+            except Exception as e:
+                def erro():
+                    messagebox.showerror(
+                        "Erro", 
+                        f"Falha ao enviar a demonstração para a impressora:\n\n{e}", 
+                        parent=self
                     )
+                    self.btn_demonstracao.config(text="DEMONSTRAÇÃO", state="normal")
+                
+                if self.winfo_exists():
+                    self.after(0, erro)
 
-                    destino = (
-                        retorno.get(
-                            "destino",
-                            "Impressora",
-                        )
-                        if isinstance(
-                            retorno,
-                            dict,
-                        )
-                        else "Impressora"
-                    )
-
-                self._escolher_acao_relatorio(
-                    "CONFIGURAÇÃO E SUPRIMENTOS",
-                    texto=texto,
-                    imprimir_callback=imprimir,
-                )
-
-                return
-
-            resultado = (
-                service.imprimir_configuracao()
-            )
-
-            destino = (
-                resultado.get(
-                    "destino",
-                    "Impressora",
-                )
-                if isinstance(
-                    resultado,
-                    dict,
-                )
-                else "Impressora"
-            )
-
-        except ReportError as erro:
-
-            messagebox.showerror(
-                "Configuração e Suprimentos",
-                str(erro),
-                parent=self,
-            )
-
-        except Exception as erro:
-
-            messagebox.showerror(
-                "Configuração e Suprimentos",
-                (
-                    "Ocorreu um erro ao processar "
-                    "o relatório.\n\n"
-                    f"{erro}"
-                ),
-                parent=self,
-            )
-
-    # ========================================================
-    # DEMONSTRAÇÃO
-    # ========================================================
-
-    def _clicar_demonstracao(
-        self,
-    ):
-
-        try:
-
-            service = (
-                self._criar_report_service()
-            )
-
-            if hasattr(
-                service,
-                "preparar_demonstracao",
-            ):
-
-                resultado = (
-                    service.preparar_demonstracao()
-                )
-
-                if not isinstance(
-                    resultado,
-                    dict,
-                ):
-
-                    raise ReportError(
-                        "O ReportService retornou "
-                        "um resultado inválido para "
-                        "a demonstração."
-                    )
-
-                texto = resultado.get(
-                    "texto",
-                    "",
-                )
-
-                def imprimir():
-
-                    retorno = (
-                        service.imprimir_demonstracao()
-                    )
-
-                    destino = (
-                        retorno.get(
-                            "destino",
-                            "UST",
-                        )
-                        if isinstance(
-                            retorno,
-                            dict,
-                        )
-                        else "UST"
-                    )
-
-                self._escolher_acao_relatorio(
-                    "DEMONSTRAÇÃO",
-                    texto=texto,
-                    imprimir_callback=imprimir,
-                )
-
-                return
-
-            retorno = (
-                service.imprimir_demonstracao()
-            )
-
-            destino = (
-                retorno.get(
-                    "destino",
-                    "UST",
-                )
-                if isinstance(
-                    retorno,
-                    dict,
-                )
-                else "UST"
-            )
-
-        except ReportError as erro:
-
-            messagebox.showerror(
-                "Demonstração",
-                str(erro),
-                parent=self,
-            )
-
-        except Exception as erro:
-
-            messagebox.showerror(
-                "Demonstração",
-                (
-                    "Ocorreu um erro ao processar "
-                    "o relatório de demonstração.\n\n"
-                    f"{erro}"
-                ),
-                parent=self,
-            )
+        threading.Thread(target=tarefa_demo, daemon=True).start()
 
     # ========================================================
     # RMA
@@ -2636,18 +3132,16 @@ class PrinterView(ttk.Frame):
         rma_t0 = time.perf_counter()
 
         def rma_tempo(etapa):
-            print(f"[RMA-TIMER] {time.perf_counter() - rma_t0:8.3f}s | {etapa}", flush=True)
+            print(
+                f"[RMA-TIMER] "
+                f"{time.perf_counter() - rma_t0:8.3f}s | "
+                f"{etapa}",
+                flush=True,
+            )
 
-        rma_tempo("ENTROU EM _clicar_relatorio_rma")
-
-        """
-        Abre a configuração da etiqueta RMA.
-
-        O RMA utiliza a unidade de imagem que já está
-        presente no PrinterDevice.
-
-        Não realiza nova coleta.
-        """
+        rma_tempo(
+            "ENTROU EM _clicar_relatorio_rma"
+        )
 
         if self.device is None:
 
@@ -2663,18 +3157,20 @@ class PrinterView(ttk.Frame):
 
         try:
 
-            # ------------------------------------------------
-            # PRIMEIRO: carregar o módulo
-            # ------------------------------------------------
+            rma_tempo(
+                "ANTES DO IMPORT reports.rma"
+            )
 
-            rma_tempo("ANTES DO IMPORT reports.rma")
             from reports.rma import (
                 RMAError,
                 preparar_rma,
                 gerar_etiqueta_rma,
                 imprimir_tspl,
             )
-            rma_tempo("DEPOIS DO IMPORT reports.rma")
+
+            rma_tempo(
+                "DEPOIS DO IMPORT reports.rma"
+            )
 
         except ImportError as erro:
 
@@ -2691,22 +3187,21 @@ class PrinterView(ttk.Frame):
 
             return
 
-        # ----------------------------------------------------
-        # VALIDAÇÃO PRÉVIA
-        #
-        # Isso confirma que existe uma unidade de imagem
-        # com serial nos dados já coletados.
-        # ----------------------------------------------------
-
         try:
 
-            rma_tempo("ANTES DA PRIMEIRA preparar_rma (validação)")
+            rma_tempo(
+                "ANTES DA PRIMEIRA preparar_rma (validação)"
+            )
+
             dados_rma = preparar_rma(
                 device=self.device,
                 fabricante="LEXMARK",
                 lote="",
             )
-            rma_tempo("DEPOIS DA PRIMEIRA preparar_rma (validação)")
+
+            rma_tempo(
+                "DEPOIS DA PRIMEIRA preparar_rma (validação)"
+            )
 
         except RMAError as erro:
 
@@ -2732,15 +3227,13 @@ class PrinterView(ttk.Frame):
 
             return
 
-        # ----------------------------------------------------
-        # JANELA DE CONFIGURAÇÃO
-        # ----------------------------------------------------
-
         dialogo = tk.Toplevel(
-            self
+            self.winfo_toplevel()
         )
 
-        rma_tempo("JANELA RMA CRIADA")
+        rma_tempo(
+            "JANELA RMA CRIADA"
+        )
 
         dialogo.title(
             "RELATÓRIO RMA"
@@ -2793,10 +3286,6 @@ class PrinterView(ttk.Frame):
             weight=1,
         )
 
-        # ----------------------------------------------------
-        # TÍTULO
-        # ----------------------------------------------------
-
         tk.Label(
             frame,
             text="RELATÓRIO RMA",
@@ -2828,10 +3317,6 @@ class PrinterView(ttk.Frame):
             sticky="w",
             pady=(0, 18),
         )
-
-        # ----------------------------------------------------
-        # SERIAL
-        # ----------------------------------------------------
 
         tk.Label(
             frame,
@@ -2878,10 +3363,6 @@ class PrinterView(ttk.Frame):
             pady=5,
         )
 
-        # ----------------------------------------------------
-        # NÍVEL
-        # ----------------------------------------------------
-
         tk.Label(
             frame,
             text="NÍVEL",
@@ -2913,10 +3394,6 @@ class PrinterView(ttk.Frame):
             sticky="ew",
             pady=5,
         )
-
-        # ----------------------------------------------------
-        # FABRICANTE
-        # ----------------------------------------------------
 
         tk.Label(
             frame,
@@ -2954,14 +3431,6 @@ class PrinterView(ttk.Frame):
             sticky="ew",
             pady=5,
         )
-
-        # ----------------------------------------------------
-        # STARTER
-        #
-        # O valor é detectado automaticamente pelo módulo RMA:
-        # AM IU = NÃO STARTER; qualquer outra IU = STARTER.
-        # A interface apenas exibe o resultado.
-        # ----------------------------------------------------
 
         starter_detectado = bool(
             dados_rma.get("started", False)
@@ -3002,10 +3471,6 @@ class PrinterView(ttk.Frame):
             pady=5,
         )
 
-        # ----------------------------------------------------
-        # LOTE
-        # ----------------------------------------------------
-
         tk.Label(
             frame,
             text="LOTE",
@@ -3041,16 +3506,12 @@ class PrinterView(ttk.Frame):
             pady=5,
         )
 
-        # ----------------------------------------------------
-        # INFORMAÇÃO
-        # ----------------------------------------------------
-
         tk.Label(
             frame,
             text=(
                 "A etiqueta será impressa em:\n"
                 "TSC 192.168.14.151:9100\n"
-                "100 x 150 mm  •  GAP 2 mm"
+                "100 x 150 mm    •    GAP 2 mm"
             ),
             background=self.COR_FUNDO,
             foreground=self.COR_TEXTO_FRACO,
@@ -3065,26 +3526,24 @@ class PrinterView(ttk.Frame):
             pady=(18, 10),
         )
 
-        # ----------------------------------------------------
-        # RESULTADO
-        # ----------------------------------------------------
-
         resultado = {
             "acao": None,
             "dados": None,
         }
 
-        # ----------------------------------------------------
-        # FUNÇÃO PREPARAR
-        # ----------------------------------------------------
-
         def preparar():
 
-            rma_tempo("ANTES DA SEGUNDA preparar_rma (botão escolhido)")
+            rma_tempo(
+                "ANTES DA SEGUNDA preparar_rma (botão escolhido)"
+            )
 
-            fabricante = fabricante_var.get().strip()
+            fabricante = (
+                fabricante_var.get().strip()
+            )
 
-            lote = lote_var.get().strip()
+            lote = (
+                lote_var.get().strip()
+            )
 
             try:
 
@@ -3094,7 +3553,9 @@ class PrinterView(ttk.Frame):
                     lote=lote,
                 )
 
-                rma_tempo("DEPOIS DA SEGUNDA preparar_rma (botão escolhido)")
+                rma_tempo(
+                    "DEPOIS DA SEGUNDA preparar_rma (botão escolhido)"
+                )
 
             except RMAError as erro:
 
@@ -3122,10 +3583,6 @@ class PrinterView(ttk.Frame):
 
             return dados
 
-        # ----------------------------------------------------
-        # AÇÃO
-        # ----------------------------------------------------
-
         botoes = tk.Frame(
             frame,
             background=self.COR_FUNDO,
@@ -3150,7 +3607,9 @@ class PrinterView(ttk.Frame):
 
         def visualizar():
 
-            rma_tempo("CLIQUE EM VISUALIZAR")
+            rma_tempo(
+                "CLIQUE EM VISUALIZAR"
+            )
 
             dados = preparar()
 
@@ -3164,7 +3623,9 @@ class PrinterView(ttk.Frame):
 
         def imprimir():
 
-            rma_tempo("CLIQUE EM IMPRIMIR NA JANELA RMA")
+            rma_tempo(
+                "CLIQUE EM IMPRIMIR NA JANELA RMA"
+            )
 
             dados = preparar()
 
@@ -3211,17 +3672,17 @@ class PrinterView(ttk.Frame):
 
         lote_entry.focus_set()
 
-        rma_tempo("ANTES DO wait_window — AGUARDANDO AÇÃO DO USUÁRIO")
+        rma_tempo(
+            "ANTES DO wait_window — AGUARDANDO AÇÃO DO USUÁRIO"
+        )
 
         self.wait_window(
             dialogo
         )
 
-        rma_tempo("DEPOIS DO wait_window — JANELA RMA FECHOU")
-
-        # ----------------------------------------------------
-        # PROCESSAR RESULTADO
-        # ----------------------------------------------------
+        rma_tempo(
+            "DEPOIS DO wait_window — JANELA RMA FECHOU"
+        )
 
         acao = resultado[
             "acao"
@@ -3234,13 +3695,12 @@ class PrinterView(ttk.Frame):
         if not acao or dados is None:
             return
 
-        # ====================================================
-        # GERAR TSPL
-        # ====================================================
-
         try:
 
-            rma_tempo("ANTES DE gerar_etiqueta_rma")
+            rma_tempo(
+                "ANTES DE gerar_etiqueta_rma"
+            )
+
             tspl = gerar_etiqueta_rma(
                 serial=dados["serial"],
                 fabricante=dados["fabricante"],
@@ -3249,7 +3709,9 @@ class PrinterView(ttk.Frame):
                 lote=dados["lote"],
             )
 
-            rma_tempo("DEPOIS DE gerar_etiqueta_rma")
+            rma_tempo(
+                "DEPOIS DE gerar_etiqueta_rma"
+            )
 
         except RMAError as erro:
 
@@ -3274,10 +3736,6 @@ class PrinterView(ttk.Frame):
             )
 
             return
-
-        # ====================================================
-        # VISUALIZAR
-        # ====================================================
 
         if acao == "visualizar":
 
@@ -3312,15 +3770,24 @@ class PrinterView(ttk.Frame):
             )
 
             def imprimir_preview_rma():
-                rma_tempo("CLIQUE EM IMPRIMIR NO PREVIEW RMA")
-                rma_tempo("ANTES DE imprimir_tspl (PREVIEW)")
+
+                rma_tempo(
+                    "CLIQUE EM IMPRIMIR NO PREVIEW RMA"
+                )
+
+                rma_tempo(
+                    "ANTES DE imprimir_tspl (PREVIEW)"
+                )
 
                 try:
 
                     imprimir_tspl(
                         tspl
                     )
-                    rma_tempo("DEPOIS DE imprimir_tspl (PREVIEW) — ETIQUETA ENVIADA")
+
+                    rma_tempo(
+                        "DEPOIS DE imprimir_tspl (PREVIEW) — ETIQUETA ENVIADA"
+                    )
 
                 except RMAError as erro:
 
@@ -3334,7 +3801,10 @@ class PrinterView(ttk.Frame):
                         f"{erro}"
                     ) from erro
 
-            rma_tempo("ANTES DE ABRIR PREVIEW RMA")
+            rma_tempo(
+                "ANTES DE ABRIR PREVIEW RMA"
+            )
+
             self._abrir_preview(
                 "RELATÓRIO RMA",
                 texto,
@@ -3343,19 +3813,21 @@ class PrinterView(ttk.Frame):
 
             return
 
-        # ====================================================
-        # IMPRIMIR DIRETAMENTE
-        # ====================================================
-
         if acao == "imprimir":
 
             try:
 
-                rma_tempo("ANTES DE imprimir_tspl (DIRETO)")
+                rma_tempo(
+                    "ANTES DE imprimir_tspl (DIRETO)"
+                )
+
                 imprimir_tspl(
                     tspl
                 )
-                rma_tempo("DEPOIS DE imprimir_tspl (DIRETO) — ETIQUETA ENVIADA")
+
+                rma_tempo(
+                    "DEPOIS DE imprimir_tspl (DIRETO) — ETIQUETA ENVIADA"
+                )
 
             except RMAError as erro:
 
@@ -3380,6 +3852,366 @@ class PrinterView(ttk.Frame):
                 )
 
                 return
+
+    # ========================================================
+    # PRODUÇÃO DE ETIQUETAS
+    # ========================================================
+
+    def _abrir_producao_etiqueta(self):
+        try:
+            from reports import producao_etiqueta
+        except ImportError as erro:
+            messagebox.showerror(
+                "Produção de Etiquetas",
+                f"Não foi possível carregar o módulo 'reports.producao_etiqueta'.\n\n{erro}",
+                parent=self,
+            )
+            return
+
+        dialogo = tk.Toplevel(self.winfo_toplevel())
+        dialogo.title("PRODUÇÃO DE ETIQUETAS")
+        dialogo.geometry("540x480")
+        dialogo.minsize(500, 450)
+        dialogo.resizable(False, False)
+        dialogo.transient(self.winfo_toplevel())
+        dialogo.grab_set()
+        dialogo.configure(background=self.COR_FUNDO)
+
+        frame = tk.Frame(dialogo, background=self.COR_FUNDO, padx=25, pady=20)
+        frame.pack(fill="both", expand=True)
+
+        tk.Label(
+            frame,
+            text="PRODUÇÃO DE ETIQUETAS",
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO,
+            font=("Segoe UI", 14, "bold"),
+            anchor="w",
+        ).pack(anchor="w", pady=(0, 2))
+
+        lbl_status = tk.Label(
+            frame,
+            text="Selecione o consumível, fabricante e emita a etiqueta.",
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO_SECUNDARIO,
+            font=("Segoe UI", 9),
+            anchor="w",
+        )
+        lbl_status.pack(anchor="w", pady=(0, 14))
+
+        campos_frame = tk.Frame(frame, background=self.COR_FUNDO)
+        campos_frame.pack(fill="x", pady=5)
+        campos_frame.columnconfigure(1, weight=1)
+
+        seriais_coletados = {"toner": "", "unidade_imagem": ""}
+
+        def _extrair_seriais():
+            nonlocal seriais_coletados
+            novos = {"toner": "", "unidade_imagem": ""}
+            if self.device:
+                try:
+                    dados_dev = self.device.to_dict() if hasattr(self.device, "to_dict") else {}
+                    ident_dict = dados_dev.get("identificacao", {}) or {}
+                    serial_impressora = str(
+                        ident_dict.get("serial")
+                        or ident_dict.get("numero_serie")
+                        or (self.device.serial() if callable(getattr(self.device, "serial", None)) else getattr(self.device, "serial", ""))
+                        or ""
+                    ).strip()
+
+                    def _serial_suprimento_valido(val):
+                        if not val:
+                            return ""
+                        s_limpo = str(val).strip()
+                        if s_limpo.lower() in ("none", "desconhecido", "n/d", "n/a", "null", ""):
+                            return ""
+                        if serial_impressora and s_limpo.upper() == serial_impressora.upper():
+                            return ""
+                        return s_limpo
+
+                    supplies = dados_dev.get("supplies", []) or []
+
+                    for item in supplies:
+                        if isinstance(item, dict):
+                            t = self._tipo_consumivel(item)
+                            s = _serial_suprimento_valido(
+                                item.get("numero_serie")
+                                or item.get("serial")
+                                or item.get("serial_number")
+                                or item.get("serialNumber")
+                                or item.get("numeroSerie")
+                                or ""
+                            )
+                            if not t:
+                                nome_item = str(
+                                    item.get("nome")
+                                    or item.get("name")
+                                    or item.get("descricao")
+                                    or item.get("description")
+                                    or ""
+                                ).lower()
+                                if "toner" in nome_item or "cartucho" in nome_item or "cartridge" in nome_item:
+                                    t = "toner"
+                                elif "imagem" in nome_item or "imaging" in nome_item or "drum" in nome_item or "fotocondutor" in nome_item or "photoconductor" in nome_item:
+                                    t = "unidade_imagem"
+
+                            if t in novos and s and not novos[t]:
+                                novos[t] = s
+
+                    for attr in ["toner_serial", "serial_toner", "cartridge_serial"]:
+                        if hasattr(self.device, attr) and getattr(self.device, attr):
+                            val_attr = _serial_suprimento_valido(getattr(self.device, attr))
+                            if val_attr and not novos["toner"]:
+                                novos["toner"] = val_attr
+                    for attr in ["drum_serial", "serial_drum", "imaging_serial", "unidade_imagem_serial"]:
+                        if hasattr(self.device, attr) and getattr(self.device, attr):
+                            val_attr = _serial_suprimento_valido(getattr(self.device, attr))
+                            if val_attr and not novos["unidade_imagem"]:
+                                novos["unidade_imagem"] = val_attr
+
+                except Exception as e:
+                    print(f"[ERRO EXTRAIR SERIAIS] {e}")
+            seriais_coletados = novos
+
+        _extrair_seriais()
+
+        tk.Label(campos_frame, text="CONSUMÍVEL", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=0, column=0, sticky="w", pady=6, padx=(0, 10))
+        tipo_var = tk.StringVar(value="Cartucho de Toner")
+        tipo_combo = ttk.Combobox(campos_frame, textvariable=tipo_var, values=("Cartucho de Toner", "Unidade de Imagem"), state="readonly", font=("Segoe UI", 10), style="PrinterView.RMA.TCombobox")
+        tipo_combo.grid(row=0, column=1, sticky="ew", pady=6)
+
+        tk.Label(campos_frame, text="FABRICANTE", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=1, column=0, sticky="w", pady=6, padx=(0, 10))
+        fabricante_var = tk.StringVar(value="REM")
+        fabricante_combo = ttk.Combobox(campos_frame, textvariable=fabricante_var, values=("REM", "LEXMARK", "GLOBAL", "3I", "VRI"), state="readonly", font=("Segoe UI", 10), style="PrinterView.RMA.TCombobox")
+        fabricante_combo.grid(row=1, column=1, sticky="ew", pady=6)
+
+        tk.Label(campos_frame, text="SERIAL", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=2, column=0, sticky="w", pady=6, padx=(0, 10))
+        serial_var = tk.StringVar()
+        serial_entry = tk.Entry(campos_frame, textvariable=serial_var, background=self.COR_PAINEL_2, foreground=self.COR_TEXTO, insertbackground=self.COR_TEXTO, relief="flat", font=("Segoe UI", 10, "bold"))
+        serial_entry.grid(row=2, column=1, sticky="ew", pady=6)
+
+        def _ao_mudar_tipo(event=None):
+            tipo_sel = tipo_var.get()
+            if tipo_sel == "Cartucho de Toner":
+                serial_var.set(seriais_coletados.get("toner", ""))
+            else:
+                serial_var.set(seriais_coletados.get("unidade_imagem", ""))
+
+        tipo_combo.bind("<<ComboboxSelected>>", _ao_mudar_tipo)
+        _ao_mudar_tipo()
+
+        tsc_ip = getattr(producao_etiqueta, "TSC_IP", getattr(producao_etiqueta, "PRODUCAO_IP_PADRAO", "192.168.14.111"))
+        try:
+            if hasattr(producao_etiqueta, "resolver_ip"):
+                tsc_ip = producao_etiqueta.resolver_ip(tsc_ip, tipo="producao")
+        except Exception:
+            pass
+        tsc_porta = getattr(producao_etiqueta, "TSC_PORTA", getattr(producao_etiqueta, "PRODUCAO_PORTA_PADRAO", 9100))
+
+        tk.Label(frame, text=f"Destino da impressão: TSC {tsc_ip}:{tsc_porta}", background=self.COR_FUNDO, foreground=self.COR_TEXTO_FRACO, font=("Segoe UI", 8), justify="left", anchor="w").pack(anchor="w", pady=(10, 15))
+
+        botoes_topo = tk.Frame(frame, background=self.COR_FUNDO)
+        botoes_topo.pack(fill="x", pady=(0, 10))
+
+        btn_atualizar_coleta = ttk.Button(botoes_topo, text="🔄 Atualizar Coleta", style="PrinterView.TButton")
+
+        def carregar_dados_impressora():
+            btn_atualizar_coleta.config(text="Atualizando...", state="disabled")
+            lbl_status.config(foreground=self.COR_ATENCAO, text="Coletando PJL + SYSDEBUG + SNMP... aguarde.")
+            dialogo.update_idletasks()
+
+            def tarefa_atualizacao():
+                try:
+                    import asyncio
+                    if self.device is None:
+                        raise RuntimeError("Nenhuma impressora selecionada.")
+
+                    if hasattr(self.device, "coletar") and callable(self.device.coletar):
+                        coro = self.device.coletar()
+                        if inspect.isawaitable(coro):
+                            asyncio.run(coro)
+                    elif hasattr(self.device, "coletar_dados"):
+                        self.device.coletar_dados()
+                    elif hasattr(self.device, "atualizar_dados"):
+                        self.device.atualizar_dados()
+
+                    def atualizar_ui_sucesso():
+                        if self.winfo_exists():
+                            self.atualizar(self.device)
+                            toplevel = self.winfo_toplevel()
+                            if hasattr(toplevel, "lbl_status"):
+                                try:
+                                    toplevel.lbl_status.config(text="Coleta concluída.")
+                                except Exception:
+                                    pass
+                        if not dialogo.winfo_exists():
+                            return
+                        _extrair_seriais()
+                        _ao_mudar_tipo()
+                        lbl_status.config(foreground=self.COR_ONLINE, text="Dados atualizados e sincronizados com sucesso!")
+                        btn_atualizar_coleta.config(text="🔄 Atualizar Coleta", state="normal")
+
+                    if self.winfo_exists():
+                        self.after(0, atualizar_ui_sucesso)
+
+                except Exception as erro:
+                    def atualizar_ui_erro():
+                        if not dialogo.winfo_exists():
+                            return
+                        lbl_status.config(foreground=self.COR_OFFLINE, text="Erro ao atualizar coleta.")
+                        btn_atualizar_coleta.config(text="🔄 Atualizar Coleta", state="normal")
+                        messagebox.showerror("Erro", f"Falha na atualização:\n{erro}", parent=dialogo)
+
+                    if self.winfo_exists():
+                        self.after(0, atualizar_ui_erro)
+
+            threading.Thread(target=tarefa_atualizacao, daemon=True).start()
+
+        btn_atualizar_coleta.config(command=carregar_dados_impressora)
+        btn_atualizar_coleta.pack(side="left")
+
+        btn_demonstracao = ttk.Button(botoes_topo, text="Demonstração", style="PrinterView.TButton")
+
+        def acionar_demonstracao_producao():
+            btn_demonstracao.config(text="Enviando...", state="disabled")
+            dialogo.update_idletasks()
+
+            def tarefa_demo():
+                try:
+                    from reports.demonstracao import imprimir_relatorio_demonstracao
+                    
+                    CAMINHO_IMAGEM_DEMO = r"C:\PrinterAssistant\assets\print\too_dark\check_1.jpg"
+
+                    imprimir_relatorio_demonstracao(
+                        device=self.device, 
+                        imagem=CAMINHO_IMAGEM_DEMO
+                    )
+                    
+                    def sucesso():
+                        messagebox.showinfo(
+                            "Demonstração", 
+                            "Página de demonstração enviada para a impressora com sucesso!", 
+                            parent=dialogo
+                        )
+                        btn_demonstracao.config(text="Demonstração", state="normal")
+                    
+                    if dialogo.winfo_exists():
+                        dialogo.after(0, sucesso)
+
+                except Exception as e:
+                    def erro():
+                        messagebox.showerror(
+                            "Erro", 
+                            f"Falha ao enviar a demonstração para a impressora:\n\n{e}", 
+                            parent=dialogo
+                        )
+                        btn_demonstracao.config(text="Demonstração", state="normal")
+                    
+                    if dialogo.winfo_exists():
+                        dialogo.after(0, erro)
+
+            threading.Thread(target=tarefa_demo, daemon=True).start()
+
+        btn_demonstracao.config(command=acionar_demonstracao_producao)
+        btn_demonstracao.pack(side="right")
+        fabricante_combo.focus_set()
+
+        botoes_rodape = tk.Frame(frame, background=self.COR_FUNDO)
+        botoes_rodape.pack(fill="x", side="bottom", pady=(6, 0))
+
+        ttk.Separator(frame, orient="horizontal").pack(fill="x", side="bottom", pady=12)
+
+        btn_cancelar = ttk.Button(
+            botoes_rodape,
+            text="FECHAR",
+            style="PrinterView.TButton",
+            command=dialogo.destroy
+        )
+        btn_cancelar.pack(side="left")
+
+        btn_imprimir_etiqueta = ttk.Button(
+            botoes_rodape,
+            text="IMPRIMIR ETIQUETA",
+            style="PrinterView.Producao.TButton"
+        )
+        btn_imprimir_etiqueta.pack(side="right")
+
+        def acionar_imprimir_etiqueta():
+            tipo_sel = tipo_var.get().strip()
+            fab_sel = fabricante_var.get().strip()
+            ser_sel = serial_var.get().strip()
+
+            if not ser_sel:
+                messagebox.showwarning("Aviso", "O campo SERIAL não pode estar vazio.", parent=dialogo)
+                serial_entry.focus_set()
+                return
+
+            modelo_maquina = "MX611"
+            if self.device:
+                try:
+                    dados_dev = self.device.to_dict() if hasattr(self.device, "to_dict") else {}
+                    ident = dados_dev.get("identificacao", {}) or {}
+                    mod_dev = ident.get("modelo") or (
+                        self.device.modelo() if callable(getattr(self.device, "modelo", None)) else getattr(self.device, "modelo", "")
+                    )
+                    if mod_dev and str(mod_dev).strip().lower() not in ("desconhecido", "none", ""):
+                        modelo_maquina = str(mod_dev).strip()
+                except Exception:
+                    pass
+
+            btn_imprimir_etiqueta.config(text="Enviando...", state="disabled")
+            dialogo.update_idletasks()
+
+            def tarefa_imprimir():
+                try:
+                    if hasattr(producao_etiqueta, 'gerar_tspl'):
+                        tspl = producao_etiqueta.gerar_tspl(
+                            serial=ser_sel,
+                            fabricante=fab_sel,
+                            tipo=tipo_sel,
+                            modelo=modelo_maquina,
+                            device=self.device,
+                        )
+                    elif hasattr(producao_etiqueta, 'gerar_etiqueta'):
+                        tspl = producao_etiqueta.gerar_etiqueta(
+                            serial=ser_sel,
+                            fabricante=fab_sel,
+                            tipo=tipo_sel,
+                            modelo=modelo_maquina,
+                            device=self.device,
+                        )
+                    else:
+                        raise Exception("A função de gerar etiqueta ('gerar_etiqueta' ou 'gerar_tspl') não foi encontrada no módulo 'producao_etiqueta'.")
+
+                    if hasattr(producao_etiqueta, 'imprimir_tspl'):
+                        producao_etiqueta.imprimir_tspl(tspl)
+                    else:
+                        import socket
+                        ip = getattr(producao_etiqueta, "TSC_IP", "192.168.14.151")
+                        porta = getattr(producao_etiqueta, "TSC_PORTA", 9100)
+                        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                            s.settimeout(5)
+                            s.connect((ip, porta))
+                            s.sendall(tspl.encode('utf-8') if isinstance(tspl, str) else tspl)
+
+                    def sucesso():
+                        messagebox.showinfo("Sucesso", "Etiqueta enviada para a impressora TSC com sucesso!", parent=dialogo)
+                        btn_imprimir_etiqueta.config(text="IMPRIMIR ETIQUETA", state="normal")
+
+                    if dialogo.winfo_exists():
+                        dialogo.after(0, sucesso)
+
+                except Exception as e:
+                    def erro():
+                        messagebox.showerror("Erro", f"Falha ao imprimir a etiqueta:\n\n{e}", parent=dialogo)
+                        btn_imprimir_etiqueta.config(text="IMPRIMIR ETIQUETA", state="normal")
+
+                    if dialogo.winfo_exists():
+                        dialogo.after(0, erro)
+
+            threading.Thread(target=tarefa_imprimir, daemon=True).start()
+
+        btn_imprimir_etiqueta.config(command=acionar_imprimir_etiqueta)
 
     # ========================================================
     # ATUALIZAR

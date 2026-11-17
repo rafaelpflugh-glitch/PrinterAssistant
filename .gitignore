@@ -1,30 +1,56 @@
-# Python
+# ============================================================
+# PRINTER ASSISTANT - .gitignore (v1.0.0-beta)
+# ============================================================
+
+# Bytecode e Cache Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
 
-# Ambiente virtual
-venv/
+# Ambientes Virtuais
 .venv/
+venv/
+env/
+ENV/
 
-# Arquivos gerados pelo PrinterAssistant
+# PyInstaller / Build de Executáveis
+build/
+dist/
+*.spec
+
+# Backups e Arquivos Temporários
+*.bak
+*.bak*
+*.old
+*.tmp
+*.temp
+teste123.*
+teste_producao_etiqueta.py
+
+# Arquivos Compactados
+*.rar
+*.zip
+*.7z
+*.tar.gz
+
+# Logs e Dumps Locais de Coleta
+*.log
+logs/
+coleta_printer/
+ews_dump/
+relatorios/
 printer_data.json
 printers_found.json
 
-# Logs
-*.log
-
-# Temporários
-*.tmp
-*.bak
-
-# Configurações locais
-.env
-
-# IDE
+# IDEs e Editores
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 
-# Sistema
+# Sistema Operacional
 Thumbs.db
+ehthumbs.db
 Desktop.ini
+.DS_Store

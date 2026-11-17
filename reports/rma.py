@@ -45,6 +45,17 @@ IMPORTANTE:
     NÃO realiza nova coleta de rede.
 
 ------------------------------------------------------------
+REGRA DE GARANTIA POR TEMPO DE FABRICAÇÃO (MÁXIMO 2 ANOS)
+------------------------------------------------------------
+
+    O ano de fabricação é extraído do número de série da
+    unidade de imagem, localizado logo após as 3 primeiras
+    letras (ex: CAB23..., CAY24..., CAS23...).
+
+    Peças fabricadas há mais de 2 anos em relação ao ano atual
+    estão FORA DA GARANTIA e o RMA é recusado.
+
+------------------------------------------------------------
 SYSDEBUG / STARTER
 ------------------------------------------------------------
 
@@ -120,7 +131,14 @@ import html
 import re
 import socket
 import time
+from datetime import datetime
 from pathlib import Path
+
+try:
+    from core.config import resolver_ip
+except ImportError:
+    def resolver_ip(ip, tipo="rma"):
+        return ip
 
 
 # ============================================================
@@ -250,6 +268,49 @@ def _texto_tspl(valor):
 
 
 # ============================================================
+# VALIDAR GARANTIA POR IDADE DE FABRICAÇÃO (MÁX 2 ANOS)
+# ============================================================
+
+def _validar_garantia_idade(serial):
+    """
+    Valida se a unidade de imagem está dentro do prazo de garantia (máximo 2 anos).
+
+    Extrai o ano de fabricação contido no serial após os 3 primeiros caracteres
+    alfabéticos (ex: CAB23..., CAY24..., CAS23... ou CAB2023...).
+    """
+
+    serial_limpo = _texto(serial).upper()
+
+    if not serial_limpo:
+        return
+
+    # Procura ano com 4 dígitos (ex: CAB2023...) ou 2 dígitos (ex: CAB23...) após 3 letras
+    match_4 = re.match(r"^[A-Z]{3}(20\d{2})", serial_limpo)
+
+    if match_4:
+        ano_fabricacao = int(match_4.group(1))
+    else:
+        match_2 = re.match(r"^[A-Z]{3}(\d{2})", serial_limpo)
+        if match_2:
+            ano_fabricacao = 2000 + int(match_2.group(1))
+        else:
+            # Caso o serial não siga o padrão de ano nas letras iniciais, permite prosseguir
+            return
+
+    ano_atual = datetime.now().year
+    idade_anos = ano_atual - ano_fabricacao
+
+    if idade_anos > 2:
+        raise RMAError(
+            "Unidade de imagem FORA DA GARANTIA!\n\n"
+            f"Serial: {serial_limpo}\n"
+            f"Ano de Fabricação: {ano_fabricacao} ({idade_anos} anos de uso/fabricação).\n\n"
+            f"A regra de RMA aceita apenas peças com no máximo 2 anos de idade "
+            f"(Ano limite para {ano_atual}: {ano_atual - 2})."
+        )
+
+
+# ============================================================
 # LIMPAR HTML DO SYSDEBUG
 # ============================================================
 
@@ -338,7 +399,7 @@ def _normalizar_linha_sysdebug(linha):
     Exemplos:
 
         AM IU        -> AM IU
-         AM IU      -> AM IU
+         AM IU       -> AM IU
         AM   IU     -> AM IU
         AM IU<NBSP> -> AM IU
 
@@ -1217,6 +1278,17 @@ def preparar_rma(
         "DEPOIS DE obter serial"
     )
 
+    # --------------------------------------------------------
+    # VALIDAR GARANTIA POR IDADE DE FABRICAÇÃO (MÁX 2 ANOS)
+    # --------------------------------------------------------
+
+    _validar_garantia_idade(serial)
+
+    _rma_log(
+        _t0,
+        "DEPOIS DE validar garantia por idade"
+    )
+
     nivel = _obter_nivel_unidade_imagem(
         unidade
     )
@@ -1547,9 +1619,12 @@ def imprimir_tspl(
             "TSPL vazio."
         )
 
-    ip = _texto(
-        ip,
-        TSC_IP,
+    ip = resolver_ip(
+        _texto(
+            ip,
+            TSC_IP,
+        ),
+        tipo="rma",
     )
 
     try:
@@ -1625,13 +1700,14 @@ def imprimir_rma(
 
         1. Obtém unidade de imagem.
         2. Obtém serial.
-        3. Obtém nível.
-        4. Localiza SYSDEBUG salvo, quando necessário.
-        5. Localiza bloco da unidade.
-        6. Procura AM IU.
-        7. Determina Starter.
-        8. Gera TSPL.
-        9. Envia diretamente para TSC.
+        3. Valida garantia por idade de fabricação.
+        4. Obtém nível.
+        5. Localiza SYSDEBUG salvo, quando necessário.
+        6. Localiza bloco da unidade.
+        7. Procura AM IU.
+        8. Determina Starter.
+        9. Gera TSPL.
+        10. Envia diretamente para TSC.
 
     NÃO realiza nova coleta.
     """
@@ -1676,11 +1752,13 @@ def imprimir_rma(
         "DEPOIS DE imprimir_tspl — ETIQUETA ENVIADA"
     )
 
+    dest_ip = resolver_ip(TSC_IP, tipo="rma")
+
     return {
         "sucesso": True,
         "relatorio": "rma",
         "destino": "TSC",
-        "ip": TSC_IP,
+        "ip": dest_ip,
         "porta": TSC_PORTA,
         "largura_mm": ETIQUETA_LARGURA_MM,
         "altura_mm": ETIQUETA_ALTURA_MM,
@@ -1720,10 +1798,12 @@ def informacoes_rma(
         lote=lote,
     )
 
+    dest_ip = resolver_ip(TSC_IP, tipo="rma")
+
     return {
         "relatorio": "rma",
         "destino": "TSC",
-        "ip": TSC_IP,
+        "ip": dest_ip,
         "porta": TSC_PORTA,
         "largura_mm": ETIQUETA_LARGURA_MM,
         "altura_mm": ETIQUETA_ALTURA_MM,
