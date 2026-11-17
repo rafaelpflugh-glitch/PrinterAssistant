@@ -1742,6 +1742,10 @@ class PrinterView(ttk.Frame):
                 )
             )
 
+        rotacoes = supply.get("rotacoes") or supply.get("drum_rotations")
+        if rotacoes is not None and tipo == "unidade_imagem":
+            detalhes.append("Ciclos: " + self._numero(rotacoes))
+
         condicao = supply.get(
             "condicao"
         )

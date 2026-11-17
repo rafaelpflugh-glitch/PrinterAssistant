@@ -1673,32 +1673,28 @@ class PrinterDevice:
                 )
             )
 
-
-            if not serial:
-
-                continue
-
-            if (
-                serial_maquina
-                and serial_maquina.lower() not in ("desconhecido", "none", "")
-                and serial.strip().upper() == serial_maquina.upper()
-            ):
-                continue
-
-
             tipo = (
                 self.tipo_consumivel(
                     item
                 )
             )
 
+            if not serial and tipo != "fusor":
+                continue
+
+            if (
+                serial
+                and serial_maquina
+                and serial_maquina.lower() not in ("desconhecido", "none", "")
+                and serial.strip().upper() == serial_maquina.upper()
+            ):
+                continue
 
             nome = (
                 self.extrair_nome_supply(
                     item
                 )
             )
-
 
             candidatos.append(
                 {
@@ -1715,6 +1711,36 @@ class PrinterDevice:
 
                     "part_number":
                         item.get("part_number")
+                        if isinstance(item, dict)
+                        else None,
+
+                    "page_count":
+                        item.get("page_count")
+                        if isinstance(item, dict)
+                        else None,
+
+                    "consumido":
+                        item.get("consumido")
+                        if isinstance(item, dict)
+                        else None,
+
+                    "rotacoes":
+                        (item.get("rotacoes") or item.get("rotations"))
+                        if isinstance(item, dict)
+                        else None,
+
+                    "capacidade":
+                        item.get("capacidade")
+                        if isinstance(item, dict)
+                        else None,
+
+                    "restante":
+                        item.get("restante")
+                        if isinstance(item, dict)
+                        else None,
+
+                    "nivel":
+                        item.get("nivel")
                         if isinstance(item, dict)
                         else None,
                 }
@@ -1751,11 +1777,11 @@ class PrinterDevice:
             # ------------------------------------------------
             #
             # Regra da interface:
-            # fusor não recebe número de série.
+            # fusor não exibe número de série, mas recebe
+            # métricas reais de consumo do SysDebug.
             #
             if tipo_supply == "fusor":
                 supply["numero_serie"] = None
-                continue
 
 
             nome_supply = (
@@ -1868,19 +1894,76 @@ class PrinterDevice:
             )
 
 
-            supply[
-                "numero_serie"
-            ] = candidato[
-                "serial"
-            ]
+            if tipo_supply != "fusor":
+                supply["numero_serie"] = candidato.get("serial")
+            else:
+                supply["numero_serie"] = None
 
-            if candidato.get("part_number") and not supply.get("part_number"):
+            pn_atual = str(supply.get("part_number") or "").strip()
+            if candidato.get("part_number") and (not pn_atual or (serial_maquina and serial_maquina.upper() in pn_atual.upper())):
                 supply["part_number"] = candidato["part_number"]
 
+            # Métricas reais de consumo do SysDebug
+            if candidato.get("page_count") is not None:
+                supply["consumido"] = candidato["page_count"]
+            elif candidato.get("consumido") is not None:
+                supply["consumido"] = candidato["consumido"]
+
+            if candidato.get("rotacoes") is not None:
+                supply["rotacoes"] = candidato["rotacoes"]
+                supply["drum_rotations"] = candidato["rotacoes"]
+
+            if candidato.get("capacidade") is not None:
+                supply["capacidade"] = candidato["capacidade"]
+
+            if candidato.get("restante") is not None:
+                supply["restante"] = candidato["restante"]
+
+            if candidato.get("nivel") is not None:
+                supply["nivel"] = candidato["nivel"]
+                supply["percentual"] = candidato["nivel"]
 
             usados.add(
                 numero
             )
+
+
+        # Enriquecimento complementar direto a partir de self.sysdebug_filtered
+        if isinstance(self.sysdebug_filtered, dict) and self.sysdebug_filtered:
+            filt = self.sysdebug_filtered
+            for supply in self.supplies:
+                if not isinstance(supply, dict):
+                    continue
+                tipo = self.tipo_consumivel(supply)
+                if tipo == "unidade_imagem":
+                    if filt.get("drum_serial") and not supply.get("numero_serie"):
+                        supply["numero_serie"] = filt["drum_serial"]
+                    pn_drum = str(supply.get("part_number") or "").strip()
+                    if filt.get("drum_part_number") and (not pn_drum or (serial_maquina and serial_maquina.upper() in pn_drum.upper())):
+                        supply["part_number"] = filt["drum_part_number"]
+                    if filt.get("drum_page_count") is not None:
+                        supply["consumido"] = filt["drum_page_count"]
+                    if filt.get("drum_rotations") is not None:
+                        supply["rotacoes"] = filt["drum_rotations"]
+                        supply["drum_rotations"] = filt["drum_rotations"]
+                    if filt.get("drum_life_remaining") is not None:
+                        supply["nivel"] = filt["drum_life_remaining"]
+                        supply["percentual"] = filt["drum_life_remaining"]
+                elif tipo == "toner":
+                    if filt.get("toner_serial") and not supply.get("numero_serie"):
+                        supply["numero_serie"] = filt["toner_serial"]
+                    pn_toner = str(supply.get("part_number") or "").strip()
+                    if filt.get("toner_part_number") and (not pn_toner or (serial_maquina and serial_maquina.upper() in pn_toner.upper())):
+                        supply["part_number"] = filt["toner_part_number"]
+                    if filt.get("toner_page_count") is not None:
+                        supply["consumido"] = filt["toner_page_count"]
+                    if filt.get("toner_pages_remaining") is not None:
+                        supply["restante"] = filt["toner_pages_remaining"]
+                    if filt.get("toner_max_capacity") is not None:
+                        supply["capacidade"] = filt["toner_max_capacity"]
+                    if filt.get("toner_life_remaining") is not None:
+                        supply["nivel"] = filt["toner_life_remaining"]
+                        supply["percentual"] = filt["toner_life_remaining"]
 
 
     # ========================================================

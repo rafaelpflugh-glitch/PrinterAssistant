@@ -1460,6 +1460,44 @@ def extrair_consumiveis_sysdebug(texto):
         if part_imaging:
             item_imaging["part_number"] = part_imaging
 
+        # Métricas reais de consumo da Unidade de Imagem / Cilindro (Drum)
+        m_mono_iu = re.search(
+            r"Mono\s+Cartridge\s+Imaging\s+Unit(.*?)(?=Bottle-K|Imaging\s+Unit-K|ST\s+Supply\s+Table|\Z)",
+            texto_limpo,
+            re.IGNORECASE | re.DOTALL,
+        )
+        if m_mono_iu:
+            b_iu = m_mono_iu.group(1)
+            m_pg = re.search(r"IU\s+Page\s+Count\s*[;:=]\s*(\d+)", b_iu, re.IGNORECASE)
+            if m_pg:
+                item_imaging["page_count"] = int(m_pg.group(1))
+                item_imaging["consumido"] = int(m_pg.group(1))
+            m_rev = re.search(r"IU\s+PC\s+Drum\s+Rev\s+Count\s*[;:=]\s*(\d+)", b_iu, re.IGNORECASE)
+            if m_rev:
+                item_imaging["rotations"] = int(m_rev.group(1))
+                item_imaging["rotacoes"] = int(m_rev.group(1))
+            m_lvl = re.search(r"Current\s+Level\s*=\s*(\d+)", b_iu, re.IGNORECASE)
+            if m_lvl:
+                item_imaging["nivel"] = int(m_lvl.group(1))
+                item_imaging["percentual"] = int(m_lvl.group(1))
+
+        if encontrado_osikey_iu:
+            b_osi_iu = encontrado_osikey_iu.group(2)
+            m_pg_osi = re.search(r"\bpageCount\s+(\d+)", b_osi_iu, re.IGNORECASE)
+            if m_pg_osi and "page_count" not in item_imaging:
+                item_imaging["page_count"] = int(m_pg_osi.group(1))
+                item_imaging["consumido"] = int(m_pg_osi.group(1))
+            m_rem_osi = re.search(r"\bpageRemain\s+(\d+)", b_osi_iu, re.IGNORECASE)
+            if m_rem_osi:
+                item_imaging["restante"] = int(m_rem_osi.group(1))
+            m_max_osi = re.search(r"\bmaxCapacity(?:Pages)?\s+(\d+)", b_osi_iu, re.IGNORECASE)
+            if m_max_osi:
+                item_imaging["capacidade"] = int(m_max_osi.group(1))
+            m_lvl_osi = re.search(r"\blevel\s+(\d+)", b_osi_iu, re.IGNORECASE)
+            if m_lvl_osi and "nivel" not in item_imaging:
+                item_imaging["nivel"] = int(m_lvl_osi.group(1))
+                item_imaging["percentual"] = int(m_lvl_osi.group(1))
+
         consumiveis.append(item_imaging)
 
     # ========================================================
@@ -1588,14 +1626,48 @@ def extrair_consumiveis_sysdebug(texto):
 
     if serial_toner:
 
-        consumiveis.append(
-            {
-                "tipo": "toner",
-                "nome": "Black Toner",
-                "numero_serie": serial_toner,
-                "part_number": part_toner,
-            }
+        item_toner = {
+            "tipo": "toner",
+            "nome": "Black Toner",
+            "numero_serie": serial_toner,
+            "part_number": part_toner,
+        }
+
+        # Métricas reais de consumo do Toner (cartucho)
+        m_mono_toner = re.search(
+            r"Mono\s+Cartridge\s+Toner\s+Bottle(.*?)(?=Mono\s+Cartridge\s+Imaging\s+Unit|\Z)",
+            texto_limpo,
+            re.IGNORECASE | re.DOTALL,
         )
+        if m_mono_toner:
+            b_tb = m_mono_toner.group(1)
+            m_pg = re.search(r"Bottle\s+Page\s+Count\s*[:=;]\s*(\d+)", b_tb, re.IGNORECASE)
+            if m_pg:
+                item_toner["page_count"] = int(m_pg.group(1))
+                item_toner["consumido"] = int(m_pg.group(1))
+            m_lvl = re.search(r"Current\s+Level\s*=\s*(\d+)", b_tb, re.IGNORECASE)
+            if m_lvl:
+                item_toner["nivel"] = int(m_lvl.group(1))
+                item_toner["percentual"] = int(m_lvl.group(1))
+
+        if encontrado_osikey_toner:
+            b_osi_t = encontrado_osikey_toner.group(2)
+            m_pg_osi = re.search(r"\bpageCount\s+(\d+)", b_osi_t, re.IGNORECASE)
+            if m_pg_osi and "page_count" not in item_toner:
+                item_toner["page_count"] = int(m_pg_osi.group(1))
+                item_toner["consumido"] = int(m_pg_osi.group(1))
+            m_rem = re.search(r"\bpageRemain\s+(\d+)", b_osi_t, re.IGNORECASE)
+            if m_rem:
+                item_toner["restante"] = int(m_rem.group(1))
+            m_cap = re.search(r"\bmaxCapacity(?:Pages)?\s+(\d+)", b_osi_t, re.IGNORECASE)
+            if m_cap:
+                item_toner["capacidade"] = int(m_cap.group(1))
+            m_lvl_osi = re.search(r"\blevel\s+(\d+)", b_osi_t, re.IGNORECASE)
+            if m_lvl_osi and "nivel" not in item_toner:
+                item_toner["nivel"] = int(m_lvl_osi.group(1))
+                item_toner["percentual"] = int(m_lvl_osi.group(1))
+
+        consumiveis.append(item_toner)
 
     # ========================================================
     # FUSOR / MAINTENANCE KIT
@@ -1619,6 +1691,7 @@ def extrair_consumiveis_sysdebug(texto):
         re.IGNORECASE | re.DOTALL,
     )
 
+    fusor_adicionado = False
     for encontrado in padrao_maintenance.finditer(
         texto_limpo
     ):
@@ -1648,6 +1721,42 @@ def extrair_consumiveis_sysdebug(texto):
                 "part_number": None,
             }
         )
+        fusor_adicionado = True
+
+    # Métricas de consumo do Fusor / Maintenance Kit (ST Supply Table)
+    padrao_fusor_metricas = re.compile(
+        r"osikey\s+(?:Maintenance\s+Kit|Fuser|Kit\s+Maintenance)\s*,\s*serial\s+([A-Za-z0-9_-]*)\s+valid\s+\d+(.*?)(?=osikey\s+|\Z)",
+        re.IGNORECASE | re.DOTALL,
+    )
+    m_fus = padrao_fusor_metricas.search(texto_limpo)
+    if m_fus:
+        b_fus = m_fus.group(2)
+        item_fusor = {
+            "tipo": "fusor",
+            "nome": "Maintenance Kit",
+            "numero_serie": None,
+            "part_number": None,
+        }
+        m_pg = re.search(r"\bpageCount\s+(\d+)", b_fus, re.IGNORECASE)
+        if m_pg:
+            item_fusor["page_count"] = int(m_pg.group(1))
+            item_fusor["consumido"] = int(m_pg.group(1))
+        m_cap = re.search(r"\bmaxCapacity(?:Pages)?\s+(\d+)", b_fus, re.IGNORECASE)
+        if m_cap:
+            item_fusor["capacidade"] = int(m_cap.group(1))
+        m_lvl = re.search(r"\blevel\s+(\d+)", b_fus, re.IGNORECASE)
+        if m_lvl:
+            item_fusor["nivel"] = int(m_lvl.group(1))
+            item_fusor["percentual"] = int(m_lvl.group(1))
+        if item_fusor.get("capacidade") and item_fusor.get("consumido") is not None:
+            item_fusor["restante"] = max(0, item_fusor["capacidade"] - item_fusor["consumido"])
+        if not fusor_adicionado:
+            consumiveis.append(item_fusor)
+        else:
+            # Atualiza o fusor já adicionado
+            for f_item in consumiveis:
+                if f_item.get("tipo") == "fusor":
+                    f_item.update({k: v for k, v in item_fusor.items() if v is not None and k != "numero_serie"})
 
     return consumiveis
 
@@ -1847,6 +1956,71 @@ def extrair_sysdebug_filtered(texto_limpo, consumiveis=None):
         data_serial = _decodificar_data_serial_lexmark(filtrado["drum_serial"])
         if data_serial:
             filtrado["drum_install_date"] = data_serial
+
+    # 6. Métricas do Cartucho de Toner
+    # 6.1 Mono Cartridge Toner Bottle
+    m_bottle = re.search(
+        r"Mono\s+Cartridge\s+Toner\s+Bottle(.*?)(?=Mono\s+Cartridge\s+Imaging\s+Unit|\Z)",
+        texto_limpo,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if m_bottle:
+        b_tb = m_bottle.group(1)
+        m_chip_t = re.search(r"Chip\s+ID\s*:\s*([0-9a-fA-F]+)", b_tb, re.IGNORECASE)
+        if m_chip_t:
+            filtrado["toner_chip_id"] = valor_limpo(m_chip_t.group(1))
+        m_pg_t = re.search(r"Bottle\s+Page\s+Count\s*[:=;]\s*(\d+)", b_tb, re.IGNORECASE)
+        if m_pg_t:
+            filtrado["toner_page_count"] = int(m_pg_t.group(1))
+        m_lvl_t = re.search(r"Current\s+Level\s*=\s*(\d+)", b_tb, re.IGNORECASE)
+        if m_lvl_t:
+            filtrado["toner_life_remaining"] = int(m_lvl_t.group(1))
+
+    # 6.2 ST Supply Table Data (osikey Black Toner)
+    m_osi_t = re.search(
+        r"osikey\s+(?:Black\s+)?Toner\s*,\s*serial\s*([A-Za-z0-9_-]*)\s+valid\s+\d+(.*?)(?=osikey\s+|\Z)",
+        texto_limpo,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if m_osi_t:
+        sn_t = valor_limpo(m_osi_t.group(1))
+        b_osi_t = m_osi_t.group(2)
+        if sn_t and not re.fullmatch(r"0+", sn_t):
+            filtrado["toner_serial"] = sn_t
+        m_pn_t = re.search(r"\bpartNumber\s+([A-Za-z0-9_-]+)", b_osi_t, re.IGNORECASE)
+        if m_pn_t:
+            filtrado["toner_part_number"] = valor_limpo(m_pn_t.group(1))
+        m_pg_osi_t = re.search(r"\bpageCount\s+(\d+)", b_osi_t, re.IGNORECASE)
+        if m_pg_osi_t and "toner_page_count" not in filtrado:
+            filtrado["toner_page_count"] = int(m_pg_osi_t.group(1))
+        m_rem_t = re.search(r"\bpageRemain\s+(\d+)", b_osi_t, re.IGNORECASE)
+        if m_rem_t:
+            filtrado["toner_pages_remaining"] = int(m_rem_t.group(1))
+        m_cap_t = re.search(r"\bmaxCapacity(?:Pages)?\s+(\d+)", b_osi_t, re.IGNORECASE)
+        if m_cap_t:
+            filtrado["toner_max_capacity"] = int(m_cap_t.group(1))
+        m_lvl_osi_t = re.search(r"\blevel\s+(\d+)", b_osi_t, re.IGNORECASE)
+        if m_lvl_osi_t and "toner_life_remaining" not in filtrado:
+            filtrado["toner_life_remaining"] = int(m_lvl_osi_t.group(1))
+
+    # 6.3 Complemento via consumiveis list
+    if isinstance(consumiveis, list):
+        for item in consumiveis:
+            if isinstance(item, dict) and item.get("tipo") == "toner":
+                if item.get("numero_serie") and "toner_serial" not in filtrado:
+                    filtrado["toner_serial"] = item["numero_serie"]
+                if item.get("part_number") and "toner_part_number" not in filtrado:
+                    filtrado["toner_part_number"] = item["part_number"]
+                if item.get("page_count") is not None and "toner_page_count" not in filtrado:
+                    filtrado["toner_page_count"] = item["page_count"]
+                elif item.get("consumido") is not None and "toner_page_count" not in filtrado:
+                    filtrado["toner_page_count"] = item["consumido"]
+                if item.get("restante") is not None and "toner_pages_remaining" not in filtrado:
+                    filtrado["toner_pages_remaining"] = item["restante"]
+                if item.get("capacidade") is not None and "toner_max_capacity" not in filtrado:
+                    filtrado["toner_max_capacity"] = item["capacidade"]
+                if item.get("nivel") is not None and "toner_life_remaining" not in filtrado:
+                    filtrado["toner_life_remaining"] = item["nivel"]
 
     return filtrado
 
