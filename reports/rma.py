@@ -268,21 +268,23 @@ def _texto_tspl(valor):
 
 
 # ============================================================
-# VALIDAR GARANTIA POR IDADE DE FABRICAÇÃO (MÁX 2 ANOS)
+# VALIDAR GARANTIA POR IDADE DE FABRICAÇÃO
 # ============================================================
 
 def _validar_garantia_idade(serial):
     """
-    Valida se a unidade de imagem está dentro do prazo de garantia (máximo 2 anos).
-
-    Extrai o ano de fabricação contido no serial após os 3 primeiros caracteres
-    alfabéticos (ex: CAB23..., CAY24..., CAS23... ou CAB2023...).
+    Avalia a idade estimada de fabricação a partir do serial.
+    
+    NOTA: NÃO bloqueia a emissão de RMA. 
+    Unidades de outros fabricantes (como Global) frequentemente reutilizam 
+    chips de lotes anteriores ou de outras regiões que possuem regras 
+    de garantia e critérios comerciais distintos.
     """
 
     serial_limpo = _texto(serial).upper()
 
     if not serial_limpo:
-        return
+        return {"ano_fabricacao": None, "idade_anos": None, "em_garantia": None}
 
     # Procura ano com 4 dígitos (ex: CAB2023...) ou 2 dígitos (ex: CAB23...) após 3 letras
     match_4 = re.match(r"^[A-Z]{3}(20\d{2})", serial_limpo)
@@ -294,20 +296,17 @@ def _validar_garantia_idade(serial):
         if match_2:
             ano_fabricacao = 2000 + int(match_2.group(1))
         else:
-            # Caso o serial não siga o padrão de ano nas letras iniciais, permite prosseguir
-            return
+            return {"ano_fabricacao": None, "idade_anos": None, "em_garantia": None}
 
     ano_atual = datetime.now().year
     idade_anos = ano_atual - ano_fabricacao
+    em_garantia = (idade_anos <= 2)
 
-    if idade_anos > 2:
-        raise RMAError(
-            "Unidade de imagem FORA DA GARANTIA!\n\n"
-            f"Serial: {serial_limpo}\n"
-            f"Ano de Fabricação: {ano_fabricacao} ({idade_anos} anos de uso/fabricação).\n\n"
-            f"A regra de RMA aceita apenas peças com no máximo 2 anos de idade "
-            f"(Ano limite para {ano_atual}: {ano_atual - 2})."
-        )
+    return {
+        "ano_fabricacao": ano_fabricacao,
+        "idade_anos": idade_anos,
+        "em_garantia": em_garantia,
+    }
 
 
 # ============================================================
@@ -799,6 +798,9 @@ def _localizar_sysdebug_salvo(serial):
     except Exception:
         pass
 
+    # Limita aos 60 mais recentes para resposta rápida da interface
+    arquivos = arquivos[:60]
+
     _rma_log(
         t0,
         f"SYSDEBUG: {len(arquivos)} arquivo(s) candidato(s)"
@@ -1106,11 +1108,19 @@ def _detectar_starter_no_sysdebug_salvo(
         "ANTES DE localizar SYSDEBUG salvo"
     )
 
-    arquivo, texto = (
-        _localizar_sysdebug_salvo(
-            serial
+    try:
+        arquivo, texto = (
+            _localizar_sysdebug_salvo(
+                serial
+            )
         )
-    )
+    except RMAError as err:
+        _rma_log(
+            t0,
+            f"SYSDEBUG salvo não encontrado para {serial} ({err}). Assumindo starter=False."
+        )
+        _STARTER_CACHE[chave_cache] = False
+        return False
 
     _rma_log(
         t0,
@@ -1123,13 +1133,12 @@ def _detectar_starter_no_sysdebug_salvo(
     )
 
     if not bloco:
-        raise RMAError(
-            "O SYSDEBUG salvo foi encontrado, "
-            "mas não foi possível localizar o bloco "
-            "correspondente à unidade de imagem.\n\n"
-            f"Serial:\n{serial}\n\n"
-            f"Arquivo:\n{arquivo}"
+        _rma_log(
+            t0,
+            f"Bloco do serial {serial} não localizado no SYSDEBUG. Assumindo starter=False."
         )
+        _STARTER_CACHE[chave_cache] = False
+        return False
 
     _rma_log(
         t0,
@@ -1235,6 +1244,7 @@ def preparar_rma(
     device,
     fabricante=FABRICANTE_LEXMARK,
     lote="",
+    starter_override=None,
 ):
     """
     Prepara os dados da etiqueta RMA.
@@ -1244,7 +1254,7 @@ def preparar_rma(
     NÃO comunica com a TSC.
     NÃO consulta a impressora da UST.
 
-    O Starter é determinado pelo SYSDEBUG já salvo,
+    O Starter é determinado pelo SYSDEBUG já salvo (ou override do operador),
     com a exceção conhecida do MS622/MS622de.
     """
 
@@ -1279,14 +1289,14 @@ def preparar_rma(
     )
 
     # --------------------------------------------------------
-    # VALIDAR GARANTIA POR IDADE DE FABRICAÇÃO (MÁX 2 ANOS)
+    # VALIDAR GARANTIA POR IDADE DE FABRICAÇÃO
     # --------------------------------------------------------
 
-    _validar_garantia_idade(serial)
+    info_idade = _validar_garantia_idade(serial)
 
     _rma_log(
         _t0,
-        "DEPOIS DE validar garantia por idade"
+        f"DEPOIS DE validar garantia por idade: {info_idade}"
     )
 
     nivel = _obter_nivel_unidade_imagem(
@@ -1325,10 +1335,14 @@ def preparar_rma(
     # STARTER
     # --------------------------------------------------------
 
-    started = _detectar_starter_no_sysdebug_salvo(
-        serial,
-        modelo=modelo,
-    )
+    if starter_override is not None:
+        started = bool(starter_override)
+        _rma_log(_t0, f"STARTER via override manual: {started}")
+    else:
+        started = _detectar_starter_no_sysdebug_salvo(
+            serial,
+            modelo=modelo,
+        )
 
     _rma_log(
         _t0,
@@ -1355,6 +1369,9 @@ def preparar_rma(
         ),
         "defeito": DEFEITO_RMA,
         "lote": lote,
+        "idade_anos": info_idade.get("idade_anos") if info_idade else None,
+        "ano_fabricacao": info_idade.get("ano_fabricacao") if info_idade else None,
+        "em_garantia": info_idade.get("em_garantia") if info_idade else True,
     }
 
 

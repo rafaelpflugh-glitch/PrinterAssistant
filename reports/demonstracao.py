@@ -153,66 +153,82 @@ class DemonstracaoError(Exception):
 def localizar_imagem():
     """
     Localiza a imagem oficial da Página de Demonstração.
-
-    Não acessa a internet.
+    Suporta execução direta via Python e via executável PyInstaller
+    (incluindo máquinas de colegas onde o projeto original não existe).
 
     Retorna:
         pathlib.Path
     """
+    import sys
 
-    candidatos = (
+    candidatos = []
+
+    # 1. Pastas do PyInstaller (quando empacotado como executável)
+    if getattr(sys, "frozen", False):
+        if hasattr(sys, "_MEIPASS"):
+            meipass = Path(sys._MEIPASS)
+            candidatos.extend([
+                meipass / "assets" / "print" / "too_dark" / "check_1.jpg",
+                meipass / "assets" / "print" / "too_dark_check_1.jpg",
+                meipass / "assets" / "print" / "_too_dark_check_1.jpg",
+                meipass / "assets" / "check_1.jpg",
+            ])
+        if sys.executable:
+            exe_dir = Path(sys.executable).resolve().parent
+            candidatos.extend([
+                exe_dir / "assets" / "print" / "too_dark" / "check_1.jpg",
+                exe_dir / "assets" / "print" / "too_dark_check_1.jpg",
+                exe_dir / "assets" / "check_1.jpg",
+                exe_dir / "_internal" / "assets" / "print" / "too_dark" / "check_1.jpg",
+                exe_dir / "_internal" / "assets" / "print" / "too_dark_check_1.jpg",
+                exe_dir / "_internal" / "assets" / "check_1.jpg",
+            ])
+
+    # 2. Caminhos relativos ao projeto e execução atual
+    candidatos.extend([
         IMAGEM_DEMONSTRACAO,
-
-        # Compatibilidade com nomenclaturas usadas durante
-        # os testes do projeto.
-        PROJECT_ROOT
-        / "assets"
-        / "print"
-        / "_too_dark_check_1.jpg",
-
-        PROJECT_ROOT
-        / "assets"
-        / "print"
-        / "too_dark_check_1.jpg",
-
-        PROJECT_ROOT
-        / "assets"
-        / "print"
-        / "_too"
-        / "_dark"
-        / "check_1.jpg",
-
-        PROJECT_ROOT
-        / "assets"
-        / "print"
-        / "_too_dark"
-        / "check_1.jpg",
-        
-        # Teste de caminho absoluto hardcoded
-        Path(r"C:\PrinterAssistant\assets\print\too_dark\check_1.jpg")
-    )
+        PROJECT_ROOT / "assets" / "print" / "too_dark" / "check_1.jpg",
+        PROJECT_ROOT / "assets" / "print" / "_too_dark_check_1.jpg",
+        PROJECT_ROOT / "assets" / "print" / "too_dark_check_1.jpg",
+        PROJECT_ROOT / "assets" / "check_1.jpg",
+        Path.cwd() / "assets" / "print" / "too_dark" / "check_1.jpg",
+        Path.cwd() / "assets" / "check_1.jpg",
+        Path(r"C:\PrinterAssistant\assets\print\too_dark\check_1.jpg"),
+    ])
 
     for caminho in candidatos:
-
         try:
-
-            if caminho.is_file():
-
+            if caminho and caminho.is_file():
                 return caminho
-
         except OSError:
+            continue
 
+    # 3. Varredura recursiva de emergência nas pastas conhecidas
+    pastas_busca = []
+    if getattr(sys, "frozen", False):
+        if hasattr(sys, "_MEIPASS"):
+            pastas_busca.append(Path(sys._MEIPASS))
+        if sys.executable:
+            pastas_busca.append(Path(sys.executable).resolve().parent)
+    pastas_busca.extend([PROJECT_ROOT, Path.cwd()])
+
+    for pasta in pastas_busca:
+        try:
+            if pasta and pasta.exists():
+                for found in pasta.rglob("*check_1.jpg"):
+                    if found.is_file():
+                        return found
+        except Exception:
             continue
 
     caminhos = "\n".join(
         f"    {caminho}"
-        for caminho in candidatos
+        for caminho in candidatos if caminho
     )
 
     raise DemonstracaoError(
-        "Imagem da Página de Demonstração "
-        "não encontrada.\n\n"
-        "Caminhos procurados:\n"
+        "Imagem da Página de Demonstração não encontrada nos arquivos da aplicação.\n\n"
+        "Caminhos verificados:\n"
         f"{caminhos}"
     )
 
@@ -1000,20 +1016,19 @@ def imprimir_relatorio_demonstracao(
     # IMAGEM
     # --------------------------------------------------------
 
-    if imagem is None:
+    caminho_imagem = None
+    if imagem is not None:
+        p = Path(imagem)
+        try:
+            if p.is_file():
+                caminho_imagem = p
+        except OSError:
+            pass
 
-        caminho_imagem = (
-            localizar_imagem()
-        )
-
-    else:
-
-        caminho_imagem = Path(
-            imagem
-        )
+    if caminho_imagem is None:
+        caminho_imagem = localizar_imagem()
 
     if not caminho_imagem.is_file():
-
         raise DemonstracaoError(
             "Imagem da Página de Demonstração "
             "não encontrada:\n"

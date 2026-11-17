@@ -3094,11 +3094,8 @@ class PrinterView(ttk.Frame):
             try:
                 from reports.demonstracao import imprimir_relatorio_demonstracao
                 
-                CAMINHO_IMAGEM_DEMO = r"C:\PrinterAssistant\assets\print\too_dark\check_1.jpg"
-
                 imprimir_relatorio_demonstracao(
-                    device=self.device, 
-                    imagem=CAMINHO_IMAGEM_DEMO
+                    device=self.device,
                 )
                 
                 def sucesso():
@@ -3445,6 +3442,10 @@ class PrinterView(ttk.Frame):
             "SIM" if starter_detectado else "NAO",
         )
 
+        starter_var = tk.StringVar(
+            value=starter_texto
+        )
+
         tk.Label(
             frame,
             text="STARTER",
@@ -3459,16 +3460,19 @@ class PrinterView(ttk.Frame):
             pady=5,
         )
 
-        tk.Label(
+        starter_combo = ttk.Combobox(
             frame,
-            text=starter_texto,
-            background=self.COR_PAINEL_2,
-            foreground=self.COR_TEXTO,
-            font=("Segoe UI", 10, "bold"),
-            anchor="w",
-            padx=8,
-            pady=5,
-        ).grid(
+            textvariable=starter_var,
+            values=(
+                "NAO",
+                "SIM",
+            ),
+            state="readonly",
+            font=("Segoe UI", 10),
+            style="PrinterView.RMA.TCombobox",
+        )
+
+        starter_combo.grid(
             row=5,
             column=1,
             sticky="ew",
@@ -3549,12 +3553,17 @@ class PrinterView(ttk.Frame):
                 lote_var.get().strip()
             )
 
+            starter_escolhido = (
+                starter_var.get().strip().upper() == "SIM"
+            )
+
             try:
 
                 dados = preparar_rma(
                     device=self.device,
                     fabricante=fabricante,
                     lote=lote,
+                    starter_override=starter_escolhido,
                 )
 
                 rma_tempo(
@@ -4084,11 +4093,8 @@ class PrinterView(ttk.Frame):
                 try:
                     from reports.demonstracao import imprimir_relatorio_demonstracao
                     
-                    CAMINHO_IMAGEM_DEMO = r"C:\PrinterAssistant\assets\print\too_dark\check_1.jpg"
-
                     imprimir_relatorio_demonstracao(
-                        device=self.device, 
-                        imagem=CAMINHO_IMAGEM_DEMO
+                        device=self.device,
                     )
                     
                     def sucesso():
