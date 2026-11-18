@@ -28,7 +28,35 @@ CONFIG_PADRAO = {
     "ativo_ip_padrao": "192.168.14.151",
     "ativo_ip_excecao": "192.168.14.151",
     "ativo_usar_excecao": False,
+
+    # 4. Histórico de IPs manuais
+    "ips_recentes": [],
 }
+
+def carregar_ips_recentes():
+    """Retorna a lista de IPs inseridos manualmente recentemente."""
+    config = carregar_config()
+    recentes = config.get("ips_recentes", [])
+    if isinstance(recentes, list):
+        return [str(ip).strip() for ip in recentes if ip]
+    return []
+
+def salvar_ip_recente(ip):
+    """Adiciona um IP ao topo do histórico de IPs recentes (sem duplicatas)."""
+    if not ip or not isinstance(ip, str):
+        return
+    ip_limpo = ip.strip()
+    if not ip_limpo:
+        return
+    config = carregar_config()
+    recentes = config.get("ips_recentes", [])
+    if not isinstance(recentes, list):
+        recentes = []
+    if ip_limpo in recentes:
+        recentes.remove(ip_limpo)
+    recentes.insert(0, ip_limpo)
+    config["ips_recentes"] = recentes[:15]
+    salvar_config(config)
 
 def carregar_config():
     """Lê as configurações salvas do arquivo config.json."""

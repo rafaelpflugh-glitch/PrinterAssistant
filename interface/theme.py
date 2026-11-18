@@ -343,6 +343,30 @@ def aplicar_tema(root):
 
 
     # ========================================================
+    # COMBOBOX
+    # ========================================================
+
+    style.configure(
+        "TCombobox",
+        fieldbackground=COR_ENTRADA,
+        background=COR_PAINEL,
+        foreground=COR_TEXTO,
+        bordercolor=COR_BORDA,
+        lightcolor=COR_BORDA,
+        darkcolor=COR_BORDA,
+        arrowcolor=COR_TEXTO,
+        insertcolor=COR_TEXTO,
+    )
+
+    style.map(
+        "TCombobox",
+        fieldbackground=[("readonly", COR_ENTRADA)],
+        selectbackground=[("readonly", COR_SELECAO)],
+        selectforeground=[("readonly", COR_TEXTO)],
+    )
+
+
+    # ========================================================
     # CHECKBUTTON
     # ========================================================
 

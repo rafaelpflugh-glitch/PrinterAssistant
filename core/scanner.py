@@ -53,7 +53,7 @@ PRINTERS_FOUND = BASE_DIR / "printers_found.json"
 
 PORTA_RAW = 9100
 
-TIMEOUT_RAW = 0.8
+TIMEOUT_RAW = 1.5
 
 # O PrinterDevice já possui seus próprios timeouts internos
 # para PJL, SYSDEBUG e SNMP.
@@ -204,7 +204,16 @@ def consultar_arp():
 # PING
 # ============================================================
 
-async def ping_host(ip):
+async def ping_host(ip, semaforo=None):
+
+    if semaforo is not None:
+        async with semaforo:
+            return await _ping_host_exec(ip)
+
+    return await _ping_host_exec(ip)
+
+
+async def _ping_host_exec(ip):
 
     try:
 
@@ -214,7 +223,7 @@ async def ping_host(ip):
             "-n",
             "1",
             "-w",
-            "250",
+            "300",
             str(ip),
 
             stdout=asyncio.subprocess.DEVNULL,
@@ -223,25 +232,21 @@ async def ping_host(ip):
 
         )
 
-
         codigo = await asyncio.wait_for(
 
             processo.wait(),
 
-            timeout=0.5
+            timeout=0.6
 
         )
-
 
         if codigo == 0:
 
             return str(ip)
 
-
     except Exception:
 
         pass
-
 
     return None
 
@@ -258,30 +263,27 @@ async def atualizar_descoberta_local(
         rede
     )
 
+    semaforo = asyncio.Semaphore(50)
 
     tarefas = [
 
-        ping_host(ip)
+        ping_host(ip, semaforo)
 
         for ip in rede_obj.hosts()
 
     ]
 
-
     resultados = await asyncio.gather(
         *tarefas
     )
 
-
     encontrados = []
-
 
     for ip in resultados:
 
         if ip:
 
             encontrados.append(ip)
-
 
     return encontrados
 
@@ -290,7 +292,10 @@ async def atualizar_descoberta_local(
 # TESTAR RAW
 # ============================================================
 
-async def testar_raw(ip):
+async def testar_raw(ip, timeout=None):
+
+    if timeout is None:
+        timeout = TIMEOUT_RAW
 
     try:
 
@@ -304,10 +309,9 @@ async def testar_raw(ip):
 
             ),
 
-            timeout=TIMEOUT_RAW
+            timeout=timeout
 
         )
-
 
         escritor.close()
 
@@ -319,9 +323,7 @@ async def testar_raw(ip):
 
             pass
 
-
         return True
-
 
     except Exception:
 
@@ -415,7 +417,7 @@ async def identificar(ip):
 # DESCOBRIR CANDIDATOS
 # ============================================================
 
-async def descobrir_candidatos():
+async def descobrir_candidatos(forcar_profundo=False):
 
     ip_local, rede = descobrir_rede()
 
@@ -448,29 +450,20 @@ async def descobrir_candidatos():
 
 
     # --------------------------------------------------------
-    # Se a tabela ARP estiver muito pequena, fazemos um
-    # preenchimento leve através de ping.
-    #
-    # Isso NÃO significa escanear SNMP/WEB/etc.
-    #
-    # É somente descoberta de hosts ativos.
+    # Se a tabela ARP estiver muito pequena OU se foi solicitada
+    # varredura profunda (Scan Profundo), realizamos varredura
+    # ativa por ping na sub-rede.
     # --------------------------------------------------------
 
-    if len(arp) < 2:
+    if len(arp) < 2 or forcar_profundo:
 
-        print(
-            "Poucos dispositivos encontrados pela ARP."
-        )
-
-        print(
-            "Atualizando descoberta local..."
-        )
-
+        motivo = "Varredura profunda solicitada." if forcar_profundo else "Poucos dispositivos encontrados pela ARP."
+        print(motivo)
+        print("Atualizando descoberta local via ping sweep...")
 
         hosts_ativos = await atualizar_descoberta_local(
             rede
         )
-
 
         for ip in hosts_ativos:
 
@@ -478,6 +471,26 @@ async def descobrir_candidatos():
                 ip,
                 "desconhecido"
             )
+
+        # Consulta novamente ARP para absorver novos MACs descobertos
+        arp_novo = consultar_arp()
+        arp.update(arp_novo)
+
+
+    # --------------------------------------------------------
+    # Incluir IPs do histórico recente no teste (caso estejam
+    # em outra VLAN ou bancada fixa).
+    # --------------------------------------------------------
+    try:
+        from core.config import carregar_ips_recentes
+        for ip_rec in carregar_ips_recentes():
+            if ip_rec != ip_local:
+                arp.setdefault(
+                    ip_rec,
+                    "recente"
+                )
+    except Exception:
+        pass
 
 
     # --------------------------------------------------------
@@ -493,7 +506,7 @@ async def descobrir_candidatos():
     print()
 
     print(
-        f"{len(arp)} dispositivos conhecidos."
+        f"{len(arp)} dispositivos conhecidos a testar."
     )
 
 
@@ -512,10 +525,11 @@ async def descobrir_candidatos():
         arp.keys()
     )
 
+    timeout_teste = 2.0 if forcar_profundo else TIMEOUT_RAW
 
     tarefas = [
 
-        testar_raw(ip)
+        testar_raw(ip, timeout=timeout_teste)
 
         for ip in ips
 
