@@ -326,6 +326,9 @@ class ReportService:
             dest_ip = "192.168.14.151"
             PORTA_TSC = 9100
 
+        from datetime import datetime
+        data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
+
         texto = (
             "PRINTER ASSISTANT\n"
             "RELATÓRIO DE ATIVO\n"
@@ -335,6 +338,7 @@ class ReportService:
             f"MODELO          : {modelo}\n"
             f"NÚMERO DE SÉRIE : {serial}\n"
             f"CONTADOR        : {cont_fmt}\n"
+            f"DATA DE EMISSÃO : {data_emissao}\n"
             "----------------------------------------\n"
             "\n"
             "CÓDIGO DE BARRAS\n"

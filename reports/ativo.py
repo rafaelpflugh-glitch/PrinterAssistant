@@ -263,6 +263,7 @@ def gerar_etiqueta_ativo(
     modelo,
     serial,
     contador,
+    data_emissao=None,
 ):
     """
     Gera a etiqueta TSPL.
@@ -271,6 +272,10 @@ def gerar_etiqueta_ativo(
 
     Não existe nenhuma consulta à Lexmark nesta função.
     """
+
+    if data_emissao is None:
+        from datetime import datetime
+        data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
 
     fabricante = escapar_tspl(
         texto(
@@ -296,6 +301,13 @@ def gerar_etiqueta_ativo(
     contador = escapar_tspl(
         contador_texto(
             contador
+        )
+    )
+
+    data_emissao_tspl = escapar_tspl(
+        texto(
+            data_emissao,
+            "",
         )
     )
 
@@ -395,8 +407,17 @@ def gerar_etiqueta_ativo(
     # ========================================================
 
     tspl += (
-        f'TEXT 60,980,"1",0,2,2,'
+        f'TEXT 60,950,"1",0,2,2,'
         f'"CONTADOR: {contador}"\r\n'
+    )
+
+    # ========================================================
+    # DATA DE EMISSÃO
+    # ========================================================
+
+    tspl += (
+        f'TEXT 60,1020,"1",0,2,2,'
+        f'"EMISSAO : {data_emissao_tspl}"\r\n'
     )
 
     # ========================================================
@@ -508,11 +529,15 @@ class ReportAtivo(BaseReport):
             session
         )
 
+        from datetime import datetime
+        data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
+
         dados_tspl = gerar_etiqueta_ativo(
             fabricante=fabricante,
             modelo=modelo,
             serial=serial,
             contador=contador,
+            data_emissao=data_emissao,
         )
 
         enviar_tsc(
@@ -539,6 +564,8 @@ class ReportAtivo(BaseReport):
             "serial": serial,
 
             "contador": contador,
+
+            "data_emissao": data_emissao,
 
             "bytes": len(
                 dados_tspl
