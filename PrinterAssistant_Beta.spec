@@ -1,0 +1,84 @@
+# -*- mode: python ; coding: utf-8 -*-
+import os
+from pathlib import Path
+
+BASE_DIR = Path(r"C:\PrinterAssistant").resolve()
+
+a = Analysis(
+    [str(BASE_DIR / 'main.py')],
+    pathex=[str(BASE_DIR)],
+    binaries=[],
+    datas=[
+        (str(BASE_DIR / 'assets'), 'assets'),
+        (str(BASE_DIR / 'database'), 'database'),
+        (str(BASE_DIR / 'config.json'), '.'),
+    ],
+    hiddenimports=[
+        'interface',
+        'interface.main_window',
+        'interface.printer_view',
+        'interface.theme',
+        'interface.settings_window',
+        'interface.manual_ip_dialog',
+        'core',
+        'core.device',
+        'core.scanner',
+        'core.sysdebug',
+        'core.relatorio_suprimentos',
+        'core.config',
+        'core.version',
+        'reports',
+        'reports.configuracao_suprimentos',
+        'reports.analise_unidade_imagem',
+        'reports.producao_etiqueta',
+        'reports.ativo',
+        'reports.rma',
+        'reports.demonstracao',
+        'services',
+        'services.report_service',
+        'pysnmp',
+        'pysnmp.hlapi',
+        'pysnmp.smi',
+        'pysmi',
+        'pycryptodomex',
+        'PIL',
+        'PIL.Image',
+        'PIL.ImageTk',
+        'requests',
+        'urllib3',
+    ],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=['tkinter.test', 'unittest', 'pytest'],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    [],
+    exclude_binaries=True,
+    name='PrinterAssistant_Beta',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='PrinterAssistant_Beta',
+)

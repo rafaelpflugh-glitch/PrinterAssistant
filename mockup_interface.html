@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Printer Assistant - Nova Interface Conceito</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 20px -5px rgba(56, 189, 248, 0.25);
+    }
+    .glow-green {
+      box-shadow: 0 0 16px -4px rgba(34, 197, 94, 0.35);
+    }
+  </style>
+</head>
+<body class="bg-[#0b0d10] text-[#e2e8f0] antialiased m-0 p-4 min-h-screen custom-scrollbar select-none">
+
+  <!-- CONTAINER PRINCIPAL DO APP (SIMULA A JANELA 1100x780) -->
+  <div class="max-w-[1140px] mx-auto bg-[#12161c] rounded-2xl border border-[#232936] shadow-2xl overflow-hidden flex flex-col min-h-[740px]">
+
+    <!-- 1. TOPBAR GLOBAL -->
+    <header class="px-6 py-4 bg-[#161b22] border-b border-[#232936] flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <!-- Logo e Título -->
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-sky-500/20">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-base font-bold tracking-tight text-white">Printer Assistant</h1>
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">v1.0.0-beta</span>
+            </div>
+            <!-- Pill de status de rede -->
+            <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+              <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Rede: <strong class="text-slate-300 font-mono">192.168.14.0/24</strong></span>
+              <span class="text-slate-600">•</span>
+              <span>Host: <strong class="text-slate-300 font-mono">192.168.14.165</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ações de topo da aplicação -->
+      <div class="flex items-center gap-2.5">
+        <button class="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#1c222c] hover:bg-[#252c38] text-slate-200 border border-[#2e3747] transition">
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Adicionar IP Manual
+        </button>
+
+        <button class="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#1c222c] hover:bg-[#252c38] text-slate-200 border border-[#2e3747] transition">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          Redescobrir
+        </button>
+
+        <button class="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-sky-500/15 to-cyan-500/15 hover:from-sky-500/25 hover:to-cyan-500/25 text-sky-300 border border-sky-500/30 transition">
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          Scan Profundo
+        </button>
+
+        <div class="h-5 w-px bg-slate-700/60 mx-1"></div>
+
+        <button title="Configurações" class="p-2 rounded-lg text-slate-400 hover:text-white bg-[#1c222c] hover:bg-[#252c38] border border-[#2e3747] transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. CORPO DO DASHBOARD -->
+    <div class="flex-1 p-6 grid grid-cols-12 gap-6 bg-[#0f1217]">
+
+      <!-- COLUNA PRINCIPAL: HERO + CONSUMÍVEIS (8 COLUNAS) -->
+      <main class="col-span-8 flex flex-col gap-5">
+
+        <!-- HERO CARD: UNIDADE SOB TESTE (UST) -->
+        <section class="bg-gradient-to-b from-[#181f2a] to-[#141820] rounded-xl border border-[#2b3547] p-5 shadow-lg relative overflow-hidden">
+          <!-- Detalhe sutil de fundo -->
+          <div class="absolute -right-8 -top-8 w-44 h-44 bg-sky-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+          <!-- Topo do Hero: Identificação da UST -->
+          <div class="flex items-start justify-between pb-4 border-b border-[#232c3d]">
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
+                  Unidade Sob Teste (UST)
+                </span>
+                <span class="text-xs text-slate-400 font-mono bg-[#1c222c] px-2 py-0.5 rounded border border-[#2d3748]">
+                  IP: 192.168.14.134
+                </span>
+              </div>
+              <h2 class="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                Lexmark MX611dhe
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5 font-medium">Multifuncional Laser Monocromática • Família MX</p>
+            </div>
+
+            <!-- Status Online & Contador Grande -->
+            <div class="text-right">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                ONLINE / PRONTO
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Contador Geral</span>
+                <span class="text-xl font-extrabold font-mono text-white tracking-tight">139.846</span>
+                <span class="text-xs text-slate-400 font-medium"> págs</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Badges de Especificações Técnicas -->
+          <div class="grid grid-cols-4 gap-3 pt-3.5 text-xs">
+            <div class="bg-[#11161f] p-2.5 rounded-lg border border-[#242d3d]">
+              <span class="text-[10px] uppercase font-semibold text-slate-400 block mb-0.5">Fabricante</span>
+              <span class="font-bold text-slate-200">Lexmark</span>
+            </div>
+            <div class="bg-[#11161f] p-2.5 rounded-lg border border-[#242d3d]">
+              <span class="text-[10px] uppercase font-semibold text-slate-400 block mb-0.5">Nº de Série</span>
+              <span class="font-mono font-bold text-sky-300">701644HH03ND3</span>
+            </div>
+            <div class="bg-[#11161f] p-2.5 rounded-lg border border-[#242d3d]">
+              <span class="text-[10px] uppercase font-semibold text-slate-400 block mb-0.5">Firmware</span>
+              <span class="font-mono text-slate-300">LW70.SB7.P022</span>
+            </div>
+            <div class="bg-[#11161f] p-2.5 rounded-lg border border-[#242d3d]">
+              <span class="text-[10px] uppercase font-semibold text-slate-400 block mb-0.5">Tempo Ativo</span>
+              <span class="font-mono text-emerald-400 font-semibold">14d 08h 22m</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- DASHBOARD DE CONSUMÍVEIS -->
+        <section class="bg-[#141820] rounded-xl border border-[#232c3d] p-5 flex-1 flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Níveis de Consumíveis & Suprimentos</h3>
+            </div>
+            <span class="text-[11px] text-slate-400 font-medium">Coletado via SYSDEBUG + SNMP</span>
+          </div>
+
+          <div class="space-y-4">
+            
+            <!-- 1. TONER -->
+            <div class="bg-[#181e28] rounded-lg p-3.5 border border-[#273244] hover:border-sky-500/30 transition">
+              <div class="flex items-center justify-between mb-1.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-sm text-white">Cartucho de Toner Preto</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">SN: CAB151892BEA</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-slate-400">9.600 / 20.000 págs</span>
+                  <span class="text-sm font-extrabold font-mono text-sky-400">55%</span>
+                </div>
+              </div>
+              <!-- Barra de Progresso com gradiente -->
+              <div class="w-full bg-[#0d1016] rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-800">
+                <div class="bg-gradient-to-r from-sky-500 to-cyan-400 h-full rounded-full transition-all duration-500" style="width: 55%"></div>
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2 pt-1 border-t border-slate-800/60">
+                <span>Consumido: <strong class="text-slate-300">5.400 págs</strong></span>
+                <span class="flex items-center gap-1 text-emerald-400 font-medium">
+                  <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                  Condição Nominal (OK)
+                </span>
+              </div>
+            </div>
+
+            <!-- 2. UNIDADE DE IMAGEM -->
+            <div class="bg-[#181e28] rounded-lg p-3.5 border border-[#273244] hover:border-emerald-500/30 transition">
+              <div class="flex items-center justify-between mb-1.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-sm text-white">Unidade de Imagem (Fotocondutor)</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">SN: CAB260613412</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-slate-400">59.097 / 60.000 págs</span>
+                  <span class="text-sm font-extrabold font-mono text-emerald-400">100%</span>
+                </div>
+              </div>
+              <div class="w-full bg-[#0d1016] rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-800">
+                <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 100%"></div>
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2 pt-1 border-t border-slate-800/60">
+                <span>Ciclos: <strong class="text-slate-300">12.772</strong> • Consumo: <strong class="text-slate-300">903 págs</strong></span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                  Garantia: POSSÍVEL
+                </span>
+              </div>
+            </div>
+
+            <!-- 3. FUSOR -->
+            <div class="bg-[#181e28] rounded-lg p-3.5 border border-[#273244] hover:border-emerald-500/30 transition">
+              <div class="flex items-center justify-between mb-1.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-sm text-white">Unidade Fusora</span>
+                  <span class="text-xs text-slate-400">Manutenção preventiva 200k</span>
+                </div>
+                <span class="text-sm font-extrabold font-mono text-emerald-400">100%</span>
+              </div>
+              <div class="w-full bg-[#0d1016] rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-800">
+                <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 100%"></div>
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 mt-2 pt-1 border-t border-slate-800/60">
+                <span>Estado: <strong class="text-slate-300">Operacional</strong></span>
+                <span class="text-slate-400">Ciclo estimado restante: <strong class="text-emerald-400">180.000+ págs</strong></span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      <!-- COLUNA LATERAL: AÇÕES E FERRAMENTAS (4 COLUNAS) -->
+      <aside class="col-span-4 flex flex-col justify-between gap-5">
+
+        <!-- PAINEL DE RELATÓRIOS E AÇÕES -->
+        <div class="bg-[#141820] rounded-xl border border-[#232c3d] p-5 flex flex-col gap-4">
+          <div class="flex items-center justify-between pb-3 border-b border-[#232c3d]">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              Relatórios & Ações
+            </h3>
+            <span class="text-[10px] text-slate-400 font-mono">Bancada TI</span>
+          </div>
+
+          <!-- GRUPO: RELATÓRIOS -->
+          <div class="space-y-2">
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Relatórios de Diagnóstico</span>
+            
+            <button class="w-full py-2.5 px-3 rounded-lg text-xs font-bold bg-[#1b222d] hover:bg-[#232c3a] text-slate-200 border border-[#2c3748] flex items-center justify-between transition">
+              <span class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Relatório de Ativo
+              </span>
+              <span class="text-[10px] text-slate-400">RAW 9100</span>
+            </button>
+
+            <button class="w-full py-2.5 px-3 rounded-lg text-xs font-bold bg-[#1b222d] hover:bg-[#232c3a] text-slate-200 border border-[#2c3748] flex items-center justify-between transition">
+              <span class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
+                Config. e Suprimentos
+              </span>
+              <span class="text-[10px] text-slate-400">Completo</span>
+            </button>
+
+            <button class="w-full py-2.5 px-3 rounded-lg text-xs font-bold bg-[#1b222d] hover:bg-[#232c3a] text-slate-200 border border-[#2c3748] flex items-center justify-between transition">
+              <span class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                Análise Unidade Imagem
+              </span>
+              <span class="text-[10px] text-slate-400">Desgaste</span>
+            </button>
+
+            <button class="w-full py-2.5 px-3 rounded-lg text-xs font-bold bg-[#1b222d] hover:bg-[#232c3a] text-slate-200 border border-[#2c3748] flex items-center justify-between transition">
+              <span class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/></svg>
+                Página de Demonstração
+              </span>
+              <span class="text-[10px] text-slate-400">Teste</span>
+            </button>
+          </div>
+
+          <!-- GRUPO: RMA E PRODUÇÃO (AÇÕES PRIMÁRIAS) -->
+          <div class="space-y-2 pt-2 border-t border-[#232c3d]">
+            <span class="text-[10px] uppercase font-bold text-amber-400/90 tracking-wider block">Garantia & Expedição</span>
+
+            <button class="w-full py-2.5 px-3 rounded-lg text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-between transition">
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                Relatório RMA
+              </span>
+              <span class="text-[10px] font-mono text-amber-400">100x150mm</span>
+            </button>
+
+            <!-- BOTÃO DE DESTAQUE HERO: PRODUÇÃO ETIQUETAS -->
+            <button class="w-full py-3 px-3.5 rounded-lg text-xs font-extrabold bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-[#09101d] shadow-lg shadow-sky-500/20 flex items-center justify-between transition transform active:scale-[0.99]">
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#09101d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                PRODUÇÃO ETIQUETAS
+              </span>
+              <span class="bg-black/20 text-[#09101d] px-2 py-0.5 rounded text-[10px] font-bold">50x38mm</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD DE ATALHOS RÁPIDOS & NAVEGAÇÃO -->
+        <div class="bg-[#141820] rounded-xl border border-[#232c3d] p-4 flex items-center justify-between">
+          <button class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-slate-300 hover:text-white bg-[#1b222d] hover:bg-[#232c3a] border border-[#2c3748] transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Voltar à Lista
+          </button>
+
+          <button class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-sky-300 hover:text-white bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 transition">
+            <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            Recarregar Dados
+          </button>
+        </div>
+
+      </aside>
+
+    </div>
+
+    <!-- 3. FOOTER COM STATUS DE PROTOCOLOS -->
+    <footer class="px-6 py-2.5 bg-[#12161c] border-t border-[#1e2533] flex items-center justify-between text-xs text-slate-400">
+      <div class="flex items-center gap-3">
+        <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Protocolos:</span>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> PJL
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> SYSDEBUG
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> SNMP
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> WEB
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> IPP
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 text-[11px] text-slate-400 font-mono">
+        <span>Coleta: <strong class="text-slate-300">Completa (100%)</strong></span>
+        <span>•</span>
+        <span>Tempo de resposta: <strong class="text-emerald-400">240ms</strong></span>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

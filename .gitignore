@@ -18,6 +18,7 @@ ENV/
 build/
 dist/
 *.spec
+!PrinterAssistant_Beta.spec
 
 # Backups e Arquivos Temporários
 *.bak

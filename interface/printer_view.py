@@ -487,7 +487,7 @@ class PrinterView(ttk.Frame):
 
         self.lbl_titulo = ttk.Label(
             header,
-            text=f"PRINTER ASSISTANT  {__version__}",
+            text="UNIDADE SOB TESTE (UST)",
             style="PrinterView.Title.TLabel",
         )
 
@@ -929,33 +929,6 @@ class PrinterView(ttk.Frame):
             column=0,
             sticky="ew",
             pady=3,
-        )
-
-        # ----------------------------------------------------
-        # SEPARADOR VISUAL
-        # ----------------------------------------------------
-
-        ttk.Separator(
-            self.reports_frame,
-            orient="horizontal",
-        ).grid(
-            row=6,
-            column=0,
-            sticky="ew",
-            pady=6,
-        )
-
-        ttk.Label(
-            self.reports_frame,
-            text="Preview disponível antes de imprimir.",
-            style="PrinterView.Secondary.TLabel",
-            justify="left",
-            wraplength=170,
-        ).grid(
-            row=7,
-            column=0,
-            sticky="nw",
-            pady=(0, 2),
         )
 
         # ----------------------------------------------------

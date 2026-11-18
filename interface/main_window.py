@@ -8,8 +8,10 @@ from core.scanner import (
     descobrir_candidatos,
     identificar,
 )
+from core.config import salvar_ip_recente
 from interface.printer_view import PrinterView
 from interface.settings_window import SettingsWindow
+from interface.manual_ip_dialog import ManualIPDialog
 from interface.theme import aplicar_tema
 from core.version import __version__, APP_TITLE
 
@@ -166,6 +168,17 @@ class MainWindow(tk.Tk):
 
         self.btn_redescobrir.pack(
             side="left",
+            padx=(0, 6),
+        )
+
+        self.btn_scan_profundo = ttk.Button(
+            botoes_topo,
+            text="🔍 Scan Profundo",
+            command=self.iniciar_descoberta_profunda,
+        )
+
+        self.btn_scan_profundo.pack(
+            side="left",
         )
 
 
@@ -240,25 +253,12 @@ class MainWindow(tk.Tk):
         self,
     ):
 
-        ip_digitado = simpledialog.askstring(
-            "Adicionar IP Manual",
-            "Digite o endereço IP da impressora (ex: 192.168.14.152):",
-            parent=self,
-        )
+        dialog = ManualIPDialog(self)
+        self.wait_window(dialog)
 
-        if not ip_digitado:
-            return
+        ip_limpo = dialog.resultado
 
-        ip_limpo = ip_digitado.strip()
-
-        partes = ip_limpo.split(".")
-
-        if len(partes) != 4:
-            messagebox.showerror(
-                "Erro",
-                "Formato de IP inválido.",
-                parent=self,
-            )
+        if not ip_limpo:
             return
 
         self.lbl_status.config(
@@ -268,6 +268,11 @@ class MainWindow(tk.Tk):
         self.btn_redescobrir.config(
             state="disabled"
         )
+
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="disabled"
+            )
 
         self.btn_manual.config(
             state="disabled"
@@ -307,6 +312,11 @@ class MainWindow(tk.Tk):
             state="normal"
         )
 
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="normal"
+            )
+
         self.btn_manual.config(
             state="normal"
         )
@@ -321,6 +331,9 @@ class MainWindow(tk.Tk):
                 text="Falha na identificação manual."
             )
             return
+
+        device = resultado["device"]
+        salvar_ip_recente(device.ip)
 
         self.resultados_descoberta.append(resultado)
 
@@ -375,6 +388,11 @@ class MainWindow(tk.Tk):
         self.btn_redescobrir.config(
             state="normal"
         )
+
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="normal"
+            )
 
         self.btn_manual.config(
             state="normal"
@@ -615,8 +633,15 @@ class MainWindow(tk.Tk):
     # INICIAR DESCOBERTA
     # =========================================================
 
+    def iniciar_descoberta_profunda(
+        self,
+    ):
+        self.iniciar_descoberta(profundo=True)
+
+
     def iniciar_descoberta(
         self,
+        profundo=False,
     ):
 
         if self._coleta_em_andamento:
@@ -627,8 +652,14 @@ class MainWindow(tk.Tk):
             state="disabled"
         )
 
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="disabled"
+            )
+
+        status_msg = "Executando varredura profunda (Scan Profundo)..." if profundo else "Descobrindo rede local..."
         self.lbl_status.config(
-            text="Descobrindo rede local..."
+            text=status_msg
         )
 
         self.lbl_rede.config(
@@ -639,6 +670,7 @@ class MainWindow(tk.Tk):
 
         thread = threading.Thread(
             target=self._descoberta_thread,
+            args=(profundo,),
             daemon=True,
         )
 
@@ -651,12 +683,13 @@ class MainWindow(tk.Tk):
 
     def _descoberta_thread(
         self,
+        profundo=False,
     ):
 
         try:
 
             resultado = asyncio.run(
-                self._executar_descoberta()
+                self._executar_descoberta(profundo=profundo)
             )
 
             self.after(
@@ -684,13 +717,14 @@ class MainWindow(tk.Tk):
 
     async def _executar_descoberta(
         self,
+        profundo=False,
     ):
 
         (
             ip_local,
             rede,
             candidatos,
-        ) = await descobrir_candidatos()
+        ) = await descobrir_candidatos(forcar_profundo=profundo)
 
         if not candidatos:
 
@@ -793,6 +827,11 @@ class MainWindow(tk.Tk):
         self.btn_redescobrir.config(
             state="normal"
         )
+
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="normal"
+            )
 
 
         if not resultados:
@@ -913,6 +952,11 @@ class MainWindow(tk.Tk):
             state="normal"
         )
 
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="normal"
+            )
+
         self.lbl_status.config(
             text="Erro durante a descoberta."
         )
@@ -1002,6 +1046,11 @@ class MainWindow(tk.Tk):
         self.btn_redescobrir.config(
             state="disabled"
         )
+
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="disabled"
+            )
 
         self.btn_selecionar.config(
             state="disabled"
@@ -1110,6 +1159,11 @@ class MainWindow(tk.Tk):
             state="normal"
         )
 
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="normal"
+            )
+
 
     # =========================================================
     # ERRO COLETA
@@ -1125,6 +1179,11 @@ class MainWindow(tk.Tk):
         self.btn_redescobrir.config(
             state="normal"
         )
+
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="normal"
+            )
 
         self.lbl_status.config(
             text="Erro durante a coleta."
@@ -1162,6 +1221,11 @@ class MainWindow(tk.Tk):
             state="disabled"
         )
 
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="disabled"
+            )
+
         self.lbl_status.config(
             text="Atualizando impressora..."
         )
@@ -1198,6 +1262,11 @@ class MainWindow(tk.Tk):
         self.btn_redescobrir.config(
             state="normal"
         )
+
+        if hasattr(self, "btn_scan_profundo"):
+            self.btn_scan_profundo.config(
+                state="normal"
+            )
 
         self.lbl_status.config(
             text="Selecione uma impressora."

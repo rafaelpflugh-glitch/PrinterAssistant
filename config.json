@@ -8,6 +8,7 @@
     "ativo_ip_padrao": "192.168.14.151",
     "ativo_ip_excecao": "192.168.14.111",
     "ativo_usar_excecao": false,
+    "ips_recentes": [],
     "etiquetadora_producao_ip": "192.168.14.151",
     "etiquetadora_producao_porta": 9100,
     "etiquetadora_relatorios_ip": "192.168.14.111",
