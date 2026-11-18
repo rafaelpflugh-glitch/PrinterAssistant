@@ -2057,12 +2057,12 @@ class PrinterView(ttk.Frame):
         )
 
         dialogo.geometry(
-            "560x330"
+            "580x420"
         )
 
         dialogo.minsize(
             520,
-            300,
+            380,
         )
 
         dialogo.resizable(
@@ -2089,7 +2089,7 @@ class PrinterView(ttk.Frame):
             dialogo,
             background=self.COR_FUNDO,
             padx=28,
-            pady=24,
+            pady=20,
         )
 
         frame.grid(
@@ -2132,7 +2132,37 @@ class PrinterView(ttk.Frame):
             row=1,
             column=0,
             sticky="w",
-            pady=(0, 20),
+            pady=(0, 12),
+        )
+
+        # ----------------------------------------------------
+        # OPÇÃO: MÁQUINA SEM SUPRIMENTOS
+        # ----------------------------------------------------
+        sem_suprimentos_var = tk.BooleanVar(value=False)
+
+        def _ao_alternar_sem_suprimentos():
+            if sem_suprimentos_var.get():
+                marca_cartucho_var.set("SEM SUPRIMENTO")
+                marca_unidade_var.set("SEM SUPRIMENTO")
+                fabricante_cartucho_combo.config(state="disabled")
+                fabricante_unidade_combo.config(state="disabled")
+            else:
+                marca_cartucho_var.set("GLOBAL")
+                marca_unidade_var.set("LEXMARK")
+                fabricante_cartucho_combo.config(state="readonly")
+                fabricante_unidade_combo.config(state="readonly")
+
+        chk_sem_suprimentos = ttk.Checkbutton(
+            frame,
+            text="📦 Máquina sem suprimentos (Enviada ao cliente SEM Toner e SEM Unidade de Imagem)",
+            variable=sem_suprimentos_var,
+            command=_ao_alternar_sem_suprimentos,
+        )
+        chk_sem_suprimentos.grid(
+            row=2,
+            column=0,
+            sticky="w",
+            pady=(0, 14),
         )
 
         tk.Label(
@@ -2143,7 +2173,7 @@ class PrinterView(ttk.Frame):
             font=("Segoe UI", 8, "bold"),
             anchor="w",
         ).grid(
-            row=2,
+            row=3,
             column=0,
             sticky="w",
             pady=(0, 5),
@@ -2157,10 +2187,12 @@ class PrinterView(ttk.Frame):
             frame,
             textvariable=marca_cartucho_var,
             values=(
+                "GLOBAL",
                 "LEXMARK",
+                "REM",
                 "3I",
                 "VRI",
-                "GLOBAL",
+                "SEM SUPRIMENTO",
             ),
             state="readonly",
             font=("Segoe UI", 10),
@@ -2168,10 +2200,10 @@ class PrinterView(ttk.Frame):
         )
 
         fabricante_cartucho_combo.grid(
-            row=3,
+            row=4,
             column=0,
             sticky="ew",
-            pady=(0, 15),
+            pady=(0, 14),
         )
 
         tk.Label(
@@ -2182,7 +2214,7 @@ class PrinterView(ttk.Frame):
             font=("Segoe UI", 8, "bold"),
             anchor="w",
         ).grid(
-            row=4,
+            row=5,
             column=0,
             sticky="w",
             pady=(0, 5),
@@ -2197,10 +2229,11 @@ class PrinterView(ttk.Frame):
             textvariable=marca_unidade_var,
             values=(
                 "LEXMARK",
-                "3I",
-                "VRI",
                 "GLOBAL",
                 "REM",
+                "3I",
+                "VRI",
+                "SEM SUPRIMENTO",
             ),
             state="readonly",
             font=("Segoe UI", 10),
@@ -2208,10 +2241,10 @@ class PrinterView(ttk.Frame):
         )
 
         fabricante_unidade_combo.grid(
-            row=5,
+            row=6,
             column=0,
             sticky="ew",
-            pady=(0, 20),
+            pady=(0, 16),
         )
 
         tk.Label(
@@ -2226,10 +2259,10 @@ class PrinterView(ttk.Frame):
             justify="left",
             anchor="w",
         ).grid(
-            row=6,
+            row=7,
             column=0,
             sticky="w",
-            pady=(0, 18),
+            pady=(0, 16),
         )
 
         botoes = tk.Frame(
@@ -2238,7 +2271,7 @@ class PrinterView(ttk.Frame):
         )
 
         botoes.grid(
-            row=7,
+            row=8,
             column=0,
             sticky="ew",
         )

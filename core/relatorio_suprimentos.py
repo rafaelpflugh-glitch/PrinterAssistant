@@ -576,6 +576,9 @@ def montar_texto(
     # TONER
     # ========================================================
 
+    sem_cartucho = any(k in str(marca_cartucho).upper() for k in ("SEM", "NÃO", "AUSENTE"))
+    sem_unidade = any(k in str(marca_unidade_imagem).upper() for k in ("SEM", "NÃO", "AUSENTE"))
+
     linhas.extend(
         [
             "---------------------------- TONER -------------------------",
@@ -586,7 +589,22 @@ def montar_texto(
         ]
     )
 
-    if toner:
+    if sem_cartucho:
+
+        linhas[-1] = (
+            "  MARCA: SEM SUPRIMENTO"
+            "    NÍVEL: NÃO APLICÁVEL"
+            "    CONDIÇÃO: AUSENTE"
+        )
+
+        linhas.extend(
+            [
+                "  STATUS: EQUIPAMENTO EXPEDIDO SEM CARTUCHO DE TONER",
+                "  NÚMERO DE SÉRIE: NÃO ACOMPANHA O EQUIPAMENTO",
+            ]
+        )
+
+    elif toner:
 
         nivel = toner.get(
             "nivel"
@@ -664,7 +682,22 @@ def montar_texto(
         ]
     )
 
-    if unidade:
+    if sem_unidade:
+
+        linhas[-1] = (
+            "  MARCA: SEM SUPRIMENTO"
+            "    NÍVEL: NÃO APLICÁVEL"
+            "    CONDIÇÃO: AUSENTE"
+        )
+
+        linhas.extend(
+            [
+                "  STATUS: EQUIPAMENTO EXPEDIDO SEM UNIDADE DE IMAGEM",
+                "  NÚMERO DE SÉRIE: NÃO ACOMPANHA O EQUIPAMENTO",
+            ]
+        )
+
+    elif unidade:
 
         nivel = unidade.get(
             "nivel"
@@ -795,7 +828,11 @@ def montar_texto(
 
     resumo = []
 
-    if toner:
+    if sem_cartucho:
+        resumo.append(
+            "  TONER: NÃO ACOMPANHA (SEM SUPRIMENTO)"
+        )
+    elif toner:
 
         nivel = toner.get(
             "nivel"
@@ -818,7 +855,11 @@ def montar_texto(
             "  TONER: N/D    N/D"
         )
 
-    if unidade:
+    if sem_unidade:
+        resumo.append(
+            "  UNIDADE: NÃO ACOMPANHA (SEM SUPRIMENTO)"
+        )
+    elif unidade:
 
         nivel = unidade.get(
             "nivel"
