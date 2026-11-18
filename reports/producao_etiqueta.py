@@ -426,6 +426,7 @@ def imprimir_relatorio_producao(device: Any, fabricante: str = "REM", tipo: str 
 
     supplies = dados.get("supplies", [])
     serial_unidade = ""
+    suprimento_encontrado = None
 
     # Busca estrita pelo serial específico do consumível correto (Toner ou Unidade de Imagem)
     termo_busca = "toner" if "toner" in str(tipo).lower() else "unidade_imagem"
@@ -437,13 +438,52 @@ def imprimir_relatorio_producao(device: Any, fabricante: str = "REM", tipo: str 
         is_drum = "unidade_imagem" in termo_busca and any(t in tipo_item or t in nome_item for t in ["unidade", "image", "drum", "photoconductor", "imaging"])
 
         if is_toner or is_drum:
-            serial_unidade = item.get("numero_serie") or item.get("serial") or item.get("cartridge_serial") or ""
-            if serial_unidade and serial_unidade.lower() not in ["none", "desconhecido", "n/a", ""]:
+            suprimento_encontrado = item
+            s_cand = item.get("numero_serie") or item.get("serial") or item.get("cartridge_serial") or ""
+            if s_cand and str(s_cand).strip().lower() not in ["none", "desconhecido", "n/a", "sn_indisponivel", "n/d", ""]:
+                serial_unidade = str(s_cand).strip()
                 break
 
+    # Se ainda não encontrou no supplies, verifica atributos diretos do device
+    if not serial_unidade and hasattr(device, "to_dict"):
+        if "toner" in termo_busca:
+            for attr in ["toner_serial", "serial_toner", "cartridge_serial"]:
+                val = getattr(device, attr, "")
+                if val and str(val).strip().lower() not in ["none", "desconhecido", "n/a", "sn_indisponivel", "n/d", ""]:
+                    serial_unidade = str(val).strip()
+                    break
+        else:
+            for attr in ["drum_serial", "serial_drum", "imaging_serial", "unidade_imagem_serial"]:
+                val = getattr(device, attr, "")
+                if val and str(val).strip().lower() not in ["none", "desconhecido", "n/a", "sn_indisponivel", "n/d", ""]:
+                    serial_unidade = str(val).strip()
+                    break
+
     # Se não encontrar o serial do consumível específico, impede puxar o serial da impressora por engano
-    if not serial_unidade or serial_unidade.lower() in ["none", "desconhecido", "n/a", ""]:
-        serial_unidade = "SN_INDISPONIVEL"
+    if not serial_unidade or serial_unidade.lower() in ["none", "desconhecido", "n/a", "sn_indisponivel", "n/d", ""]:
+        raise ProducaoError("Serial do consumível não identificado. Atualize a coleta.")
+
+    # Se fabricante == "REM" e o tipo for unidade_imagem, verifique o nível percentual
+    fabricante_limpo = str(fabricante).strip().upper()
+    if "REM" in fabricante_limpo and "unidade_imagem" in termo_busca:
+        nivel_val = None
+        if suprimento_encontrado:
+            nivel_val = suprimento_encontrado.get("nivel")
+            if nivel_val is None:
+                nivel_val = suprimento_encontrado.get("percentual")
+        if nivel_val is None and hasattr(device, "drum_life_remaining"):
+            nivel_val = getattr(device, "drum_life_remaining")
+
+        nivel_num = None
+        if nivel_val is not None:
+            try:
+                nivel_num = float(str(nivel_val).replace("%", "").strip())
+            except Exception:
+                nivel_num = None
+
+        if nivel_num is None or nivel_num < 95.0:
+            val_txt = f"{int(nivel_num)}%" if nivel_num is not None else (f"{nivel_val}%" if nivel_val is not None else "0%")
+            raise ProducaoError(f"BLOQUEIO POKA-YOKE: Unidade de Imagem com {val_txt} de vida útil. Passe no resetter (100%) e atualize a coleta.")
 
     tspl_comando = gerar_tspl(
         serial=serial_unidade,

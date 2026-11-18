@@ -2298,6 +2298,32 @@ class PrinterView(ttk.Frame):
 
                 return
 
+            # ----------------------------------------------------
+            # TRAVA POKA-YOKE: SUPRIMENTOS REM DEVEM ESTAR >= 95%
+            # ----------------------------------------------------
+            if self.device:
+                dados_dev = self.device.to_dict() if hasattr(self.device, "to_dict") else {}
+                supplies_dev = dados_dev.get("supplies", []) or []
+
+                if marca_unidade_imagem == "REM":
+                    for sup in supplies_dev:
+                        t = self._tipo_consumivel(sup)
+                        if t == "unidade_imagem":
+                            niv = sup.get("nivel") if sup.get("nivel") is not None else sup.get("percentual")
+                            try:
+                                niv_f = float(str(niv).replace("%", "").strip()) if niv is not None else 0.0
+                            except Exception:
+                                niv_f = 0.0
+                            if niv_f < 95.0:
+                                messagebox.showerror(
+                                    "BLOQUEIO POKA-YOKE",
+                                    f"A Unidade de Imagem (REM) está com {int(niv_f)}% de vida útil.\n\n"
+                                    "Para envio a clientes, suprimentos REM devem estar 100% resetados (mínimo 95%).\n\n"
+                                    "Passe a unidade no resetter e clique em Atualizar Coleta antes de gerar o relatório.",
+                                    parent=dialogo,
+                                )
+                                return
+
             try:
 
                 service.definir_marcas_suprimentos(
@@ -3855,45 +3881,52 @@ class PrinterView(ttk.Frame):
             return
 
         dialogo = tk.Toplevel(self.winfo_toplevel())
-        dialogo.title("PRODUÇÃO DE ETIQUETAS")
-        dialogo.geometry("540x480")
-        dialogo.minsize(500, 450)
+        dialogo.title("PRODUÇÃO DE ETIQUETAS — CONTROLE DE QUALIDADE POKA-YOKE")
+        dialogo.geometry("560x580")
+        dialogo.minsize(520, 550)
         dialogo.resizable(False, False)
         dialogo.transient(self.winfo_toplevel())
         dialogo.grab_set()
         dialogo.configure(background=self.COR_FUNDO)
 
-        frame = tk.Frame(dialogo, background=self.COR_FUNDO, padx=25, pady=20)
+        frame = tk.Frame(dialogo, background=self.COR_FUNDO, padx=22, pady=16)
         frame.pack(fill="both", expand=True)
 
         tk.Label(
             frame,
-            text="PRODUÇÃO DE ETIQUETAS",
+            text="PRODUÇÃO DE ETIQUETAS (50x38mm)",
             background=self.COR_FUNDO,
             foreground=self.COR_TEXTO,
-            font=("Segoe UI", 14, "bold"),
+            font=("Segoe UI", 13, "bold"),
             anchor="w",
         ).pack(anchor="w", pady=(0, 2))
 
         lbl_status = tk.Label(
             frame,
-            text="Selecione o consumível, fabricante e emita a etiqueta.",
+            text="Validação Poka-Yoke obrigatória para liberação de impressão.",
             background=self.COR_FUNDO,
             foreground=self.COR_TEXTO_SECUNDARIO,
             font=("Segoe UI", 9),
             anchor="w",
         )
-        lbl_status.pack(anchor="w", pady=(0, 14))
+        lbl_status.pack(anchor="w", pady=(0, 10))
 
-        campos_frame = tk.Frame(frame, background=self.COR_FUNDO)
-        campos_frame.pack(fill="x", pady=5)
-        campos_frame.columnconfigure(1, weight=1)
+        # ----------------------------------------------------
+        # FLAG DE CONTROLE DE SESSÃO POKA-YOKE
+        # ----------------------------------------------------
+        coleta_confirmada = False
 
-        seriais_coletados = {"toner": "", "unidade_imagem": ""}
+        dados_suprimentos = {
+            "toner": {"serial": "", "nivel": None},
+            "unidade_imagem": {"serial": "", "nivel": None},
+        }
 
-        def _extrair_seriais():
-            nonlocal seriais_coletados
-            novos = {"toner": "", "unidade_imagem": ""}
+        def _extrair_dados_suprimentos():
+            nonlocal dados_suprimentos
+            novos = {
+                "toner": {"serial": "", "nivel": None},
+                "unidade_imagem": {"serial": "", "nivel": None},
+            }
             if self.device:
                 try:
                     dados_dev = self.device.to_dict() if hasattr(self.device, "to_dict") else {}
@@ -3905,86 +3938,258 @@ class PrinterView(ttk.Frame):
                         or ""
                     ).strip()
 
-                    def _serial_suprimento_valido(val):
+                    def _serial_valido(val):
                         if not val:
                             return ""
                         s_limpo = str(val).strip()
-                        if s_limpo.lower() in ("none", "desconhecido", "n/d", "n/a", "null", ""):
+                        if s_limpo.lower() in ("none", "desconhecido", "n/d", "n/a", "null", "sn_indisponivel", ""):
                             return ""
                         if serial_impressora and s_limpo.upper() == serial_impressora.upper():
                             return ""
                         return s_limpo
+
+                    def _extrair_nivel(item):
+                        n = item.get("nivel") if isinstance(item, dict) else None
+                        if n is None and isinstance(item, dict):
+                            n = item.get("percentual")
+                        if n is not None:
+                            try:
+                                return float(str(n).replace("%", "").strip())
+                            except Exception:
+                                pass
+                        return None
 
                     supplies = dados_dev.get("supplies", []) or []
 
                     for item in supplies:
                         if isinstance(item, dict):
                             t = self._tipo_consumivel(item)
-                            s = _serial_suprimento_valido(
+                            nome_item = str(
+                                item.get("nome")
+                                or item.get("name")
+                                or item.get("descricao")
+                                or item.get("description")
+                                or ""
+                            ).lower()
+                            if not t:
+                                if "toner" in nome_item or "cartucho" in nome_item or "cartridge" in nome_item:
+                                    t = "toner"
+                                elif any(k in nome_item for k in ["imagem", "imaging", "drum", "fotocondutor", "photoconductor"]):
+                                    t = "unidade_imagem"
+
+                            s = _serial_valido(
                                 item.get("numero_serie")
                                 or item.get("serial")
                                 or item.get("serial_number")
                                 or item.get("serialNumber")
                                 or item.get("numeroSerie")
+                                or item.get("cartridge_serial")
                                 or ""
                             )
-                            if not t:
-                                nome_item = str(
-                                    item.get("nome")
-                                    or item.get("name")
-                                    or item.get("descricao")
-                                    or item.get("description")
-                                    or ""
-                                ).lower()
-                                if "toner" in nome_item or "cartucho" in nome_item or "cartridge" in nome_item:
-                                    t = "toner"
-                                elif "imagem" in nome_item or "imaging" in nome_item or "drum" in nome_item or "fotocondutor" in nome_item or "photoconductor" in nome_item:
-                                    t = "unidade_imagem"
+                            niv = _extrair_nivel(item)
 
-                            if t in novos and s and not novos[t]:
-                                novos[t] = s
+                            if t in novos:
+                                if s and not novos[t]["serial"]:
+                                    novos[t]["serial"] = s
+                                if niv is not None and novos[t]["nivel"] is None:
+                                    novos[t]["nivel"] = niv
 
+                    # Fallbacks via atributos diretos no device
                     for attr in ["toner_serial", "serial_toner", "cartridge_serial"]:
                         if hasattr(self.device, attr) and getattr(self.device, attr):
-                            val_attr = _serial_suprimento_valido(getattr(self.device, attr))
-                            if val_attr and not novos["toner"]:
-                                novos["toner"] = val_attr
+                            val_attr = _serial_valido(getattr(self.device, attr))
+                            if val_attr and not novos["toner"]["serial"]:
+                                novos["toner"]["serial"] = val_attr
+
                     for attr in ["drum_serial", "serial_drum", "imaging_serial", "unidade_imagem_serial"]:
                         if hasattr(self.device, attr) and getattr(self.device, attr):
-                            val_attr = _serial_suprimento_valido(getattr(self.device, attr))
-                            if val_attr and not novos["unidade_imagem"]:
-                                novos["unidade_imagem"] = val_attr
+                            val_attr = _serial_valido(getattr(self.device, attr))
+                            if val_attr and not novos["unidade_imagem"]["serial"]:
+                                novos["unidade_imagem"]["serial"] = val_attr
+
+                    if novos["unidade_imagem"]["nivel"] is None and hasattr(self.device, "drum_life_remaining"):
+                        novos["unidade_imagem"]["nivel"] = _extrair_nivel({"nivel": getattr(self.device, "drum_life_remaining")})
+                    if novos["toner"]["nivel"] is None and hasattr(self.device, "toner_level"):
+                        novos["toner"]["nivel"] = _extrair_nivel({"nivel": getattr(self.device, "toner_level")})
 
                 except Exception as e:
-                    print(f"[ERRO EXTRAIR SERIAIS] {e}")
-            seriais_coletados = novos
+                    print(f"[ERRO EXTRAIR DADOS SUPRIMENTOS] {e}")
 
-        _extrair_seriais()
+            dados_suprimentos = novos
 
-        tk.Label(campos_frame, text="CONSUMÍVEL", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=0, column=0, sticky="w", pady=6, padx=(0, 10))
-        tipo_var = tk.StringVar(value="Cartucho de Toner")
-        tipo_combo = ttk.Combobox(campos_frame, textvariable=tipo_var, values=("Cartucho de Toner", "Unidade de Imagem"), state="readonly", font=("Segoe UI", 10), style="PrinterView.RMA.TCombobox")
-        tipo_combo.grid(row=0, column=1, sticky="ew", pady=6)
+        _extrair_dados_suprimentos()
 
-        tk.Label(campos_frame, text="FABRICANTE", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=1, column=0, sticky="w", pady=6, padx=(0, 10))
+        campos_frame = tk.Frame(frame, background=self.COR_FUNDO)
+        campos_frame.pack(fill="x", pady=(0, 6))
+        campos_frame.columnconfigure(1, weight=1)
+
+        tk.Label(campos_frame, text="CONSUMÍVEL", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=0, column=0, sticky="w", pady=5, padx=(0, 10))
+        tipo_var = tk.StringVar(value="Unidade de Imagem")
+        tipo_combo = ttk.Combobox(campos_frame, textvariable=tipo_var, values=("Unidade de Imagem", "Cartucho de Toner"), state="readonly", font=("Segoe UI", 10), style="PrinterView.RMA.TCombobox")
+        tipo_combo.grid(row=0, column=1, sticky="ew", pady=5)
+
+        tk.Label(campos_frame, text="FABRICANTE", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=1, column=0, sticky="w", pady=5, padx=(0, 10))
         fabricante_var = tk.StringVar(value="REM")
         fabricante_combo = ttk.Combobox(campos_frame, textvariable=fabricante_var, values=("REM", "LEXMARK", "GLOBAL", "3I", "VRI"), state="readonly", font=("Segoe UI", 10), style="PrinterView.RMA.TCombobox")
-        fabricante_combo.grid(row=1, column=1, sticky="ew", pady=6)
+        fabricante_combo.grid(row=1, column=1, sticky="ew", pady=5)
 
-        tk.Label(campos_frame, text="SERIAL", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=2, column=0, sticky="w", pady=6, padx=(0, 10))
+        tk.Label(campos_frame, text="SERIAL", background=self.COR_FUNDO, foreground=self.COR_TEXTO_SECUNDARIO, font=("Segoe UI", 8, "bold"), anchor="w").grid(row=2, column=0, sticky="w", pady=5, padx=(0, 10))
         serial_var = tk.StringVar()
         serial_entry = tk.Entry(campos_frame, textvariable=serial_var, background=self.COR_PAINEL_2, foreground=self.COR_TEXTO, insertbackground=self.COR_TEXTO, relief="flat", font=("Segoe UI", 10, "bold"))
-        serial_entry.grid(row=2, column=1, sticky="ew", pady=6)
+        serial_entry.grid(row=2, column=1, sticky="ew", pady=5)
+
+        # ----------------------------------------------------
+        # PAINEL DE STATUS POKA-YOKE (TRAVAS VISUAIS)
+        # ----------------------------------------------------
+        poka_frame = tk.LabelFrame(
+            frame,
+            text="  PAINEL DE VALIDAÇÃO POKA-YOKE (QUALIDADE EM BANCADA)  ",
+            background=self.COR_PAINEL,
+            foreground=self.COR_TEXTO,
+            font=("Segoe UI", 9, "bold"),
+            padx=12,
+            pady=8,
+            relief="solid",
+            bd=1,
+        )
+        poka_frame.pack(fill="x", pady=(6, 10))
+
+        lbl_poka_coleta = tk.Label(
+            poka_frame,
+            text="⚠️  Coleta na Bancada: PENDENTE (Clique em Atualizar Coleta)",
+            background=self.COR_PAINEL,
+            foreground=self.COR_ATENCAO,
+            font=("Segoe UI", 9, "bold"),
+            anchor="w",
+            justify="left",
+        )
+        lbl_poka_coleta.pack(fill="x", pady=2)
+
+        lbl_poka_serial = tk.Label(
+            poka_frame,
+            text="❌  Serial do Consumível: NÃO IDENTIFICADO",
+            background=self.COR_PAINEL,
+            foreground=self.COR_OFFLINE,
+            font=("Segoe UI", 9, "bold"),
+            anchor="w",
+            justify="left",
+        )
+        lbl_poka_serial.pack(fill="x", pady=2)
+
+        lbl_poka_nivel = tk.Label(
+            poka_frame,
+            text="⏳  Nível do Consumível: Aguardando verificação...",
+            background=self.COR_PAINEL,
+            foreground=self.COR_TEXTO_SECUNDARIO,
+            font=("Segoe UI", 9, "bold"),
+            anchor="w",
+            justify="left",
+        )
+        lbl_poka_nivel.pack(fill="x", pady=2)
+
+        def _obter_chave_consumivel():
+            t = tipo_var.get().strip().lower()
+            return "toner" if "toner" in t or "cartucho" in t else "unidade_imagem"
+
+        def _avaliar_travas_poka_yoke(*args):
+            chave = _obter_chave_consumivel()
+            fabricante = fabricante_var.get().strip().upper()
+            serial = serial_var.get().strip()
+
+            item_dados = dados_suprimentos.get(chave, {"serial": "", "nivel": None})
+            nivel_num = item_dados.get("nivel")
+
+            # 1. Trava de Coleta Recente da Sessão
+            if coleta_confirmada:
+                lbl_poka_coleta.config(
+                    text="✅  Coleta na Bancada: CONFIRMADA (Peça verificada nesta sessão)",
+                    foreground=self.COR_ONLINE,
+                )
+            else:
+                lbl_poka_coleta.config(
+                    text="⚠️  Coleta na Bancada: PENDENTE (Clique em 'Atualizar Coleta' para validar)",
+                    foreground=self.COR_ATENCAO,
+                )
+
+            # 2. Trava de Serial do Consumível
+            serial_invalido = (not serial) or (serial.lower() in ["none", "desconhecido", "n/d", "n/a", "sn_indisponivel", "null", ""])
+            if not serial_invalido:
+                lbl_poka_serial.config(
+                    text=f"✅  Serial da Peça: {serial} (Identificado)",
+                    foreground=self.COR_ONLINE,
+                )
+            else:
+                lbl_poka_serial.config(
+                    text="❌  Serial da Peça: NÃO IDENTIFICADO (Atualize a coleta)",
+                    foreground=self.COR_OFFLINE,
+                )
+
+            # 3. Trava de Reset (Obrigatório >= 95% para REM em Unidade de Imagem)
+            trava_nivel_ok = True
+            if chave == "unidade_imagem" and "REM" in fabricante:
+                if nivel_num is not None and nivel_num >= 95.0:
+                    lbl_poka_nivel.config(
+                        text=f"✅  Nível Unidade de Imagem: {int(nivel_num)}% — RESETADA (Pronta para Produção)",
+                        foreground=self.COR_ONLINE,
+                    )
+                    trava_nivel_ok = True
+                else:
+                    nivel_txt = f"{int(nivel_num)}%" if nivel_num is not None else "0%"
+                    lbl_poka_nivel.config(
+                        text=f"❌  Nível Unidade de Imagem: {nivel_txt} — NÃO RESETADA (Passe no resetter)",
+                        foreground=self.COR_OFFLINE,
+                    )
+                    trava_nivel_ok = False
+            else:
+                if nivel_num is not None:
+                    lbl_poka_nivel.config(
+                        text=f"ℹ️  Nível Atual: {int(nivel_num)}% ({fabricante})",
+                        foreground=self.COR_DESTAQUE,
+                    )
+                else:
+                    lbl_poka_nivel.config(
+                        text=f"ℹ️  Nível Atual: N/D ({fabricante})",
+                        foreground=self.COR_TEXTO_SECUNDARIO,
+                    )
+                trava_nivel_ok = True
+
+            todas_travas_ok = bool(coleta_confirmada and (not serial_invalido) and trava_nivel_ok)
+
+            if todas_travas_ok:
+                btn_imprimir_etiqueta.config(state="normal", style="PrinterView.Producao.TButton")
+                lbl_status.config(
+                    text="Todas as travas Poka-Yoke aprovadas. Pronto para imprimir a etiqueta.",
+                    foreground=self.COR_ONLINE,
+                )
+            else:
+                btn_imprimir_etiqueta.config(state="disabled", style="PrinterView.TButton")
+                if not coleta_confirmada:
+                    lbl_status.config(
+                        text="BLOQUEIO POKA-YOKE: Clique em 'Atualizar Coleta' para validar a peça na bancada.",
+                        foreground=self.COR_ATENCAO,
+                    )
+                elif serial_invalido:
+                    lbl_status.config(
+                        text="BLOQUEIO POKA-YOKE: Serial do consumível não identificado. Atualize a coleta.",
+                        foreground=self.COR_OFFLINE,
+                    )
+                elif not trava_nivel_ok:
+                    lbl_status.config(
+                        text="BLOQUEIO POKA-YOKE: Unidade não resetada. Passe no resetter e atualize a coleta.",
+                        foreground=self.COR_OFFLINE,
+                    )
+
+            return todas_travas_ok
 
         def _ao_mudar_tipo(event=None):
-            tipo_sel = tipo_var.get()
-            if tipo_sel == "Cartucho de Toner":
-                serial_var.set(seriais_coletados.get("toner", ""))
-            else:
-                serial_var.set(seriais_coletados.get("unidade_imagem", ""))
+            chave = _obter_chave_consumivel()
+            s_atual = dados_suprimentos.get(chave, {}).get("serial", "")
+            serial_var.set(s_atual)
+            _avaliar_travas_poka_yoke()
 
         tipo_combo.bind("<<ComboboxSelected>>", _ao_mudar_tipo)
-        _ao_mudar_tipo()
+        fabricante_combo.bind("<<ComboboxSelected>>", lambda e: _avaliar_travas_poka_yoke())
+        serial_entry.bind("<KeyRelease>", lambda e: _avaliar_travas_poka_yoke())
 
         tsc_ip = getattr(producao_etiqueta, "TSC_IP", getattr(producao_etiqueta, "PRODUCAO_IP_PADRAO", "192.168.14.111"))
         try:
@@ -3994,10 +4199,10 @@ class PrinterView(ttk.Frame):
             pass
         tsc_porta = getattr(producao_etiqueta, "TSC_PORTA", getattr(producao_etiqueta, "PRODUCAO_PORTA_PADRAO", 9100))
 
-        tk.Label(frame, text=f"Destino da impressão: TSC {tsc_ip}:{tsc_porta}", background=self.COR_FUNDO, foreground=self.COR_TEXTO_FRACO, font=("Segoe UI", 8), justify="left", anchor="w").pack(anchor="w", pady=(10, 15))
+        tk.Label(frame, text=f"Destino da impressão: TSC {tsc_ip}:{tsc_porta}", background=self.COR_FUNDO, foreground=self.COR_TEXTO_FRACO, font=("Segoe UI", 8), justify="left", anchor="w").pack(anchor="w", pady=(2, 8))
 
         botoes_topo = tk.Frame(frame, background=self.COR_FUNDO)
-        botoes_topo.pack(fill="x", pady=(0, 10))
+        botoes_topo.pack(fill="x", pady=(0, 6))
 
         btn_atualizar_coleta = ttk.Button(botoes_topo, text="🔄 Atualizar Coleta", style="PrinterView.TButton")
 
@@ -4022,6 +4227,7 @@ class PrinterView(ttk.Frame):
                         self.device.atualizar_dados()
 
                     def atualizar_ui_sucesso():
+                        nonlocal coleta_confirmada
                         if self.winfo_exists():
                             self.atualizar(self.device)
                             toplevel = self.winfo_toplevel()
@@ -4032,10 +4238,11 @@ class PrinterView(ttk.Frame):
                                     pass
                         if not dialogo.winfo_exists():
                             return
-                        _extrair_seriais()
+                        coleta_confirmada = True
+                        _extrair_dados_suprimentos()
                         _ao_mudar_tipo()
-                        lbl_status.config(foreground=self.COR_ONLINE, text="Dados atualizados e sincronizados com sucesso!")
                         btn_atualizar_coleta.config(text="🔄 Atualizar Coleta", state="normal")
+                        _avaliar_travas_poka_yoke()
 
                     if self.winfo_exists():
                         self.after(0, atualizar_ui_sucesso)
@@ -4065,31 +4272,16 @@ class PrinterView(ttk.Frame):
             def tarefa_demo():
                 try:
                     from reports.demonstracao import imprimir_relatorio_demonstracao
-                    
-                    imprimir_relatorio_demonstracao(
-                        device=self.device,
-                    )
-                    
+                    imprimir_relatorio_demonstracao(device=self.device)
                     def sucesso():
-                        messagebox.showinfo(
-                            "Demonstração", 
-                            "Página de demonstração enviada para a impressora com sucesso!", 
-                            parent=dialogo
-                        )
+                        messagebox.showinfo("Demonstração", "Página de demonstração enviada para a impressora com sucesso!", parent=dialogo)
                         btn_demonstracao.config(text="Demonstração", state="normal")
-                    
                     if dialogo.winfo_exists():
                         dialogo.after(0, sucesso)
-
                 except Exception as e:
                     def erro():
-                        messagebox.showerror(
-                            "Erro", 
-                            f"Falha ao enviar a demonstração para a impressora:\n\n{e}", 
-                            parent=dialogo
-                        )
+                        messagebox.showerror("Erro", f"Falha ao enviar a demonstração para a impressora:\n\n{e}", parent=dialogo)
                         btn_demonstracao.config(text="Demonstração", state="normal")
-                    
                     if dialogo.winfo_exists():
                         dialogo.after(0, erro)
 
@@ -4097,12 +4289,11 @@ class PrinterView(ttk.Frame):
 
         btn_demonstracao.config(command=acionar_demonstracao_producao)
         btn_demonstracao.pack(side="right")
-        fabricante_combo.focus_set()
 
         botoes_rodape = tk.Frame(frame, background=self.COR_FUNDO)
-        botoes_rodape.pack(fill="x", side="bottom", pady=(6, 0))
+        botoes_rodape.pack(fill="x", side="bottom", pady=(4, 0))
 
-        ttk.Separator(frame, orient="horizontal").pack(fill="x", side="bottom", pady=12)
+        ttk.Separator(frame, orient="horizontal").pack(fill="x", side="bottom", pady=8)
 
         btn_cancelar = ttk.Button(
             botoes_rodape,
@@ -4115,19 +4306,24 @@ class PrinterView(ttk.Frame):
         btn_imprimir_etiqueta = ttk.Button(
             botoes_rodape,
             text="IMPRIMIR ETIQUETA",
-            style="PrinterView.Producao.TButton"
+            style="PrinterView.TButton",
+            state="disabled",
         )
         btn_imprimir_etiqueta.pack(side="right")
 
         def acionar_imprimir_etiqueta():
+            if not _avaliar_travas_poka_yoke():
+                messagebox.showerror(
+                    "BLOQUEIO POKA-YOKE",
+                    "A impressão está bloqueada pelas travas de segurança.\n\n"
+                    "Verifique os itens em vermelho/amarelo no Painel Poka-Yoke antes de prosseguir.",
+                    parent=dialogo,
+                )
+                return
+
             tipo_sel = tipo_var.get().strip()
             fab_sel = fabricante_var.get().strip()
             ser_sel = serial_var.get().strip()
-
-            if not ser_sel:
-                messagebox.showwarning("Aviso", "O campo SERIAL não pode estar vazio.", parent=dialogo)
-                serial_entry.focus_set()
-                return
 
             modelo_maquina = "MX611"
             if self.device:
@@ -4147,7 +4343,13 @@ class PrinterView(ttk.Frame):
 
             def tarefa_imprimir():
                 try:
-                    if hasattr(producao_etiqueta, 'gerar_tspl'):
+                    if hasattr(producao_etiqueta, 'imprimir_relatorio_producao'):
+                        producao_etiqueta.imprimir_relatorio_producao(
+                            device=self.device,
+                            fabricante=fab_sel,
+                            tipo="toner" if "toner" in tipo_sel.lower() or "cartucho" in tipo_sel.lower() else "unidade_imagem",
+                        )
+                    elif hasattr(producao_etiqueta, 'gerar_tspl'):
                         tspl = producao_etiqueta.gerar_tspl(
                             serial=ser_sel,
                             fabricante=fab_sel,
@@ -4155,27 +4357,9 @@ class PrinterView(ttk.Frame):
                             modelo=modelo_maquina,
                             device=self.device,
                         )
-                    elif hasattr(producao_etiqueta, 'gerar_etiqueta'):
-                        tspl = producao_etiqueta.gerar_etiqueta(
-                            serial=ser_sel,
-                            fabricante=fab_sel,
-                            tipo=tipo_sel,
-                            modelo=modelo_maquina,
-                            device=self.device,
-                        )
-                    else:
-                        raise Exception("A função de gerar etiqueta ('gerar_etiqueta' ou 'gerar_tspl') não foi encontrada no módulo 'producao_etiqueta'.")
-
-                    if hasattr(producao_etiqueta, 'imprimir_tspl'):
                         producao_etiqueta.imprimir_tspl(tspl)
                     else:
-                        import socket
-                        ip = getattr(producao_etiqueta, "TSC_IP", "192.168.14.151")
-                        porta = getattr(producao_etiqueta, "TSC_PORTA", 9100)
-                        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                            s.settimeout(5)
-                            s.connect((ip, porta))
-                            s.sendall(tspl.encode('utf-8') if isinstance(tspl, str) else tspl)
+                        raise Exception("Módulo de produção de etiquetas não possui função de impressão.")
 
                     def sucesso():
                         messagebox.showinfo("Sucesso", "Etiqueta enviada para a impressora TSC com sucesso!", parent=dialogo)
@@ -4195,6 +4379,10 @@ class PrinterView(ttk.Frame):
             threading.Thread(target=tarefa_imprimir, daemon=True).start()
 
         btn_imprimir_etiqueta.config(command=acionar_imprimir_etiqueta)
+
+        # Inicializa campos e avalia travas no estado inicial (coleta_confirmada = False -> Travado)
+        _ao_mudar_tipo()
+        _avaliar_travas_poka_yoke()
 
     # ========================================================
     # ATUALIZAR
