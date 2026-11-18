@@ -3020,9 +3020,7 @@ class PrinterView(ttk.Frame):
     def _clicar_relatorio_ativo(
         self,
     ):
-
         try:
-
             service = (
                 self._criar_report_service()
             )
@@ -3036,63 +3034,10 @@ class PrinterView(ttk.Frame):
                 else None
             )
 
-            if resultado is not None:
+            if resultado is None:
+                raise ReportError("Não foi possível preparar o Relatório de Ativo.")
 
-                if not isinstance(
-                    resultado,
-                    dict,
-                ):
-
-                    raise ReportError(
-                        "O ReportService retornou "
-                        "um resultado inválido para "
-                        "o Relatório de Ativo."
-                    )
-
-                texto = resultado.get(
-                    "texto",
-                    "",
-                )
-
-                def imprimir():
-
-                    retorno = (
-                        service.imprimir_ativo()
-                    )
-
-                    destino = (
-                        retorno.get(
-                            "destino",
-                            "Impressora",
-                        )
-                        if isinstance(
-                            retorno,
-                            dict,
-                        )
-                        else "Impressora"
-                    )
-
-                self._escolher_acao_relatorio(
-                    "RELATÓRIO DE ATIVO",
-                    texto=texto,
-                    imprimir_callback=imprimir,
-                )
-
-                return
-
-            retorno = service.imprimir_ativo()
-
-            destino = (
-                retorno.get(
-                    "destino",
-                    "Impressora",
-                )
-                if isinstance(
-                    retorno,
-                    dict,
-                )
-                else "Impressora"
-            )
+            self._abrir_modal_relatorio_ativo(service, resultado)
 
         except ReportError as erro:
 
@@ -3113,6 +3058,217 @@ class PrinterView(ttk.Frame):
                 ),
                 parent=self,
             )
+
+    def _abrir_modal_relatorio_ativo(self, service, resultado_inicial):
+        """
+        Janela modal interativa para o Relatório de Ativo.
+        Permite ao técnico definir se a máquina acompanha Toner e Unidade de Imagem
+        com atualização em tempo real do texto e envio para a TSC.
+        """
+        modal = tk.Toplevel(self)
+        modal.title("Relatório de Ativo — Etiqueta Patrimonial (TSC 100x150mm)")
+        modal.geometry("720x720")
+        modal.minsize(620, 600)
+        modal.configure(background=self.COR_FUNDO)
+        modal.transient(self)
+        modal.grab_set()
+
+        modal.columnconfigure(0, weight=1)
+        modal.rowconfigure(2, weight=1)
+
+        # Cabeçalho
+        header = tk.Frame(modal, background=self.COR_FUNDO)
+        header.grid(row=0, column=0, sticky="ew", padx=20, pady=(18, 10))
+
+        tk.Label(
+            header,
+            text="🏷️ RELATÓRIO DE ATIVO PATRIMONIAL",
+            background=self.COR_FUNDO,
+            foreground=self.COR_DESTAQUE,
+            font=("Segoe UI", 12, "bold"),
+            anchor="w",
+        ).pack(fill="x")
+
+        tk.Label(
+            header,
+            text="Etiqueta patrimonial para impressora térmica TSC (100x150mm) • Composição de suprimentos e data de emissão.",
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO_SECUNDARIO,
+            font=("Segoe UI", 9),
+            anchor="w",
+        ).pack(fill="x", pady=(2, 0))
+
+        # Painel de Seleção de Suprimentos
+        card_sup = tk.Frame(
+            modal,
+            background=self.COR_PAINEL,
+            highlightbackground=self.COR_BORDA,
+            highlightthickness=1,
+            padx=14,
+            pady=12,
+        )
+        card_sup.grid(row=1, column=0, sticky="ew", padx=20, pady=(0, 10))
+        card_sup.columnconfigure(0, weight=1)
+        card_sup.columnconfigure(1, weight=1)
+
+        tk.Label(
+            card_sup,
+            text="📦 Composição de Suprimentos no Envio do Equipamento:",
+            background=self.COR_PAINEL,
+            foreground=self.COR_TEXTO,
+            font=("Segoe UI", 9, "bold"),
+            anchor="w",
+        ).grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 8))
+
+        var_toner = tk.BooleanVar(value=resultado_inicial.get("toner_presente", True))
+        var_unidade = tk.BooleanVar(value=resultado_inicial.get("unidade_presente", True))
+        var_sem_suprimentos = tk.BooleanVar(value=not (var_toner.get() or var_unidade.get()))
+
+        texto_cache = resultado_inicial.get("texto", "")
+
+        def recalcular_preview():
+            nonlocal texto_cache
+            res = service.preparar_ativo(
+                toner_presente=var_toner.get(),
+                unidade_presente=var_unidade.get(),
+            )
+            texto_cache = res.get("texto", "")
+            txt_preview.configure(state="normal")
+            txt_preview.delete("1.0", tk.END)
+            txt_preview.insert("1.0", texto_cache)
+            txt_preview.configure(state="disabled")
+
+        def ao_mudar_sem_suprimentos():
+            if var_sem_suprimentos.get():
+                var_toner.set(False)
+                var_unidade.set(False)
+                chk_toner.config(state="disabled")
+                chk_unidade.config(state="disabled")
+            else:
+                chk_toner.config(state="normal")
+                chk_unidade.config(state="normal")
+                var_toner.set(True)
+                var_unidade.set(True)
+            recalcular_preview()
+
+        def ao_mudar_item():
+            if var_toner.get() or var_unidade.get():
+                var_sem_suprimentos.set(False)
+            else:
+                var_sem_suprimentos.set(True)
+            recalcular_preview()
+
+        chk_toner = ttk.Checkbutton(
+            card_sup,
+            text="Acompanha Cartucho de Toner",
+            variable=var_toner,
+            command=ao_mudar_item,
+        )
+        chk_toner.grid(row=1, column=0, sticky="w", pady=2)
+
+        chk_unidade = ttk.Checkbutton(
+            card_sup,
+            text="Acompanha Unidade de Imagem",
+            variable=var_unidade,
+            command=ao_mudar_item,
+        )
+        chk_unidade.grid(row=1, column=1, sticky="w", pady=2)
+
+        chk_sem_sup = ttk.Checkbutton(
+            card_sup,
+            text="📦 Máquina sem suprimentos (expedida SEM Toner e SEM Unidade)",
+            variable=var_sem_suprimentos,
+            command=ao_mudar_sem_suprimentos,
+        )
+        chk_sem_sup.grid(row=2, column=0, columnspan=2, sticky="w", pady=(6, 2))
+
+        if var_sem_suprimentos.get():
+            chk_toner.config(state="disabled")
+            chk_unidade.config(state="disabled")
+
+        # Área de Preview
+        corpo = tk.Frame(
+            modal,
+            background=self.COR_PAINEL,
+            highlightbackground=self.COR_BORDA,
+            highlightthickness=1,
+        )
+        corpo.grid(row=2, column=0, sticky="nsew", padx=20, pady=(0, 10))
+        corpo.columnconfigure(0, weight=1)
+        corpo.rowconfigure(0, weight=1)
+
+        txt_preview = tk.Text(
+            corpo,
+            wrap="none",
+            font=("Consolas", 10),
+            background=self.COR_PAINEL,
+            foreground=self.COR_TEXTO,
+            insertbackground=self.COR_TEXTO,
+            selectbackground=self.COR_SELECAO,
+            selectforeground="#ffffff",
+            relief="flat",
+            borderwidth=0,
+            padx=14,
+            pady=14,
+        )
+        txt_preview.insert("1.0", texto_cache)
+        txt_preview.configure(state="disabled")
+        txt_preview.grid(row=0, column=0, sticky="nsew")
+
+        scroll_v = ttk.Scrollbar(corpo, orient="vertical", command=txt_preview.yview)
+        scroll_v.grid(row=0, column=1, sticky="ns")
+        txt_preview.configure(yscrollcommand=scroll_v.set)
+
+        # Rodapé
+        footer = tk.Frame(modal, background=self.COR_FUNDO)
+        footer.grid(row=3, column=0, sticky="ew", padx=20, pady=(0, 16))
+        footer.columnconfigure(0, weight=1)
+
+        tk.Label(
+            footer,
+            text="Destino: Impressora de Etiquetas TSC (Porta 9100)",
+            background=self.COR_FUNDO,
+            foreground=self.COR_TEXTO_SECUNDARIO,
+            font=("Segoe UI", 9),
+            anchor="w",
+        ).grid(row=0, column=0, sticky="w")
+
+        botoes = tk.Frame(footer, background=self.COR_FUNDO)
+        botoes.grid(row=0, column=1, sticky="e")
+
+        def acao_imprimir():
+            try:
+                retorno = service.imprimir_ativo(
+                    toner_presente=var_toner.get(),
+                    unidade_presente=var_unidade.get(),
+                )
+                destino = retorno.get("destino", "TSC") if isinstance(retorno, dict) else "TSC"
+                modal.destroy()
+                messagebox.showinfo(
+                    "Etiqueta Impressa",
+                    f"Etiqueta de Ativo enviada para {destino} com sucesso!",
+                    parent=self,
+                )
+            except Exception as erro_imp:
+                messagebox.showerror(
+                    "Erro de Impressão",
+                    f"Não foi possível enviar para a TSC:\n\n{erro_imp}",
+                    parent=modal,
+                )
+
+        ttk.Button(
+            botoes,
+            text="FECHAR",
+            command=modal.destroy,
+            style="PrinterView.TButton",
+        ).pack(side="left", padx=(0, 8))
+
+        ttk.Button(
+            botoes,
+            text="🖨️ IMPRIMIR NA TSC",
+            command=acao_imprimir,
+            style="PrinterView.Report.TButton",
+        ).pack(side="left")
 
     # ========================================================
     # DEMONSTRAÇÃO (VIA RAW 9100 E PCL)

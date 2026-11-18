@@ -297,7 +297,12 @@ class ReportService:
     # RELATÓRIO DE ATIVO
     # ========================================================
 
-    def preparar_ativo(self):
+    def preparar_ativo(
+        self,
+        toner_presente=None,
+        unidade_presente=None,
+        data_emissao=None,
+    ):
         """
         Prepara a visualização do Relatório de Ativo sem imprimir.
         """
@@ -309,7 +314,18 @@ class ReportService:
                 IMPRESSORA_TSC,
                 PORTA_TSC,
             )
-            fabricante, modelo, serial, contador = extrair_dados(self.device)
+            (
+                fabricante,
+                modelo,
+                serial,
+                contador,
+                status_toner,
+                status_unidade,
+            ) = extrair_dados(
+                self.device,
+                toner_presente=toner_presente,
+                unidade_presente=unidade_presente,
+            )
             cont_fmt = contador_texto(contador)
             dest_ip = IMPRESSORA_TSC
             try:
@@ -323,22 +339,27 @@ class ReportService:
             modelo = ident.get("modelo", "DESCONHECIDO")
             serial = ident.get("serial", "SEM SERIAL")
             cont_fmt = str(ident.get("contador", "N/D"))
+            status_toner = "INSTALADO" if toner_presente else "NAO ACOMPANHA"
+            status_unidade = "INSTALADA" if unidade_presente else "NAO ACOMPANHA"
             dest_ip = "192.168.14.151"
             PORTA_TSC = 9100
 
-        from datetime import datetime
-        data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
+        if data_emissao is None:
+            from datetime import datetime
+            data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
 
         texto = (
             "PRINTER ASSISTANT\n"
             "RELATÓRIO DE ATIVO\n"
             "\n"
             "----------------------------------------\n"
-            f"FABRICANTE      : {fabricante}\n"
-            f"MODELO          : {modelo}\n"
-            f"NÚMERO DE SÉRIE : {serial}\n"
-            f"CONTADOR        : {cont_fmt}\n"
-            f"DATA DE EMISSÃO : {data_emissao}\n"
+            f"FABRICANTE        : {fabricante}\n"
+            f"MODELO            : {modelo}\n"
+            f"NÚMERO DE SÉRIE   : {serial}\n"
+            f"CONTADOR          : {cont_fmt}\n"
+            f"TONER             : {status_toner}\n"
+            f"UNIDADE DE IMAGEM : {status_unidade}\n"
+            f"DATA DE EMISSÃO   : {data_emissao}\n"
             "----------------------------------------\n"
             "\n"
             "CÓDIGO DE BARRAS\n"
@@ -357,13 +378,21 @@ class ReportService:
             "relatorio": "ativo",
             "texto": texto,
             "destino": f"TSC {dest_ip}:{PORTA_TSC}",
+            "status_toner": status_toner,
+            "status_unidade": status_unidade,
+            "data_emissao": data_emissao,
+            "toner_presente": "INSTALADO" in status_toner,
+            "unidade_presente": "INSTALADA" in status_unidade,
         }
 
-    def imprimir_ativo(self):
+    def imprimir_ativo(
+        self,
+        toner_presente=None,
+        unidade_presente=None,
+        data_emissao=None,
+    ):
         """
         Dispara o Relatório de Ativo.
-
-        NÃO ALTERAR A LÓGICA DESTE RELATÓRIO.
         """
 
         self._validar_device()
@@ -386,7 +415,10 @@ class ReportService:
         try:
             resultado = (
                 imprimir_relatorio_ativo(
-                    self.device
+                    self.device,
+                    toner_presente=toner_presente,
+                    unidade_presente=unidade_presente,
+                    data_emissao=data_emissao,
                 )
             )
 

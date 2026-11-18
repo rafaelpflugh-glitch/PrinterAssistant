@@ -153,18 +153,18 @@ def escapar_tspl(valor):
 # EXTRAIR DADOS DO DEVICE
 # ============================================================
 
-def extrair_dados(device):
+def extrair_dados(
+    device,
+    toner_presente=None,
+    unidade_presente=None,
+):
     """
-    Extrai os dados necessários diretamente do PrinterDevice.
+    Extrai os dados necessários diretamente do PrinterDevice, incluindo presença de suprimentos.
 
     NÃO realiza coleta.
 
     Retorna:
-
-        fabricante
-        modelo
-        serial
-        contador
+        fabricante, modelo, serial, contador, status_toner, status_unidade
     """
 
     if device is None:
@@ -239,11 +239,74 @@ def extrair_dados(device):
         "contador"
     )
 
+    # --------------------------------------------------------
+    # STATUS DOS SUPRIMENTOS (TONER E UNIDADE DE IMAGEM)
+    # --------------------------------------------------------
+    supplies = getattr(device, "supplies", [])
+    if not supplies and hasattr(device, "to_dict"):
+        try:
+            supplies = device.to_dict().get("supplies", [])
+        except Exception:
+            supplies = []
+
+    toner_detectado = False
+    toner_nivel = None
+    unidade_detectada = False
+    unidade_nivel = None
+
+    for s in supplies:
+        if not isinstance(s, dict):
+            continue
+        tipo = str(s.get("tipo", "")).lower()
+        nome = str(s.get("nome", "") or s.get("descricao", "")).lower()
+        nivel = s.get("nivel")
+        status = str(s.get("status", "") or s.get("condicao", "")).upper()
+        serial_s = str(s.get("numero_serie", "") or s.get("serial", "")).strip()
+
+        eh_ausente = (
+            status in ("AUSENTE", "FALTA", "NAO_INSTALADO", "NÃO INSTALADO", "ERRO_GRAVE", "SEM SUPRIMENTO")
+            or str(nivel).lower() in ("ausente", "none", "-1")
+        )
+
+        if "toner" in tipo or "toner" in nome or "cartucho" in tipo:
+            if not eh_ausente and (nivel is not None and nivel >= 0 or serial_s):
+                toner_detectado = True
+                toner_nivel = nivel
+
+        if any(k in tipo or k in nome for k in ["unidade", "imaging", "photoconductor", "fotocondutor", "drum"]):
+            if not eh_ausente and (nivel is not None and nivel >= 0 or serial_s):
+                unidade_detectada = True
+                unidade_nivel = nivel
+
+    if toner_presente is not None:
+        if toner_presente:
+            status_toner = f"INSTALADO ({toner_nivel}%)" if (toner_nivel is not None and toner_nivel >= 0) else "INSTALADO"
+        else:
+            status_toner = "NAO ACOMPANHA"
+    else:
+        if toner_detectado:
+            status_toner = f"INSTALADO ({toner_nivel}%)" if (toner_nivel is not None and toner_nivel >= 0) else "INSTALADO"
+        else:
+            status_toner = "NAO ACOMPANHA"
+
+    if unidade_presente is not None:
+        if unidade_presente:
+            status_unidade = f"INSTALADA ({unidade_nivel}%)" if (unidade_nivel is not None and unidade_nivel >= 0) else "INSTALADA"
+        else:
+            status_unidade = "NAO ACOMPANHA"
+    else:
+        if unidade_detectada:
+            status_unidade = f"INSTALADA ({unidade_nivel}%)" if (unidade_nivel is not None and unidade_nivel >= 0) else "INSTALADA"
+        else:
+            status_unidade = "NAO ACOMPANHA"
+
     return (
         fabricante,
         modelo,
         serial,
         contador,
+        status_toner,
+        status_unidade,
     )
 
 
@@ -257,6 +320,8 @@ def gerar_etiqueta_ativo(
     serial,
     contador,
     data_emissao=None,
+    status_toner="INSTALADO",
+    status_unidade="INSTALADA",
 ):
     """
     Gera a etiqueta TSPL.
@@ -294,6 +359,20 @@ def gerar_etiqueta_ativo(
     contador = escapar_tspl(
         contador_texto(
             contador
+        )
+    )
+
+    status_toner_tspl = escapar_tspl(
+        texto(
+            status_toner,
+            "N/D",
+        )
+    )
+
+    status_unidade_tspl = escapar_tspl(
+        texto(
+            status_unidade,
+            "N/D",
         )
     )
 
@@ -400,8 +479,22 @@ def gerar_etiqueta_ativo(
     # ========================================================
 
     tspl += (
-        f'TEXT 60,950,"1",0,2,2,'
+        f'TEXT 60,910,"1",0,2,2,'
         f'"CONTADOR: {contador}"\r\n'
+    )
+
+    # ========================================================
+    # SUPRIMENTOS (TONER E UNIDADE DE IMAGEM)
+    # ========================================================
+
+    tspl += (
+        f'TEXT 60,970,"1",0,2,2,'
+        f'"TONER   : {status_toner_tspl}"\r\n'
+    )
+
+    tspl += (
+        f'TEXT 60,1030,"1",0,2,2,'
+        f'"UNIDADE : {status_unidade_tspl}"\r\n'
     )
 
     # ========================================================
@@ -409,7 +502,7 @@ def gerar_etiqueta_ativo(
     # ========================================================
 
     tspl += (
-        f'TEXT 60,1020,"1",0,2,2,'
+        f'TEXT 60,1090,"1",0,2,2,'
         f'"EMISSAO : {data_emissao_tspl}"\r\n'
     )
 
@@ -502,6 +595,9 @@ class ReportAtivo(BaseReport):
     def generate(
         self,
         session,
+        toner_presente=None,
+        unidade_presente=None,
+        data_emissao=None,
     ):
         """
         Gera e imprime a etiqueta de ativo.
@@ -516,12 +612,17 @@ class ReportAtivo(BaseReport):
             modelo,
             serial,
             contador,
+            status_toner,
+            status_unidade,
         ) = extrair_dados(
-            session
+            session,
+            toner_presente=toner_presente,
+            unidade_presente=unidade_presente,
         )
 
-        from datetime import datetime
-        data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
+        if data_emissao is None:
+            from datetime import datetime
+            data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
 
         dados_tspl = gerar_etiqueta_ativo(
             fabricante=fabricante,
@@ -529,6 +630,8 @@ class ReportAtivo(BaseReport):
             serial=serial,
             contador=contador,
             data_emissao=data_emissao,
+            status_toner=status_toner,
+            status_unidade=status_unidade,
         )
 
         enviar_tsc(
@@ -554,6 +657,10 @@ class ReportAtivo(BaseReport):
 
             "contador": contador,
 
+            "status_toner": status_toner,
+
+            "status_unidade": status_unidade,
+
             "data_emissao": data_emissao,
 
             "bytes": len(
@@ -573,6 +680,9 @@ class ReportAtivo(BaseReport):
 
 def imprimir_relatorio_ativo(
     device,
+    toner_presente=None,
+    unidade_presente=None,
+    data_emissao=None,
 ):
     """
     Função pública utilizada pelo ReportService.
@@ -593,7 +703,10 @@ def imprimir_relatorio_ativo(
     relatorio = ReportAtivo()
 
     return relatorio.generate(
-        device
+        device,
+        toner_presente=toner_presente,
+        unidade_presente=unidade_presente,
+        data_emissao=data_emissao,
     )
 
 
