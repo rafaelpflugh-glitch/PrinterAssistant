@@ -670,7 +670,7 @@ def extrair_serial_maquina(texto):
     Esse serial é diferente dos seriais dos consumíveis.
     """
 
-    return extrair_campo(
+    res = extrair_campo(
         texto,
         (
             r"Printer\s+Serial\s+Number\s*[:=]\s*([^\r\n<]+)",
@@ -679,6 +679,12 @@ def extrair_serial_maquina(texto):
             r"Serial\s+Number\s*;\s*([^\r\n<]+)",
         ),
     )
+    if res:
+        res = str(res).strip()
+        res = re.sub(r"-\d+-\d+$", "", res)
+        if re.fullmatch(r"0+", res):
+            return None
+    return res
 
 
 # ============================================================

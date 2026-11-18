@@ -98,6 +98,7 @@ REGRAS
 
 import asyncio
 import inspect
+import re
 import threading
 import unicodedata
 
@@ -284,6 +285,17 @@ class PrinterDevice:
 
             return False
 
+        if (
+            "no such object" in normalizado
+            or "no such instance" in normalizado
+            or "no more variables" in normalizado
+            or "end of mib" in normalizado
+        ):
+            return False
+
+        if re.fullmatch(r"0+", normalizado):
+            return False
+
         if normalizado.startswith(
             "speed "
         ):
@@ -374,6 +386,17 @@ class PrinterDevice:
 
             return "HP"
 
+        if (
+            "tsc" in texto
+            or "ttp" in texto
+        ):
+
+            return "TSC"
+
+        if "zebra" in texto:
+
+            return "Zebra"
+
         return "Desconhecido"
 
 
@@ -420,6 +443,14 @@ class PrinterDevice:
 
         if normalizado in valores_invalidos:
 
+            return False
+
+        if (
+            "no such object" in normalizado
+            or "no such instance" in normalizado
+            or "no more variables" in normalizado
+            or "end of mib" in normalizado
+        ):
             return False
 
         if normalizado.startswith(
@@ -559,6 +590,13 @@ class PrinterDevice:
 
             return "Impressora HP"
 
+        if (
+            fabricante_normalizado in ("tsc", "zebra")
+            or "ttp" in texto
+        ):
+
+            return "Impressora Térmica de Etiquetas"
+
         return "Equipamento de impressão"
 
 
@@ -675,6 +713,10 @@ class PrinterDevice:
             serial_novo = str(
                 serial_novo
             ).strip()
+            # Remove sufixos como -139-0 ou -129-0 anexados por algumas engines
+            serial_novo = re.sub(r"-\d+-\d+$", "", serial_novo)
+            if re.fullmatch(r"0+", serial_novo):
+                serial_novo = None
 
         if serial_novo:
 
@@ -689,6 +731,9 @@ class PrinterDevice:
             serial_final = str(
                 serial_atual
             ).strip()
+            serial_final = re.sub(r"-\d+-\d+$", "", serial_final)
+            if re.fullmatch(r"0+", serial_final):
+                serial_final = "Desconhecido"
 
         else:
 

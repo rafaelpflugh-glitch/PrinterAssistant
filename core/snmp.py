@@ -74,6 +74,11 @@ OID_LEXMARK_NODE_MODELO = (
     "1.3.6.1.4.1.641.1.4.3.0"
 )
 
+# Serial oficial limpo na Enterprise MIB Lexmark (sem sufixo de engine -139-0)
+OID_LEXMARK_SERIAL = (
+    "1.3.6.1.4.1.641.2.1.2.1.6.1"
+)
+
 OID_PRT_SERIAL = (
     "1.3.6.1.2.1.43.5.1.1.17.1"
 )
@@ -142,36 +147,60 @@ def limpar_valor(
     valor: Any,
 ) -> str | None:
     """
-    Converte um retorno do pysnmp para texto.
+    Converte um retorno do pysnmp para texto, descartando exceções SNMP (NoSuchObject, etc).
     """
 
     if valor is None:
         return None
 
+    nome_classe = valor.__class__.__name__
+    if nome_classe in ("NoSuchObject", "NoSuchInstance", "EndOfMibView"):
+        return None
+
     try:
         texto = valor.prettyPrint()
-
     except Exception:
         texto = str(valor)
 
     if texto is None:
         return None
 
-    return str(
-        texto
-    ).strip()
+    texto = str(texto).strip()
+    texto_lower = texto.lower()
+
+    if (
+        "no such object" in texto_lower
+        or "no such instance" in texto_lower
+        or "no more variables" in texto_lower
+        or "end of mib" in texto_lower
+        or texto_lower in ("", "null", "none", "unknown", "desconhecido", "undefined")
+    ):
+        return None
+
+    return texto
 
 
 def inteiro(
     valor: Any,
 ) -> int | None:
     """
-    Converte valor para inteiro sem lançar exceção.
+    Converte valor para inteiro sem lançar exceção, descartando exceções SNMP.
     """
+
+    if valor is None:
+        return None
+
+    nome_classe = valor.__class__.__name__
+    if nome_classe in ("NoSuchObject", "NoSuchInstance", "EndOfMibView"):
+        return None
+
+    texto = limpar_valor(valor) if not isinstance(valor, (int, float)) else valor
+    if texto is None:
+        return None
 
     try:
         return int(
-            valor
+            texto
         )
 
     except (
@@ -738,13 +767,20 @@ class SNMPPrinter:
         # Fallback de Modelo via sysDescr
         if not modelo or str(modelo).strip().lower() in ("", "none", "unknown", "desconhecido"):
             if descricao:
-                m = re.search(r"(?:Lexmark\s+)?([A-Z]{2}\s*\d{3}[A-Za-z0-9]*)", str(descricao), re.IGNORECASE)
-                if m:
-                    modelo = m.group(0).strip()
+                d_str = str(descricao).strip()
+                # 1. Impressoras Térmicas de Etiquetas (TSC TTP / Zebra)
+                m_tsc = re.search(r"\b(TTP\s*[-_]?\s*\d{3}[A-Za-z0-9]*)\b", d_str, re.IGNORECASE)
+                if m_tsc:
+                    modelo = f"TSC {m_tsc.group(1).upper()}"
                 else:
-                    parts = str(descricao).split("version")[0].strip()
-                    if parts and not parts.lower().startswith("speed"):
-                        modelo = parts
+                    # 2. Impressoras Lexmark
+                    m_lex = re.search(r"(?:Lexmark\s+)?([A-Z]{2}\s*\d{3}[A-Za-z0-9]*)", d_str, re.IGNORECASE)
+                    if m_lex and "lexmark" in d_str.lower():
+                        modelo = m_lex.group(0).strip()
+                    else:
+                        parts = re.split(r"\bversion\b|\bv\.\b|\bver\b", d_str, flags=re.IGNORECASE)[0].strip(" :-")
+                        if parts and not parts.lower().startswith("speed"):
+                            modelo = parts
 
         # Fallback de Modelo via Node Name
         if not modelo or str(modelo).strip().lower() in ("", "none", "unknown", "desconhecido"):
@@ -756,12 +792,23 @@ class SNMPPrinter:
                 if len(parts) >= 2:
                     modelo = " ".join(parts[1:]).strip()
 
-        # 3. Serial da Impressora (Printer-MIB)
+        # 3. Serial da Impressora
+        # Lexmark Enterprise MIB fornece o serial limpo sem sufixos internos de engine (-139-0)
         serial = await self.get(
-            OID_PRT_SERIAL
+            OID_LEXMARK_SERIAL
         )
+        if not serial:
+            serial = await self.get(
+                OID_PRT_SERIAL
+            )
+
         if serial:
             serial = str(serial).strip()
+            # Remove sufixos como -139-0 ou -129-0 anexados por algumas controladoras
+            serial = re.sub(r"-\d+-\d+$", "", serial)
+            # Desconsidera serial fictício de zeros preenchidos (ex: 0000000000000000)
+            if re.fullmatch(r"0+", serial):
+                serial = None
 
         # 4. Contador Total de Páginas (Printer-MIB)
         contador = await self.get(
