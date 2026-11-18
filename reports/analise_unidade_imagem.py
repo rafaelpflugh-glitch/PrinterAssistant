@@ -246,7 +246,7 @@ def extrair_dados_unidade(device):
         condicao_mec = "ATENÇÃO (Desgaste elevado ou alto índice de rotações)"
 
     return {
-        "modelo": identificacao.get("modelo") or getattr(device, "modelo", "Lexmark MX611dhe"),
+        "modelo": identificacao.get("modelo") or (getattr(device, "modelo", "")() if callable(getattr(device, "modelo", None)) else getattr(device, "modelo", "")) or "Não identificado",
         "serial_impressora": identificacao.get("serial") or getattr(device, "serial", "N/D"),
         "ip": dados_dev.get("ip") or getattr(device, "ip", "N/D"),
         "firmware": identificacao.get("firmware") or getattr(device, "firmware", "Desconhecido"),

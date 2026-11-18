@@ -418,11 +418,15 @@ def imprimir_relatorio_producao(device: Any, fabricante: str = "REM", tipo: str 
     dados = device.to_dict() if hasattr(device, "to_dict") else {}
     identificacao = dados.get("identificacao", {})
 
-    modelo = (
-        identificacao.get("modelo")
-        or getattr(device, "modelo", "")
-        or "MS510"
-    )
+    mod_cand = identificacao.get("modelo") or getattr(device, "modelo", "")
+    if callable(mod_cand):
+        try:
+            mod_cand = mod_cand()
+        except Exception:
+            mod_cand = ""
+    modelo = str(mod_cand or "").strip()
+    if modelo.lower() in ("desconhecido", "none", "impressora"):
+        modelo = ""
 
     supplies = dados.get("supplies", [])
     serial_unidade = ""

@@ -65,6 +65,23 @@ OID_SYS_DESCRICAO = (
     "1.3.6.1.2.1.1.1.0"
 )
 
+# OIDs específicos Lexmark e Printer-MIB para identidade de hardware
+OID_LEXMARK_MODELO = (
+    "1.3.6.1.4.1.641.2.1.2.1.2.1"
+)
+
+OID_LEXMARK_NODE_MODELO = (
+    "1.3.6.1.4.1.641.1.4.3.0"
+)
+
+OID_PRT_SERIAL = (
+    "1.3.6.1.2.1.43.5.1.1.17.1"
+)
+
+OID_PRT_PAGECOUNT = (
+    "1.3.6.1.2.1.43.10.2.1.4.1.1"
+)
+
 
 # ============================================================
 # PRINTER-MIB
@@ -704,19 +721,71 @@ class SNMPPrinter:
         self,
     ) -> dict:
         """
-        Obtém descrição básica da impressora.
+        Obtém identificação completa da impressora via SNMP (Modelo, Serial, Contador, sysDescr).
+        Funciona mesmo que a máquina esteja sem toner, unidade de imagem ou papel (erros de motor).
         """
 
+        # 1. sysDescr (MIB-II)
         descricao = await self.get(
             OID_SYS_DESCRICAO
         )
 
+        # 2. Modelo Lexmark Oficial (Enterprise MIB)
+        modelo = await self.get(
+            OID_LEXMARK_MODELO
+        )
+
+        # Fallback de Modelo via sysDescr
+        if not modelo or str(modelo).strip().lower() in ("", "none", "unknown", "desconhecido"):
+            if descricao:
+                m = re.search(r"(?:Lexmark\s+)?([A-Z]{2}\s*\d{3}[A-Za-z0-9]*)", str(descricao), re.IGNORECASE)
+                if m:
+                    modelo = m.group(0).strip()
+                else:
+                    parts = str(descricao).split("version")[0].strip()
+                    if parts and not parts.lower().startswith("speed"):
+                        modelo = parts
+
+        # Fallback de Modelo via Node Name
+        if not modelo or str(modelo).strip().lower() in ("", "none", "unknown", "desconhecido"):
+            node = await self.get(
+                OID_LEXMARK_NODE_MODELO
+            )
+            if node:
+                parts = str(node).split()
+                if len(parts) >= 2:
+                    modelo = " ".join(parts[1:]).strip()
+
+        # 3. Serial da Impressora (Printer-MIB)
+        serial = await self.get(
+            OID_PRT_SERIAL
+        )
+        if serial:
+            serial = str(serial).strip()
+
+        # 4. Contador Total de Páginas (Printer-MIB)
+        contador = await self.get(
+            OID_PRT_PAGECOUNT
+        )
+        if contador is not None:
+            try:
+                contador = int(str(contador).strip())
+            except (ValueError, TypeError):
+                pass
+
+        ativo = bool(
+            self.versao is not None
+            or descricao is not None
+            or modelo is not None
+            or serial is not None
+        )
+
         return {
-            "ativo": (
-                self.versao is not None
-                or descricao is not None
-            ),
+            "ativo": ativo,
             "descricao": descricao,
+            "modelo": modelo,
+            "serial": serial,
+            "contador": contador,
         }
 
     # ========================================================
@@ -1494,6 +1563,23 @@ async def coletar_snmp(
     )
 
     return await printer.coletar()
+
+
+async def coletar_identificacao_snmp(
+    ip: str,
+    community: str = COMMUNITY_PADRAO,
+) -> dict:
+    """
+    Coleta direta e rápida da identificação do equipamento via SNMP
+    (Modelo real, Serial da máquina e Contador total de páginas).
+    Funciona mesmo com a impressora sem suprimentos, sem papel ou em erro.
+    """
+    printer = SNMPPrinter(
+        ip,
+        community,
+    )
+
+    return await printer.identificacao()
 
 
 # ============================================================

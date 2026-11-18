@@ -103,7 +103,7 @@ import unicodedata
 
 
 from core.pjl import coletar_identificacao
-from core.snmp import coletar_supplies
+from core.snmp import coletar_supplies, coletar_identificacao_snmp
 from core.sysdebug import coletar_sysdebug
 
 
@@ -605,7 +605,27 @@ class PrinterDevice:
 
             modelo_novo = None
 
-        if self.modelo_valido(
+        # Prioriza identificação de hardware (SNMP / PJL) caso o modelo atual
+        # seja desconhecido ou tenha vindo de fallback impreciso.
+        promover_hardware = (
+            origem in ("SNMP", "PJL")
+            and modelo_novo
+            and (
+                not self.modelo_valido(modelo_atual)
+                or str(modelo_atual).strip().lower() in ("desconhecido", "none", "", "impressora")
+                or (not str(modelo_atual).lower().startswith("lexmark") and str(modelo_novo).lower().startswith("lexmark"))
+            )
+        )
+
+        if promover_hardware:
+
+            modelo_final = (
+                str(
+                    modelo_novo
+                ).strip()
+            )
+
+        elif self.modelo_valido(
             modelo_atual
         ):
 
@@ -2242,6 +2262,23 @@ class PrinterDevice:
     async def coletar_snmp(
         self,
     ):
+
+        # ----------------------------------------------------
+        # 1. IDENTIFICAÇÃO DIRETA DO EQUIPAMENTO VIA SNMP
+        # ----------------------------------------------------
+        # Consulta modelo, serial e contador pelas MIBs padrão e Lexmark.
+        # Funciona mesmo que a impressora esteja sem toner, sem fotocondutor ou sem papel.
+        try:
+            ident_snmp = await coletar_identificacao_snmp(self.ip)
+            if isinstance(ident_snmp, dict) and ident_snmp.get("ativo"):
+                self.conectividade["snmp"] = True
+                self.normalizar_identificacao(ident_snmp, "SNMP")
+                if ident_snmp.get("modelo"):
+                    print(f"[DEVICE] Modelo identificado via SNMP: {ident_snmp['modelo']}")
+                if ident_snmp.get("serial"):
+                    print(f"[DEVICE] Serial identificado via SNMP: {ident_snmp['serial']}")
+        except Exception as erro_ident:
+            print(f"[DEVICE] Aviso identificação SNMP: {erro_ident}")
 
         print(
             "[DEVICE] Consultando suprimentos via SNMP..."

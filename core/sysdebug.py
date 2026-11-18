@@ -797,27 +797,17 @@ def extrair_modelo(texto):
         return modelo.strip()
 
     # --------------------------------------------------------
-    # FALLBACK ESPECÍFICO LEXMARK
+    # FALLBACK ESPECÍFICO LEXMARK (APENAS CABEÇALHO/TÍTULO)
     # --------------------------------------------------------
-
-    padrao_lexmark = (
-        r"\b(?:MX|MS|CX|CS|XM)\s*\d{3}"
-        r"(?:[A-Z]{0,3})?\b"
-    )
-
-    encontrado = re.search(
-        padrao_lexmark,
-        texto,
-        re.IGNORECASE,
-    )
-
-    if encontrado:
-
-        return (
-            encontrado.group(0)
-            .replace(" ", "")
-            .upper()
-        )
+    # Evita buscar no corpo inteiro do HTML, o que causava a captura errônea
+    # de modelos de emulação ou compatibilidade citados em logs (ex: MS510 em MX611).
+    cabecalho = texto[:3000]
+    match_title = re.search(r"<title>\s*([^<]+?)\s*</title>", cabecalho, re.IGNORECASE)
+    if match_title:
+        title_text = match_title.group(1).strip()
+        m = re.search(r"(?:Lexmark\s+)?([A-Z]{2}\s*\d{3}[A-Za-z0-9]*)", title_text, re.IGNORECASE)
+        if m:
+            return m.group(0).replace(" ", "").upper()
 
     return None
 
