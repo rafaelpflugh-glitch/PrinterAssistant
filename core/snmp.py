@@ -575,10 +575,16 @@ class SNMPPrinter:
             2. SNMPv1
         """
 
-        for modelo in (
-            SNMP_V2C,
-            SNMP_V1,
-        ):
+        modelos = (
+            [self.modelo_snmp]
+            if self.modelo_snmp is not None
+            else (
+                SNMP_V2C,
+                SNMP_V1,
+            )
+        )
+
+        for modelo in modelos:
 
             try:
 
@@ -608,6 +614,10 @@ class SNMPPrinter:
                 if status:
                     continue
 
+                self.marcar_versao(
+                    modelo
+                )
+
                 for _, valor in binds:
 
                     texto = limpar_valor(
@@ -615,12 +625,10 @@ class SNMPPrinter:
                     )
 
                     if texto is not None:
-
-                        self.marcar_versao(
-                            modelo
-                        )
-
                         return texto
+
+                # Agente respondeu com sucesso que o OID não existe
+                return None
 
             except Exception as exc:
 
@@ -777,6 +785,14 @@ class SNMPPrinter:
                     m_lex = re.search(r"(?:Lexmark\s+)?([A-Z]{2}\s*\d{3}[A-Za-z0-9]*)", d_str, re.IGNORECASE)
                     if m_lex and "lexmark" in d_str.lower():
                         modelo = m_lex.group(0).strip()
+                    # 3. Equipamentos Canon (imageRUNNER / iR / imageCLASS)
+                    elif "canon" in d_str.lower() or "ir" in d_str.lower():
+                        m_can = re.search(r"Canon\s+([^/,\r\n]+)", d_str, re.IGNORECASE)
+                        if m_can:
+                            modelo = f"Canon {m_can.group(1).strip()}"
+                        else:
+                            base_c = d_str.split("/")[0].strip()
+                            modelo = f"Canon {base_c}" if not base_c.lower().startswith("canon") else base_c
                     else:
                         parts = re.split(r"\bversion\b|\bv\.\b|\bver\b", d_str, flags=re.IGNORECASE)[0].strip(" :-")
                         if parts and not parts.lower().startswith("speed"):

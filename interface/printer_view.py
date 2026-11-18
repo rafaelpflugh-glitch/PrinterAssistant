@@ -613,6 +613,13 @@ class PrinterView(ttk.Frame):
             2,
         )
 
+        self._campo(
+            identificacao,
+            "Detalhamento",
+            1,
+            3,
+        )
+
         # ----------------------------------------------------
         # ÁREA PRINCIPAL
         # ----------------------------------------------------
@@ -1068,6 +1075,7 @@ class PrinterView(ttk.Frame):
             "Serial": "serial",
             "Firmware": "firmware",
             "Contador": "contador",
+            "Detalhamento": "detalhamento",
         }
 
         atributo = nomes_atributos.get(
@@ -1427,6 +1435,24 @@ class PrinterView(ttk.Frame):
             self.campo_contador,
             contador_texto,
         )
+
+        det = dados.get("contadores_detalhados", {})
+        if det:
+            c = det.get("Cópia", 0)
+            p = det.get("Impressão", 0)
+            s = det.get("Scanner", 0)
+            if s > 0:
+                texto_det = f"Cóp: {c:,} | Imp: {p:,} | Scn: {s:,}".replace(",", ".")
+            else:
+                texto_det = f"Cópia: {c:,} | Impressão: {p:,}".replace(",", ".")
+        else:
+            texto_det = "Geral"
+
+        if hasattr(self, "campo_detalhamento"):
+            self._definir_texto(
+                self.campo_detalhamento,
+                texto_det,
+            )
 
         self._atualizar_supplies(
             dados.get(
@@ -2179,19 +2205,27 @@ class PrinterView(ttk.Frame):
             pady=(0, 5),
         )
 
+        eh_canon_dev = False
+        if self.device:
+            d_fab = getattr(self.device, "identificacao", {}).get("fabricante", "")
+            if str(d_fab).strip().lower() == "canon":
+                eh_canon_dev = True
+
         marca_cartucho_var = tk.StringVar(
-            value="GLOBAL"
+            value="CANON" if eh_canon_dev else "GLOBAL"
         )
 
         fabricante_cartucho_combo = ttk.Combobox(
             frame,
             textvariable=marca_cartucho_var,
             values=(
+                "CANON",
                 "GLOBAL",
                 "LEXMARK",
                 "REM",
                 "3I",
                 "VRI",
+                "COMPATÍVEL",
                 "SEM SUPRIMENTO",
             ),
             state="readonly",
@@ -2221,18 +2255,20 @@ class PrinterView(ttk.Frame):
         )
 
         marca_unidade_var = tk.StringVar(
-            value="LEXMARK"
+            value="CANON" if eh_canon_dev else "LEXMARK"
         )
 
         fabricante_unidade_combo = ttk.Combobox(
             frame,
             textvariable=marca_unidade_var,
             values=(
+                "CANON",
                 "LEXMARK",
                 "GLOBAL",
                 "REM",
                 "3I",
                 "VRI",
+                "COMPATÍVEL",
                 "SEM SUPRIMENTO",
             ),
             state="readonly",

@@ -106,6 +106,7 @@ import unicodedata
 from core.pjl import coletar_identificacao
 from core.snmp import coletar_supplies, coletar_identificacao_snmp
 from core.sysdebug import coletar_sysdebug
+from core.canon import coletar_canon, CanonCollector
 
 
 # ============================================================
@@ -155,6 +156,8 @@ class PrinterDevice:
         }
 
         self.origem_contador = None
+
+        self.contadores_detalhados = {}
 
         self.raw_sysdebug = {}
 
@@ -375,8 +378,11 @@ class PrinterDevice:
 
             return "Brother"
 
-        if "canon" in texto:
-
+        if (
+            "canon" in texto
+            or texto.startswith("ir")
+            or "imagerunner" in texto
+        ):
             return "Canon"
 
         if (
@@ -490,7 +496,7 @@ class PrinterDevice:
             cls.normalizar_texto(
                 partes[0]
             )
-            == "lexmark"
+            in ("lexmark", "canon")
             and len(partes) > 1
         ):
 
@@ -505,6 +511,12 @@ class PrinterDevice:
                 partes[0]
                 .upper()
             )
+
+        if candidato.startswith("IR") or "IMAGERUNNER" in candidato:
+            return "imageRUNNER"
+
+        if candidato.startswith("MF") or "IMAGECLASS" in candidato:
+            return "imageCLASS"
 
         familias = (
             "MX",
@@ -582,9 +594,15 @@ class PrinterDevice:
 
             return "Impressora Brother"
 
-        if fabricante_normalizado == "canon":
-
-            return "Impressora Canon"
+        if (
+            fabricante_normalizado == "canon"
+            or "canon" in texto
+            or "ir" in texto
+            or "imagerunner" in texto
+        ):
+            if " c" in texto or "-c" in texto or "color" in texto:
+                return "Multifuncional Laser Color"
+            return "Multifuncional Laser Mono"
 
         if fabricante_normalizado == "hp":
 
@@ -2571,9 +2589,42 @@ class PrinterDevice:
             "PJL",
         )
 
+        # ----------------------------------------------------
+        # DETECÇÃO CANON (imageRUNNER / iR)
+        # ----------------------------------------------------
+        eh_canon = False
+        fab_atual = self.identificacao.get("fabricante", "")
+        mod_atual = self.identificacao.get("modelo", "")
+        if fab_atual == "Canon" or self.detectar_fabricante(mod_atual) == "Canon":
+            eh_canon = True
+        else:
+            try:
+                coletor_c = CanonCollector(self.ip)
+                eh_canon = await coletor_c.eh_canon()
+            except Exception:
+                eh_canon = False
+
+        if eh_canon:
+            print("[DEVICE] Equipamento Canon detectado. Executando coletor de engenharia Canon...")
+            try:
+                dados_canon = await coletar_canon(self.ip)
+                self.identificacao["fabricante"] = dados_canon.get("fabricante", "Canon")
+                self.identificacao["modelo"] = dados_canon.get("modelo", "Canon imageRUNNER")
+                self.identificacao["familia"] = dados_canon.get("familia", "imageRUNNER")
+                self.identificacao["tipo"] = dados_canon.get("tipo", "Multifuncional Laser Mono")
+                self.identificacao["serial"] = dados_canon.get("serial", "Desconhecido")
+                self.identificacao["firmware"] = dados_canon.get("firmware", "Desconhecido")
+                if dados_canon.get("contador") is not None:
+                    self.identificacao["contador"] = dados_canon["contador"]
+                self.contadores_detalhados = dados_canon.get("contadores_detalhados", {})
+                self.supplies = dados_canon.get("supplies", [])
+                self.conectividade.update(dados_canon.get("conectividade", {}))
+                return self.to_dict()
+            except Exception as erro_canon:
+                print(f"[DEVICE] Erro na coleta Canon: {erro_canon}")
 
         # ----------------------------------------------------
-        # SYSDEBUG
+        # SYSDEBUG (Lexmark)
         # ----------------------------------------------------
 
         dados_sysdebug = (
@@ -2653,30 +2704,44 @@ class PrinterDevice:
         self,
     ):
 
-        fontes = (
-            self.conectividade[
-                "pjl"
-            ],
-            self.conectividade[
-                "sysdebug"
-            ],
-            self.conectividade[
-                "snmp"
-            ],
-        )
+        eh_lexmark = self.identificacao.get("fabricante") == "Lexmark"
 
+        if eh_lexmark:
+            fontes = (
+                self.conectividade[
+                    "pjl"
+                ],
+                self.conectividade[
+                    "sysdebug"
+                ],
+                self.conectividade[
+                    "snmp"
+                ],
+            )
 
-        if all(fontes):
+            if all(fontes):
+                return "EXCELENTE"
 
-            return "EXCELENTE"
+            if any(fontes):
+                return "PARCIAL"
 
+            return "OFFLINE"
+        else:
+            # Para outros fabricantes (Canon, Epson, HP, TSC, etc.):
+            # Se SNMP está ativo e há PJL ou Web, o estado é EXCELENTE
+            if self.conectividade.get("snmp") and (
+                self.conectividade.get("pjl") or self.conectividade.get("web")
+            ):
+                return "EXCELENTE"
 
-        if any(fontes):
+            if (
+                self.conectividade.get("snmp")
+                or self.conectividade.get("pjl")
+                or self.conectividade.get("web")
+            ):
+                return "PARCIAL"
 
-            return "PARCIAL"
-
-
-        return "OFFLINE"
+            return "OFFLINE"
 
 
     # ========================================================
@@ -2763,6 +2828,9 @@ class PrinterDevice:
 
             "total_supplies":
                 self.total_supplies(),
+
+            "contadores_detalhados":
+                self.contadores_detalhados.copy(),
 
             "raw_sysdebug":
                 (
