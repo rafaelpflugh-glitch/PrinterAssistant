@@ -613,13 +613,6 @@ class PrinterView(ttk.Frame):
             2,
         )
 
-        self._campo(
-            identificacao,
-            "Detalhamento",
-            1,
-            3,
-        )
-
         # ----------------------------------------------------
         # ÁREA PRINCIPAL
         # ----------------------------------------------------
@@ -1075,7 +1068,6 @@ class PrinterView(ttk.Frame):
             "Serial": "serial",
             "Firmware": "firmware",
             "Contador": "contador",
-            "Detalhamento": "detalhamento",
         }
 
         atributo = nomes_atributos.get(
@@ -1435,24 +1427,6 @@ class PrinterView(ttk.Frame):
             self.campo_contador,
             contador_texto,
         )
-
-        det = dados.get("contadores_detalhados", {})
-        if det:
-            c = det.get("Cópia", 0)
-            p = det.get("Impressão", 0)
-            s = det.get("Scanner", 0)
-            if s > 0:
-                texto_det = f"Cóp: {c:,} | Imp: {p:,} | Scn: {s:,}".replace(",", ".")
-            else:
-                texto_det = f"Cópia: {c:,} | Impressão: {p:,}".replace(",", ".")
-        else:
-            texto_det = "Geral"
-
-        if hasattr(self, "campo_detalhamento"):
-            self._definir_texto(
-                self.campo_detalhamento,
-                texto_det,
-            )
 
         self._atualizar_supplies(
             dados.get(

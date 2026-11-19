@@ -297,6 +297,8 @@ def extrair_dados(
     else:
         if unidade_detectada:
             status_unidade = f"INSTALADA ({unidade_nivel}%)" if (unidade_nivel is not None and unidade_nivel >= 0) else "INSTALADA"
+        elif str(fabricante).lower() == "canon" or "ir" in str(modelo).lower():
+            status_unidade = "INTEGRADA AO TONER"
         else:
             status_unidade = "NAO ACOMPANHA"
 

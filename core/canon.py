@@ -345,6 +345,7 @@ class CanonCollector:
                 "tipo": "toner",
                 "nome": "Toner",
                 "descricao": desc_str,
+                "nivel": pct if pct is not None else 0,
                 "percentual": pct if pct is not None else 0,
                 "capacidade": max_val,
                 "restante": restante,
@@ -352,28 +353,6 @@ class CanonCollector:
                 "condicao": "OK" if (pct is not None and pct > 10) else "BAIXO",
                 "numero_serie": None,
                 "part_number": part_num,
-            })
-
-        # 2. Unidade de Imagem / Tambor (Drum Unit)
-        # Canon iR1643 utiliza Drum Unit T06 (0388C001BA / nominal 40.000 páginas)
-        if contador_total is not None and contador_total >= 0:
-            VIDA_UTIL_TAMBOR_T06 = 40000
-            consumido_paginas = contador_total
-            restante_paginas = max(0, VIDA_UTIL_TAMBOR_T06 - consumido_paginas)
-            pct_tambor = max(0, min(100, int((restante_paginas / VIDA_UTIL_TAMBOR_T06) * 100)))
-
-            supplies.append({
-                "tipo": "unidade_imagem",
-                "nome": "Unidade de imagem",
-                "descricao": "Canon Drum Unit T06",
-                "percentual": pct_tambor,
-                "capacidade": VIDA_UTIL_TAMBOR_T06,
-                "restante": restante_paginas,
-                "consumido": consumido_paginas,
-                "condicao": "OK" if pct_tambor > 15 else "SUBSTITUIR EM BREVE",
-                "numero_serie": None,
-                "part_number": "Drum T06",
-                "garantia": True if pct_tambor >= 50 else False,
             })
 
         return supplies

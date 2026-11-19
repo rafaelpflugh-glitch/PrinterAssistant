@@ -418,10 +418,19 @@ def extrair_dados(
     ):
         supplies = []
 
+    contadores_detalhados = getattr(device, "contadores_detalhados", {})
+    if not contadores_detalhados and hasattr(device, "to_dict"):
+        try:
+            dados = device.to_dict()
+            contadores_detalhados = dados.get("contadores_detalhados", {})
+        except Exception:
+            pass
+
     return (
         identificacao,
         supplies,
         ip,
+        contadores_detalhados,
     )
 
 
@@ -447,6 +456,7 @@ def preparar_relatorio_configuracao(
         identificacao,
         supplies,
         ip,
+        contadores_detalhados,
     ) = extrair_dados(device)
 
     texto_relatorio = montar_texto(
@@ -455,6 +465,7 @@ def preparar_relatorio_configuracao(
         ip,
         marca_cartucho=marca_cartucho,
         marca_unidade_imagem=marca_unidade_imagem,
+        contadores_detalhados=contadores_detalhados,
     )
 
     return {
@@ -486,6 +497,7 @@ def montar_texto(
     ip,
     marca_cartucho=None,
     marca_unidade_imagem=None,
+    contadores_detalhados=None,
 ):
     """
     Monta o relatório técnico.
@@ -572,6 +584,27 @@ def montar_texto(
         "",
     ]
 
+    if contadores_detalhados:
+        itens_det = []
+        for rotulo, chave in [
+            ("IMPRESSÃO", "Impressão"),
+            ("CÓPIA", "Cópia"),
+            ("SCANNER", "Scanner"),
+            ("DUPLEX (F/V)", "Duplex"),
+            ("FAX/REC", "Fax/Recebimento"),
+        ]:
+            if chave in contadores_detalhados:
+                itens_det.append(f"{rotulo}: {numero(contadores_detalhados[chave])}")
+
+        if itens_det:
+            linhas.extend([
+                "----------------- CONTADORES DE UTILIZAÇÃO -----------------",
+                "  " + "    ".join(itens_det[:3]),
+            ])
+            if len(itens_det) > 3:
+                linhas.append("  " + "    ".join(itens_det[3:]))
+            linhas.append("")
+
     # ========================================================
     # TONER
     # ========================================================
@@ -613,6 +646,11 @@ def montar_texto(
         if nivel is None:
             nivel = toner.get(
                 "nível"
+            )
+
+        if nivel is None:
+            nivel = toner.get(
+                "percentual"
             )
 
         numero_serie = toner.get(
@@ -740,6 +778,12 @@ def montar_texto(
             ]
         )
 
+    elif str(fabricante).lower() == "canon" or "ir" in str(modelo).lower():
+
+        linhas[-1] = (
+            "  STATUS: NÃO APLICÁVEL (SISTEMA COM CARTUCHO DE TONER INTEGRADO)"
+        )
+
     else:
 
         linhas[-1] = (
@@ -841,6 +885,11 @@ def montar_texto(
         if nivel is None:
             nivel = toner.get(
                 "nível"
+            )
+
+        if nivel is None:
+            nivel = toner.get(
+                "percentual"
             )
 
         resumo.append(
