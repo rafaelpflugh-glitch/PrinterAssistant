@@ -2048,6 +2048,12 @@ class PrinterView(ttk.Frame):
         de Configuração e Suprimentos.
         """
 
+        eh_canon_dev = False
+        if self.device:
+            d_fab = getattr(self.device, "identificacao", {}).get("fabricante", "")
+            if str(d_fab).strip().lower() == "canon":
+                eh_canon_dev = True
+
         dialogo = tk.Toplevel(
             self.winfo_toplevel()
         )
@@ -2057,12 +2063,12 @@ class PrinterView(ttk.Frame):
         )
 
         dialogo.geometry(
-            "580x420"
+            "580x370" if eh_canon_dev else "580x420"
         )
 
         dialogo.minsize(
             520,
-            380,
+            340 if eh_canon_dev else 380,
         )
 
         dialogo.resizable(
@@ -2143,18 +2149,26 @@ class PrinterView(ttk.Frame):
         def _ao_alternar_sem_suprimentos():
             if sem_suprimentos_var.get():
                 marca_cartucho_var.set("SEM SUPRIMENTO")
-                marca_unidade_var.set("SEM SUPRIMENTO")
                 fabricante_cartucho_combo.config(state="disabled")
-                fabricante_unidade_combo.config(state="disabled")
+                if not eh_canon_dev:
+                    marca_unidade_var.set("SEM SUPRIMENTO")
+                    fabricante_unidade_combo.config(state="disabled")
             else:
-                marca_cartucho_var.set("GLOBAL")
-                marca_unidade_var.set("LEXMARK")
+                marca_cartucho_var.set("CANON" if eh_canon_dev else "GLOBAL")
                 fabricante_cartucho_combo.config(state="readonly")
-                fabricante_unidade_combo.config(state="readonly")
+                if not eh_canon_dev:
+                    marca_unidade_var.set("LEXMARK")
+                    fabricante_unidade_combo.config(state="readonly")
+
+        txt_sem_sup = (
+            "📦 Máquina sem suprimentos (Enviada ao cliente SEM Cartucho de Toner)"
+            if eh_canon_dev
+            else "📦 Máquina sem suprimentos (Enviada ao cliente SEM Toner e SEM Unidade de Imagem)"
+        )
 
         chk_sem_suprimentos = ttk.Checkbutton(
             frame,
-            text="📦 Máquina sem suprimentos (Enviada ao cliente SEM Toner e SEM Unidade de Imagem)",
+            text=txt_sem_sup,
             variable=sem_suprimentos_var,
             command=_ao_alternar_sem_suprimentos,
         )
@@ -2179,21 +2193,20 @@ class PrinterView(ttk.Frame):
             pady=(0, 5),
         )
 
-        eh_canon_dev = False
-        if self.device:
-            d_fab = getattr(self.device, "identificacao", {}).get("fabricante", "")
-            if str(d_fab).strip().lower() == "canon":
-                eh_canon_dev = True
-
         marca_cartucho_var = tk.StringVar(
             value="CANON" if eh_canon_dev else "GLOBAL"
         )
 
-        fabricante_cartucho_combo = ttk.Combobox(
-            frame,
-            textvariable=marca_cartucho_var,
-            values=(
+        valores_cartucho = (
+            (
                 "CANON",
+                "GLOBAL",
+                "REM",
+                "COMPATÍVEL",
+                "SEM SUPRIMENTO",
+            )
+            if eh_canon_dev
+            else (
                 "GLOBAL",
                 "LEXMARK",
                 "REM",
@@ -2201,7 +2214,13 @@ class PrinterView(ttk.Frame):
                 "VRI",
                 "COMPATÍVEL",
                 "SEM SUPRIMENTO",
-            ),
+            )
+        )
+
+        fabricante_cartucho_combo = ttk.Combobox(
+            frame,
+            textvariable=marca_cartucho_var,
+            values=valores_cartucho,
             state="readonly",
             font=("Segoe UI", 10),
             style="PrinterView.RMA.TCombobox",
@@ -2214,48 +2233,65 @@ class PrinterView(ttk.Frame):
             pady=(0, 14),
         )
 
-        tk.Label(
-            frame,
-            text="FABRICANTE DA UNIDADE DE IMAGEM",
-            background=self.COR_FUNDO,
-            foreground=self.COR_TEXTO_SECUNDARIO,
-            font=("Segoe UI", 8, "bold"),
-            anchor="w",
-        ).grid(
-            row=5,
-            column=0,
-            sticky="w",
-            pady=(0, 5),
-        )
+        if eh_canon_dev:
+            marca_unidade_var = tk.StringVar(value="CANON (INTEGRADO)")
+            fabricante_unidade_combo = None
 
-        marca_unidade_var = tk.StringVar(
-            value="CANON" if eh_canon_dev else "LEXMARK"
-        )
+            tk.Label(
+                frame,
+                text="ℹ️ Equipamento Canon iR: sistema com cartucho integrado (T06 All-in-One).",
+                background=self.COR_FUNDO,
+                foreground=self.COR_TEXTO_SECUNDARIO,
+                font=("Segoe UI", 9, "italic"),
+                anchor="w",
+            ).grid(
+                row=5,
+                column=0,
+                sticky="w",
+                pady=(0, 16),
+            )
+        else:
+            tk.Label(
+                frame,
+                text="FABRICANTE DA UNIDADE DE IMAGEM",
+                background=self.COR_FUNDO,
+                foreground=self.COR_TEXTO_SECUNDARIO,
+                font=("Segoe UI", 8, "bold"),
+                anchor="w",
+            ).grid(
+                row=5,
+                column=0,
+                sticky="w",
+                pady=(0, 5),
+            )
 
-        fabricante_unidade_combo = ttk.Combobox(
-            frame,
-            textvariable=marca_unidade_var,
-            values=(
-                "CANON",
-                "LEXMARK",
-                "GLOBAL",
-                "REM",
-                "3I",
-                "VRI",
-                "COMPATÍVEL",
-                "SEM SUPRIMENTO",
-            ),
-            state="readonly",
-            font=("Segoe UI", 10),
-            style="PrinterView.RMA.TCombobox",
-        )
+            marca_unidade_var = tk.StringVar(
+                value="LEXMARK"
+            )
 
-        fabricante_unidade_combo.grid(
-            row=6,
-            column=0,
-            sticky="ew",
-            pady=(0, 16),
-        )
+            fabricante_unidade_combo = ttk.Combobox(
+                frame,
+                textvariable=marca_unidade_var,
+                values=(
+                    "LEXMARK",
+                    "GLOBAL",
+                    "REM",
+                    "3I",
+                    "VRI",
+                    "COMPATÍVEL",
+                    "SEM SUPRIMENTO",
+                ),
+                state="readonly",
+                font=("Segoe UI", 10),
+                style="PrinterView.RMA.TCombobox",
+            )
+
+            fabricante_unidade_combo.grid(
+                row=6,
+                column=0,
+                sticky="ew",
+                pady=(0, 16),
+            )
 
         tk.Label(
             frame,
@@ -2326,7 +2362,7 @@ class PrinterView(ttk.Frame):
 
                 return
 
-            if not marca_unidade_imagem:
+            if not eh_canon_dev and not marca_unidade_imagem:
 
                 messagebox.showwarning(
                     "Configuração e Suprimentos",
@@ -2337,14 +2373,16 @@ class PrinterView(ttk.Frame):
                     parent=dialogo,
                 )
 
-                fabricante_unidade_combo.focus_set()
+                if fabricante_unidade_combo:
+                    fabricante_unidade_combo.focus_set()
 
                 return
 
             # ----------------------------------------------------
             # TRAVA POKA-YOKE: SUPRIMENTOS REM DEVEM ESTAR >= 95%
+            # (Aplicável a unidades de imagem avulsas Lexmark)
             # ----------------------------------------------------
-            if self.device:
+            if not eh_canon_dev and self.device:
                 dados_dev = self.device.to_dict() if hasattr(self.device, "to_dict") else {}
                 supplies_dev = dados_dev.get("supplies", []) or []
 
@@ -2453,6 +2491,17 @@ class PrinterView(ttk.Frame):
             messagebox.showerror(
                 "Análise de Unidade de Imagem",
                 "Nenhuma impressora está selecionada.",
+                parent=self,
+            )
+            return
+
+        # Canon imageRUNNER utiliza sistema de cartucho integrado (T06 All-in-One)
+        fab = getattr(self.device, "identificacao", {}).get("fabricante", "")
+        if str(fab).strip().lower() == "canon":
+            messagebox.showinfo(
+                "Análise de Unidade de Imagem",
+                "O equipamento Canon utiliza sistema de cartucho de toner integrado (T06 All-in-One).\n\n"
+                "Não há fotocondutor / unidade de imagem avulso para análise individual.",
                 parent=self,
             )
             return

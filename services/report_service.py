@@ -348,6 +348,17 @@ class ReportService:
             from datetime import datetime
             data_emissao = datetime.now().strftime("%d/%m/%Y %H:%M")
 
+        if "CANON" in str(fabricante).upper() or "INTEGRADA" in str(status_unidade).upper():
+            bloco_suprimentos = (
+                f"SISTEMA           : CARTUCHO INTEGRADO\n"
+                f"TONER             : {status_toner}\n"
+            )
+        else:
+            bloco_suprimentos = (
+                f"TONER             : {status_toner}\n"
+                f"UNIDADE DE IMAGEM : {status_unidade}\n"
+            )
+
         texto = (
             "PRINTER ASSISTANT\n"
             "RELATÓRIO DE ATIVO\n"
@@ -357,8 +368,7 @@ class ReportService:
             f"MODELO            : {modelo}\n"
             f"NÚMERO DE SÉRIE   : {serial}\n"
             f"CONTADOR          : {cont_fmt}\n"
-            f"TONER             : {status_toner}\n"
-            f"UNIDADE DE IMAGEM : {status_unidade}\n"
+            f"{bloco_suprimentos}"
             f"DATA DE EMISSÃO   : {data_emissao}\n"
             "----------------------------------------\n"
             "\n"

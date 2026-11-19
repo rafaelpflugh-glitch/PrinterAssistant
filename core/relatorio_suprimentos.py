@@ -512,6 +512,24 @@ def montar_texto(
         "Lexmark",
     )
 
+    # --------------------------------------------------------
+    # MÓDULO ESPECIALIZADO CANON (imageRUNNER / iR)
+    # Roteamento 100% isolado - Não interfere na rotina Lexmark
+    # --------------------------------------------------------
+    if str(fabricante).strip().lower() == "canon":
+        try:
+            from core.canon import montar_relatorio_configuracao_canon
+            return montar_relatorio_configuracao_canon(
+                identificacao=identificacao,
+                supplies=supplies,
+                ip=ip,
+                marca_cartucho=marca_cartucho,
+                contadores_detalhados=contadores_detalhados,
+            )
+        except Exception:
+            # Fallback seguro caso ocorra qualquer imprevisto
+            pass
+
     modelo = texto(
         identificacao.get("modelo")
     )

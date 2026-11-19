@@ -489,15 +489,24 @@ def gerar_etiqueta_ativo(
     # SUPRIMENTOS (TONER E UNIDADE DE IMAGEM)
     # ========================================================
 
-    tspl += (
-        f'TEXT 60,970,"1",0,2,2,'
-        f'"TONER   : {status_toner_tspl}"\r\n'
-    )
-
-    tspl += (
-        f'TEXT 60,1030,"1",0,2,2,'
-        f'"UNIDADE : {status_unidade_tspl}"\r\n'
-    )
+    if str(fabricante).strip().upper() == "CANON" or "INTEGRADA" in str(status_unidade_tspl).upper():
+        tspl += (
+            f'TEXT 60,970,"1",0,2,2,'
+            f'"SISTEMA : CARTUCHO INTEGRADO"\r\n'
+        )
+        tspl += (
+            f'TEXT 60,1030,"1",0,2,2,'
+            f'"TONER   : {status_toner_tspl}"\r\n'
+        )
+    else:
+        tspl += (
+            f'TEXT 60,970,"1",0,2,2,'
+            f'"TONER   : {status_toner_tspl}"\r\n'
+        )
+        tspl += (
+            f'TEXT 60,1030,"1",0,2,2,'
+            f'"UNIDADE : {status_unidade_tspl}"\r\n'
+        )
 
     # ========================================================
     # DATA DE EMISSÃO

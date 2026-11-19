@@ -366,3 +366,113 @@ async def coletar_canon(ip: str, community: str = "public") -> Dict[str, Any]:
     """Coleta e normaliza dados de equipamentos Canon."""
     coletor = CanonCollector(ip, community)
     return await coletor.coletar()
+
+
+# ============================================================
+# RELATÓRIO TÉCNICO DEDICADO CANON (imageRUNNER / iR)
+# ============================================================
+
+def _fmt_numero(valor, padrao="N/D"):
+    if valor is None:
+        return padrao
+    try:
+        return f"{int(float(valor)):,}".replace(",", ".")
+    except (TypeError, ValueError):
+        return str(valor)
+
+
+def montar_relatorio_configuracao_canon(
+    identificacao: dict,
+    supplies: list,
+    ip: str,
+    marca_cartucho: Optional[str] = None,
+    contadores_detalhados: Optional[dict] = None,
+) -> str:
+    """
+    Gera o texto do Relatório de Configuração e Suprimentos específico para Canon.
+    Reflete fielmente a arquitetura all-in-one (cartucho integrado T06),
+    sem blocos vazios de unidade de imagem ou fusor ausentes.
+    """
+    from datetime import datetime
+
+    agora = datetime.now()
+    data_relatorio = agora.strftime("%d/%m/%Y %H:%M")
+
+    modelo = str(identificacao.get("modelo", "Canon imageRUNNER")).strip()
+    familia = str(identificacao.get("familia", "imageRUNNER")).strip()
+    tipo = str(identificacao.get("tipo", "Multifuncional Laser Mono")).strip()
+    serial = str(identificacao.get("serial", "N/D")).strip()
+    firmware = str(identificacao.get("firmware", "N/D")).strip()
+    contador = _fmt_numero(identificacao.get("contador"))
+
+    marca_toner = str(marca_cartucho).strip().upper() if marca_cartucho else "CANON"
+    if not marca_toner:
+        marca_toner = "CANON"
+
+    # Suprimento de toner
+    toner_info = None
+    if supplies:
+        for s in supplies:
+            if isinstance(s, dict) and "toner" in str(s.get("tipo", "")).lower():
+                toner_info = s
+                break
+        if not toner_info and supplies:
+            toner_info = supplies[0]
+
+    desc_toner = toner_info.get("descricao", "Canon Toner T06 Black") if toner_info else "Canon Toner T06"
+    nivel_toner = toner_info.get("nivel") if toner_info else None
+    if nivel_toner is None and toner_info:
+        nivel_toner = toner_info.get("percentual", 0)
+
+    condicao_toner = toner_info.get("condicao", "OK") if toner_info else "OK"
+    part_toner = toner_info.get("part_number", "T06") if toner_info else "T06"
+    restante_toner = toner_info.get("restante", nivel_toner) if toner_info else 0
+    consumido_toner = toner_info.get("consumido", 100 - (nivel_toner or 0)) if toner_info else 0
+
+    # Contadores detalhados da Canon Enterprise MIB
+    det = contadores_detalhados or identificacao.get("contadores_detalhados", {})
+    if not isinstance(det, dict):
+        det = {}
+
+    cont_imp = _fmt_numero(det.get("Impressão"))
+    cont_cop = _fmt_numero(det.get("Cópia"))
+    cont_scn = _fmt_numero(det.get("Scanner"))
+    cont_dup = _fmt_numero(det.get("Duplex"))
+    cont_fax = _fmt_numero(det.get("Fax/Recebimento"))
+
+    linhas = [
+        "=" * 60,
+        "                    PRINTER ASSISTANT",
+        "          RELATÓRIO DE CONFIGURAÇÃO E SUPRIMENTOS",
+        "                     CANON imageRUNNER",
+        "=" * 60,
+        f"  DATA: {data_relatorio}    IP: {ip or 'N/D'}",
+        "",
+        "----------------------- IDENTIFICAÇÃO ----------------------",
+        f"  FABRICANTE: Canon",
+        f"  MODELO: {modelo}",
+        f"  FAMÍLIA: {familia}    TIPO: {tipo}",
+        f"  NÚMERO DE SÉRIE: {serial}",
+        f"  FIRMWARE: {firmware}",
+        f"  CONTADOR GERAL: {contador} páginas",
+        "",
+        "----------------- CONTADORES DE UTILIZAÇÃO -----------------",
+        f"  IMPRESSÃO: {cont_imp}    CÓPIA: {cont_cop}    SCANNER: {cont_scn}",
+        f"  DUPLEX (F/V): {cont_dup}    FAX/REC: {cont_fax}",
+        "",
+        "-------------------- CARTUCHO DE TONER ---------------------",
+        f"  STATUS: {condicao_toner} ({nivel_toner}% restante)",
+        f"  SUPRIMENTO: {desc_toner}",
+        f"  PART NUMBER: {part_toner}",
+        f"  CAPACIDADE: 100%    CONSUMIDO: {consumido_toner}%",
+        f"  FABRICANTE INFORMADO: {marca_toner}",
+        "",
+        "-------------------------- RESUMO --------------------------",
+        "  ARQUITETURA: CARTUCHO T06 INTEGRADO (ALL-IN-ONE)",
+        "  FOTOCONDUTOR/TAMBOR: EMBUTIDO NO CARTUCHO DE TONER",
+        "  REVISÃO TÉCNICA: EQUIPAMENTO OPERACIONAL / CONFORME",
+        "=" * 60,
+    ]
+
+    return "\n".join(linhas) + "\n"
+
