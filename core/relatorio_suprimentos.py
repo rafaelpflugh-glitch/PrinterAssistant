@@ -274,6 +274,25 @@ def encontrar_supply(
     return None
 
 
+def encontrar_todos_supplies(
+    supplies,
+    tipo,
+):
+    if not isinstance(
+        supplies,
+        (list, tuple),
+    ):
+        return []
+
+    resultado = []
+    for supply in supplies:
+        if not isinstance(supply, dict):
+            continue
+        if tipo_supply(supply) == tipo:
+            resultado.append(supply)
+    return resultado
+
+
 # ============================================================
 # STATUS
 # ============================================================
@@ -488,6 +507,228 @@ def preparar_relatorio_configuracao(
 
 
 # ============================================================
+# MONTAR RELATÓRIO — EQUIPAMENTOS COLORIDOS (CS / CX)
+# ============================================================
+
+def _rotulo_cor_supply(supply):
+    cor = str(supply.get("cor") or "").strip().upper()
+    if cor:
+        return cor
+    nome = str(supply.get("nome") or supply.get("nome_original") or "").upper()
+    if any(k in nome for k in ("CIANO", "CYAN")):
+        return "CIANO"
+    if "MAGENTA" in nome:
+        return "MAGENTA"
+    if any(k in nome for k in ("AMARELO", "AMARELA", "YELLOW")):
+        return "AMARELO"
+    if any(k in nome for k in ("COLORIDA", "COLORIDO", "COLOR", "CMY")):
+        return "COLORIDA"
+    if any(k in nome for k in ("PRETO", "PRETA", "BLACK")):
+        return "PRETO"
+    return "ITEM"
+
+
+def _sigla_cor_supply(rotulo):
+    mapa = {
+        "PRETO": "K",
+        "CIANO": "C",
+        "MAGENTA": "M",
+        "AMARELO": "Y",
+        "COLORIDA": "CMY",
+    }
+    return mapa.get(rotulo.upper(), rotulo[:3].upper())
+
+
+def _nivel_supply_int(supply):
+    niv = supply.get("nivel")
+    if niv is None:
+        niv = supply.get("nível")
+    if niv is None:
+        niv = supply.get("percentual")
+    if niv is None:
+        return "N/D"
+    try:
+        return f"{round(float(niv)):3d}%"
+    except (TypeError, ValueError):
+        return texto(niv)
+
+
+def _montar_relatorio_colorido(
+    identificacao,
+    toners,
+    unidades,
+    fusor,
+    ip,
+    marca_cartucho=None,
+    marca_unidade_imagem=None,
+    contadores_detalhados=None,
+):
+    """
+    Layout compacto de 1 página A4 para equipamentos coloridos (Lexmark CS / CX),
+    exibindo todos os cartuchos (K/C/M/Y), unidades de imagem (Preto/Colorida)
+    com seus respectivos números de série, e o fusor.
+    """
+    fabricante = texto(identificacao.get("fabricante"), "Lexmark")
+    modelo = texto(identificacao.get("modelo"))
+    familia = texto(identificacao.get("familia"))
+    tipo = texto(identificacao.get("tipo"))
+    serial = texto(identificacao.get("serial"))
+    contador = numero(identificacao.get("contador"))
+    firmware = texto(identificacao.get("firmware"))
+
+    marca_cartucho = marca(marca_cartucho)
+    marca_unidade_imagem = marca(marca_unidade_imagem)
+    sem_cartucho = any(k in str(marca_cartucho).upper() for k in ("SEM", "NÃO", "AUSENTE"))
+    sem_unidade = any(k in str(marca_unidade_imagem).upper() for k in ("SEM", "NÃO", "AUSENTE"))
+
+    data_relatorio = datetime.now().strftime("%d/%m/%Y %H:%M")
+
+    linhas = [
+        "============================================================",
+        "                    PRINTER ASSISTANT",
+        "          RELATÓRIO DE CONFIGURAÇÃO E SUPRIMENTOS",
+        "============================================================",
+        f"  DATA: {data_relatorio}    IP: {texto(ip)}",
+        "",
+        "----------------------- IDENTIFICAÇÃO ----------------------",
+        f"  FABRICANTE: {fabricante}    MODELO: {modelo}",
+        f"  FAMÍLIA: {familia}    TIPO: {tipo}",
+        f"  NÚMERO DE SÉRIE: {serial}",
+        f"  CONTADOR: {contador}    FIRMWARE: {firmware}",
+        "",
+    ]
+
+    if contadores_detalhados:
+        itens_det = []
+        for rotulo, chave in [
+            ("IMPRESSÃO", "Impressão"),
+            ("CÓPIA", "Cópia"),
+            ("SCANNER", "Scanner"),
+            ("DUPLEX (F/V)", "Duplex"),
+            ("FAX/REC", "Fax/Recebimento"),
+        ]:
+            if chave in contadores_detalhados:
+                itens_det.append(f"{rotulo}: {numero(contadores_detalhados[chave])}")
+        if itens_det:
+            linhas.extend([
+                "----------------- CONTADORES DE UTILIZAÇÃO -----------------",
+                "  " + "    ".join(itens_det[:3]),
+            ])
+            if len(itens_det) > 3:
+                linhas.append("  " + "    ".join(itens_det[3:]))
+            linhas.append("")
+
+    # --------------------------------------------------------
+    # TONERS (COLORIDO)
+    # --------------------------------------------------------
+    linhas.append("--------------------- TONERS (COLORIDO) --------------------")
+    if sem_cartucho:
+        linhas.extend([
+            "  MARCA: SEM SUPRIMENTO    CONDIÇÃO: AUSENTE",
+            "  STATUS: EQUIPAMENTO EXPEDIDO SEM CARTUCHOS DE TONER",
+        ])
+    elif toners:
+        linhas.append(f"  MARCA INFORMADA: {marca_cartucho}")
+        for t in toners:
+            rot = _rotulo_cor_supply(t)
+            niv = _nivel_supply_int(t)
+            cond_fmt = f"({status_supply(t)})"
+            rest = numero(t.get("restante"))
+            cap = numero(t.get("capacidade"))
+            sn = texto(t.get("numero_serie") or t.get("número_serie"))
+            vol = f"{rest}/{cap}"
+            linhas.append(f"  {rot:<8}: {niv} {cond_fmt:<9} | {vol:<13} | SN: {sn}")
+    else:
+        linhas.append(f"  MARCA: {marca_cartucho}    NÍVEL: N/D    CONDIÇÃO: N/D")
+    linhas.append("")
+
+    # --------------------------------------------------------
+    # UNIDADES DE IMAGEM
+    # --------------------------------------------------------
+    linhas.append("-------------------- UNIDADES DE IMAGEM --------------------")
+    if sem_unidade:
+        linhas.extend([
+            "  MARCA: SEM SUPRIMENTO    CONDIÇÃO: AUSENTE",
+            "  STATUS: EQUIPAMENTO EXPEDIDO SEM UNIDADES DE IMAGEM",
+        ])
+    elif unidades:
+        linhas.append(f"  MARCA INFORMADA: {marca_unidade_imagem}")
+        for u in unidades:
+            rot = _rotulo_cor_supply(u)
+            niv = _nivel_supply_int(u)
+            cond_fmt = f"({status_supply(u)})"
+            rest = numero(u.get("restante"))
+            cap = numero(u.get("capacidade"))
+            sn = texto(u.get("numero_serie") or u.get("número_serie"))
+            vol = f"{rest}/{cap}"
+            linhas.append(f"  {rot:<8}: {niv} {cond_fmt:<9} | {vol:<14} | SN: {sn}")
+    else:
+        linhas.append(f"  MARCA: {marca_unidade_imagem}    NÍVEL: N/D    CONDIÇÃO: N/D")
+    linhas.append("")
+
+    # --------------------------------------------------------
+    # FUSOR / MANUTENÇÃO
+    # --------------------------------------------------------
+    linhas.append("------------------- FUSOR / MANUTENÇÃO ---------------------")
+    if fusor:
+        niv_f = _nivel_supply_int(fusor).strip()
+        linhas.extend([
+            f"  NÍVEL: {niv_f}    CONDIÇÃO: {status_supply(fusor)}",
+            (
+                f"  CAPACIDADE: {numero(fusor.get('capacidade'))}"
+                f"    RESTANTE: {numero(fusor.get('restante'))}"
+                f"    CONSUMIDO: {numero(fusor.get('consumido'))}"
+            ),
+            "  NÚMERO DE SÉRIE: NÃO APLICÁVEL",
+        ])
+    else:
+        linhas.extend([
+            "  NÍVEL: N/D    CONDIÇÃO: N/D",
+            "  CAPACIDADE: N/D    RESTANTE: N/D    CONSUMIDO: N/D",
+            "  NÚMERO DE SÉRIE: NÃO APLICÁVEL",
+        ])
+    linhas.append("")
+
+    # --------------------------------------------------------
+    # RESUMO
+    # --------------------------------------------------------
+    linhas.append("---------------------------- RESUMO ------------------------")
+    if sem_cartucho:
+        linhas.append("  TONERS  : NÃO ACOMPANHAM (SEM SUPRIMENTO)")
+    elif toners:
+        partes_t = [f"{_sigla_cor_supply(_rotulo_cor_supply(t))} {_nivel_supply_int(t).strip()}" for t in toners]
+        linhas.append("  TONERS  : " + "  |  ".join(partes_t))
+    else:
+        linhas.append("  TONERS  : N/D")
+
+    if sem_unidade:
+        linhas.append("  UNIDADES: NÃO ACOMPANHAM (SEM SUPRIMENTO)")
+    elif unidades:
+        partes_u = [f"{_rotulo_cor_supply(u)} {_nivel_supply_int(u).strip()} ({status_supply(u)})" for u in unidades]
+        linhas.append("  UNIDADES: " + "  |  ".join(partes_u))
+    else:
+        linhas.append("  UNIDADES: N/D")
+
+    if fusor:
+        linhas.append(f"  FUSOR   : {_nivel_supply_int(fusor).strip()} ({status_supply(fusor)})")
+    else:
+        linhas.append("  FUSOR   : N/D")
+
+    linhas.extend([
+        "",
+        "------------------------------------------------------------",
+        "  Relatório gerado pelo Printer Assistant.",
+        "  Dados correspondentes ao equipamento no momento",
+        "  da coleta realizada pelo sistema.",
+        "============================================================",
+        "                    FIM DO RELATÓRIO",
+        "============================================================",
+    ])
+
+    return "\r\n".join(linhas)
+
+
+# ============================================================
 # MONTAR RELATÓRIO
 # ============================================================
 
@@ -529,6 +770,24 @@ def montar_texto(
         except Exception:
             # Fallback seguro caso ocorra qualquer imprevisto
             pass
+
+    # --------------------------------------------------------
+    # EQUIPAMENTOS COLORIDOS (CS / CX — Múltiplos Toners / Kits)
+    # Roteamento isolado - Equipamentos mono permanecem 100% intactos
+    # --------------------------------------------------------
+    toners_lista = encontrar_todos_supplies(supplies, "toner")
+    unidades_lista = encontrar_todos_supplies(supplies, "unidade_imagem")
+    if len(toners_lista) > 1 or len(unidades_lista) > 1:
+        return _montar_relatorio_colorido(
+            identificacao=identificacao,
+            toners=toners_lista,
+            unidades=unidades_lista,
+            fusor=encontrar_supply(supplies, "fusor"),
+            ip=ip,
+            marca_cartucho=marca_cartucho,
+            marca_unidade_imagem=marca_unidade_imagem,
+            contadores_detalhados=contadores_detalhados,
+        )
 
     modelo = texto(
         identificacao.get("modelo")
