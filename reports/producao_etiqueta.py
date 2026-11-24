@@ -197,6 +197,10 @@ class ProducaoError(Exception):
 def obter_part_number(modelo: str, tipo: str, fabricante: str) -> str:
     """
     Retorna o Part Number correspondente ao modelo, tipo e fabricante.
+
+    Prioridade:
+      1. Base de dados unificada do Gestor CPA na rede W: (somente leitura);
+      2. Tabelas internas de fallback (garante funcionamento mesmo sem rede).
     """
     categoria = "toner" if "toner" in str(tipo).lower() or "cartucho" in str(tipo).lower() else "iu"
     
@@ -206,7 +210,16 @@ def obter_part_number(modelo: str, tipo: str, fabricante: str) -> str:
     modelo_limpo = str(modelo).upper()
     fabricante_limpo = str(fabricante).upper().strip()
 
-    # Define qual mapa e fallbacks usar
+    # 1. Consulta na base unificada do Gestor CPA (rede W:)
+    try:
+        from core.planilha_pn import buscar_part_number_na_base
+        pn_base = buscar_part_number_na_base(modelo_limpo, tipo, fabricante_limpo)
+        if pn_base:
+            return pn_base
+    except Exception:
+        pass
+
+    # 2. Fallback seguro: tabelas internas locais
     if "GLOBAL" in fabricante_limpo:
         mapa = MAPA_PN_GLOBAL
         pn_padrao_50f = "1041-504U" if categoria == "toner" else "2114-MX611"
@@ -338,7 +351,7 @@ def gerar_tspl(serial: Any = "", fabricante: str = "REM", tipo: str = "unidade_i
     pn = obter_part_number(modelo, tipo, fabricante_limpo)
 
     if "REM" in fabricante_limpo:
-        texto_pn = f"REM - {pn}"
+        texto_pn = pn if str(pn).strip().upper().startswith("REM") else f"REM - {pn}"
     elif "GLOBAL" in fabricante_limpo:
         # Se for Global, imprime SÓ o código da Global (ex: 2114-MX611, 1041-504U)
         texto_pn = pn

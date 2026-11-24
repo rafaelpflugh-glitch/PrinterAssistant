@@ -15,5 +15,6 @@
     "etiquetadora_relatorios_porta": 9100,
     "redirecionamentos": {
         "192.168.14.111": "192.168.14.151"
-    }
+    },
+    "caminho_base_pn": "W:\\TEC\\Banco de Dados_Gestor de Part Number"
 }

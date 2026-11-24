@@ -16,8 +16,8 @@ class SettingsWindow(tk.Toplevel):
 
     def __init__(self, parent):
         super().__init__(parent)
-        self.title("Configurações de Impressoras Térmicas")
-        self.geometry("640x630")
+        self.title("Configurações do Sistema")
+        self.geometry("640x740")
         self.resizable(False, False)
 
         self.transient(parent)
@@ -147,6 +147,45 @@ class SettingsWindow(tk.Toplevel):
         ).pack(anchor="w", pady=(6, 0))
 
         # ====================================================
+        # 4. BASE DE DADOS DE PART NUMBERS (GESTOR CPA)
+        # ====================================================
+        grp_base = ttk.LabelFrame(
+            container, text=" 4. Base de Dados de Part Numbers (Gestor CPA - Somente Leitura) ", padding=12
+        )
+        grp_base.pack(fill="x", pady=(0, 15))
+
+        ttk.Label(grp_base, text="Pasta / Planilha na Rede:").pack(anchor="w", pady=(0, 4))
+        self.entry_base_pn = ttk.Entry(grp_base)
+        self.entry_base_pn.pack(fill="x", pady=(0, 6))
+        self.entry_base_pn.insert(
+            0,
+            self.config_data.get(
+                "caminho_base_pn", r"W:\TEC\Banco de Dados_Gestor de Part Number"
+            ),
+        )
+
+        status_txt = "Verificando conexão com a base..."
+        status_cor = "#aaaaaa"
+        try:
+            from core.planilha_pn import status_base_pn
+            st = status_base_pn(self.entry_base_pn.get().strip())
+            if st.get("conectado"):
+                status_txt = f"Conectado: {st['total_itens']} registros disponíveis (atualização automática)."
+                status_cor = "#4ade80"
+            else:
+                status_txt = "Rede indisponível no momento — usando tabela interna de backup."
+                status_cor = "#f59e0b"
+        except Exception:
+            status_txt = "Usando tabela interna de backup."
+
+        ttk.Label(
+            grp_base,
+            text=status_txt,
+            font=("Segoe UI", 8),
+            foreground=status_cor,
+        ).pack(anchor="w")
+
+        # ====================================================
         # BOTOES
         # ====================================================
         botoes = ttk.Frame(container)
@@ -186,6 +225,10 @@ class SettingsWindow(tk.Toplevel):
         self.config_data["ativo_ip_padrao"] = ativo_p
         self.config_data["ativo_ip_excecao"] = ativo_e
         self.config_data["ativo_usar_excecao"] = self.var_ativo_excecao.get()
+
+        caminho_pn = self.entry_base_pn.get().strip()
+        if caminho_pn:
+            self.config_data["caminho_base_pn"] = caminho_pn
 
         if salvar_config(self.config_data):
             messagebox.showinfo(

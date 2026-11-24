@@ -14,6 +14,9 @@ urllib3>=1.26.0
 # Imagens e Interface Gráfica
 Pillow>=10.0.0
 
+# Leitura da Base Unificada de Part Numbers (Excel)
+openpyxl>=3.1.0
+
 # Empacotador para Distribuição (.exe)
 pyinstaller>=6.0.0
 

@@ -31,6 +31,9 @@ CONFIG_PADRAO = {
 
     # 4. Histórico de IPs manuais
     "ips_recentes": [],
+
+    # 5. Base de Dados Unificada de Part Numbers (Gestor CPA na rede W:)
+    "caminho_base_pn": r"W:\TEC\Banco de Dados_Gestor de Part Number",
 }
 
 def carregar_ips_recentes():
