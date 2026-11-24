@@ -1355,22 +1355,26 @@ class PrinterDevice:
             return "fusor"
 
 
-        if (
-            "toner" in texto
-            or
-            "cartucho" in texto
-            or
-            "cartridge" in texto
+        if any(
+            k in texto
+            for k in ("residuo", "resíduo", "waste", "coletor", "correia", "transfer", "belt")
         ):
-
-            return "toner"
-
+            return ""
 
         if (
             "unidade de imagem"
             in texto
             or
             "unidade imagem"
+            in texto
+            or
+            "kit de imagem"
+            in texto
+            or
+            "criacao de imag"
+            in texto
+            or
+            "criação de imag"
             in texto
             or
             "imaging unit"
@@ -1386,6 +1390,16 @@ class PrinterDevice:
         ):
 
             return "unidade_imagem"
+
+        if (
+            "toner" in texto
+            or
+            "cartucho" in texto
+            or
+            "cartridge" in texto
+        ):
+
+            return "toner"
 
         return ""
 
@@ -1416,14 +1430,23 @@ class PrinterDevice:
             "fusor": 2,
         }
 
+        ordem_cor = {
+            "preto": 0,
+            "ciano": 1,
+            "magenta": 2,
+            "amarelo": 3,
+            "colorida": 4,
+        }
+
+        def _chave_ordem(supply):
+            t_ord = ordem.get(cls.tipo_consumivel(supply), 99)
+            cor = str(supply.get("cor") or "").strip().lower() if isinstance(supply, dict) else ""
+            c_ord = ordem_cor.get(cor, 9)
+            return (t_ord, c_ord)
+
         return sorted(
             supplies,
-            key=lambda supply: ordem.get(
-                cls.tipo_consumivel(
-                    supply
-                ),
-                99,
-            ),
+            key=_chave_ordem,
         )
 
 
@@ -1978,7 +2001,11 @@ class PrinterDevice:
 
 
             if tipo_supply != "fusor":
-                supply["numero_serie"] = candidato.get("serial")
+                serial_cand = candidato.get("serial")
+                if serial_cand and not supply.get("numero_serie"):
+                    supply["numero_serie"] = serial_cand
+                elif serial_cand and not supply.get("cor"):
+                    supply["numero_serie"] = serial_cand
             else:
                 supply["numero_serie"] = None
 
@@ -2012,13 +2039,20 @@ class PrinterDevice:
 
 
         # Enriquecimento complementar direto a partir de self.sysdebug_filtered
+        # (Aplicado apenas quando há 1 item do tipo para não misturar cores em máquinas CS/CX)
         if isinstance(self.sysdebug_filtered, dict) and self.sysdebug_filtered:
             filt = self.sysdebug_filtered
+            qtd_toners = sum(
+                1 for s in self.supplies if isinstance(s, dict) and self.tipo_consumivel(s) == "toner"
+            )
+            qtd_unidades = sum(
+                1 for s in self.supplies if isinstance(s, dict) and self.tipo_consumivel(s) == "unidade_imagem"
+            )
             for supply in self.supplies:
                 if not isinstance(supply, dict):
                     continue
                 tipo = self.tipo_consumivel(supply)
-                if tipo == "unidade_imagem":
+                if tipo == "unidade_imagem" and qtd_unidades == 1:
                     if filt.get("drum_serial") and not supply.get("numero_serie"):
                         supply["numero_serie"] = filt["drum_serial"]
                     pn_drum = str(supply.get("part_number") or "").strip()
@@ -2032,7 +2066,7 @@ class PrinterDevice:
                     if filt.get("drum_life_remaining") is not None:
                         supply["nivel"] = filt["drum_life_remaining"]
                         supply["percentual"] = filt["drum_life_remaining"]
-                elif tipo == "toner":
+                elif tipo == "toner" and qtd_toners == 1:
                     if filt.get("toner_serial") and not supply.get("numero_serie"):
                         supply["numero_serie"] = filt["toner_serial"]
                     pn_toner = str(supply.get("part_number") or "").strip()
@@ -2498,21 +2532,20 @@ class PrinterDevice:
             # SERIAL
             # ------------------------------------------------
             #
-            # SNMP não define aqui o serial de consumível.
-            #
-            # O serial será associado posteriormente a partir
-            # do SYSDEBUG.
-            #
-            # Se o SNMP eventualmente devolver um serial,
-            # ele é preservado temporariamente somente se já
-            # existir. A associação oficial continua sendo
-            # feita pelo SYSDEBUG.
+            # Preserva o número de série oficial retornado pela
+            # Enterprise MIB Lexmark (641.6.4.4.1.1 col 6) quando
+            # válido e diferente do serial da própria impressora.
+            # Para o fusor, o serial não é exibido.
             #
 
-            supply[
-                "numero_serie"
-            ] = None
-
+            serial_snmp_sup = supply.get("numero_serie")
+            serial_maq = str(self.identificacao.get("serial") or "").strip().upper()
+            if (
+                not serial_snmp_sup
+                or str(serial_snmp_sup).strip().lower() in ("none", "n/d", "desconhecido", "")
+                or (serial_maq and str(serial_snmp_sup).strip().upper() == serial_maq)
+            ):
+                supply["numero_serie"] = None
 
             # ------------------------------------------------
             # FUSOR

@@ -79,6 +79,16 @@ OID_LEXMARK_SERIAL = (
     "1.3.6.1.4.1.641.2.1.2.1.6.1"
 )
 
+# Firmware oficial na Enterprise MIB Lexmark
+OID_LEXMARK_FIRMWARE = (
+    "1.3.6.1.4.1.641.2.1.2.1.4.1"
+)
+
+# Tabela de suprimentos na Enterprise MIB Lexmark (cor, nome EN, serial, PN)
+OID_LEXMARK_SUPPLY_TABLE = (
+    "1.3.6.1.4.1.641.6.4.4.1.1"
+)
+
 OID_PRT_SERIAL = (
     "1.3.6.1.2.1.43.5.1.1.17.1"
 )
@@ -260,6 +270,16 @@ def decodificar_hexadecimal(
     except ValueError:
         return texto
 
+    # Decodifica UTF-8 (ou Latin-1) preservando acentos PT-BR como 'ç', 'ã', 'í'
+    dados_limpos = dados.split(b"\x00", 1)[0]
+    for enc in ("utf-8", "cp1252", "latin-1"):
+        try:
+            decodificado = dados_limpos.decode(enc).strip()
+            if len(decodificado) >= 3 and all(ch.isprintable() for ch in decodificado):
+                return decodificado
+        except UnicodeDecodeError:
+            continue
+
     chars = []
 
     for byte in dados:
@@ -341,6 +361,49 @@ def identificar_tipo(
     ).strip().lower()
 
     # --------------------------------------------------------
+    # ITENS AUXILIARES QUE PODEM CONTER A PALAVRA "TONER"
+    # (Ex: Recipiente de resíduos de toner / Waste Toner Bottle)
+    # --------------------------------------------------------
+
+    if any(
+        termo in texto
+        for termo in (
+            "resíduo",
+            "residuo",
+            "waste",
+            "coletor",
+            "correia",
+            "transfer",
+            "belt",
+            "itm",
+        )
+    ):
+        return TIPO_OUTRO
+
+    # --------------------------------------------------------
+    # UNIDADE DE IMAGEM (antes de toner para evitar falso positivo)
+    # --------------------------------------------------------
+
+    if any(
+        termo in texto
+        for termo in (
+            "unid. imagem",
+            "unidade de imagem",
+            "unid. de cria",
+            "criação de imag",
+            "criacao de imag",
+            "kit de imagem",
+            "imaging kit",
+            "image unit",
+            "imaging unit",
+            "photoconductor",
+            "fotocondutor",
+            "drum",
+        )
+    ):
+        return TIPO_UNIDADE_IMAGEM
+
+    # --------------------------------------------------------
     # TONER
     # --------------------------------------------------------
 
@@ -353,24 +416,6 @@ def identificar_tipo(
         )
     ):
         return TIPO_TONER
-
-    # --------------------------------------------------------
-    # UNIDADE DE IMAGEM
-    # --------------------------------------------------------
-
-    if any(
-        termo in texto
-        for termo in (
-            "unid. imagem",
-            "unidade de imagem",
-            "image unit",
-            "imaging unit",
-            "photoconductor",
-            "fotocondutor",
-            "drum",
-        )
-    ):
-        return TIPO_UNIDADE_IMAGEM
 
     # --------------------------------------------------------
     # FUSOR
@@ -391,15 +436,44 @@ def identificar_tipo(
     return TIPO_OUTRO
 
 
+def _detectar_cor_texto(
+    nome: str | None,
+    cor_snmp: str | None = None,
+) -> str | None:
+    """Identifica a cor de um consumível (Preto, Ciano, Magenta, Amarelo, Colorida)."""
+    fonte = f"{cor_snmp or ''} {nome or ''}".lower()
+
+    if any(k in fonte for k in ("ciano", "cyan")):
+        return "Ciano"
+    if "magenta" in fonte:
+        return "Magenta"
+    if any(k in fonte for k in ("amarelo", "amarela", "yellow")):
+        return "Amarelo"
+    if any(k in fonte for k in ("colorida", "colorido", "color", "cmy")):
+        return "Colorida"
+    if any(k in fonte for k in ("preto", "preta", "black")):
+        return "Preto"
+
+    return None
+
+
 def nome_exibicao_consumivel(
     nome: str | None,
     tipo: str,
+    cor: str | None = None,
+    eh_colorida: bool = False,
 ) -> str:
 
+    cor_det = _detectar_cor_texto(nome, cor) if eh_colorida else None
+
     if tipo == TIPO_TONER:
+        if cor_det:
+            return f"Toner {cor_det}"
         return "Toner"
 
     if tipo == TIPO_UNIDADE_IMAGEM:
+        if cor_det:
+            return f"Unidade de imagem ({cor_det})"
         return "Unidade de imagem"
 
     if tipo == TIPO_FUSOR:
@@ -826,7 +900,16 @@ class SNMPPrinter:
             if re.fullmatch(r"0+", serial):
                 serial = None
 
-        # 4. Contador Total de Páginas (Printer-MIB)
+        # 4. Firmware oficial (Enterprise MIB Lexmark ou sysDescr)
+        firmware = await self.get(
+            OID_LEXMARK_FIRMWARE
+        )
+        if not firmware and descricao:
+            m_fw = re.search(r"\bversion\s+([A-Za-z0-9._-]+)", str(descricao), re.IGNORECASE)
+            if m_fw:
+                firmware = m_fw.group(1).strip()
+
+        # 5. Contador Total de Páginas (Printer-MIB)
         contador = await self.get(
             OID_PRT_PAGECOUNT
         )
@@ -848,6 +931,7 @@ class SNMPPrinter:
             "descricao": descricao,
             "modelo": modelo,
             "serial": serial,
+            "firmware": firmware,
             "contador": contador,
         }
 
@@ -1051,6 +1135,56 @@ class SNMPPrinter:
         preservados para diagnóstico.
         """
 
+        resultado: dict[
+            str,
+            dict,
+        ] = {}
+
+        # ----------------------------------------------------
+        # 1. LEXMARK ENTERPRISE SUPPLY TABLE (641.6.4.4.1.1)
+        #    col 4 = cor (black, cyan, magenta, yellow)
+        #    col 5 = nome em inglês (Black Cartridge, Color Imaging Kit...)
+        #    col 6 = número de série real do chip do consumível
+        #    col 7 = part number do consumível
+        # ----------------------------------------------------
+        dados_lex = await self.walk(
+            OID_LEXMARK_SUPPLY_TABLE
+        )
+
+        if dados_lex:
+            self.raw_identificadores = dict(dados_lex)
+
+            for oid, valor in dados_lex.items():
+                coluna, indice = self._extrair_coluna_indice(
+                    oid,
+                    OID_LEXMARK_SUPPLY_TABLE,
+                )
+                if coluna is None or indice is None:
+                    continue
+
+                texto = decodificar_hexadecimal(limpar_valor(valor))
+                if not texto:
+                    continue
+
+                item = resultado.setdefault(indice, {})
+
+                if coluna == "4":
+                    item["cor"] = texto
+                elif coluna == "5":
+                    item["nome_en"] = texto
+                elif coluna == "6":
+                    if not re.fullmatch(r"0+", texto):
+                        item["numero_serie"] = texto
+                elif coluna == "7":
+                    pn_limpo = re.sub(r"^0{2,3}", "", texto)
+                    item["part_number"] = pn_limpo or texto
+
+            if resultado:
+                return resultado
+
+        # ----------------------------------------------------
+        # 2. FALLBACK: PRINTER-MIB MARKER BASE
+        # ----------------------------------------------------
         dados = await self.walk(
             OID_MARKER_BASE
         )
@@ -1058,11 +1192,6 @@ class SNMPPrinter:
         self.raw_identificadores = dict(
             dados
         )
-
-        resultado: dict[
-            str,
-            dict,
-        ] = {}
 
         if not dados:
             return resultado
@@ -1264,6 +1393,16 @@ class SNMPPrinter:
             await self.coletar_identificadores_supplies()
         )
 
+        # Detecta se o equipamento é colorido (possui ciano/magenta/amarelo)
+        eh_colorida = False
+        for idx_chk, it_chk in tabela.items():
+            nm_chk = str(it_chk.get("nome") or "").lower()
+            id_chk = self.localizar_identificador(identificadores, idx_chk)
+            cor_chk = str(id_chk.get("cor") or "").lower()
+            if any(c in nm_chk or c in cor_chk for c in ("ciano", "cyan", "magenta", "amarelo", "yellow", "colorida", "color")):
+                eh_colorida = True
+                break
+
         resultado = []
 
         for indice, item in tabela.items():
@@ -1275,13 +1414,27 @@ class SNMPPrinter:
             if not nome_original:
                 continue
 
+            info_id = (
+                self.localizar_identificador(
+                    identificadores,
+                    indice,
+                )
+            )
+
+            cor_snmp = info_id.get("cor")
+            nome_en = info_id.get("nome_en")
+
             tipo = identificar_tipo(
                 nome_original
             )
+            if tipo == TIPO_OUTRO and nome_en:
+                tipo = identificar_tipo(nome_en)
 
             nome = nome_exibicao_consumivel(
                 nome_original,
                 tipo,
+                cor=cor_snmp,
+                eh_colorida=eh_colorida,
             )
 
             capacidade = item.get(
@@ -1312,6 +1465,10 @@ class SNMPPrinter:
                     capacidade,
                 )
             )
+            if percentual is not None:
+                percentual = round(percentual, 1)
+                if abs(percentual - round(percentual)) < 0.05:
+                    percentual = int(round(percentual))
 
             # ------------------------------------------------
             # CAPACIDADE / NÍVEL
@@ -1405,6 +1562,8 @@ class SNMPPrinter:
                 # ------------------------------------------------
 
                 "nome": nome,
+
+                "cor": _detectar_cor_texto(nome_original, cor_snmp),
 
                 "tipo": tipo,
 
