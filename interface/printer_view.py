@@ -2379,7 +2379,7 @@ class PrinterView(ttk.Frame):
                 return
 
             # ----------------------------------------------------
-            # TRAVA POKA-YOKE: SUPRIMENTOS REM DEVEM ESTAR >= 95%
+            # VALIDAÇÃO: SUPRIMENTOS REM DEVEM ESTAR >= 95%
             # (Aplicável a unidades de imagem avulsas Lexmark)
             # ----------------------------------------------------
             if not eh_canon_dev and self.device:
@@ -2397,7 +2397,7 @@ class PrinterView(ttk.Frame):
                                 niv_f = 0.0
                             if niv_f < 95.0:
                                 messagebox.showerror(
-                                    "BLOQUEIO POKA-YOKE",
+                                    "Unidade Não Resetada",
                                     f"A Unidade de Imagem (REM) está com {int(niv_f)}% de vida útil.\n\n"
                                     "Para envio a clientes, suprimentos REM devem estar 100% resetados (mínimo 95%).\n\n"
                                     "Passe a unidade no resetter e clique em Atualizar Coleta antes de gerar o relatório.",
@@ -4129,7 +4129,7 @@ class PrinterView(ttk.Frame):
             return
 
         dialogo = tk.Toplevel(self.winfo_toplevel())
-        dialogo.title("PRODUÇÃO DE ETIQUETAS — CONTROLE DE QUALIDADE POKA-YOKE")
+        dialogo.title("PRODUÇÃO DE ETIQUETAS")
         dialogo.geometry("560x580")
         dialogo.minsize(520, 550)
         dialogo.resizable(False, False)
@@ -4151,7 +4151,7 @@ class PrinterView(ttk.Frame):
 
         lbl_status = tk.Label(
             frame,
-            text="Validação Poka-Yoke obrigatória para liberação de impressão.",
+            text="Verifique os itens abaixo antes de liberar a impressão.",
             background=self.COR_FUNDO,
             foreground=self.COR_TEXTO_SECUNDARIO,
             font=("Segoe UI", 9),
@@ -4160,7 +4160,7 @@ class PrinterView(ttk.Frame):
         lbl_status.pack(anchor="w", pady=(0, 10))
 
         # ----------------------------------------------------
-        # FLAG DE CONTROLE DE SESSÃO POKA-YOKE
+        # CONTROLE DE COLETA DA SESSÃO
         # ----------------------------------------------------
         coleta_confirmada = False
 
@@ -4287,11 +4287,11 @@ class PrinterView(ttk.Frame):
         serial_entry.grid(row=2, column=1, sticky="ew", pady=5)
 
         # ----------------------------------------------------
-        # PAINEL DE STATUS POKA-YOKE (TRAVAS VISUAIS)
+        # PAINEL DE VERIFICAÇÃO DE BANCADA
         # ----------------------------------------------------
-        poka_frame = tk.LabelFrame(
+        validacao_frame = tk.LabelFrame(
             frame,
-            text="  PAINEL DE VALIDAÇÃO POKA-YOKE (QUALIDADE EM BANCADA)  ",
+            text="  VERIFICAÇÃO DE BANCADA  ",
             background=self.COR_PAINEL,
             foreground=self.COR_TEXTO,
             font=("Segoe UI", 9, "bold"),
@@ -4300,10 +4300,10 @@ class PrinterView(ttk.Frame):
             relief="solid",
             bd=1,
         )
-        poka_frame.pack(fill="x", pady=(6, 10))
+        validacao_frame.pack(fill="x", pady=(6, 10))
 
-        lbl_poka_coleta = tk.Label(
-            poka_frame,
+        lbl_check_coleta = tk.Label(
+            validacao_frame,
             text="⚠️  Coleta na Bancada: PENDENTE (Clique em Atualizar Coleta)",
             background=self.COR_PAINEL,
             foreground=self.COR_ATENCAO,
@@ -4311,10 +4311,10 @@ class PrinterView(ttk.Frame):
             anchor="w",
             justify="left",
         )
-        lbl_poka_coleta.pack(fill="x", pady=2)
+        lbl_check_coleta.pack(fill="x", pady=2)
 
-        lbl_poka_serial = tk.Label(
-            poka_frame,
+        lbl_check_serial = tk.Label(
+            validacao_frame,
             text="❌  Serial do Consumível: NÃO IDENTIFICADO",
             background=self.COR_PAINEL,
             foreground=self.COR_OFFLINE,
@@ -4322,10 +4322,10 @@ class PrinterView(ttk.Frame):
             anchor="w",
             justify="left",
         )
-        lbl_poka_serial.pack(fill="x", pady=2)
+        lbl_check_serial.pack(fill="x", pady=2)
 
-        lbl_poka_nivel = tk.Label(
-            poka_frame,
+        lbl_check_nivel = tk.Label(
+            validacao_frame,
             text="⏳  Nível do Consumível: Aguardando verificação...",
             background=self.COR_PAINEL,
             foreground=self.COR_TEXTO_SECUNDARIO,
@@ -4333,13 +4333,13 @@ class PrinterView(ttk.Frame):
             anchor="w",
             justify="left",
         )
-        lbl_poka_nivel.pack(fill="x", pady=2)
+        lbl_check_nivel.pack(fill="x", pady=2)
 
         def _obter_chave_consumivel():
             t = tipo_var.get().strip().lower()
             return "toner" if "toner" in t or "cartucho" in t else "unidade_imagem"
 
-        def _avaliar_travas_poka_yoke(*args):
+        def _avaliar_validacao(*args):
             chave = _obter_chave_consumivel()
             fabricante = fabricante_var.get().strip().upper()
             serial = serial_var.get().strip()
@@ -4347,55 +4347,55 @@ class PrinterView(ttk.Frame):
             item_dados = dados_suprimentos.get(chave, {"serial": "", "nivel": None})
             nivel_num = item_dados.get("nivel")
 
-            # 1. Trava de Coleta Recente da Sessão
+            # 1. Verificação de Coleta Recente da Sessão
             if coleta_confirmada:
-                lbl_poka_coleta.config(
+                lbl_check_coleta.config(
                     text="✅  Coleta na Bancada: CONFIRMADA (Peça verificada nesta sessão)",
                     foreground=self.COR_ONLINE,
                 )
             else:
-                lbl_poka_coleta.config(
+                lbl_check_coleta.config(
                     text="⚠️  Coleta na Bancada: PENDENTE (Clique em 'Atualizar Coleta' para validar)",
                     foreground=self.COR_ATENCAO,
                 )
 
-            # 2. Trava de Serial do Consumível
+            # 2. Verificação de Serial do Consumível
             serial_invalido = (not serial) or (serial.lower() in ["none", "desconhecido", "n/d", "n/a", "sn_indisponivel", "null", ""])
             if not serial_invalido:
-                lbl_poka_serial.config(
+                lbl_check_serial.config(
                     text=f"✅  Serial da Peça: {serial} (Identificado)",
                     foreground=self.COR_ONLINE,
                 )
             else:
-                lbl_poka_serial.config(
+                lbl_check_serial.config(
                     text="❌  Serial da Peça: NÃO IDENTIFICADO (Atualize a coleta)",
                     foreground=self.COR_OFFLINE,
                 )
 
-            # 3. Trava de Reset (Obrigatório >= 95% para REM em Unidade de Imagem)
+            # 3. Verificação de Reset (Obrigatório >= 95% para REM em Unidade de Imagem)
             trava_nivel_ok = True
             if chave == "unidade_imagem" and "REM" in fabricante:
                 if nivel_num is not None and nivel_num >= 95.0:
-                    lbl_poka_nivel.config(
+                    lbl_check_nivel.config(
                         text=f"✅  Nível Unidade de Imagem: {int(nivel_num)}% — RESETADA (Pronta para Produção)",
                         foreground=self.COR_ONLINE,
                     )
                     trava_nivel_ok = True
                 else:
                     nivel_txt = f"{int(nivel_num)}%" if nivel_num is not None else "0%"
-                    lbl_poka_nivel.config(
+                    lbl_check_nivel.config(
                         text=f"❌  Nível Unidade de Imagem: {nivel_txt} — NÃO RESETADA (Passe no resetter)",
                         foreground=self.COR_OFFLINE,
                     )
                     trava_nivel_ok = False
             else:
                 if nivel_num is not None:
-                    lbl_poka_nivel.config(
+                    lbl_check_nivel.config(
                         text=f"ℹ️  Nível Atual: {int(nivel_num)}% ({fabricante})",
                         foreground=self.COR_DESTAQUE,
                     )
                 else:
-                    lbl_poka_nivel.config(
+                    lbl_check_nivel.config(
                         text=f"ℹ️  Nível Atual: N/D ({fabricante})",
                         foreground=self.COR_TEXTO_SECUNDARIO,
                     )
@@ -4406,24 +4406,24 @@ class PrinterView(ttk.Frame):
             if todas_travas_ok:
                 btn_imprimir_etiqueta.config(state="normal", style="PrinterView.Producao.TButton")
                 lbl_status.config(
-                    text="Todas as travas Poka-Yoke aprovadas. Pronto para imprimir a etiqueta.",
+                    text="Tudo certo. Pronto para imprimir a etiqueta.",
                     foreground=self.COR_ONLINE,
                 )
             else:
                 btn_imprimir_etiqueta.config(state="disabled", style="PrinterView.TButton")
                 if not coleta_confirmada:
                     lbl_status.config(
-                        text="BLOQUEIO POKA-YOKE: Clique em 'Atualizar Coleta' para validar a peça na bancada.",
+                        text="Clique em 'Atualizar Coleta' para confirmar a peça na bancada.",
                         foreground=self.COR_ATENCAO,
                     )
                 elif serial_invalido:
                     lbl_status.config(
-                        text="BLOQUEIO POKA-YOKE: Serial do consumível não identificado. Atualize a coleta.",
+                        text="Serial do consumível não identificado. Atualize a coleta.",
                         foreground=self.COR_OFFLINE,
                     )
                 elif not trava_nivel_ok:
                     lbl_status.config(
-                        text="BLOQUEIO POKA-YOKE: Unidade não resetada. Passe no resetter e atualize a coleta.",
+                        text="Unidade não resetada. Passe no resetter e atualize a coleta.",
                         foreground=self.COR_OFFLINE,
                     )
 
@@ -4433,11 +4433,11 @@ class PrinterView(ttk.Frame):
             chave = _obter_chave_consumivel()
             s_atual = dados_suprimentos.get(chave, {}).get("serial", "")
             serial_var.set(s_atual)
-            _avaliar_travas_poka_yoke()
+            _avaliar_validacao()
 
         tipo_combo.bind("<<ComboboxSelected>>", _ao_mudar_tipo)
-        fabricante_combo.bind("<<ComboboxSelected>>", lambda e: _avaliar_travas_poka_yoke())
-        serial_entry.bind("<KeyRelease>", lambda e: _avaliar_travas_poka_yoke())
+        fabricante_combo.bind("<<ComboboxSelected>>", lambda e: _avaliar_validacao())
+        serial_entry.bind("<KeyRelease>", lambda e: _avaliar_validacao())
 
         tsc_ip = getattr(producao_etiqueta, "TSC_IP", getattr(producao_etiqueta, "PRODUCAO_IP_PADRAO", "192.168.14.111"))
         try:
@@ -4490,7 +4490,7 @@ class PrinterView(ttk.Frame):
                         _extrair_dados_suprimentos()
                         _ao_mudar_tipo()
                         btn_atualizar_coleta.config(text="🔄 Atualizar Coleta", state="normal")
-                        _avaliar_travas_poka_yoke()
+                        _avaliar_validacao()
 
                     if self.winfo_exists():
                         self.after(0, atualizar_ui_sucesso)
@@ -4560,11 +4560,11 @@ class PrinterView(ttk.Frame):
         btn_imprimir_etiqueta.pack(side="right")
 
         def acionar_imprimir_etiqueta():
-            if not _avaliar_travas_poka_yoke():
+            if not _avaliar_validacao():
                 messagebox.showerror(
-                    "BLOQUEIO POKA-YOKE",
-                    "A impressão está bloqueada pelas travas de segurança.\n\n"
-                    "Verifique os itens em vermelho/amarelo no Painel Poka-Yoke antes de prosseguir.",
+                    "Verificação Pendente",
+                    "A impressão está bloqueada.\n\n"
+                    "Verifique os itens em vermelho/amarelo antes de prosseguir.",
                     parent=dialogo,
                 )
                 return
@@ -4628,9 +4628,9 @@ class PrinterView(ttk.Frame):
 
         btn_imprimir_etiqueta.config(command=acionar_imprimir_etiqueta)
 
-        # Inicializa campos e avalia travas no estado inicial (coleta_confirmada = False -> Travado)
+        # Inicializa campos e avalia verificações no estado inicial (coleta_confirmada = False)
         _ao_mudar_tipo()
-        _avaliar_travas_poka_yoke()
+        _avaliar_validacao()
 
     # ========================================================
     # ATUALIZAR

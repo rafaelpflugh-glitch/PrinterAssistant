@@ -487,7 +487,7 @@ def imprimir_relatorio_producao(device: Any, fabricante: str = "REM", tipo: str 
 
         if nivel_num is None or nivel_num < 95.0:
             val_txt = f"{int(nivel_num)}%" if nivel_num is not None else (f"{nivel_val}%" if nivel_val is not None else "0%")
-            raise ProducaoError(f"BLOQUEIO POKA-YOKE: Unidade de Imagem com {val_txt} de vida útil. Passe no resetter (100%) e atualize a coleta.")
+            raise ProducaoError(f"Unidade de Imagem com {val_txt} de vida útil. Passe no resetter (100%) e atualize a coleta.")
 
     tspl_comando = gerar_tspl(
         serial=serial_unidade,
