@@ -49,9 +49,22 @@ def instalar_protecao_alt_tab(root):
     """
     Instala handlers na janela principal (MainWindow) para garantir que
     Alt+Tab e cliques na barra de tarefas sempre tragam o aplicativo
-    (e eventuais diálogos modais abertos) de volta para a tela.
+    (e eventuais diálogos modais abertos, como Produção de Etiquetas)
+    de volta para a frente no Windows 10/11.
     """
     estado = {"restaurando": False}
+
+    def _liberar_topmost(janelas):
+        for j in janelas:
+            try:
+                if j.winfo_exists():
+                    j.attributes("-topmost", False)
+            except tk.TclError:
+                pass
+        try:
+            root.after(200, lambda: estado.__setitem__("restaurando", False))
+        except tk.TclError:
+            estado["restaurando"] = False
 
     def _restaurar_foco(event=None):
         if event is not None and event.widget is not root:
@@ -60,18 +73,38 @@ def instalar_protecao_alt_tab(root):
             return
 
         estado["restaurando"] = True
+        pulso = []
         try:
             if not root.winfo_exists():
+                estado["restaurando"] = False
                 return
 
             filhos = _obter_toplevels_ativos(root)
             if filhos:
-                # Se há diálogo modal/preview aberto, traz o mais recente para cima
+                # Traz primeiro a janela principal e depois todos os modais na ordem,
+                # usando um pulso rápido de -topmost (30ms) para furar o bloqueio de
+                # Z-order do Windows DWM ao voltar pelo Alt+Tab com grab_set() ativo.
+                try:
+                    if root.state() == "iconic":
+                        root.deiconify()
+                    root.attributes("-topmost", True)
+                    root.lift()
+                    pulso.append(root)
+                except tk.TclError:
+                    pass
+
+                for f in filhos:
+                    try:
+                        if f.state() == "iconic":
+                            f.deiconify()
+                        f.attributes("-topmost", True)
+                        f.lift()
+                        pulso.append(f)
+                    except tk.TclError:
+                        pass
+
                 topo = filhos[-1]
                 try:
-                    if topo.state() == "iconic":
-                        topo.deiconify()
-                    topo.lift()
                     topo.focus_force()
                 except tk.TclError:
                     pass
@@ -84,7 +117,6 @@ def instalar_protecao_alt_tab(root):
                 except tk.TclError:
                     pass
 
-                # Garante que a janela principal venha para a frente no Z-order do Windows
                 try:
                     if root.state() == "iconic":
                         root.deiconify()
@@ -93,7 +125,10 @@ def instalar_protecao_alt_tab(root):
                     pass
         finally:
             try:
-                root.after(120, lambda: estado.__setitem__("restaurando", False))
+                if pulso:
+                    root.after(40, lambda j=list(pulso): _liberar_topmost(j))
+                else:
+                    root.after(200, lambda: estado.__setitem__("restaurando", False))
             except tk.TclError:
                 estado["restaurando"] = False
 
