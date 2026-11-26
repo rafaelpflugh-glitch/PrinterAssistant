@@ -21,6 +21,7 @@ a = Analysis(
         'interface.settings_window',
         'interface.manual_ip_dialog',
         'interface.scan_dialog',
+        'interface.window_utils',
         'core',
         'core.device',
         'core.canon',

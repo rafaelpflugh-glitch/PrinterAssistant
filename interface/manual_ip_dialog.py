@@ -28,8 +28,8 @@ class ManualIPDialog(tk.Toplevel):
         self.geometry("480x250")
         self.resizable(False, False)
 
-        self.transient(parent)
-        self.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(self, parent, modal=True)
 
         self.ips_recentes = carregar_ips_recentes()
 

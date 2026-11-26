@@ -2077,11 +2077,8 @@ class PrinterView(ttk.Frame):
             False,
         )
 
-        dialogo.transient(
-            self.winfo_toplevel()
-        )
-
-        dialogo.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(dialogo, self, modal=True)
 
         dialogo.configure(
             background=self.COR_FUNDO
@@ -2597,11 +2594,8 @@ class PrinterView(ttk.Frame):
             False,
         )
 
-        dialogo.transient(
-            self.winfo_toplevel()
-        )
-
-        dialogo.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(dialogo, self, modal=True)
 
         dialogo.configure(
             background=self.COR_FUNDO
@@ -2823,9 +2817,8 @@ class PrinterView(ttk.Frame):
             500,
         )
 
-        preview.transient(
-            self.winfo_toplevel()
-        )
+        from interface.window_utils import configurar_modal
+        configurar_modal(preview, self, modal=False)
 
         preview.configure(
             background=self.COR_FUNDO
@@ -3125,13 +3118,13 @@ class PrinterView(ttk.Frame):
         Permite ao técnico definir se a máquina acompanha Toner e Unidade de Imagem
         com atualização em tempo real do texto e envio para a TSC.
         """
-        modal = tk.Toplevel(self)
+        modal = tk.Toplevel(self.winfo_toplevel())
         modal.title("Relatório de Ativo — Etiqueta Patrimonial (TSC 100x150mm)")
         modal.geometry("720x720")
         modal.minsize(620, 600)
         modal.configure(background=self.COR_FUNDO)
-        modal.transient(self)
-        modal.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(modal, self, modal=True)
 
         modal.columnconfigure(0, weight=1)
         modal.rowconfigure(2, weight=1)
@@ -3502,11 +3495,8 @@ class PrinterView(ttk.Frame):
             False,
         )
 
-        dialogo.transient(
-            self.winfo_toplevel()
-        )
-
-        dialogo.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(dialogo, self, modal=True)
 
         dialogo.configure(
             background=self.COR_FUNDO
@@ -4134,8 +4124,8 @@ class PrinterView(ttk.Frame):
         dialogo.geometry("560x580")
         dialogo.minsize(520, 550)
         dialogo.resizable(False, False)
-        dialogo.transient(self.winfo_toplevel())
-        dialogo.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(dialogo, self, modal=True)
         dialogo.configure(background=self.COR_FUNDO)
 
         frame = tk.Frame(dialogo, background=self.COR_FUNDO, padx=22, pady=16)

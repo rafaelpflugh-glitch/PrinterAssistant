@@ -20,8 +20,8 @@ class SettingsWindow(tk.Toplevel):
         self.geometry("640x740")
         self.resizable(False, False)
 
-        self.transient(parent)
-        self.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(self, parent, modal=True)
 
         self.config_data = carregar_config()
         self._criar_interface()

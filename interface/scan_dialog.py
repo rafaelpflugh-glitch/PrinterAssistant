@@ -107,11 +107,8 @@ class ScanDialog(tk.Toplevel):
             True,
         )
 
-        self.transient(
-            self.master
-        )
-
-        self.grab_set()
+        from interface.window_utils import configurar_modal
+        configurar_modal(self, self.master, modal=True)
 
 
     # ========================================================

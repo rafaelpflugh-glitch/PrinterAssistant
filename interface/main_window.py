@@ -13,6 +13,7 @@ from interface.printer_view import PrinterView
 from interface.settings_window import SettingsWindow
 from interface.manual_ip_dialog import ManualIPDialog
 from interface.theme import aplicar_tema
+from interface.window_utils import instalar_protecao_alt_tab
 from core.version import __version__, APP_TITLE
 
 
@@ -68,6 +69,8 @@ class MainWindow(tk.Tk):
         self._coleta_em_andamento = False
 
         self._criar_interface()
+
+        instalar_protecao_alt_tab(self)
 
         self.after(
             300,
@@ -968,6 +971,7 @@ class MainWindow(tk.Tk):
                 "as impressoras da rede.\n\n"
                 f"{erro}"
             ),
+            parent=self,
         )
 
 
@@ -991,6 +995,7 @@ class MainWindow(tk.Tk):
             messagebox.showwarning(
                 "Printer Assistant",
                 "Selecione uma impressora.",
+                parent=self,
             )
 
             return
@@ -1019,6 +1024,7 @@ class MainWindow(tk.Tk):
                     "Não foi possível identificar "
                     "a impressora selecionada."
                 ),
+                parent=self,
             )
 
             return
@@ -1034,6 +1040,7 @@ class MainWindow(tk.Tk):
             messagebox.showerror(
                 "Printer Assistant",
                 "Equipamento inválido.",
+                parent=self,
             )
 
             return
@@ -1196,6 +1203,7 @@ class MainWindow(tk.Tk):
                 "a coleta da impressora.\n\n"
                 f"{erro}"
             ),
+            parent=self,
         )
 
 
