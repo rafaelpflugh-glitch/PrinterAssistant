@@ -1176,19 +1176,20 @@ class PrinterView(ttk.Frame):
         return ""
 
     # ========================================================
-    # VALIDAÇÃO DE GARANTIA (NÍVEL > 50% E IDADE MÁXIMA DE 2 ANOS)
+    # VALIDAÇÃO DE GARANTIA (NÍVEL >= 50% E ANO ATUAL OU ANTERIOR)
     # ========================================================
 
     @staticmethod
     def _verificar_garantia(serial, nivel):
         """
         Valida a garantia da unidade de imagem com base em duas regras:
-        1. O nível deve estar estritamente acima de 50%.
-        2. A idade baseada no ano de fabricação extraído do serial deve ser de no máximo 2 anos.
+        1. O nível restante deve ser >= 50%.
+        2. O ano de fabricação extraído do serial deve ser o ano atual ou o ano anterior
+           (ex.: em 2026 aceita serial 25/26; em 2027 aceita serial 26/27).
         """
         if nivel is not None:
             try:
-                if float(nivel) <= 50:
+                if float(nivel) < 50:
                     return False
             except (ValueError, TypeError):
                 pass
@@ -1211,7 +1212,7 @@ class PrinterView(ttk.Frame):
                 ano_atual = datetime.now().year
                 idade = ano_atual - ano_fab
 
-                if 0 <= idade <= 2:
+                if 0 <= idade <= 1:
                     return True
                 else:
                     return False

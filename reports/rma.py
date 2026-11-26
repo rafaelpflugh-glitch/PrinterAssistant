@@ -300,7 +300,7 @@ def _validar_garantia_idade(serial):
 
     ano_atual = datetime.now().year
     idade_anos = ano_atual - ano_fabricacao
-    em_garantia = (idade_anos <= 2)
+    em_garantia = (0 <= idade_anos <= 1)
 
     return {
         "ano_fabricacao": ano_fabricacao,

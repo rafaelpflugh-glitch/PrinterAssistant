@@ -69,53 +69,94 @@ def _calcular_idade_meses(data_instalacao_str):
         return None
 
 
-def _avaliar_garantia_completa(data_instalacao_str, nivel_restante_num, meses_idade):
+def _extrair_ano_referencia(serial_drum, data_instalacao_str):
     """
-    Avalia as regras de garantia técnica:
-    - Idade de instalação <= 12 meses (365 dias).
+    Extrai o ano de fabricação/registro (ex: 2025 de 'CAB251813570').
+    Prioriza o ano do serial da unidade; usa a data de instalação como fallback.
+    """
+    if serial_drum and str(serial_drum).strip() not in ("", "N/D", "Desconhecido"):
+        s = str(serial_drum).strip().upper()
+        m4 = re.match(r"^[A-Z]{3}(20\d{2})", s)
+        if m4:
+            return int(m4.group(1))
+        m2 = re.match(r"^[A-Z]{3}(\d{2})", s)
+        if m2:
+            return 2000 + int(m2.group(1))
+        m_gen = re.search(r"^[A-Z]*(\d{2})", s)
+        if m_gen:
+            return 2000 + int(m_gen.group(1))
+
+    if data_instalacao_str and data_instalacao_str != "N/D":
+        m_ano = re.search(r"(20\d{2})", str(data_instalacao_str))
+        if m_ano:
+            return int(m_ano.group(1))
+
+    return None
+
+
+def _avaliar_garantia_completa(data_instalacao_str, nivel_restante_num, meses_idade, serial_drum=None):
+    """
+    Avalia as regras unificadas de garantia técnica:
+    - Vigência por ano-calendário: ano do serial >= (ano_atual - 1)
+      (Ex.: em 2026 aceita serial 25 e 26; em 2027 aceita serial 26 e 27).
     - Desgaste: Vida útil restante >= 50% (consumo <= 50%).
     """
-    if not data_instalacao_str or data_instalacao_str == "N/D":
+    ano_atual = datetime.now().year
+    ano_minimo = ano_atual - 1
+    ano_ref = _extrair_ano_referencia(serial_drum, data_instalacao_str)
+
+    if ano_ref is None:
         return {
             "icone": "?",
-            "status": "NÃO CONCLUÍDO (Data de instalação não identificada)",
-            "idade_status": "Pendente de validação da data",
+            "status": "NÃO CONCLUÍDO (Ano do serial/instalação não identificado)",
+            "ano_ref": None,
+            "ano_minimo": ano_minimo,
+            "idade_status": "Pendente de validação do ano do componente",
             "nivel_status": "Aprovado" if (nivel_restante_num is not None and nivel_restante_num >= 50) else "Reprovado",
-            "conclusao": "Não foi possível validar a data de instalação para atestar a garantia."
+            "conclusao": "Não foi possível identificar o ano no serial ou na data de instalação para atestar a garantia."
         }
 
-    idade_valida = (meses_idade is not None and meses_idade <= 12)
+    idade_anos = ano_atual - ano_ref
+    idade_valida = (0 <= idade_anos <= 1)
     nivel_valido = (nivel_restante_num is not None and nivel_restante_num >= 50.0)
 
     if idade_valida and nivel_valido:
         return {
             "icone": "✔",
             "status": "ELEGÍVEL PARA GARANTIA (EM GARANTIA)",
-            "idade_status": f"Aprovado (~{meses_idade} meses <= limite de 12 meses)",
+            "ano_ref": ano_ref,
+            "ano_minimo": ano_minimo,
+            "idade_status": f"Aprovado (Ano {ano_ref} dentro da vigência {ano_minimo}/{ano_atual})",
             "nivel_status": f"Aprovado ({nivel_restante_num:.0f}% restante >= mínimo de 50%)",
-            "conclusao": "A peça cumpre integralmente os requisitos operacionais para cobertura ou troca em garantia (RMA)."
+            "conclusao": "A peça cumpre integralmente os requisitos de ano de vigência e vida útil para cobertura ou troca em garantia (RMA)."
         }
     elif not idade_valida and not nivel_valido:
         return {
             "icone": "✖",
-            "status": "NÃO ELEGÍVEL (Tempo e desgaste excedidos)",
-            "idade_status": f"Reprovado (~{meses_idade} meses > limite de 12 meses)",
+            "status": "NÃO ELEGÍVEL (Ano expirado e desgaste excedido)",
+            "ano_ref": ano_ref,
+            "ano_minimo": ano_minimo,
+            "idade_status": f"Reprovado (Ano {ano_ref} anterior ao limite mínimo {ano_minimo})",
             "nivel_status": f"Reprovado ({nivel_restante_num:.0f}% restante < 50%)",
-            "conclusao": "Prazo de 12 meses expirado e limite máximo de desgaste de 50% ultrapassado."
+            "conclusao": f"Componente fabricado/registrado em {ano_ref} (fora da vigência {ano_minimo}/{ano_atual}) e com desgaste superior a 50%."
         }
     elif not idade_valida:
         return {
             "icone": "✖",
-            "status": "NÃO ELEGÍVEL (Tempo de instalação expirado)",
-            "idade_status": f"Reprovado (~{meses_idade} meses > limite de 12 meses)",
+            "status": "NÃO ELEGÍVEL (Ano de fabricação/garantia expirado)",
+            "ano_ref": ano_ref,
+            "ano_minimo": ano_minimo,
+            "idade_status": f"Reprovado (Ano {ano_ref} anterior ao limite mínimo {ano_minimo})",
             "nivel_status": f"Aprovado ({nivel_restante_num:.0f}% restante >= 50%)",
-            "conclusao": "Prazo limite de garantia de 12 meses excedido desde a data de registro do componente."
+            "conclusao": f"Componente de {ano_ref} fora da janela de garantia vigente ({ano_minimo}/{ano_atual})."
         }
     else:
         return {
             "icone": "✖",
             "status": "NÃO ELEGÍVEL (Desgaste superior a 50%)",
-            "idade_status": f"Aprovado (~{meses_idade} meses <= limite de 12 meses)",
+            "ano_ref": ano_ref,
+            "ano_minimo": ano_minimo,
+            "idade_status": f"Aprovado (Ano {ano_ref} dentro da vigência {ano_minimo}/{ano_atual})",
             "nivel_status": f"Reprovado ({nivel_restante_num:.0f}% restante < 50%)",
             "conclusao": "Desgaste natural excessivo superior a 50% da vida útil do fotocondutor."
         }
@@ -233,7 +274,12 @@ def extrair_dados_unidade(device):
     )
 
     meses_idade = _calcular_idade_meses(instalacao_drum)
-    garantia_info = _avaliar_garantia_completa(instalacao_drum, nivel_num, meses_idade)
+    garantia_info = _avaliar_garantia_completa(
+        instalacao_drum,
+        nivel_num,
+        meses_idade,
+        serial_drum=serial_drum,
+    )
 
     # Métricas avançadas de limpeza e motor
     ttc = _primeiro_definido(sysdebug_filtered.get("drum_toner_to_cleaner"), padrao="N/D")
@@ -272,6 +318,7 @@ def extrair_dados_unidade(device):
         "condicao_mecanica": condicao_mec,
         "garantia_icone": garantia_info["icone"],
         "status_garantia": garantia_info["status"],
+        "garantia_ano_minimo": garantia_info.get("ano_minimo", datetime.now().year - 1),
         "garantia_idade_status": garantia_info["idade_status"],
         "garantia_nivel_status": garantia_info["nivel_status"],
         "garantia_conclusao": garantia_info["conclusao"],
@@ -334,8 +381,8 @@ def montar_texto_analise(dados_unidade):
         f" [ {dados_unidade['garantia_icone']} ] STATUS: {dados_unidade['status_garantia']}",
         "",
         " Justificativa Técnica:",
-        f"  1. Idade do Componente: Instalado/registrado em {dados_unidade['instalacao_drum']} ({idade_txt}).",
-        f"     Critério de garantia: Idade máxima de 12 meses ({dados_unidade['garantia_idade_status']}).",
+        f"  1. Vigência (Ano/Chip): Serial {dados_unidade['serial_drum']} / Data {dados_unidade['instalacao_drum']} ({idade_txt}).",
+        f"     Critério de garantia: Ano do serial >= {dados_unidade.get('garantia_ano_minimo', datetime.now().year - 1)} ({dados_unidade['garantia_idade_status']}).",
         f"  2. Nível de Desgaste:   Consumido {pct_consumo} / Restante {dados_unidade['nivel_drum']}.",
         f"     Critério de garantia: Nível restante deve ser >= 50% ({dados_unidade['garantia_nivel_status']}).",
         "",
