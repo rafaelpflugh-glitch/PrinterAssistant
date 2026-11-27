@@ -10,9 +10,11 @@ from core.scanner import (
     identificar_rapido,
 )
 from core.config import salvar_ip_recente
+from core.updater import verificar_atualizacao
 from interface.printer_view import PrinterView
 from interface.settings_window import SettingsWindow
 from interface.manual_ip_dialog import ManualIPDialog
+from interface.update_dialog import UpdateDialog
 from interface.theme import aplicar_tema
 from interface.window_utils import instalar_protecao_alt_tab
 from core.version import __version__, APP_TITLE
@@ -68,6 +70,8 @@ class MainWindow(tk.Tk):
         self.printer_view = None
 
         self._coleta_em_andamento = False
+        self._update_info = None
+        self._verificando_update = False
 
         self._criar_interface()
 
@@ -76,6 +80,12 @@ class MainWindow(tk.Tk):
         self.after(
             300,
             self.iniciar_descoberta,
+        )
+
+        # Checagem silenciosa de atualizações em segundo plano (não bloqueia o boot)
+        self.after(
+            1800,
+            lambda: self.verificar_atualizacoes(silencioso=True),
         )
 
 
@@ -208,6 +218,16 @@ class MainWindow(tk.Tk):
             side="left"
         )
 
+        self.btn_atualizar = ttk.Button(
+            status_frame,
+            text="Verificar atualização",
+            command=self._acao_botao_atualizacao,
+        )
+
+        self.btn_atualizar.pack(
+            side="right"
+        )
+
 
         # -----------------------------------------------------
         # ÁREA PRINCIPAL
@@ -247,6 +267,61 @@ class MainWindow(tk.Tk):
         SettingsWindow(
             self
         )
+
+
+    # =========================================================
+    # ATUALIZAÇÕES (GITHUB RELEASES / GIT)
+    # =========================================================
+
+    def _acao_botao_atualizacao(self):
+        if self._update_info and self._update_info.disponivel:
+            UpdateDialog(self, self._update_info)
+        else:
+            self.verificar_atualizacoes(silencioso=False)
+
+    def verificar_atualizacoes(self, silencioso=True):
+        if self._verificando_update:
+            return
+        self._verificando_update = True
+        if not silencioso:
+            self.btn_atualizar.config(text="Verificando...", state="disabled")
+
+        threading.Thread(
+            target=self._verificar_atualizacao_thread,
+            args=(silencioso,),
+            daemon=True,
+        ).start()
+
+    def _verificar_atualizacao_thread(self, silencioso):
+        info = verificar_atualizacao(timeout=5.0)
+        self.after(0, lambda: self._verificar_atualizacao_concluida(info, silencioso))
+
+    def _verificar_atualizacao_concluida(self, info, silencioso):
+        self._verificando_update = False
+        self._update_info = info
+        self.btn_atualizar.config(state="normal")
+
+        if info.disponivel:
+            rotulo = info.resumo_curto or f"Atualizar ({info.nova_versao})"
+            self.btn_atualizar.config(text=f"⬆ {rotulo} — Atualizar")
+            if not silencioso:
+                UpdateDialog(self, info)
+            return
+
+        self.btn_atualizar.config(text="Verificar atualização")
+        if not silencioso:
+            if info.erro:
+                messagebox.showwarning(
+                    "Atualização",
+                    f"Não foi possível verificar atualizações agora.\n\n{info.erro}",
+                    parent=self,
+                )
+            else:
+                messagebox.showinfo(
+                    "Atualização",
+                    f"O Printer Assistant já está atualizado ({info.versao_atual}).",
+                    parent=self,
+                )
 
 
     # =========================================================

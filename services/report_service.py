@@ -920,9 +920,13 @@ class ReportService:
     ):
         """
         Localiza a imagem oficial da Página de Demonstração.
-
-        Não baixa nada da internet.
+        Suporta execução via Python, Git e executável PyInstaller (_MEIPASS / _internal).
         """
+        try:
+            from reports.demonstracao import localizar_imagem
+            return localizar_imagem()
+        except Exception:
+            pass
 
         for caminho in DEMONSTRACAO_IMAGE_ALTERNATIVOS:
             try:
