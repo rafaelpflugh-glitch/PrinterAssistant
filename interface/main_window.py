@@ -7,6 +7,7 @@ from core.device import PrinterDevice
 from core.scanner import (
     descobrir_candidatos,
     identificar,
+    identificar_rapido,
 )
 from core.config import salvar_ip_recente
 from interface.printer_view import PrinterView
@@ -739,7 +740,7 @@ class MainWindow(tk.Tk):
 
 
         tarefas = [
-            identificar(ip)
+            identificar_rapido(ip)
             for ip in candidatos
         ]
 

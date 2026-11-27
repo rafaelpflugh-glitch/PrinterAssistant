@@ -107,6 +107,7 @@ from core.pjl import coletar_identificacao
 from core.snmp import coletar_supplies, coletar_identificacao_snmp
 from core.sysdebug import coletar_sysdebug
 from core.canon import coletar_canon, CanonCollector
+from core.network_discovery_hybrid import coletar_identificacao_snmp_rapida
 
 
 # ============================================================
@@ -162,6 +163,8 @@ class PrinterDevice:
         self.raw_sysdebug = {}
 
         self.sysdebug_filtered = {}
+
+        self._descoberta_rapida = False
 
 
     # ========================================================
@@ -2598,6 +2601,73 @@ class PrinterDevice:
 
 
     # ========================================================
+    # COLETA RÁPIDA (PARA TELA DE DESCOBERTA / LISTAGEM)
+    # ========================================================
+
+    async def coletar_identificacao_rapida(
+        self,
+    ):
+        """
+        Coleta ultrarrápida (~0.1s–1.5s) para preencher a tabela inicial
+        de descoberta (Modelo, Fabricante, Serial, Contador, Estado)
+        usando socket UDP SNMP puro (sem travar o event loop com pysnmp)
+        e SEM baixar relatórios SYSDEBUG de vários MB antes de o técnico
+        selecionar a impressora.
+        """
+        self._descoberta_rapida = True
+
+        async def _testar_porta(porta: int, timeout: float = 0.8) -> bool:
+            try:
+                _r, w = await asyncio.wait_for(
+                    asyncio.open_connection(self.ip, porta),
+                    timeout=timeout,
+                )
+                w.close()
+                try:
+                    await w.wait_closed()
+                except Exception:
+                    pass
+                return True
+            except Exception:
+                return False
+
+        ident_snmp, tem_raw, tem_web = await asyncio.gather(
+            asyncio.to_thread(coletar_identificacao_snmp_rapida, self.ip, "public", 0.7),
+            _testar_porta(9100, 0.8),
+            _testar_porta(80, 0.8),
+        )
+
+        self.conectividade["raw"] = bool(tem_raw)
+        self.conectividade["web"] = bool(tem_web)
+
+        if isinstance(ident_snmp, dict) and ident_snmp.get("ativo"):
+            self.conectividade["snmp"] = True
+            self.normalizar_identificacao(ident_snmp, "SNMP")
+
+        fab_atual = self.identificacao.get("fabricante", "")
+        mod_atual = self.identificacao.get("modelo", "")
+        eh_canon = (
+            fab_atual == "Canon"
+            or self.detectar_fabricante(mod_atual) == "Canon"
+            or (isinstance(ident_snmp, dict) and ident_snmp.get("fabricante_dica") == "Canon")
+        )
+
+        # Fallback PJL curto (2.5s) apenas se porta 9100 respondeu e faltou modelo ou serial
+        faltou_modelo = not self.modelo_valido(self.identificacao.get("modelo"))
+        faltou_serial = not self.valor_valido(self.identificacao.get("serial"))
+        if tem_raw and (faltou_modelo or faltou_serial) and not eh_canon:
+            # Evita perder tempo com PJL em térmicas já identificadas por SNMP (ex: TSC)
+            if fab_atual not in ("TSC", "Zebra"):
+                await self.executar_com_timeout(
+                    self.coletar_pjl,
+                    2.5,
+                    "PJL-RAPIDO",
+                )
+
+        return self.to_dict()
+
+
+    # ========================================================
     # COLETA COMPLETA
     # ========================================================
 
@@ -2736,6 +2806,26 @@ class PrinterDevice:
     def estado(
         self,
     ):
+
+        if getattr(self, "_descoberta_rapida", False):
+            # Na listagem inicial (sem download de SYSDEBUG), avalia saúde pela
+            # conectividade real rápida (SNMP + RAW/Web/PJL).
+            if self.conectividade.get("snmp") and (
+                self.conectividade.get("raw")
+                or self.conectividade.get("web")
+                or self.conectividade.get("pjl")
+            ):
+                return "EXCELENTE"
+
+            if (
+                self.conectividade.get("snmp")
+                or self.conectividade.get("raw")
+                or self.conectividade.get("web")
+                or self.conectividade.get("pjl")
+            ):
+                return "PARCIAL"
+
+            return "OFFLINE"
 
         eh_lexmark = self.identificacao.get("fabricante") == "Lexmark"
 

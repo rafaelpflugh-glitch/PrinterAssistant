@@ -6,6 +6,10 @@ import subprocess
 from pathlib import Path
 
 from core.device import PrinterDevice
+from core.network_discovery_hybrid import (
+    eh_impressora_snmp_rapido,
+    executar_descoberta_hibrida,
+)
 
 
 # ============================================================
@@ -331,6 +335,46 @@ async def testar_raw(ip, timeout=None):
 
 
 # ============================================================
+# IDENTIFICAÇÃO RÁPIDA (PARA LISTAGEM INICIAL NA INTERFACE)
+# ============================================================
+
+async def identificar_rapido(ip):
+
+    device = PrinterDevice(
+        ip=ip
+    )
+
+    try:
+
+        await asyncio.wait_for(
+            device.coletar_identificacao_rapida(),
+            timeout=10,
+        )
+
+        return {
+            "device": device,
+            "timeout": False,
+            "erro": None,
+        }
+
+    except asyncio.TimeoutError:
+
+        return {
+            "device": device,
+            "timeout": True,
+            "erro": "Identificação rápida excedeu o tempo limite.",
+        }
+
+    except Exception as erro:
+
+        return {
+            "device": device,
+            "timeout": False,
+            "erro": str(erro),
+        }
+
+
+# ============================================================
 # IDENTIFICAÇÃO / COLETA COMPLETA
 # ============================================================
 
@@ -430,133 +474,166 @@ async def descobrir_candidatos(forcar_profundo=False):
     )
 
     print(
-        "Rede local:",
+        "Rede principal:",
         rede
     )
 
 
     # ========================================================
-    # ARP
+    # DESCOBERTA HÍBRIDA MULTI-INTERFACE
+    # (WS-Discovery + mDNS + SNMP Broadcast + TCP 9100 paralelo)
     # ========================================================
 
+    modo_txt = "profunda" if forcar_profundo else "rápida"
     print()
-
     print(
-        "Consultando tabela ARP..."
+        f"Executando descoberta híbrida ({modo_txt}): "
+        "Multi-NIC + WSD + mDNS + SNMP Broadcast + TCP 9100..."
     )
 
+    hibrido = await asyncio.to_thread(
+        executar_descoberta_hibrida,
+        ip_local,
+        forcar_profundo,
+    )
+
+    subredes = hibrido.get("subredes") or []
+    origens = hibrido.get("origens") or {}
+    ips_tcp_9100 = set(hibrido.get("ips_tcp_9100") or set())
+
+    if subredes:
+        rede_exibicao = ", ".join(sr["cidr"] for sr in subredes)
+        print("Sub-redes ativas detectadas:")
+        for sr in subredes:
+            print(
+                f"  - {sr['cidr']} "
+                f"(IP: {sr['ip_local']} | {sr['interface']})"
+            )
+    else:
+        rede_exibicao = rede
+
+    ips_locais = {ip_local} | {
+        sr["ip_local"]
+        for sr in subredes
+        if sr.get("ip_local")
+    }
+
+
+    # ========================================================
+    # COMPLEMENTO: ARP + HISTÓRICO RECENTE (outras VLANs/bancada)
+    # ========================================================
 
     arp = consultar_arp()
+    for ip_arp in arp.keys():
+        if ip_arp not in ips_locais and not ip_arp.startswith(("127.", "169.254.")):
+            origens.setdefault(ip_arp, set()).add("ARP")
 
-
-    # --------------------------------------------------------
-    # Se a tabela ARP estiver muito pequena OU se foi solicitada
-    # varredura profunda (Scan Profundo), realizamos varredura
-    # ativa por ping na sub-rede.
-    # --------------------------------------------------------
-
-    if len(arp) < 2 or forcar_profundo:
-
-        motivo = "Varredura profunda solicitada." if forcar_profundo else "Poucos dispositivos encontrados pela ARP."
-        print(motivo)
-        print("Atualizando descoberta local via ping sweep...")
-
-        hosts_ativos = await atualizar_descoberta_local(
-            rede
-        )
-
-        for ip in hosts_ativos:
-
-            arp.setdefault(
-                ip,
-                "desconhecido"
-            )
-
-        # Consulta novamente ARP para absorver novos MACs descobertos
-        arp_novo = consultar_arp()
-        arp.update(arp_novo)
-
-
-    # --------------------------------------------------------
-    # Incluir IPs do histórico recente no teste (caso estejam
-    # em outra VLAN ou bancada fixa).
-    # --------------------------------------------------------
     try:
         from core.config import carregar_ips_recentes
         for ip_rec in carregar_ips_recentes():
-            if ip_rec != ip_local:
-                arp.setdefault(
-                    ip_rec,
-                    "recente"
-                )
+            if ip_rec and ip_rec not in ips_locais and not ip_rec.startswith(("127.", "169.254.")):
+                origens.setdefault(ip_rec, set()).add("Recente")
     except Exception:
         pass
 
 
-    # --------------------------------------------------------
-    # Remove o próprio computador.
-    # --------------------------------------------------------
-
-    arp.pop(
-        ip_local,
-        None
-    )
-
-
-    print()
-
-    print(
-        f"{len(arp)} dispositivos conhecidos a testar."
-    )
+    # Remove qualquer IP do próprio computador
+    for ip_pc in ips_locais:
+        origens.pop(ip_pc, None)
+        ips_tcp_9100.discard(ip_pc)
 
 
     # ========================================================
-    # TESTAR 9100
+    # VALIDAÇÃO DE CANDIDATOS
+    # - Quem já respondeu na varredura TCP 9100 é confirmado direto.
+    # - Demais hosts (ARP / Recente / WSD / mDNS / SNMP-Bcast):
+    #   testa RAW 9100 com timeout completo; se 9100 estiver fechada
+    #   e o host veio de protocolo de impressão/recente, valida via
+    #   SNMP Printer MIB para não perder impressoras sem RAW 9100
+    #   nem incluir PCs/roteadores.
     # ========================================================
 
+    confirmados = set(ips_tcp_9100)
+    prefixos_varridos = {sr["prefixo"] for sr in subredes if sr.get("prefixo")}
+
+    # Só re-testa TCP 9100 nos hosts pendentes que:
+    # - estão fora das sub-redes já varridas (ex: IPs Recentes de outra VLAN), OU
+    # - responderam a protocolo de impressão (WSD/mDNS/SNMP-Bcast), OU
+    # - quando o usuário pediu Scan Profundo explicitamente.
+    pendentes_raw = []
+    pendentes_snmp_direto = []
+    for ip, tags_ip in origens.items():
+        if ip in confirmados:
+            continue
+        pref_ip = ".".join(ip.split(".")[:3])
+        veio_de_protocolo = bool(tags_ip & {"WSD", "mDNS", "SNMP-Bcast"})
+        fora_subrede = pref_ip not in prefixos_varridos
+
+        if fora_subrede or forcar_profundo:
+            pendentes_raw.append(ip)
+        elif veio_de_protocolo:
+            pendentes_snmp_direto.append(ip)
+
+    if pendentes_raw:
+        print()
+        print(
+            f"Validando {len(pendentes_raw)} host(s) adicional(is) "
+            "(outras redes / scan profundo)..."
+        )
+
+        timeout_teste = 1.8 if forcar_profundo else TIMEOUT_RAW
+        resultados_raw = await asyncio.gather(
+            *[
+                testar_raw(ip, timeout=timeout_teste)
+                for ip in pendentes_raw
+            ]
+        )
+
+        for ip, ativo_raw in zip(pendentes_raw, resultados_raw):
+            if ativo_raw:
+                confirmados.add(ip)
+                origens.setdefault(ip, set()).add("TCP-9100")
+            else:
+                tags_ip = origens.get(ip, set())
+                if tags_ip & {"WSD", "mDNS", "SNMP-Bcast", "Recente"}:
+                    pendentes_snmp_direto.append(ip)
+
+    if pendentes_snmp_direto:
+        verif_snmp = await asyncio.gather(
+            *[
+                asyncio.to_thread(
+                    eh_impressora_snmp_rapido,
+                    ip,
+                    "public",
+                    0.7,
+                )
+                for ip in pendentes_snmp_direto
+            ]
+        )
+        for ip, eh_imp in zip(pendentes_snmp_direto, verif_snmp):
+            if eh_imp:
+                confirmados.add(ip)
+                origens.setdefault(ip, set()).add("SNMP-MIB")
+
+
+    def _chave_ip(endereco):
+        try:
+            return tuple(int(p) for p in endereco.split("."))
+        except Exception:
+            return (999, 999, 999, 999)
+
+    candidatos = sorted(confirmados, key=_chave_ip)
+
     print()
-
-    print(
-        "Testando porta RAW 9100..."
-    )
-
-
-    ips = list(
-        arp.keys()
-    )
-
-    timeout_teste = 2.0 if forcar_profundo else TIMEOUT_RAW
-
-    tarefas = [
-
-        testar_raw(ip, timeout=timeout_teste)
-
-        for ip in ips
-
-    ]
-
-
-    resultados_raw = await asyncio.gather(
-        *tarefas
-    )
-
-
-    candidatos = []
-
-
-    for ip, ativo in zip(
-        ips,
-        resultados_raw
-    ):
-
-        if ativo:
-
-            candidatos.append(ip)
+    print(f"{len(candidatos)} equipamento(s) de impressão candidato(s):")
+    for ip_cand in candidatos:
+        tags = ", ".join(sorted(origens.get(ip_cand, set())))
+        print(f"  - {ip_cand} [{tags}]")
 
 
     return (
         ip_local,
-        rede,
+        rede_exibicao,
         candidatos
     )
 
